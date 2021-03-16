@@ -41,7 +41,10 @@
 			if (value) {
 				$.ajax({
 			      url: route,
-			      type: 'DELETE',
+			      type: 'POST',
+				  data: {
+					      "_method": "DELETE"
+				  },
 			      success: function(result) {
 			          if (result == 1) {
 			          	  // Show a success notification bubble
