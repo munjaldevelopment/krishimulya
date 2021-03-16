@@ -595,13 +595,14 @@ class apiController extends Controller
             $json       =   array();
             $customer_id = $request->customer_id;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-            if($customer){
+            if($customer) {
                 $custname = $customer->name;
-            }else{
+            } else {
                 $custname = "Guest";
-            }    
+            }
+
             $sliderArr = array();
-            $sliderList = DB::table('home_slider')->select('id','image')->where('isactive', '=', 1)->orderBy('id', 'DESC')->get();
+            $sliderList = DB::table('home_slider')->select('id','image')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
             foreach ($sliderList as $hslider) {
                 $sliderimage  =  $baseUrl."/public/".$hslider->image;
                 $sliderArr[] = ['id' => (int)$hslider->id, 'slider_image' => $sliderimage]; //'planning_isprogress' => 
@@ -658,7 +659,7 @@ class apiController extends Controller
             $baseUrl = URL::to("/");
             $json       =   array();
             $language = $request->language;
-            $paymentList = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $paymentList = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
            
             
@@ -888,19 +889,8 @@ class apiController extends Controller
             
             $json       =   array();
             $language = $request->language;
-            $tractorHpList = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->orderBy('title', 'ASC')->get();
-            /*$hptractor[] = array('name' => "10-20");
-            $hptractor[] = array('name' => "20-30");
-            $hptractor[] = array('name' => "30-40");
-            $hptractor[] = array('name' => "40-50");
-            $hptractor[] = array('name' => "50-60");
-            $hptractor[] = array('name' => "60-70");
-            $hptractor[] = array('name' => "70-80");
-            $hptractor[] = array('name' => "80-90");
-            $hptractor[] = array('name' => "90-100");*/
-            
-           
-            
+            $tractorHpList = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
+
             $status_code = '1';
             $message = 'Tractor HP list';
             $json = array('status_code' => $status_code,  'message' => $message, 'hptractor' => $tractorHpList);
@@ -995,7 +985,7 @@ class apiController extends Controller
 
                     
                     
-                    $rentinList = DB::table('tractor_rent_enquiry')->select('id','customer_id','name','mobile','location', 'other_city', 'what_type','available_date','comment')->where('isactive', '=', 1);
+                    $rentinList = DB::table('tractor_rent_enquiry')->select('id','customer_id','name','mobile','location', 'other_city', 'what_type','available_date','comment')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($what_need){
                         $rentinList = $rentinList->where('what_type',$what_need);    
@@ -1246,11 +1236,8 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
-
-                    
-                    
-                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','sale_type','location', 'other_city')->where('isactive', '=', 1);
+                if($customer){
+                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','sale_type','location', 'other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($what_need){
                         $purchaseOldList = $purchaseOldList->where('sale_type',$what_need);    
@@ -1348,7 +1335,7 @@ class apiController extends Controller
             $language = $request->language;
             
 
-             $purposeType = DB::table('purpose_type')->select('title as name')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+             $purposeType = DB::table('purpose_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
 
            /* $purposeType[] = array('name' => "Farming work");
@@ -1377,7 +1364,7 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-            $needType = DB::table('labour_type')->select('title as name')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $needType = DB::table('labour_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
            
            /* $needType[] = array('name' => "Normal");
             $needType[] = array('name' => "Urgent");*/
@@ -1478,7 +1465,7 @@ class apiController extends Controller
 
                     
                     
-                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->where('isactive', '=', 1);
+                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('isactive', '=', 1);
 
                     if($labour_no){
                         $labour_noto = 0;
@@ -1558,7 +1545,7 @@ class apiController extends Controller
             
             //$insTypList = array('1' => "Tractor",'2' => "Equipment");
             
-            $insTypList = DB::table('insurance_type')->select('id','title')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $insTypList = DB::table('insurance_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $status_code = '1';
             $message = 'Insurance Type list';
@@ -1595,7 +1582,7 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
+                if($customer) {
                     $name = $customer->name;
                     $mobile = $customer->telephone;
                     DB::table('insurance_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'insurance_type' => $insurance_type, 'other_insurance_type' => $other_insurance_type, 'comments' => $comments, 'user_type' => 'customer', 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
@@ -1604,8 +1591,6 @@ class apiController extends Controller
                     $message = 'Insurance enquiry added successfully';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
-
-
                 } else{
                     $status_code = $success = '0';
                     $message = 'Customer not valid';
@@ -1633,7 +1618,7 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-             $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+             $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
            /* $landTypeList[] = array('name' => "agriculture");
             $landTypeList[] = array('name' => "non-agriculture");
@@ -1661,7 +1646,7 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-             $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+             $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
             
             /*$landsize[] = array('name' => "1-3 acre");
             $landsize[] = array('name' => "3-5 acre");
@@ -1696,7 +1681,7 @@ class apiController extends Controller
             
             $json       =   array();
             $language = $request->language;
-             $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+             $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
            
            /* $rent_time[] = array('name' => "1-2 Year");
             $rent_time[] = array('name' => "2-5 Year");
@@ -1800,7 +1785,7 @@ class apiController extends Controller
 
                     
                     
-                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('isactive', '=', 1);
+                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($land_type){
                         $rentListquery = $rentListquery->where('land_type',$land_type);    
@@ -1948,7 +1933,7 @@ class apiController extends Controller
 
                     
                     
-                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city')->where('isactive', '=', 1);
+                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($land_type){
                         $purchaseOldList = $purchaseOldList->where('land_type',$land_type);    
@@ -2219,7 +2204,7 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-            $soiltestTypList = DB::table('soil_test_type')->select('id','title','price')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $soiltestTypList = DB::table('soil_test_type')->select('id','title','price')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
 
             $status_code = '1';
@@ -2244,7 +2229,7 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-            $sevaKendraList = DB::table('seva_kendra')->select('id','name','contact_no','location','city','email' ,'latitude','langitude')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $sevaKendraList = DB::table('seva_kendra')->select('id','name','contact_no','location','city','email' ,'latitude','langitude')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
 
             $status_code = '1';
@@ -2291,7 +2276,7 @@ class apiController extends Controller
                     
                   
                    /* get order no */
-                   $maxorderno = DB::table('soil_test_orders')->select('id','order_no')->where('isactive', '=', 1)->orderBy('id', 'DESC')->first();
+                   $maxorderno = DB::table('soil_test_orders')->select('id','order_no')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
                    //print_r($maxorderno);
                   
                    if(!empty($maxorderno) && $maxorderno->id != '') {
@@ -2360,7 +2345,7 @@ class apiController extends Controller
             $customer_id = $request->customer_id;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    $soilodrExists = DB::table('soil_test_orders')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->count();
+                    $soilodrExists = DB::table('soil_test_orders')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
 
                     if($soilodrExists >0){
                         $soilodrList = DB::table('soil_test_orders')->select('id','order_no','name', 'mobile', 'amount','land_size','location','khasra_no','test_type','report_file','order_status','created_at')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->get();
@@ -2427,7 +2412,7 @@ class apiController extends Controller
             $amount = $request->amount;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    $soilodrList = DB::table('soil_test_orders')->select('id','order_no')->where('customer_id', $customer_id)->where('id', $order_id)->orderBy('id', 'DESC')->first();
+                    $soilodrList = DB::table('soil_test_orders')->select('id','order_no')->where('customer_id', $customer_id)->where('id', $order_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
 
                     if($soilodrList){
                         $date   = date('Y-m-d H:i:s');
@@ -2469,7 +2454,7 @@ class apiController extends Controller
     public function create_soil_report(Request $request)
     {
 
-         $soilodr = DB::table('soil_test_orders')->join('customers', 'customers.id', '=', 'soil_test_orders.customer_id')->where('soil_test_orders.kt_report_id', "!=", '')->where('soil_test_orders.order_status', 'pending')->select('soil_test_orders.*', 'customers.fcmToken')->get();
+         $soilodr = DB::table('soil_test_orders')->join('customers', 'customers.id', '=', 'soil_test_orders.customer_id')->where('soil_test_orders.kt_report_id', "!=", '')->where('soil_test_orders.order_status', 'pending')->select('soil_test_orders.*', 'customers.fcmToken')->whereNull('deleted_at')->get();
          
         if(count($soilodr) > 0){
             foreach ($soilodr as $order) {
@@ -2560,7 +2545,7 @@ class apiController extends Controller
             $order_id = $request->order_id;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    $soilodrList = DB::table('soil_test_orders')->select('id','order_no')->where('customer_id', $customer_id)->where('id', $order_id)->orderBy('id', 'DESC')->first();
+                    $soilodrList = DB::table('soil_test_orders')->select('id','order_no')->where('customer_id', $customer_id)->where('id', $order_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
 
                     if($soilodrList){
                         $date   = date('Y-m-d H:i:s');
@@ -2609,10 +2594,10 @@ class apiController extends Controller
             $customer_id = $request->customer_id;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    $soilnotificationExists = DB::table('tbl_notification')->where('customer_id', $customer_id)->where('user_type', 'customer')->orderBy('id', 'DESC')->count();
+                    $soilnotificationExists = DB::table('tbl_notification')->where('customer_id', $customer_id)->where('user_type', 'customer')->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
                     if($soilnotificationExists >0){
-                        $soilNotifyList = DB::table('tbl_notification')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->get();
+                        $soilNotifyList = DB::table('tbl_notification')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
 
                         
                         foreach($soilNotifyList as $notifylist)
