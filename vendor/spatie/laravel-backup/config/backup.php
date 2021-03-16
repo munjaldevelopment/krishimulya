@@ -135,7 +135,7 @@ return [
          * The encryption algorithm to be used for archive encryption.
          * You can set it to `null` or `false` to disable encryption.
          */
-        'encryption' => \ZipArchive::EM_AES_256,
+        'encryption' => false,//\ZipArchive::EM_AES_256,
     ],
 
     /*
