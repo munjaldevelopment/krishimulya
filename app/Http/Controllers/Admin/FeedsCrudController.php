@@ -42,52 +42,50 @@ class FeedsCrudController extends CrudController
     protected function setupListOperation()
     {
         //CRUD::setFromDb(); // columns
-
-         
             
-            $this->crud->addColumn([
-                'name' => 'language',
-                'label' => 'Language',
-                'type' => 'text',
+        $this->crud->addColumn([
+            'name' => 'language',
+            'label' => 'Language',
+            'type' => 'text',
+        ]);
+        
+        $this->crud->addColumn([
+            'label'     => 'Feed Category',
+            'type'      => 'select',
+            'name'      => 'category_id',
+            'entity'    => 'allFeedCategories', //function name
+            'attribute' => 'name', //name of fields in models table like districts
+            'model'     => "App\Models\FeedCateories", //name of Models
+
             ]);
-            
-            $this->crud->addColumn([
-                'label'     => 'Feed Category',
-                'type'      => 'select',
-                'name'      => 'category_id',
-                'entity'    => 'allFeedCategories', //function name
-                'attribute' => 'name', //name of fields in models table like districts
-                'model'     => "App\Models\FeedCateories", //name of Models
 
-                ]);
-
-            $this->crud->addColumn('title');
+        $this->crud->addColumn('title');
 
 
-            
-            $this->crud->addColumn([
-                'name' => 'date',
-                'label' => 'Date',
-                'type' => 'date',
-            ]);
-            
-            $this->crud->addColumn('status');
+        
+        $this->crud->addColumn([
+            'name' => 'date',
+            'label' => 'Date',
+            'type' => 'date',
+        ]);
+        
+        $this->crud->addColumn('status');
 
-            $this->crud->addColumn([
-                'name' => 'featured',
-                'label' => 'Featured',
-                'type' => 'check',
-            ]);
-            
-            $this->crud->addFilter([ // select2 filter
-                'name' => 'language',
-                'type' => 'select2',
-                'label'=> 'Language',
-            ], function () {
-                return ['en' => 'English', 'hi' => 'Hindi'];
-            }, function ($value) { // if the filter is active
-                $this->crud->addClause('where', 'language', $value);
-            });
+        $this->crud->addColumn([
+            'name' => 'featured',
+            'label' => 'Featured',
+            'type' => 'check',
+        ]);
+        
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'language',
+            'type' => 'select2',
+            'label'=> 'Language',
+        ], function () {
+            return ['en' => 'English', 'hi' => 'Hindi'];
+        }, function ($value) { // if the filter is active
+            $this->crud->addClause('where', 'language', $value);
+        });
             
        
 
@@ -118,79 +116,79 @@ class FeedsCrudController extends CrudController
         //$this->crud->operation(['create', 'update'], function () {
         $this->crud->setValidation(FeedsRequest::class);
 
-             $this->crud->addField([
-                'name' => 'language',
-                'label' => 'Language',
-                'type' => 'select2_from_array',
-                'options' => ['en' => 'English', 'hi' => 'Hindi'],
-            ]);
+         $this->crud->addField([
+            'name' => 'language',
+            'label' => 'Language',
+            'type' => 'select2_from_array',
+            'options' => ['en' => 'English', 'hi' => 'Hindi'],
+        ]);
 
-            $all_categories = array();
-        
-            $all_categories[0] = 'Select';
-            $states = \DB::table('feed_categories')->orderBy('name')->get();
-            if($states)
+        $all_categories = array();
+    
+        $all_categories[0] = 'Select';
+        $states = \DB::table('feed_categories')->orderBy('name')->get();
+        if($states)
+        {
+            foreach($states as $row)
             {
-                foreach($states as $row)
-                {
-                    $all_categories[$row->id] = $row->name;
-                }
+                $all_categories[$row->id] = $row->name;
             }
+        }
 
-            $this->crud->addField([
-                    'label'     => 'Feed Category',
-                    'type'      => 'select2_from_array',
-                    'name'      => 'category_id',
-                    'options'   => $all_categories
-                    
-             ]);
+        $this->crud->addField([
+                'label'     => 'Feed Category',
+                'type'      => 'select2_from_array',
+                'name'      => 'category_id',
+                'options'   => $all_categories
+                
+         ]);
 
-            $this->crud->addField([
-                'name' => 'title',
-                'label' => 'Title',
-                'type' => 'text',
-                'placeholder' => 'Your title here',
-            ]);
-            /*$this->crud->addField([
-                'name' => 'slug',
-                'label' => 'Slug (URL)',
-                'type' => 'text',
-                'hint' => 'Will be automatically generated from your title, if left empty.',
-                // 'disabled' => 'disabled'
-            ]);*/
-            $this->crud->addField([
-                'name' => 'date',
-                'label' => 'Date',
-                'type' => 'date',
-                'default' => date('Y-m-d'),
-            ]);
+        $this->crud->addField([
+            'name' => 'title',
+            'label' => 'Title',
+            'type' => 'text',
+            'placeholder' => 'Your title here',
+        ]);
+        /*$this->crud->addField([
+            'name' => 'slug',
+            'label' => 'Slug (URL)',
+            'type' => 'text',
+            'hint' => 'Will be automatically generated from your title, if left empty.',
+            // 'disabled' => 'disabled'
+        ]);*/
+        $this->crud->addField([
+            'name' => 'date',
+            'label' => 'Date',
+            'type' => 'date',
+            'default' => date('Y-m-d'),
+        ]);
 
-            $this->crud->addField([
-                'name' => 'content',
-                'label' => 'Content',
-                'type' => 'ckeditor',
-                'placeholder' => 'Your textarea text here',
-            ]);
+        $this->crud->addField([
+            'name' => 'content',
+            'label' => 'Content',
+            'type' => 'ckeditor',
+            'placeholder' => 'Your textarea text here',
+        ]);
 
-            /*$this->crud->addField([ // image
-                'label' => "Image",
-                'name' => "image",
-                'type' => 'image',
-                'upload' => true,
-                'disk' => 'uploads/tractor_image'
-            ],'both');*/
+        /*$this->crud->addField([ // image
+            'label' => "Image",
+            'name' => "image",
+            'type' => 'image',
+            'upload' => true,
+            'disk' => 'uploads/tractor_image'
+        ],'both');*/
 
-            $this->crud->addField([
-                'name' => 'image',
-                'label' => 'Image',
-                'type' => 'browse',
-            ]);
+        $this->crud->addField([
+            'name' => 'image',
+            'label' => 'Image',
+            'type' => 'browse',
+        ]);
 
-             $this->crud->addField([
-                'name' => 'status',
-                'label' => 'Status',
-                'type' => 'enum',
-            ]);
+         $this->crud->addField([
+            'name' => 'status',
+            'label' => 'Status',
+            'type' => 'enum',
+        ]);
             
         //});
 
