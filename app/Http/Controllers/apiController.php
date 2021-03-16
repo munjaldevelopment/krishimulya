@@ -2040,7 +2040,7 @@ class apiController extends Controller
 			//echo $role_id; exit;
 			
             $feedList = array();
-            $rsfeeds = DB::table('feeds')->where('language', $language)->where('status', '=', 'PUBLISHED')->orderBy('id', 'DESC')->get();
+            $rsfeeds = DB::table('feeds')->where('language', $language)->where('status', '=', 'PUBLISHED')->where('deleted_at', NULL)->orderBy('id', 'DESC')->get();
 			
             if(count($rsfeeds) >0)
             {
