@@ -711,7 +711,7 @@ class apiController extends Controller
             $json  =   array();
             
             
-            $cityList = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $cityList = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -787,7 +787,7 @@ class apiController extends Controller
             $json  =   array();
             
             
-            $toolList = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $toolList = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $status_code = '1';
             $message = 'All Agri Type';
