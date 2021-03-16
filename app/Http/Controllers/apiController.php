@@ -686,7 +686,7 @@ class apiController extends Controller
             $json       =   array();
             
             
-            $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $status_code = '1';
             $message = 'All City list';
@@ -865,7 +865,7 @@ class apiController extends Controller
             
             //$insTypList = array('1' => "Tractor",'2' => "Equipment");
             
-            $companyList = DB::table('company')->select('id','title')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+            $companyList = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $status_code = '1';
             $message = 'Company list';
@@ -2032,7 +2032,7 @@ class apiController extends Controller
                 foreach($rsfeeds as $showFeed)
                 {
 					$feedimage  =  $baseUrl."/public/".$showFeed->image;
-                    $feedcat = DB::table('feed_categories')->where('id', $showFeed->category_id)->first();
+                    $feedcat = DB::table('feed_categories')->where('id', $showFeed->category_id)->whereNull('deleted_at')->first();
                     $feed_catname = $feedcat->name;
 					$feedList[] = ['id' => (int)$showFeed->id, 'heading' =>$feed_catname, 'title' =>$showFeed->title, 'content' => strip_tags($showFeed->content), 'date' => date("d-m-Y",strtotime($showFeed->date)), 'feedimage' => $feedimage]; //'planning_isprogress' => $planning_isprogress, 
                 }
