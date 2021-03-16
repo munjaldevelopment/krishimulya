@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
     use CrudTrait;
-
+    use SoftDeletes;
+    
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
