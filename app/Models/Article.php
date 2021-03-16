@@ -6,11 +6,13 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
     use CrudTrait;
     use Sluggable, SluggableScopeHelpers;
+    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
