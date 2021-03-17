@@ -239,6 +239,7 @@ class apiController extends Controller
             $customer = DB::table('customers_temp')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
                 
+                // Add entry in customer table
                 DB::table('customers')->where('id', '=', $customer_id)->update(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'updated_at' => $date]);
 
                 $status_code = $success = '1';
