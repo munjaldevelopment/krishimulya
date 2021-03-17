@@ -32,17 +32,20 @@ class apiController extends Controller
         $result = $this->httpGet("https://api.postalpincode.in/pincode/".$pincode);
         $resultArr = json_decode($result, 1);
 
-        $customerCode = "";
+        $customerCodeData = array();
+        $customerCode = $customerCity = $customerState = "";
         if($resultArr)
         {
             if($resultArr[0]['Status'] == 'Success')
             {
                 $customerCode = substr($resultArr[0]['PostOffice'][0]['State'],0,3).substr($resultArr[0]['PostOffice'][0]['Block'],0,3);
                 $customerCode = strtoupper($customerCode);
+
+                $customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
             }
         }
 
-        return $customerCode;
+        return $customerCodeData;
     }
 
     public function customerLogin(Request $request)
@@ -260,7 +263,9 @@ class apiController extends Controller
                 // Add entry in customer table
                 $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
 
-                $customerCode = $this->getPincodeInfo($pincode);
+                $customerCodeData = $this->getPincodeInfo($pincode);
+
+                //$customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
 
                 $newCustomerID = "00001";
                 if($customerid > 9 && $customerid <= 99)
@@ -280,9 +285,14 @@ class apiController extends Controller
                     $newCustomerID = $customerid;
                 }
 
-                $crn = $customerCode.$newCustomerID;
+                if($customerCodeData)
+                {
+                    $crn = $customerCodeData['customer_code'].$newCustomerID;
+                    $customer_city = $customerCodeData['customer_city'];
+                    $customer_state = $customerCodeData['customer_state'];
 
-                DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn]);
+                    DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+                }
                 
                 $status_code = $success = '1';
                 $message = 'Customer info added successfully';
