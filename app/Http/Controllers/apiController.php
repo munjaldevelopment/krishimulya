@@ -190,7 +190,7 @@ class apiController extends Controller
             }
            
             if($error == ""){
-                $customer = DB::table('customers_temp')->where('telephone', $mobile)=>orderBy('id', 'DESC')->first();
+                $customer = DB::table('customers_temp')->where('telephone', $mobile)->orderBy('id', 'DESC')->first();
                 if($customer) 
                 {
                     $customerid = $customer->id;
