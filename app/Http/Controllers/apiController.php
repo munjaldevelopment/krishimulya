@@ -279,10 +279,10 @@ class apiController extends Controller
                 {
                     $newCustomerID = $customerid;
                 }
-                
+
                 $crn = $customerCode.$newCustomerID;
 
-                DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'updated_at' => $date]);
+                DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn]);
                 
                 $status_code = $success = '1';
                 $message = 'Customer info added successfully';
