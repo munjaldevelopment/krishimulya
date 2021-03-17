@@ -271,7 +271,7 @@ class apiController extends Controller
                 {
                     $newCustomerID = "00".$customerid;
                 }
-                else if($customerid > 999 && $customerid <= 9999
+                else if($customerid > 999 && $customerid <= 9999)
                 {
                     $newCustomerID = "0".$customerid;
                 }
