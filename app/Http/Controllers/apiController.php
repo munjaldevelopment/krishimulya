@@ -238,12 +238,11 @@ class apiController extends Controller
 
             $customer = DB::table('customers_temp')->where('id', $customer_id)->where('status', '1')->first();
             if($customer){
+                $otp = rand(111111, 999999);
                 
-                $customerid = DB::table('customers')->insertGetId(['telephone' => $customer->mobile, 'otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
-                s
                 // Add entry in customer table
-                DB::table('customers')->where('id', '=', $customer_id)->update(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'updated_at' => $date]);
-
+                $customerid = DB::table('customers')->insertGetId(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->mobile, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
+                
                 $status_code = $success = '1';
                 $message = 'Customer info added successfully';
                 
