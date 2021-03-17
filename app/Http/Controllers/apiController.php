@@ -292,6 +292,8 @@ class apiController extends Controller
                     $customer_state = $customerCodeData['customer_state'];
 
                     DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+
+                    DB::table('customers_temp')->where('id', '=', $customer_id)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
                 }
                 
                 $status_code = $success = '1';
