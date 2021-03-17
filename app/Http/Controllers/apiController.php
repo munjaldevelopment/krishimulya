@@ -31,7 +31,17 @@ class apiController extends Controller
     {
         $result = $this->httpGet("https://api.postalpincode.in/pincode/".$pincode);
         $resultArr = json_decode($result, 1);
-        echo '<pre>'; print_r($resultArr);
+
+        $customerCode = "";
+        if($resultArr)
+        {
+            if($resultArr[0]['Status'] == 'Success')
+            {
+                $customerCode = $resultArr[0]['PostOffice'][0]['State']."-".$resultArr[0]['PostOffice'][0]['Block'];
+            }
+        }
+
+        echo $customerCode;
     }
 
     public function customerLogin(Request $request)
