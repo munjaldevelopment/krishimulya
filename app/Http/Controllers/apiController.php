@@ -246,8 +246,6 @@ class apiController extends Controller
                 $message = 'Customer info added successfully';
                 
                 $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'pincode' => $pincode);
-
-
             } else{
                 $status_code = $success = '0';
                 $message = 'Customer not exists or not verified';
