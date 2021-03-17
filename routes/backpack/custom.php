@@ -53,4 +53,5 @@ Route::group([
     Route::crud('agri_type_enquiry', 'Agri_type_enquiryCrudController');
     Route::crud('agri_tool', 'Agri_toolCrudController');
     Route::crud('agri_tool_enquiry', 'Agri_tool_enquiryCrudController');
+    Route::crud('pincode', 'PinCodeCrudController');
 });

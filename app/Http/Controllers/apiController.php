@@ -245,7 +245,7 @@ class apiController extends Controller
                 $status_code = $success = '1';
                 $message = 'Customer info added successfully';
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'pincode' => $pincode);
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'pincode' => $pincode);
 
 
             } else{
