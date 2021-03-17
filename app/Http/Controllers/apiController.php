@@ -240,7 +240,7 @@ class apiController extends Controller
                 $otp = rand(111111, 999999);
                 
                 // Add entry in customer table
-                $customerid = DB::table('customers')->insertGetId(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
+                $customerid = DB::table('customers')->insertGetId(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
                 
                 $status_code = $success = '1';
                 $message = 'Customer info added successfully';
