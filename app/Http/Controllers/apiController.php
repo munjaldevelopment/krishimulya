@@ -142,7 +142,7 @@ class apiController extends Controller
                 $json = array('status_code' => '0', 'message' => $error);
             }
             if($error == ""){
-                $customer = DB::table('customers_temp')->where('telephone', $mobile)->where('otp', $otp)=>orderBy('id', 'DESC')->first();
+                $customer = DB::table('customers_temp')->where('telephone', $mobile)->where('otp', $otp)->orderBy('id', 'DESC')->first();
                 if($customer) 
                 {
                     DB::table('customers_temp')->where(['id' => $customer->id])->update(['status' => 1]);
