@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('pincode/{pincode}', 'apiController@pincode');
+Route::get('getPincodeInfo/{pincode}', 'apiController@getPincodeInfo');
 
 Route::get('home-slider', 'apiController@home_slider');
 
