@@ -838,6 +838,27 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
 
+    public function settingData(Request $request)
+    {
+        try 
+        {
+            $json  =   array();
+            Setting::assignSetting();
+            
+            $status_code = '1';
+            $message = 'Setting List';
+            $json = array('status_code' => $status_code,  'message' => $message, 'setting_yes' => YES_DATA, 'setting_no' => NO_DATA);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
     public function agri_tool(Request $request)
     {
         try 
@@ -1136,6 +1157,7 @@ class apiController extends Controller
     {
         try 
         {
+
             $json = $userData = array();
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;

@@ -48,6 +48,7 @@ Route::post('customer-step3', 'apiController@customerRegister');
 
 // Pin Codes
 Route::get('pin-code', 'apiController@pinCode');
+Route::get('setting-data', 'apiController@settingData');
 
 Route::get('customer-profile', 'apiController@customer_profile');
 Route::post('update-profile', 'apiController@update_profile');
