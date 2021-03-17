@@ -80,7 +80,7 @@ class apiController extends Controller
                     
                     $status_code = '1';
                     $message = 'Customer login successfully';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'temp_customer_id' => '0', 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
                 }else{
                 	/* If device id already register with another mobile */
                     $otp = rand(111111, 999999);
@@ -108,11 +108,10 @@ class apiController extends Controller
 
                     $status_code = $success = '1';
                     $message = 'Customer Otp Send, Please Process Next Step';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '0', 'temp_customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
                }
             }   
         }
-
         catch(\Exception $e) {
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
@@ -154,7 +153,7 @@ class apiController extends Controller
 
                     $status_code = '1';
                     $message = 'Customer activated successfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'customer_id' => (int)$customerData->id, 'mobile' => $mobile, 'pincode' => $customer->pincode, 'referurl' => $refer_url);
+                    $json = array('status_code' => $status_code,  'message' => $message, 'customer_id' => (int)$customer->id, 'mobile' => $mobile, 'pincode' => $customer->pincode, 'referurl' => $refer_url);
                 }
                 else 
                 {
@@ -237,7 +236,7 @@ class apiController extends Controller
             $age = $request->age;
             $pincode = $request->pincode;
 
-            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            $customer = DB::table('customers_temp')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
                 
                 DB::table('customers')->where('id', '=', $customer_id)->update(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'updated_at' => $date]);
