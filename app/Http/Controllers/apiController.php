@@ -217,7 +217,7 @@ class apiController extends Controller
      
                      $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
-                     DB::table('customers_temp')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
+                    DB::table('customers_temp')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
 
                     $status_code = '1';
                     $message = 'OTP Send sucessfully';
@@ -259,6 +259,30 @@ class apiController extends Controller
                 
                 // Add entry in customer table
                 $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
+
+                $customerCode = $this->getPincodeInfo($pincode);
+
+                $newCustomerID = "00001";
+                if($customerid > 9 && $customerid <= 99)
+                {
+                    $newCustomerID = "000".$customerid;
+                }
+                else if($customerid > 99 && $customerid <= 999)
+                {
+                    $newCustomerID = "00".$customerid;
+                }
+                else if($customerid > 999 && $customerid <= 9999
+                {
+                    $newCustomerID = "0".$customerid;
+                }
+                else
+                {
+                    $newCustomerID = $customerid;
+                }
+                
+                $crn = $customerCode.$newCustomerID;
+
+                DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'updated_at' => $date]);
                 
                 $status_code = $success = '1';
                 $message = 'Customer info added successfully';
