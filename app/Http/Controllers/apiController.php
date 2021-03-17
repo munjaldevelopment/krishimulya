@@ -37,7 +37,8 @@ class apiController extends Controller
         {
             if($resultArr[0]['Status'] == 'Success')
             {
-                $customerCode = $resultArr[0]['PostOffice'][0]['State']."-".$resultArr[0]['PostOffice'][0]['Block'];
+                $customerCode = substr($resultArr[0]['PostOffice'][0]['State'],0,3)."-".substr($resultArr[0]['PostOffice'][0]['Block'],0,3);
+                $customerCode = strtoupper($customerCode);
             }
         }
 
