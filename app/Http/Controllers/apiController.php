@@ -846,8 +846,7 @@ class apiController extends Controller
             Setting::assignSetting();
             
             $status_code = '1';
-            $message = 'Setting List';
-            $json = array('status_code' => $status_code,  'message' => $message, 'setting_yes' => YES_DATA, 'setting_no' => NO_DATA);
+            $json = array('status_code' => $status_code, 'setting' => array('yes' => YES_DATA, 'no' => NO_DATA));
         }
         catch(\Exception $e) {
             $status_code = '0';
