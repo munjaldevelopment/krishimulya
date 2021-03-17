@@ -645,7 +645,7 @@ class apiController extends Controller
             
             $status_code = '1';
             $message = 'All Slider list';
-            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'crn' => $custcrn, 'slider_content' => HOMEPAGE_MARQUEE, 'sliderList' => $sliderArr);
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'crn' => $custcrn, 'marque' => HOMEPAGE_MARQUEE, 'sliderList' => $sliderArr);
         }
         
         catch(\Exception $e) {
