@@ -16,7 +16,18 @@ use QR_Code\QR_Code;
 class apiController extends Controller
 {
     //START LOGIN
-	public function customerLogin(Request $request)
+    public function httpGet($url)
+    {
+        $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $head = curl_exec($ch); 
+        curl_close($ch);
+        return $head;
+    }
+
+    public function customerLogin(Request $request)
     {
         try 
         {
@@ -41,12 +52,11 @@ class apiController extends Controller
                 $userData = array();
                 
                 $date   = date('Y-m-d H:i:s');
-                $customer = DB::table('customers')->where('telephone', $mobile)->first();
+                $customer = DB::table('customers')->where('telephone', $mobile)->where('status', '1')->first();
                 if($customer) 
                 {
                     $customerid = $customer->id;
                     $deviceid = $customer->device_id;
-                    $customer_status = $customer->status;
 
                     DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
                     if($refer_code != "")
@@ -102,7 +112,7 @@ class apiController extends Controller
                }
             }   
         }
-        
+
         catch(\Exception $e) {
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
@@ -114,18 +124,6 @@ class apiController extends Controller
     }
     // End Login
     
-
-    public function httpGet($url)
-    {
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_VERBOSE, 0); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $head = curl_exec($ch); 
-        curl_close($ch);
-        return $head;
-    }
-
     //START VERIFY
     public function customerVerify(Request $request)
     {
@@ -141,22 +139,23 @@ class apiController extends Controller
                 $json = array('status_code' => '0', 'message' => $error);
             }
             if($otp == ""){
-                $error = "otp not found";
+                $error = "Please fill correct OTP";
                 $json = array('status_code' => '0', 'message' => $error);
             }
             if($error == ""){
-                $customer = DB::table('customers')->where('telephone', $mobile)->where('otp', $otp)->first();
+                $customer = DB::table('customers_temp')->where('telephone', $mobile)->where('otp', $otp)=>orderBy('id', 'DESC')->first();
                 if($customer) 
                 {
-                    DB::table('customers')->where(['id' => $customer->id])->update(['status' => 1]);
-                    $customerData= DB::table('customers')->where('id', $customer->id)->first();
+                    DB::table('customers_temp')->where(['id' => $customer->id])->update(['status' => 1]);
+
+                    $customerData= DB::table('customers_temp')->where('id', $customer->id)->first();
                     
                     $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishimulya&referrer=krvrefer".$customer->id;
 
                     $status_code = '1';
                     $message = 'Customer activated successfully';
                     $json = array('status_code' => $status_code,  'message' => $message, 'customer_id' => (int)$customerData->id, 'mobile' => $mobile, 'pincode' => $customer->pincode, 'referurl' => $refer_url);
-                } 
+                }
                 else 
                 {
                     $status_code = $success = '0';
@@ -185,13 +184,14 @@ class apiController extends Controller
             $mobile = $request->mobile;
             $date   = date('Y-m-d H:i:s');
             $error = "";
+
             if($mobile == ""){
                 $error = "Please enter valid mobile number";
                 $json = array('status_code' => '0', 'message' => $error);
             }
            
             if($error == ""){
-                $customer = DB::table('customers')->where('telephone', $mobile)->first();
+                $customer = DB::table('customers_temp')->where('telephone', $mobile)=>orderBy('id', 'DESC')->first();
                 if($customer) 
                 {
                     $customerid = $customer->id;
@@ -200,8 +200,7 @@ class apiController extends Controller
      
                      $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
-
-                     DB::table('customers')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
+                     DB::table('customers_temp')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
 
                     $status_code = '1';
                     $message = 'OTP Send sucessfully';
@@ -214,6 +213,46 @@ class apiController extends Controller
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '', 'mobile' => $mobile);
                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    // TO DO
+    public function customerRegister(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $name = $request->name;
+            $age = $request->age;
+            $pincode = $request->pincode;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                
+                DB::table('customers')->where('id', '=', $customer_id)->update(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'updated_at' => $date]);
+
+                $status_code = $success = '1';
+                $message = 'Customer info added successfully';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'pincode' => $pincode);
+
+
+            } else{
+                $status_code = $success = '0';
+                $message = 'Customer not exists or not verified';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
             }
         }
         catch(\Exception $e) {
@@ -257,8 +296,9 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
     //END 
-     //START show feed list 
-    public function birth_year(Request $request)
+    
+    //START show feed list 
+    /*public function birth_year(Request $request)
     {
         try 
         {   
@@ -282,49 +322,11 @@ class apiController extends Controller
         }
     
         return response()->json($json, 200);
-    }
+    }*/
     //END 
 
-
     //Customer Update
-    public function customerstep3(Request $request)
-    {
-        try 
-        {
-            $json = $userData = array();
-            $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id;
-            $name = $request->name;
-            $age = $request->age;
-            $pincode = $request->pincode;
-
-            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-            if($customer){ 
-                
-                DB::table('customers')->where('id', '=', $customer_id)->update(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'updated_at' => $date]);
-
-                $status_code = $success = '1';
-                $message = 'Customer info added successfully';
-                
-                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'pincode' => $pincode);
-
-
-            } else{
-                $status_code = $success = '0';
-                $message = 'Customer not exists or not verified';
-                
-                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
-            }
-        }
-        catch(\Exception $e) {
-            $status_code = '0';
-            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
-        }
-        
-        return response()->json($json, 200);
-    }
 
 
     //Customer Update

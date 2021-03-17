@@ -33,11 +33,16 @@ Route::post('agri-type-enquiry', 'apiController@agri_type_enquiry');
 Route::post('agri-tool-enquiry', 'apiController@agri_tool_enquiry');
 
 Route::get('feed-list', 'apiController@feedList');
+
+// Login API
 Route::post('customer-login', 'apiController@customerLogin');
+
+// Verify Customer
 Route::post('customer-verify', 'apiController@customerVerify');
 Route::post('resend-sms', 'apiController@resendSMS');
 
-Route::post('customer-step3', 'apiController@customerstep3');
+
+Route::post('customer-step3', 'apiController@customerRegister');
 
 Route::get('customer-profile', 'apiController@customer_profile');
 Route::post('update-profile', 'apiController@update_profile');
