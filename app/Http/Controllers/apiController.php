@@ -42,7 +42,7 @@ class apiController extends Controller
             }
         }
 
-        echo $customerCode;
+        return $customerCode;
     }
 
     public function customerLogin(Request $request)
