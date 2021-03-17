@@ -25,108 +25,84 @@ class apiController extends Controller
             $fcmToken = $request->fcmToken;
             $refer_code = $request->refer_code;
             $error = "";
+            $json = array();
+
             if($mobile == ""){
                 $error = "Please enter valid mobile number";
                 $json = array('status_code' => '0', 'message' => $error);
             }
+            
             if($device_id == ""){
-                $error = "Divice id not found";
+                $error = "Device ID not found";
                 $json = array('status_code' => '0', 'message' => $error);
             }
+
             if($error == ""){
-                $json = $userData = array();
-                $mobile = $mobile;
+                $userData = array();
+                
                 $date   = date('Y-m-d H:i:s');
                 $customer = DB::table('customers')->where('telephone', $mobile)->first();
                 if($customer) 
                 {
-                    
                     $customerid = $customer->id;
                     $deviceid = $customer->device_id;
                     $customer_status = $customer->status;
 
-
-                    
-                    if($device_id == $deviceid){
-                        if($customer_status == 1){
-
-                            DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
-
-                            $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishimulya&referrer=krvrefer".$customerid;
-                            
-                            $status_code = '1';
-                            $message = 'Customer login successfully';
-                            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
-                        }else{
-                            $otp = rand(111111, 999999);
-                            $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
-                        
-                            $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
-                        
-                     
-
-                            DB::table('customers')->where('id', '=', $customerid)->update(['otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
-
-                            $status_code = '1';
-                            $message = 'Customer Otp Send, Please Process Next Step';
-                            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
+                    DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
+                    if($refer_code != "")
+                    {
+                        $usertype = explode('refer',$refer_code);
+                        if($usertype[0]=='krvp'){
+                            $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+                        } else {
+                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
+                            $referal_customer_id = $referCustomerid;
                         }
-                        
-                    }else{    
-                        /*$otp = rand(111111, 999999);
-                        $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
-         
-                         $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
-                        
-                        DB::table('customers')->where('id', '=', $customerid)->update(['otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
-
-                        $status_code = '1';
-                        $message = 'Customer Otp Send, Please Process Next Step';
-                        $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile,"customer_type" => "new", 'otp' => "".$otp);*/
-                        $status_code = '0';
-                        $message = 'Customer is already logged in with another device.';
-                        $json = array('status_code' => $status_code, 'message' => $message);
+                        if($referal_customer_id != "")
+                        {
+                            DB::table('customers')->where('id', '=', $customerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
+                        }
                     }
+
+
+                    $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishimulya&referrer=krvrefer".$customerid;
+                    
+                    $status_code = '1';
+                    $message = 'Customer login successfully';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
                 }else{
                 	/* If device id already register with another mobile */
+                    $otp = rand(111111, 999999);
+                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
+     
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
-                	$customer = DB::table('customers')->where('device_id', $device_id)->first();
-	                if($customer) 
-	                {
-	                	$error = "Device id already registered with another customer";
-                		$json = array('status_code' => '0', 'message' => $error);
+                    $customerid = DB::table('customers_temp')->insertGetId(['telephone' => $mobile, 'otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
 
-	                }else{	
-	                    $otp = rand(111111, 999999);
-	                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
-	     
-	                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                    if($refer_code != "")
+                    {
+                        $usertype = explode('refer',$refer_code);
+                        if($usertype[0]=='krvp'){
+                            $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+                        } else {
+                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
+                            $referal_customer_id = $referCustomerid;
+                        }
 
-	                    $customerid = DB::table('customers')->insertGetId(['telephone' => $mobile, 'otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
+                        if($referal_customer_id != "")
+                        {
+                            DB::table('customers_temp')->where('id', '=', $customerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
+                        }
+                    }
 
-	                    $date   = date('Y-m-d H:i:s');
-	                    if($refer_code != ""){
-	                        $usertype = explode('refer',$refer_code);
-	                        if($usertype[0]=='krvp'){
-	                            $referal_partner_id = str_replace('krvprefer', '', $refer_code);
-	                            $referPartnerid = DB::table('partner_refer_register')->insertGetId(['customer_id' => $customerid, 'referal_partner_id' => $referal_partner_id, 'created_at' => $date]);  
-	                        }else{
-	                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
-	                            $referal_customer_id = $referCustomerid;
-	                            $refercustomerid = DB::table('customer_refer_register')->insertGetId(['customer_id' => $customerid, 'referal_customer_id' => $referal_customer_id, 'created_at' => $date]);    
-	                        }
-	                        
-	                        
-	                    }
-
-	                    $status_code = $success = '1';
-	                    $message = 'Customer Otp Send, Please Process Next Step';
-	                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
-	                }
+                    $status_code = $success = '1';
+                    $message = 'Customer Otp Send, Please Process Next Step';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
                }
             }   
         }
+        
         catch(\Exception $e) {
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
