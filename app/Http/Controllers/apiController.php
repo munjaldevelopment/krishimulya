@@ -41,7 +41,7 @@ class apiController extends Controller
                 $customerCode = substr($resultArr[0]['PostOffice'][0]['State'],0,3).substr($resultArr[0]['PostOffice'][0]['Block'],0,3);
                 $customerCode = strtoupper($customerCode);
 
-                $customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
+                $customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $resultArr[0]['PostOffice'][0]['Block'], 'customer_state' => $resultArr[0]['PostOffice'][0]['State']);
             }
         }
 
