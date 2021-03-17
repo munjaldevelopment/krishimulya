@@ -30,7 +30,8 @@ class apiController extends Controller
     public function getPincodeInfo($pincode)
     {
         $result = $this->httpGet("https://api.postalpincode.in/pincode/".$pincode);
-        dd($result);
+        $resultArr = json_decode($result, 1);
+        echo '<pre>'; print_r($resultArr);
     }
 
     public function customerLogin(Request $request)
