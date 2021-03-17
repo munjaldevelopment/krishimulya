@@ -240,7 +240,7 @@ class apiController extends Controller
                 $otp = rand(111111, 999999);
                 
                 // Add entry in customer table
-                $customerid = DB::table('customers')->insertGetId(['temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
+                $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
                 
                 $status_code = $success = '1';
                 $message = 'Customer info added successfully';
@@ -755,7 +755,30 @@ class apiController extends Controller
     }
 
 
-     //START show agri type 
+    //START show agri type 
+    public function pinCode(Request $request)
+    {
+        try 
+        {   
+            $json  =   array();
+            
+            
+            $toolList = DB::table('pincodes')->select('id','zip')->where('active', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $status_code = '1';
+            $message = 'All Pincode List';
+            $json = array('status_code' => $status_code,  'message' => $message, 'pincodes' => $toolList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
     public function agri_tool(Request $request)
     {
         try 

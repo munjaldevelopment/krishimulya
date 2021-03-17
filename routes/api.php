@@ -41,8 +41,11 @@ Route::post('customer-login', 'apiController@customerLogin');
 Route::post('customer-verify', 'apiController@customerVerify');
 Route::post('resend-sms', 'apiController@resendSMS');
 
-
+// Register
 Route::post('customer-step3', 'apiController@customerRegister');
+
+// Pin Codes
+Route::get('pin-code', 'apiController@pinCode');
 
 Route::get('customer-profile', 'apiController@customer_profile');
 Route::post('update-profile', 'apiController@update_profile');
