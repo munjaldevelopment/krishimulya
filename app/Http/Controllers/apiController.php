@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
+use App\Models\Setting;
 use DB;
 use App;
 use Illuminate\Routing\UrlGenerator;
@@ -620,15 +621,19 @@ class apiController extends Controller
     public function home_slider(Request $request)
     {
         try 
-        {   
+        {
+            Setting::assignSetting();
+
             $baseUrl = URL::to("/");
             $json       =   array();
             $customer_id = $request->customer_id;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer) {
                 $custname = $customer->name;
+                $custcrn = $customer->crn;
             } else {
                 $custname = "Guest";
+                $custcrn = "";
             }
 
             $sliderArr = array();
@@ -640,7 +645,7 @@ class apiController extends Controller
             
             $status_code = '1';
             $message = 'All Slider list';
-            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'sliderList' => $sliderArr);
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'crn' => $custcrn, 'slider_content' => HOMEPAGE_MARQUEE, 'sliderList' => $sliderArr);
         }
         
         catch(\Exception $e) {
