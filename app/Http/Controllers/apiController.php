@@ -1180,6 +1180,12 @@ class apiController extends Controller
            
             $exp_price = $request->exp_price;
             $comment = $request->comment;
+            
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+
+
             $tractor_image = $request->tractor_image;
 
             $isactive = 1;
