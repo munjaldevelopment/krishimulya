@@ -30,7 +30,7 @@ class apiController extends Controller
 
     public function getPincodeInfo($pincode)
     {
-        $result = $this->httpGet("https://api.postalpincode.in/pincode/".$pincode);
+        /*$result = $this->httpGet("https://api.postalpincode.in/pincode/".$pincode);
         $resultArr = json_decode($result, 1);
 
         $customerCodeData = array();
@@ -44,6 +44,14 @@ class apiController extends Controller
 
                 $customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $resultArr[0]['PostOffice'][0]['Block'], 'customer_state' => $resultArr[0]['PostOffice'][0]['State']);
             }
+        }*/
+
+        $customerCodeData = array();
+        $pincodeData = DB::table('pincodes')->where('zip', $pincode)->where('active', '1')->first();
+        if($pincodeData) 
+        {
+            $customerCode = substr($pincodeData->state, 0, 3).substr($pincodeData->city, 0, 3);
+            $customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $pincodeData->city, 'customer_state' => $pincodeData->state);
         }
 
         return $customerCodeData;
@@ -1188,27 +1196,18 @@ class apiController extends Controller
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                   if($tractor_image != ''){
-                    $image_parts = explode(";base64,", $tractor_image);
-                    $image_type_aux = explode("image/", $image_parts[0]);
-                    $image_type = $image_type_aux[1];
+                        $image_parts = explode(";base64,", $tractor_image);
+                        $image_type_aux = explode("image/", $image_parts[0]);
+                        $image_type = $image_type_aux[1];
 
-                    $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
-                    $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
+                        $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
+                        $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
 
-                    $data = base64_decode($image_parts[1]);
-                   // $data = $image_parts[1];
-                    file_put_contents($destinationPath, $data);
-                  }  
-                /*if ($request->hasFile('tractor_image')) {
-                    $image = $request->file('tractor_image'); 
-                    if($image)
-                    {
-                        $tractor_image = rand(10000, 99999).'-'.time().'.'.$image->getClientOriginalExtension();
-                        $destinationPath = public_path('/uploads/tractor_image/');
-                        $image->move($destinationPath, $tractor_image);
-                        
-                    }
-                }*/
+                        $data = base64_decode($image_parts[1]);
+                        // $data = $image_parts[1];
+                        file_put_contents($destinationPath, $data);
+                    } 
+
                     $name = $customer->name;
                     $mobile = $customer->telephone;
                     DB::table('tractor_sell_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
