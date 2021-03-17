@@ -224,7 +224,6 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
 
-    // TO DO
     public function customerRegister(Request $request)
     {
         try 
