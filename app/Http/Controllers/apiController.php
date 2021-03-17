@@ -27,6 +27,12 @@ class apiController extends Controller
         return $head;
     }
 
+    public function pincode($pincode)
+    {
+        $result = $this->httpGet("https://api.postalpincode.in/pincode/".$pincode);
+        dd($result);
+    }
+
     public function customerLogin(Request $request)
     {
         try 
