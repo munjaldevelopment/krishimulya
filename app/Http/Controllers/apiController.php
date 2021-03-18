@@ -116,7 +116,7 @@ class apiController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
                     $customerid = DB::table('customers_temp')->insertGetId(['telephone' => $mobile, 'otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
 
@@ -227,7 +227,7 @@ class apiController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                     $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                     $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
                     DB::table('customers_temp')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
 
