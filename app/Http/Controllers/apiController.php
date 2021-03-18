@@ -1733,7 +1733,7 @@ class apiController extends Controller
                     /*if($available_date){
                         $rentinList = $rentinList->wheredate('available_date',$available_date);    
                     }*/
-                    $labourList = $labourList->orderBy('id1', 'desc')->get(); 
+                    $labourList = $labourList->orderBy('id', 'desc')->get(); 
                     if(count($labourList) >0){
                         $r_list = array();
                         foreach($labourList as $rlist)
