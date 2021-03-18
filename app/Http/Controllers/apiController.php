@@ -1269,8 +1269,8 @@ class apiController extends Controller
                         $error = "Please enter valid OTP to verify mobile.";
                         $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
                     }else{
-                        $otpval = '';
-                        DB::table('tbl_mobile_verify')->where('mobile', '=', $contact_person_phone)->update(['otp' => $otpval]);
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
                     }
                 } else {
                     $error = "Please verify mobile.";
@@ -1643,8 +1643,8 @@ class apiController extends Controller
                         $error = "Please enter valid OTP to verify mobile.";
                         $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
                     }else{
-                        $otpval = '';
-                        DB::table('tbl_mobile_verify')->where('mobile', '=', $contact_person_phone)->update(['otp' => $otpval]);
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
                     }
                 } else {
                     $error = "Please verify mobile.";
@@ -2137,8 +2137,8 @@ class apiController extends Controller
                         $error = "Please enter valid OTP to verify mobile.";
                         $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
                     }else{
-                        $otpval = '';
-                        DB::table('tbl_mobile_verify')->where('mobile', '=', $contact_person_phone)->update(['otp' => $otpval]);
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
                     }
                 } else {
                     $error = "Please verify mobile.";
