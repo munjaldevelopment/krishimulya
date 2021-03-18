@@ -1255,7 +1255,7 @@ class apiController extends Controller
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
 
-            if($contact_person_phone !- "")
+            if($contact_person_phone != "")
             {
                 $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
                 if($verifyOtp){ 
@@ -1629,7 +1629,7 @@ class apiController extends Controller
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
 
-            if($contact_person_phone !- "")
+            if($contact_person_phone != "")
             {
                 $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
                 if($verifyOtp){ 
@@ -2123,7 +2123,7 @@ class apiController extends Controller
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
 
-            if($contact_person_phone !- "")
+            if($contact_person_phone != "")
             {
                 $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
                 if($verifyOtp){ 
