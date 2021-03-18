@@ -1737,11 +1737,15 @@ class apiController extends Controller
                     if(count($labourList) >0){
                         $r_list = array();
                         foreach($labourList as $rlist)
-                        {
-                            
+                        {                            
                             $rscustomer = DB::table('customers')->where('id', $rlist->customer_id)->first();
-                            $customer_name = $rscustomer->name;
-                            $customer_telphone = $rscustomer->telephone;
+                            $customer_name = $customer_telphone = "";
+                            if($rscustomer)
+                            {
+                                $customer_name = $rscustomer->name;
+                                $customer_telphone = $rscustomer->telephone;
+                            }
+                            
                             $othercity = ($rlist->other_city != '') ? $rlist->other_city : "";
                             //$available_date = date("d-m-Y",strtotime($rlist->available_date));
                             $r_list[] = ['id' => (string)$rlist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'location' =>$rlist->location, 'other_city' =>$othercity, 'labour_no' => $rlist->labour_no, 'purpose' => $rlist->purpose, 'comment' => $rlist->comments]; 
