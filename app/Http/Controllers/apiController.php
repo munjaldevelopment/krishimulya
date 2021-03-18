@@ -1181,7 +1181,7 @@ class apiController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
                     print_r($resultData); exit;
 
@@ -1196,7 +1196,7 @@ class apiController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
                     print_r($resultData); exit;
                     
