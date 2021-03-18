@@ -1160,7 +1160,7 @@ class apiController extends Controller
     //END 
 
     //Tractor Sale Enquiry
-    public function tractor_sale_enquiry(Request $request)
+    public function tractorSaleEnquiry(Request $request)
     {
         try 
         {
@@ -1184,7 +1184,6 @@ class apiController extends Controller
             $is_contact = $request->is_contact;
             $contact_person_name = $request->contact_person_name;
             $contact_person_phone = $request->contact_person_phone;
-
 
             $tractor_image = $request->tractor_image;
 
@@ -1216,7 +1215,18 @@ class apiController extends Controller
 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('tractor_sell_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $contact_person_otp = rand(111111, 999999);
+
+                    if($is_contact == 1)
+                    {
+                        $isactive = 0;
+                        $smsmessage = str_replace(" ", "%20", "Your OTP is ".$contact_person_otp);
+         
+                        $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$contact_person_phone."&text=".$smsmessage."&route=15");
+                    }
+
+                    DB::table('tractor_sell_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Tractor sale enquiry added successfully';
@@ -1243,7 +1253,7 @@ class apiController extends Controller
     }
 
     //Tractor Purchase Enquiry
-    public function tractor_purchase_enquiry(Request $request)
+    public function tractorPurchaseEnquiry(Request $request)
     {
         try 
         {
@@ -1296,7 +1306,7 @@ class apiController extends Controller
     }
 
     //Purchase Old Enquiry
-    public function purchase_old_results(Request $request)
+    public function purchaseOldResult(Request $request)
     {
         try 
         {

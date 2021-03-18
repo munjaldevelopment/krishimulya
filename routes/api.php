@@ -68,9 +68,9 @@ Route::post('rent-enquiry', 'apiController@rent_enquiry');
 Route::post('rent-in-enquiry', 'apiController@rent_in_enquiry');
 
 Route::get('year-manufacturer', 'apiController@year_manufacturer');
-Route::post('tractor-sale-enquiry', 'apiController@tractor_sale_enquiry');
-Route::post('tractor-purchase-enquiry', 'apiController@tractor_purchase_enquiry');
-Route::post('purchase-old-result', 'apiController@purchase_old_results');
+Route::post('tractor-sale-enquiry', 'apiController@tractorSaleEnquiry');
+Route::post('tractor-purchase-enquiry', 'apiController@tractorPurchaseEnquiry');
+Route::post('purchase-old-result', 'apiController@purchaseOldResult');
 
 Route::get('labour-need', 'apiController@all_labour_need');
 Route::get('labour-purpose', 'apiController@all_purpose');
