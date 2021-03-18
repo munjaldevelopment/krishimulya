@@ -1234,6 +1234,8 @@ class apiController extends Controller
            
             $exp_price = $request->exp_price;
             $comment = $request->comment;
+
+            $payment_type = $request->payment_type;
             
             $is_contact = $request->is_contact;
             $contact_person_name = $request->contact_person_name;
@@ -1290,7 +1292,7 @@ class apiController extends Controller
                     $name = $customer->name;
                     $mobile = $customer->telephone;
 
-                    $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+                    $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Tractor sale enquiry added successfully';
@@ -1445,7 +1447,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','sale_type','location', 'other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
+                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','payment_type','sale_type','location', 'other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($what_need){
                         $purchaseOldList = $purchaseOldList->where('sale_type',$what_need);    
@@ -1502,7 +1504,7 @@ class apiController extends Controller
                             }
                             $other_company = ($plist->other_company != '') ? $plist->other_company : "";
                             $othercity = ($plist->other_city != '') ? $plist->other_city : "";
-                            $purchaseList[] = ['id' => (string)$plist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'company_name' =>$plist->company_name, 'other_company' =>$other_company, 'what_need' =>$plist->sale_type, 'location' =>$plist->location, 'other_city' =>$othercity, 'model' => $plist->model, 'hourse_power' => $plist->hourse_power, 'hrs' => $plist->hrs, 'exp_price' => $plist->exp_price, 'image' => $tractor_image]; 
+                            $purchaseList[] = ['id' => (string)$plist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'company_name' =>$plist->company_name, 'other_company' =>$other_company, 'what_need' =>$plist->sale_type, 'location' =>$plist->location, 'other_city' =>$othercity, 'model' => $plist->model, 'hourse_power' => $plist->hourse_power, 'hrs' => $plist->hrs, 'exp_price' => $plist->exp_price, 'payment_type' => $plist->payment_type, 'image' => $tractor_image]; 
                         }
 
                         $status_code = $success = '1';
