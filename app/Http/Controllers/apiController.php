@@ -1183,7 +1183,7 @@ class apiController extends Controller
      
                     $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
-                    print_r($resultData); exit;
+                    //print_r($resultData); exit;
 
                     DB::table('tbl_mobile_verify')->where('id', '=', $verifyid)->update(['otp' => $otp]);
 
@@ -1198,8 +1198,8 @@ class apiController extends Controller
      
                     $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
-                    print_r($resultData); exit;
-                    
+                    //print_r($resultData); exit;
+
                     DB::table('tbl_mobile_verify')->insertGetId(['mobile' => $mobile, 'otp' => $otp]);
                     $status_code = '1';
                     $message = 'OTP Send successfully';
