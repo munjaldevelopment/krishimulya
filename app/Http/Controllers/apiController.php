@@ -1706,10 +1706,7 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
-
-                    
-                    
+                if($customer){
                     $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('isactive', '=', 1);
 
                     if($labour_no){
@@ -1736,7 +1733,7 @@ class apiController extends Controller
                     /*if($available_date){
                         $rentinList = $rentinList->wheredate('available_date',$available_date);    
                     }*/
-                    $labourList = $labourList->orderBy('id', 'desc')->get(); 
+                    $labourList = $labourList->orderBy('id1', 'desc')->get(); 
                     if(count($labourList) >0){
                         $r_list = array();
                         foreach($labourList as $rlist)
