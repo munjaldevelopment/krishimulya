@@ -116,7 +116,7 @@ class apiPartnerController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
                      DB::table('partners')->where('id', '=', $partnersid)->update(['otp' => $otp, 'updated_at' => $date]);
 
@@ -218,7 +218,7 @@ class apiPartnerController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
                      DB::table('partners')->where('id', '=', $partnerid)->update(['otp' => $otp, 'updated_at' => $date]);
 
@@ -1253,7 +1253,7 @@ class apiPartnerController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
                     DB::table('tbl_mobile_verify')->where('id', '=', $verifyid)->update(['otp' => $otp]);
 
@@ -1266,7 +1266,7 @@ class apiPartnerController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
                     DB::table('tbl_mobile_verify')->insertGetId(['mobile' => $mobile, 'otp' => $otp]);
                     $status_code = '1';
                     $message = 'OTP Send successfully';
