@@ -638,7 +638,7 @@ class apiController extends Controller
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer) {
                 $custname = $customer->name;
-                $custcrn = $customer->crn;
+                $custcrn = ($customer->crn == NULL ? "" : $customer->crn);
             } else {
                 $custname = "Guest";
                 $custcrn = "";
@@ -1439,7 +1439,7 @@ class apiController extends Controller
             $model = $request->model;
             $year_manufacturer = $request->year_manufacturer;
             $payment_type = $request->payment_type;
-            
+
             $error = "";
             if($what_need == ""){
                 $error = "Please select what need to search";
