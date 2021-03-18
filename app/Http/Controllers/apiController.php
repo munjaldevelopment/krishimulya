@@ -1160,43 +1160,59 @@ class apiController extends Controller
     //END 
 
     //Tractor Sale Enquiry
-    public function tractorSaleEnquiryVerify(Request $request)
+    public function verifyOrderMobile(Request $request)
     {
         try 
         {
             $json = $userData = array();
+            $mobile = $request->mobile;
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id;
-            $tractor_sell_enquiry_id = $request->tractor_sell_enquiry_id;
-            $contact_person_otp = $request->contact_person_otp;
-
-            $sellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', $customer_id)->where('contact_person_otp', $contact_person_otp)->where('id', $tractor_sell_enquiry_id)->first();
-            if($sellEnquiry){ 
-                $date   = date('Y-m-d H:i:s');
-                DB::table('tractor_sell_enquiry')->where('id', '=', $tractor_sell_enquiry_id)->update(['isactive' => '1', 'updated_at' => $date]);
-
-                $status_code = $success = '0';
-                $message = 'Sell Enquiry verified successfully.';
-                
-                $json = array('status_code' => $status_code, 'message' => $message);
+            $error = "";
+            if($mobile == ""){
+                $error = "Please enter valid mobile number";
+                $json = array('status_code' => '0', 'message' => $error);
             }
-            else
-            {
-                $status_code = $success = '0';
-                $message = 'Sell Enquiry not valid';
-                
-                $json = array('status_code' => $status_code, 'message' => $message);
+           
+            if($error == ""){
+                $rsmobile = DB::table('tbl_mobile_verify')->where('mobile', $mobile)->first();
+                if($rsmobile) 
+                {
+                    $verifyid = $rsmobile->id;
+                    $otp = rand(111111, 999999);
+                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
+     
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+
+                    DB::table('tbl_mobile_verify')->where('id', '=', $verifyid)->update(['otp' => $otp]);
+
+                    $status_code = '1';
+                    $message = 'OTP Send successfully';
+                    $json = array('status_code' => $status_code,  'message' => $message,  'mobile' => $mobile, 'otp' => $otp);
+                } 
+                else 
+                {
+                    $otp = rand(111111, 999999);
+                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
+     
+                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+                    DB::table('tbl_mobile_verify')->insertGetId(['mobile' => $mobile, 'otp' => $otp]);
+                    $status_code = '1';
+                    $message = 'OTP Send successfully';
+                    $json = array('status_code' => $status_code,  'message' => $message,  'mobile' => $mobile, 'otp' => "".$otp);
+               }
             }
         }
         catch(\Exception $e) {
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
         
         return response()->json($json, 200);
     }
+
+
 
     public function tractorSaleEnquiry(Request $request)
     {
@@ -1222,6 +1238,7 @@ class apiController extends Controller
             $is_contact = $request->is_contact;
             $contact_person_name = $request->contact_person_name;
             $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
 
             $tractor_image = $request->tractor_image;
 
@@ -1235,6 +1252,25 @@ class apiController extends Controller
                 $error = "Please enter model name of tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
+
+            if($contact_person_phone !- "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                     $mobileverifyotp = $verifyOtp->otp;
+                    if($otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+                    }else{
+                        $otpval = '';
+                        DB::table('tbl_mobile_verify')->where('mobile', '=', $contact_person_phone)->update(['otp' => $otpval]);
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                }
+            }
+
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
@@ -1253,16 +1289,6 @@ class apiController extends Controller
 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-
-                    $contact_person_otp = rand(111111, 999999);
-
-                    if($is_contact == 1)
-                    {
-                        $isactive = 0;
-                        $smsmessage = str_replace(" ", "%20", "Your OTP is ".$contact_person_otp);
-         
-                        $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$contact_person_phone."&text=".$smsmessage."&route=15");
-                    }
 
                     $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
 

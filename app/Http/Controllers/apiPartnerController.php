@@ -1255,7 +1255,7 @@ class apiPartnerController extends Controller
      
                     $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=rahul100gm&password=rahul100gm&senderid=IOOGMS&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
-                     DB::table('tbl_mobile_verify')->where('id', '=', $verifyid)->update(['otp' => $otp]);
+                    DB::table('tbl_mobile_verify')->where('id', '=', $verifyid)->update(['otp' => $otp]);
 
                     $status_code = '1';
                     $message = 'OTP Send successfully';
@@ -1309,7 +1309,8 @@ class apiPartnerController extends Controller
                 $error = "Please enter valid data.";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
             }
-             $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $mobile)->first();
+            
+            $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $mobile)->first();
             if($verifyOtp){ 
                  $mobileverifyotp = $verifyOtp->otp;
                 if($otp != $mobileverifyotp){
@@ -1319,9 +1320,9 @@ class apiPartnerController extends Controller
                     $otpval = '';
                     DB::table('tbl_mobile_verify')->where('mobile', '=', $mobile)->update(['otp' => $otpval]);
                 }
-            }else{
-             $error = "Please verify mobile.";
-             $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+            } else {
+                $error = "Please verify mobile.";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
             }        
             
             if($error == ""){

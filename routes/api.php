@@ -67,6 +67,8 @@ Route::get('what-need-list', 'apiController@what_need_list');
 Route::post('rent-enquiry', 'apiController@rent_enquiry');
 Route::post('rent-in-enquiry', 'apiController@rent_in_enquiry');
 
+Route::post('verify-customer-mobile', 'apiController@verifyOrderMobile');
+
 Route::get('year-manufacturer', 'apiController@year_manufacturer');
 Route::post('tractor-sale-enquiry', 'apiController@tractorSaleEnquiry');
 Route::post('tractor-sale-enquiry-verify', 'apiController@tractorSaleEnquiryVerify');
