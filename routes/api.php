@@ -73,6 +73,8 @@ Route::get('year-manufacturer', 'apiController@year_manufacturer');
 Route::post('tractor-sale-enquiry', 'apiController@tractorSaleEnquiry');
 Route::post('tractor-sale-enquiry-verify', 'apiController@tractorSaleEnquiryVerify');
 
+Route::post('tractor-refinance-enquiry', 'apiController@tractorRefinanceEnquiry');
+
 Route::post('tractor-purchase-enquiry', 'apiController@tractorPurchaseEnquiry');
 Route::post('purchase-old-result', 'apiController@purchaseOldResult');
 

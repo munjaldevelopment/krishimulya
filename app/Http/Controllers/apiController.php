@@ -1314,6 +1314,58 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
 
+    // TO DO
+    public function tractorRefinanceEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $hourse_power = $request->hourse_power;
+            $payment_type = $request->payment_type;
+            $isactive = 1;
+            $error = "";
+            if($company_name == ""){
+                $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    DB::table('tractor_refinance_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor re-finance enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     //Tractor Purchase Enquiry
     public function tractorPurchaseEnquiry(Request $request)
     {
