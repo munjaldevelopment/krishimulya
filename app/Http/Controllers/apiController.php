@@ -1197,7 +1197,6 @@ class apiController extends Controller
         
         return response()->json($json, 200);
     }
-    }
 
     public function tractorSaleEnquiry(Request $request)
     {
