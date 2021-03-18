@@ -1257,8 +1257,8 @@ class apiController extends Controller
             {
                 $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
                 if($verifyOtp){ 
-                     $mobileverifyotp = $verifyOtp->otp;
-                    if($otp != $mobileverifyotp){
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
                         $error = "Please enter valid OTP to verify mobile.";
                         $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
                     }else{
