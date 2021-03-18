@@ -1438,6 +1438,8 @@ class apiController extends Controller
             $hourse_power = $request->hourse_power;
             $model = $request->model;
             $year_manufacturer = $request->year_manufacturer;
+            $payment_type = $request->payment_type;
+            
             $error = "";
             if($what_need == ""){
                 $error = "Please select what need to search";
@@ -1471,6 +1473,10 @@ class apiController extends Controller
 
                     if($year_manufacturer){
                         $purchaseOldList = $purchaseOldList->orWhere('year_manufacturer',$year_manufacturer);    
+                    }
+
+                    if($payment_type){
+                        $purchaseOldList = $purchaseOldList->orWhere('payment_type',$payment_type);    
                     }
 
                     if($other_city){
