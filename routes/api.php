@@ -69,6 +69,8 @@ Route::post('rent-in-enquiry', 'apiController@rent_in_enquiry');
 
 Route::get('year-manufacturer', 'apiController@year_manufacturer');
 Route::post('tractor-sale-enquiry', 'apiController@tractorSaleEnquiry');
+Route::post('tractor-sale-enquiry-verify', 'apiController@tractorSaleEnquiryVerify');
+
 Route::post('tractor-purchase-enquiry', 'apiController@tractorPurchaseEnquiry');
 Route::post('purchase-old-result', 'apiController@purchaseOldResult');
 

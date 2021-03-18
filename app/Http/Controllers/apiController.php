@@ -1160,6 +1160,45 @@ class apiController extends Controller
     //END 
 
     //Tractor Sale Enquiry
+    public function tractorSaleEnquiryVerify(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $tractor_sell_enquiry_id = $request->tractor_sell_enquiry_id;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $sellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', $customer_id)->where('contact_person_otp', $contact_person_otp)->where('id', $tractor_sell_enquiry_id)->first();
+            if($sellEnquiry){ 
+                $date   = date('Y-m-d H:i:s');
+                DB::table('tractor_sell_enquiry')->where('id', '=', $tractor_sell_enquiry_id)->update(['isactive' => '1', 'updated_at' => $date]);
+
+                $status_code = $success = '0';
+                $message = 'Sell Enquiry verified successfully.';
+                
+                $json = array('status_code' => $status_code, 'message' => $message);
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Sell Enquiry not valid';
+                
+                $json = array('status_code' => $status_code, 'message' => $message);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+    }
+
     public function tractorSaleEnquiry(Request $request)
     {
         try 
@@ -1226,14 +1265,12 @@ class apiController extends Controller
                         $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$contact_person_phone."&text=".$smsmessage."&route=15");
                     }
 
-                    DB::table('tractor_sell_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+                    $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Tractor sale enquiry added successfully';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
-
-
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'tractor_sell_enquiry_id' => $tractor_sell_enquiry_id);
                 } else{
                     $status_code = $success = '0';
                     $message = 'Customer not valid';
@@ -2510,7 +2547,7 @@ class apiController extends Controller
 
                     if($soilodrList){
                         $date   = date('Y-m-d H:i:s');
-                         DB::table('soil_test_orders')->where('id', '=', $order_id)->update(['test_type' => $test_type, 'amount' => $amount, 'updated_at' => $date]);
+                        DB::table('soil_test_orders')->where('id', '=', $order_id)->update(['test_type' => $test_type, 'amount' => $amount, 'updated_at' => $date]);
                         
                         /* FCM Notification */
                        $customerToken = $customer->fcmToken; 
