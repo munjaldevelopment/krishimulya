@@ -94,7 +94,7 @@ Route::post('agriland-rent-enquiry', 'apiController@agri_land_rent_enquiry');
 Route::post('agriland-rent-result', 'apiController@agriland_rent_results');
 
 Route::post('agriland-sale-enquiry', 'apiController@agrilandSaleEnquiry');
-Route::post('agriland-purchase-result', 'apiController@agriland_purchase_result');
+Route::post('agriland-purchase-result', 'apiController@agrilandPurchaseResult');
 
 Route::post('agriland-feedback', 'apiController@agriland_feedback');
 

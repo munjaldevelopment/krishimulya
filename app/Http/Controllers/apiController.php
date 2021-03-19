@@ -2193,7 +2193,7 @@ class apiController extends Controller
     }
 
     //Agri land Purchase Old Enquiry
-    public function agriland_purchase_result(Request $request)
+    public function agrilandPurchaseResult(Request $request)
     {
         try 
         {
@@ -2217,7 +2217,7 @@ class apiController extends Controller
 
                     
                     
-                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
+                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($land_type){
                         $purchaseOldList = $purchaseOldList->where('land_type',$land_type);    
@@ -2242,10 +2242,20 @@ class apiController extends Controller
                         $purchaseList = array();
                         foreach($purchaseOldList as $plist)
                         {
-                            
-                            $rscustomer = DB::table('customers')->where('id', $plist->customer_id)->first();
-                            $customer_name = $rscustomer->name;
-                            $customer_telphone = $rscustomer->telephone;
+                            $is_contact = $plist->is_contact;   
+
+                            if($is_contact == "No")
+                            {
+                                $customer_name = $plist->contact_person_name;
+                                $customer_telphone = $plist->contact_person_phone;
+                            }
+                            else
+                            {
+                                $rscustomer = DB::table('customers')->where('id', $plist->customer_id)->first();
+                                $customer_name = $rscustomer->name;
+                                $customer_telphone = $rscustomer->telephone;
+                            }
+
                             $pimage = '';
                             $othercity = ($plist->other_city != '') ? $plist->other_city : "";
 
