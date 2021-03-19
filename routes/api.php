@@ -81,7 +81,7 @@ Route::post('purchase-old-result', 'apiController@purchaseOldResult');
 Route::get('labour-need', 'apiController@all_labour_need');
 Route::get('labour-purpose', 'apiController@all_purpose');
 Route::post('labour-enquiry', 'apiController@labourEnquiry');
-Route::post('labour-result', 'apiController@labour_result');
+Route::post('labour-result', 'apiController@labourResult');
 
 Route::get('insurance-type', 'apiController@insurance_type');
 Route::post('insurance-enquiry', 'apiController@insurance_enquiry');
@@ -91,7 +91,7 @@ Route::get('land-size', 'apiController@all_land_size');
 Route::get('rent-time', 'apiController@all_rent_time');
 
 Route::post('agriland-rent-enquiry', 'apiController@agri_land_rent_enquiry');
-Route::post('agriland-rent-result', 'apiController@agriland_rent_results');
+Route::post('agriland-rent-result', 'apiController@agrilandRentResults');
 
 Route::post('agriland-sale-enquiry', 'apiController@agrilandSaleEnquiry');
 Route::post('agriland-purchase-result', 'apiController@agrilandPurchaseResult');

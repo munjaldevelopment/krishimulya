@@ -1699,7 +1699,7 @@ class apiController extends Controller
 
 
      //Rent IN Result
-    public function labour_result(Request $request)
+    public function labourResult(Request $request)
     {
         try 
         {
@@ -1712,6 +1712,7 @@ class apiController extends Controller
             $location = $request->location;
             $other_city = $request->other_city;
             $purpose = $request->purpose;
+            
             //$available_date = date("Y-m-d",strtotime($request->available_date));
             $error = "";
             if($location == ""){
@@ -2021,7 +2022,7 @@ class apiController extends Controller
     }
 
     //Purchase Old Enquiry
-    public function agriland_rent_results(Request $request)
+    public function agrilandRentResults(Request $request)
     {
         try 
         {
@@ -2034,6 +2035,7 @@ class apiController extends Controller
             $other_city = $request->other_city;
             $size_in_acre = $request->size;
             $rent_time = $request->rent_time;
+
             $error = "";
             if($location == ""){
                 $error = "Please select location to search";
@@ -2042,10 +2044,7 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
-
-                    
-                    
+                if($customer){
                     $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($land_type){
