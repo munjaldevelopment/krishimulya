@@ -1473,15 +1473,15 @@ class apiController extends Controller
                     }
 
                     if($model){
-                        $purchaseOldList = $purchaseOldList->orWhere('model',$model);    
+                        $purchaseOldList = $purchaseOldList->where('model',$model);    
                     }
 
                     if($year_manufacturer){
-                        $purchaseOldList = $purchaseOldList->orWhere('year_manufacturer',$year_manufacturer);    
+                        $purchaseOldList = $purchaseOldList->where('year_manufacturer',$year_manufacturer);    
                     }
 
                     if($payment_type){
-                        $purchaseOldList = $purchaseOldList->orWhere('payment_type',$payment_type);    
+                        $purchaseOldList = $purchaseOldList->where('payment_type',$payment_type);    
                     }
 
                     if($other_city){
