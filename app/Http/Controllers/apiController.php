@@ -1483,6 +1483,11 @@ class apiController extends Controller
                     if($payment_type){
                         $purchaseOldList = $purchaseOldList->where('payment_type',$payment_type);    
                     }
+                    else
+                    {
+                        $purchaseOldList = $purchaseOldList->where('payment_type', 'Cash (नकद भुगतान)');
+                        
+                    }
 
                     if($other_city){
                         $purchaseOldList = $purchaseOldList->where('other_city',$other_city);    
@@ -1504,10 +1509,19 @@ class apiController extends Controller
                         $purchaseList = array();
                         foreach($purchaseOldList as $plist)
                         {
-                            
-                         
-                            $customer_name = $plist->name;
-                            $customer_telphone = $plist->mobile;
+                            $is_contact = $plist->is_contact;   
+
+                            if($is_contact == "No")
+                            {
+                                $customer_name = $plist->contact_person_name;
+                                $customer_telphone = $plist->contact_person_phone;
+                            }
+                            else
+                            {
+                                $customer_name = $plist->name;
+                                $customer_telphone = $plist->mobile;
+                            }
+
                             $baseUrl = URL::to("/");
                             $tractor_image  = "";
                             if($plist->image){
