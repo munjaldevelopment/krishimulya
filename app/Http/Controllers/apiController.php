@@ -1498,7 +1498,7 @@ class apiController extends Controller
 
                    
                     $purchaseOldList = $purchaseOldList->orderBy('id', 'desc')->get(); 
-                    dd($purchaseOldList);
+                    //dd($purchaseOldList);
 
                     if(count($purchaseOldList) > 0){
                         $purchaseList = array();
