@@ -1497,7 +1497,7 @@ class apiController extends Controller
                     }
 
                    
-                    $purchaseOldList = $purchaseOldList->orderBy('hrs', 'ASC')->get(); 
+                    $purchaseOldList = $purchaseOldList->orderBy('hrs', 'ASC')->orderBy('hourse_power', 'DESC')->get(); 
                     //dd($purchaseOldList);
 
                     if(count($purchaseOldList) > 0){
