@@ -59,7 +59,7 @@ class SoilTestController extends Controller
         curl_close($curl);
 
         $result = json_decode($response, 1);
-        print_r($result);
+        echo '<pre>';print_r($result);
     }
 
     public function getFarmer()
@@ -85,6 +85,6 @@ class SoilTestController extends Controller
         curl_close($curl);
 
         $result = json_decode($response, 1);
-        print_r($result);
+        echo '<pre>';print_r($result);
     }
 }
