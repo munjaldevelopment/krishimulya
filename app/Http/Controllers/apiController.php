@@ -3026,6 +3026,144 @@ class apiController extends Controller
     }
 
 
+    public function tractorPurchaseHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorPurchaseData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
+                if($tractorSellEnquiry)
+                {
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorPurchaseData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => $row->other_company, 'location' => $row->location, 'other_city' => $row->other_city, 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => $row->comment, 'uses_type' => $row->uses_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Puchase history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorPurchaseData' => $tractorPurchaseData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Puchase history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRentHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRentData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiry = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
+                if($tractorSellEnquiry)
+                {
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorRentData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'available_date' => $row->available_date, 'comment' => $row->comment, 'model' => $row->model, 'location' => $row->location, 'other_city' => $row->other_city, 'what_type' => $row->what_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Rent history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorRentData' => $tractorRentData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRefinanceHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRefinanceData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiry = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
+                if($tractorSellEnquiry)
+                {
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorRefinanceData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => $row->other_company, 'location' => $row->location, 'other_city' => $row->other_city, 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => $row->comment, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Refinance history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorRefinanceData' => $tractorRefinanceData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Refinance history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
     public function tractorSaleHistory(Request $request)
     {
         try 
