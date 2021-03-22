@@ -129,12 +129,11 @@ class SoilTestController extends Controller
 
         if(isset($result['data'][0]))
         {
-            echo "Farmer Info";
+            echo $result['data'][0]['uuid'];
         }
         else
         {
             echo "Soemthing went wrong";
         }
-        echo '<pre>';print_r($result);
     }
 }
