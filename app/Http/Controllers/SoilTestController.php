@@ -59,7 +59,15 @@ class SoilTestController extends Controller
         curl_close($curl);
 
         $result = json_decode($response, 1);
-        echo '<pre>';print_r($result);
+
+        if(isset($result['success']))
+        {
+            echo "Farmer has been created";
+        }
+        else
+        {
+            echo "Soemthing went wrong";
+        }
     }
 
     public function getFarmer()
