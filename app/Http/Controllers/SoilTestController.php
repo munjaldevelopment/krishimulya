@@ -235,6 +235,9 @@ class SoilTestController extends Controller
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU0MDU0OWRjLWE2ZTctNDA2ZS1hMzRlLTJlNzkxN2U3ZTM4YiIsInRva2VuX2lkIjoiODAyODYzMmUtMDU2ZS00ZTA1LTlkMDMtY2QwNjYyODVlNGNjIiwidHlwZSI6IlVzZXIiLCJpYXQiOjE2MTYzOTU0NTYsImF1ZCI6ImV4YW1wbGUuY29tIiwiaXNzIjoiZXhhbXBsZS5jb20ifQ.SGXSr7tFfJb4AYNJHofb1pvIzLY1UbVRGsnHX8PIubc'
+          ),
         ));
 
         $response = curl_exec($curl);
