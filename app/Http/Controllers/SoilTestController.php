@@ -171,7 +171,7 @@ class SoilTestController extends Controller
         curl_close($curl);
 
         $result = json_decode($response, 1);
-        print_r($result); exit;
+        //print_r($result); exit;
 
         if(isset($result['success']) && ($result['success'] == 1))
         {
