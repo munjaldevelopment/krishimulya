@@ -66,10 +66,10 @@ class SoilTestController extends Controller
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
           CURLOPT_POSTFIELDS =>'{
-            "username":"airportvacancy4",
+            "username":"airportvacancy41",
             "password":"airportvacancy4@1234",
             "confirm-password":"airportvacancy4@1234",
-            "email":"airportvacancy4@gmail.com",
+            "email":"microprixs.solution@gmail.com",
             "address":"D\\nDFDD",
             "contact_no":"9899392988",
             "longitude":28.98059049790038,
