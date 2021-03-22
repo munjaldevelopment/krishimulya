@@ -99,7 +99,7 @@ class SoilTestController extends Controller
                 # code...
                 $message.=$value['msg'].'<br />';
             }
-            echo "Soemthing went wrong <br />".$message;
+            echo "Something went wrong <br />".$message;
         }
     }
 
@@ -133,7 +133,7 @@ class SoilTestController extends Controller
         }
         else
         {
-            echo "Soemthing went wrong";
+            echo "Something went wrong";
         }
     }
 
@@ -183,7 +183,7 @@ class SoilTestController extends Controller
                 # code...
                 $message.=$value['msg'].'<br />';
             }
-            echo "Soemthing went wrong <br />".$message;
+            echo "Something went wrong <br />".$message;
         }
     }
 
@@ -212,27 +212,13 @@ class SoilTestController extends Controller
         
         $result = json_decode($response, 1);
 
-        echo '<pre>'; print_r($result); exit;
-        
-        if(isset($result['success']) && ($result['success'] == 1))
+        if(isset($result[0]))
         {
-            echo "Area has been created";
+            echo $result[0]['uuid'];
         }
         else
         {
-            echo "Soemthing went wrong <br />".$result['error'];
-        }
-        exit;
-
-        $result = json_decode($response, 1);
-
-        if(isset($result['data'][0]))
-        {
-            echo $result['data'][0]['uuid'];
-        }
-        else
-        {
-            echo "Soemthing went wrong";
+            echo "Something went wrong".$result['error'];
         }
     }
 }
