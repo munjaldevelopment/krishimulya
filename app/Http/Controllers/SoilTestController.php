@@ -66,8 +66,12 @@ class SoilTestController extends Controller
         }
         else
         {
-            echo '<pre>'; print_r($result);
-            echo "Soemthing went wrong";
+            $message = "";
+            foreach ($result['errors'] as $key => $value) {
+                # code...
+                $message.=$value['msg'].'<br />';
+            }
+            echo "Soemthing went wrong <br />".$message;
         }
     }
 
