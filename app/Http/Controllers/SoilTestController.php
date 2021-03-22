@@ -189,10 +189,32 @@ class SoilTestController extends Controller
 
     public function getArea()
     {
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
           CURLOPT_URL => 'https://soil.krishitantra.com/api/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1cs/areas',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer tokenHere'
+          ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response; exit;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://soil.krishitantra.com/api/api/farmers//areas',
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
