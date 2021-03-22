@@ -209,8 +209,7 @@ class SoilTestController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response; exit;
-
+        
         $result = json_decode($response, 1);
 
         echo '<pre>'; print_r($result); exit;
