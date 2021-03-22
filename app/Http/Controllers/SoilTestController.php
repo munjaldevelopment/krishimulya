@@ -212,9 +212,9 @@ class SoilTestController extends Controller
         
         $result = json_decode($response, 1);
 
-        if(isset($result[0]))
+        if(isset($result[1]))
         {
-            echo $result[0]['uuid'];
+            echo $result[1]['uuid'];
         }
         else
         {
@@ -227,7 +227,7 @@ class SoilTestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas/f26bfb12-53f7-4282-a675-8869e9a3d209/reports',
+		  CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas//reports', //f26bfb12-53f7-4282-a675-8869e9a3d209
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
