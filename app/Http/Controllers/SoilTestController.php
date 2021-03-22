@@ -127,7 +127,7 @@ class SoilTestController extends Controller
 
         $result = json_decode($response, 1);
 
-        if(isset($result['success']))
+        if(isset($result['data'][0]))
         {
             echo "Farmer Info";
         }
