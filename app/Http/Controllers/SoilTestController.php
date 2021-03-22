@@ -212,7 +212,7 @@ class SoilTestController extends Controller
         
         $result = json_decode($response, 1);
 
-        if(isset($result[]))
+        if(isset($result[0]))
         {
             echo $result[0]['uuid'];
         }
