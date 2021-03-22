@@ -20,19 +20,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('getPincodeInfo/{pincode}', 'apiController@getPincodeInfo');
 
-Route::get('home-slider', 'apiController@home_slider');
+Route::get('home-slider', 'apiController@homeSlider');
 
 Route::post('today-wheather', 'apiController@todayWheateher');
 
 Route::get('customer-token', 'apiController@getCustomerType');
 
-Route::get('agri-type', 'apiController@agri_type');
+Route::get('agri-type', 'apiController@agriType');
 
-Route::get('agri-tool', 'apiController@agri_tool');
+Route::get('agri-tool', 'apiController@agriTool');
 
-Route::post('agri-type-enquiry', 'apiController@agri_type_enquiry');
+Route::post('agri-type-enquiry', 'apiController@agriTypeEnquiry');
 
-Route::post('agri-tool-enquiry', 'apiController@agri_tool_enquiry');
+Route::post('agri-tool-enquiry', 'apiController@agriToolEnquiry');
 
 Route::get('feed-list', 'apiController@feedList');
 

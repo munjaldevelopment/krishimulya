@@ -626,7 +626,7 @@ class apiController extends Controller
     }
 
     //START show cities 
-    public function home_slider(Request $request)
+    public function homeSlider(Request $request)
     {
         try 
         {
@@ -747,7 +747,7 @@ class apiController extends Controller
     //END 
 
     //START show agri type 
-    public function agri_type(Request $request)
+    public function agriType(Request $request)
     {
         try 
         {   
@@ -772,7 +772,7 @@ class apiController extends Controller
     //END
 
      //Rent Enquiry
-    public function agri_type_enquiry(Request $request)
+    public function agriTypeEnquiry(Request $request)
     {
         try 
         {
@@ -866,7 +866,7 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
 
-    public function agri_tool(Request $request)
+    public function agriTool(Request $request)
     {
         try 
         {   
@@ -891,7 +891,7 @@ class apiController extends Controller
     //END
 
      //Rent Enquiry
-    public function agri_tool_enquiry(Request $request)
+    public function agriToolEnquiry(Request $request)
     {
         try 
         {
