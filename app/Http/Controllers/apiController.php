@@ -2998,7 +2998,7 @@ class apiController extends Controller
                         $wheatherRespone = $this->httpGet($appurl);
                         
                         $wheather = json_decode($wheatherRespone);
-                        print_r($wheather);
+                        
                         //print_r($wheather->weather[0]);
                         $mainval =  $wheather->weather[0]->main;
                         $wheatherType =  $wheather->weather[0]->description;
@@ -3023,6 +3023,53 @@ class apiController extends Controller
             }
         
             return response()->json($json, 200);
+    }
+
+
+    public function tractorSaleHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorSaleData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
+                if($tractorSellEnquiry)
+                {
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorSaleData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => $row->other_company, 'comment' => $row->comment, 'model' => $row->model, 'year_manufacturer' => $row->year_manufacturer, 'hourse_power' => $row->hourse_power, 'hrs' => $row->hrs, 'exp_price' => $row->exp_price, 'image' => $tractorimage, 'sale_type' => $row->sale_type, 'location' => $row->location, 'other_city' => $row->other_city, 'is_contact' => $row->is_contact, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'payment_type' => $row->payment_type);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Sale history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorSaleData' => $tractorSaleData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Sale history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
     }
     
 }

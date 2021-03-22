@@ -118,6 +118,12 @@ Route::get('notification-list', 'apiController@notification_list');
 Route::get('birth-year-list', 'apiController@birth_year');
 
 
+// Listing API
+Route::get('tractor-sale-history', 'apiController@tractorSaleHistory');
+Route::get('tractor-purchase-history', 'apiController@tractorPurchaseHistory');
+Route::get('tractor-rent-history', 'apiController@tractorRentHistory');
+Route::get('tractor-refinance-history', 'apiController@tractorRefinanceHistory');
+
 
 
 
