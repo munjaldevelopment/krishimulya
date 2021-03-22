@@ -60,7 +60,7 @@ class SoilTestController extends Controller
 
         $result = json_decode($response, 1);
 
-        if(isset($result['success']))
+        if(isset($result['success']) && ($result['success'] == 1))
         {
             echo "Farmer has been created";
         }
