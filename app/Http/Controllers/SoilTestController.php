@@ -162,7 +162,7 @@ class SoilTestController extends Controller
         }',
           CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json',
-            'Authorization: Bearer tokenHere'
+            'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU0MDU0OWRjLWE2ZTctNDA2ZS1hMzRlLTJlNzkxN2U3ZTM4YiIsInRva2VuX2lkIjoiODAyODYzMmUtMDU2ZS00ZTA1LTlkMDMtY2QwNjYyODVlNGNjIiwidHlwZSI6IlVzZXIiLCJpYXQiOjE2MTYzOTU0NTYsImF1ZCI6ImV4YW1wbGUuY29tIiwiaXNzIjoiZXhhbXBsZS5jb20ifQ.SGXSr7tFfJb4AYNJHofb1pvIzLY1UbVRGsnHX8PIubc'
           ),
         ));
 
