@@ -38,10 +38,10 @@ class SoilTestController extends Controller
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
           CURLOPT_POSTFIELDS =>'{
-            "username":"truefriend83",
+            "username":"truefriend84",
             "password":"truefriend@1234",
             "confirm-password":"truefriend@1234",
-            "email":"truefriend83@gmail.com",
+            "email":"truefriend84@gmail.com",
             "address":"D\\nDFDD",
             "contact_no":"9887501240",
             "longitude":28.98059049790038,
