@@ -185,24 +185,13 @@ class SoilTestController extends Controller
             }
             echo "Soemthing went wrong <br />".$message;
         }
-        exit;
-
-        $result = json_decode($response, 1);
-
-        if(isset($result['data'][0]))
-        {
-            echo $result['data'][0]['uuid'];
-        }
-        else
-        {
-            echo "Soemthing went wrong";
-        }
     }
 
     public function getArea()
     {
         $curl = curl_init();
 
+        
         curl_setopt_array($curl, array(
           CURLOPT_URL => 'https://soil.krishitantra.com/api/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas',
           CURLOPT_RETURNTRANSFER => true,
