@@ -227,7 +227,7 @@ class SoilTestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas/f26bfb12-53f7-4282-a675-8869e9a3d209/reports',
+		  CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas/acbf0f12-c8cf-42e5-a34e-1608df321862/reports',
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
