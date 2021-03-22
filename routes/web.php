@@ -23,5 +23,6 @@ Route::get('/privacy', 'StaticPageController@privacyPage');
 Route::get('/terms', 'StaticPageController@termsPage');
 
 // Soil Test
+Route::get('/kt_login', 'SoilTestController@KTLogin');
 Route::get('/create_farmer', 'SoilTestController@createFarmer');
 Route::get('/get_farmer', 'SoilTestController@getFarmer');
