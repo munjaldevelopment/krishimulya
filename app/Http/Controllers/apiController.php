@@ -3209,5 +3209,143 @@ class apiController extends Controller
     
         return response()->json($json, 200);
     }
+
+    public function labourEnquiryHistory(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
+                if($tractorSellEnquiry)
+                {
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'purpose' => $row->purpose, 'need' => $row->need, 'labour_no' => $row->labour_no, 'comments' => $row->comments, 'is_contact' => $row->is_contact, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'is_edit' => $row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Labor Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'labourEnquiryData' => $labourEnquiryData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Labor Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriRentEnquiryHistory(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
+                if($tractorSellEnquiry)
+                {
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'comment' => $row->comment, 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => $row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Rent Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'labourEnquiryData' => $labourEnquiryData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriSaleEnquiryHistory(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
+                if($tractorSellEnquiry)
+                {
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'comment' => $row->comment, 'size_in_acre' => $row->size_in_acre, 'exp_price' => $row->exp_price, 'land_type' => $row->land_type, 'is_contact' => $row->is_contact, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'is_edit' => $row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Agriland Sale Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'labourEnquiryData' => $labourEnquiryData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Agriland Sale Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
     
 }

@@ -123,6 +123,10 @@ Route::get('tractor-sale-history', 'apiController@tractorSaleHistory');
 Route::get('tractor-purchase-history', 'apiController@tractorPurchaseHistory');
 Route::get('tractor-rent-history', 'apiController@tractorRentHistory');
 Route::get('tractor-refinance-history', 'apiController@tractorRefinanceHistory');
+Route::get('labour-enquiry-history', 'apiController@labourEnquiryHistory');
+
+Route::get('agriland-rent-enquiry-history', 'apiController@agriRentEnquiryHistory');
+Route::get('agriland-sale-enquiry-history', 'apiController@agriSaleEnquiryHistory');
 
 
 
