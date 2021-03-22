@@ -28,3 +28,4 @@ Route::get('/create_farmer', 'SoilTestController@createFarmer');
 Route::get('/get_farmer', 'SoilTestController@getFarmer');
 
 Route::get('/create_area', 'SoilTestController@createArea');
+Route::get('/get_area', 'SoilTestController@getArea');
