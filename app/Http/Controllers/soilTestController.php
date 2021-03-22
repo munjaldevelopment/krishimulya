@@ -57,7 +57,9 @@ class SoilTestController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+
+        $result = json_decode($response, 1);
+        print_r($result);
     }
 
     public function getFarmer()
@@ -65,7 +67,7 @@ class SoilTestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers?contact_no=123456789',
+        CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers?contact_no=9887501240',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -81,6 +83,8 @@ class SoilTestController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+
+        $result = json_decode($response, 1);
+        print_r($result);
     }
 }
