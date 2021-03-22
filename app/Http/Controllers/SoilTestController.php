@@ -66,6 +66,7 @@ class SoilTestController extends Controller
         }
         else
         {
+            echo '<pre>'; print_r($result);
             echo "Soemthing went wrong";
         }
     }
