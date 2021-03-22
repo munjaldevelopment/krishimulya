@@ -221,4 +221,30 @@ class SoilTestController extends Controller
             echo "Something went wrong".$result['error'];
         }
     }
+
+    public function farmerAreaReport()
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas/f26bfb12-53f7-4282-a675-8869e9a3d209/reports',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        
+        $result = json_decode($response, 1);
+        echo '<pre>'; print_r($result); exit;
+        
+        
+
+    }
 }
