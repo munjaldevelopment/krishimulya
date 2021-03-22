@@ -151,13 +151,13 @@ class SoilTestController extends Controller
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
           CURLOPT_POSTFIELDS =>'{
-            "name":"test",
+            "name":"Team Testing",
             "latitude":23.923,
             "longitude":12.5565,
             "soil_density":"23.32",
             "crop":["rice", "dal"],
-            "area_size":"2032",
-            "survey_no":"RIEU23729023",
+            "area_size":"5015",
+            "survey_no":"RIEU23729024",
             "soil_type":"black soil"
         }',
           CURLOPT_HTTPHEADER => array(
