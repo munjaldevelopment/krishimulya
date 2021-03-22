@@ -202,27 +202,6 @@ class SoilTestController extends Controller
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'GET',
           CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer tokenHere'
-          ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        echo $response; exit;
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil.krishitantra.com/api/api/farmers//areas',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-          CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU0MDU0OWRjLWE2ZTctNDA2ZS1hMzRlLTJlNzkxN2U3ZTM4YiIsInRva2VuX2lkIjoiODAyODYzMmUtMDU2ZS00ZTA1LTlkMDMtY2QwNjYyODVlNGNjIiwidHlwZSI6IlVzZXIiLCJpYXQiOjE2MTYzOTU0NTYsImF1ZCI6ImV4YW1wbGUuY29tIiwiaXNzIjoiZXhhbXBsZS5jb20ifQ.SGXSr7tFfJb4AYNJHofb1pvIzLY1UbVRGsnHX8PIubc'
           ),
         ));
@@ -230,6 +209,7 @@ class SoilTestController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
+        echo $response; exit;
 
         $result = json_decode($response, 1);
 
