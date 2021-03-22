@@ -26,3 +26,5 @@ Route::get('/terms', 'StaticPageController@termsPage');
 Route::get('/kt_login', 'SoilTestController@KTLogin');
 Route::get('/create_farmer', 'SoilTestController@createFarmer');
 Route::get('/get_farmer', 'SoilTestController@getFarmer');
+
+Route::get('/create_area', 'SoilTestController@createArea');

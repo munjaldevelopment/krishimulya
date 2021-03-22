@@ -136,4 +136,67 @@ class SoilTestController extends Controller
             echo "Soemthing went wrong";
         }
     }
+
+    public function createArea()
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>'{
+            "name":"test",
+            "latitude":23.923,
+            "longitude":12.5565,
+            "soil_density":"23.32",
+            "crop":["rice", "dal"],
+            "area_size":"2032",
+            "survey_no":"RIEU23729023",
+            "soil_type":"black soil"
+        }',
+          CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Authorization: Bearer tokenHere'
+          ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $result = json_decode($response, 1);
+        print_r($result); exit;
+
+        if(isset($result['success']) && ($result['success'] == 1))
+        {
+            echo "Area has been created";
+        }
+        else
+        {
+            $message = "";
+            foreach ($result['errors'] as $key => $value) {
+                # code...
+                $message.=$value['msg'].'<br />';
+            }
+            echo "Soemthing went wrong <br />".$message;
+        }
+        exit;
+
+        $result = json_decode($response, 1);
+
+        if(isset($result['data'][0]))
+        {
+            echo $result['data'][0]['uuid'];
+        }
+        else
+        {
+            echo "Soemthing went wrong";
+        }
+    }
 }
