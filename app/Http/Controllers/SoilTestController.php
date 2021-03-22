@@ -142,7 +142,7 @@ class SoilTestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas',
+          CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/bd759f7d-eb87-4dab-bdb4-766a7e3af1e3/areas',
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -193,7 +193,7 @@ class SoilTestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas',
+          CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/bd759f7d-eb87-4dab-bdb4-766a7e3af1e3/areas',
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -227,7 +227,7 @@ class SoilTestController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-		      CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/315f4bfc-37af-4db0-99fc-914d45351a1c/areas/acbf0f12-c8cf-42e5-a34e-1608df321862/reports', //f26bfb12-53f7-4282-a675-8869e9a3d209
+		      CURLOPT_URL => 'https://soil.krishitantra.com/api/farmers/bd759f7d-eb87-4dab-bdb4-766a7e3af1e3/areas/acbf0f12-c8cf-42e5-a34e-1608df321862/reports', //f26bfb12-53f7-4282-a675-8869e9a3d209
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
