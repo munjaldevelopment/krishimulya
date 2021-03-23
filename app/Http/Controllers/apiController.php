@@ -3274,7 +3274,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'comment' => $row->comment, 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => $row->is_edit);
+                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => ($row->comment == NULL ? "" : $row->comment), 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
