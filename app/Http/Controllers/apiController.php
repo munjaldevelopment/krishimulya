@@ -3674,18 +3674,30 @@ class apiController extends Controller
         {
             $json = $tractorPurchaseData = array();
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id; $tractor_purchase_id = $request->tractor_purchase_id;
+            $customer_id = $request->customer_id;
+            $tractor_purchase_id = $request->tractor_purchase_id;
+
+            $what_need = $request->what_need;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $hourse_power = $request->hourse_power;
+            $payment_type = $request->payment_type;
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
                 $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists > 0)
                 {
-                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->first();
-
                     $status_code = '1';
-                    $message = 'Tractor Puchase history';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city ==  NULL ? "" : $tractorSellEnquiry->other_city), 'hourse_power' => $tractorSellEnquiry->hourse_power, 'payment_type' => $tractorSellEnquiry->payment_type, 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'uses_type' => $tractorSellEnquiry->uses_type, 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                    $message = 'Tractor Puchase updated successfully';
+
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    $date = date('Y-m-d H:i:s');
+                    
+                    DB::table('tractor_purchase_enquiry')->where('id', '=', $tractor_purchase_id)->update(['name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'updated_at' => $date, 'is_edit' => $is_edit]);
                 }
                 else
                 {
