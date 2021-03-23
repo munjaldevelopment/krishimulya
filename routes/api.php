@@ -123,10 +123,23 @@ Route::get('tractor-sale-history', 'apiController@tractorSaleHistory');
 Route::get('tractor-purchase-history', 'apiController@tractorPurchaseHistory');
 Route::get('tractor-rent-history', 'apiController@tractorRentHistory');
 Route::get('tractor-refinance-history', 'apiController@tractorRefinanceHistory');
+
 Route::get('labour-enquiry-history', 'apiController@labourEnquiryHistory');
 
 Route::get('agriland-rent-enquiry-history', 'apiController@agriRentEnquiryHistory');
 Route::get('agriland-sale-enquiry-history', 'apiController@agriSaleEnquiryHistory');
+
+
+// Detail
+Route::post('tractor-sale-detail', 'apiController@tractorSaleDetail');
+Route::post('tractor-purchase-detail', 'apiController@tractorPurchaseDetail');
+Route::post('tractor-rent-detail', 'apiController@tractorRentDetail');
+Route::post('tractor-refinance-detail', 'apiController@tractorRefinanceDetail');
+
+Route::post('labour-enquiry-detail', 'apiController@labourEnquiryDetail');
+
+Route::post('agriland-rent-enquiry-detail', 'apiController@agriRentEnquiryDetail');
+Route::post('agriland-sale-enquiry-detail', 'apiController@agriSaleEnquiryDetail');
 
 
 
