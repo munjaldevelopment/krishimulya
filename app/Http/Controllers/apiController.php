@@ -3087,7 +3087,7 @@ class apiController extends Controller
                 {
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $tractorRentData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'available_date' => $row->available_date, 'comment' => $row->comment, 'model' => $row->model, 'location' => $row->location, 'other_city' => $row->other_city, 'what_type' => $row->what_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                        $tractorRentData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'available_date' => $row->available_date, 'comment' => $row->comment, 'model' => ($row->model == NULL ? "" : $row->model), 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'what_type' => $row->what_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
