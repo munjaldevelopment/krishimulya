@@ -3699,6 +3699,8 @@ class apiController extends Controller
                     $date = date('Y-m-d H:i:s');
 
                     DB::table('tractor_purchase_enquiry')->where('id', '=', $tractor_purchase_id)->update(['name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'updated_at' => $date, 'is_edit' => $is_edit]);
+
+                    $json = array('status_code' => $status_code, 'message' => $message);
                 }
                 else
                 {
