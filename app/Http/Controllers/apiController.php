@@ -3174,9 +3174,10 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
-                $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
-                if($tractorSellEnquiry)
+                $tractorSellEnquiryExists = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
                 {
+                    $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
                         $tractorSaleData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => $row->other_company, 'comment' => $row->comment, 'model' => $row->model, 'year_manufacturer' => $row->year_manufacturer, 'hourse_power' => $row->hourse_power, 'hrs' => $row->hrs, 'exp_price' => $row->exp_price, 'image' => assets('/uploads/tractor_image/').$row->image, 'sale_type' => $row->sale_type, 'location' => $row->location, 'other_city' => $row->other_city, 'is_contact' => $row->is_contact, 'is_edit' => $row->is_edit, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'payment_type' => $row->payment_type);
@@ -3220,9 +3221,10 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
-                $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
-                if($tractorSellEnquiry)
+                $tractorSellEnquiryExists = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
                 {
+                    $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
                         $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'purpose' => $row->purpose, 'need' => $row->need, 'labour_no' => $row->labour_no, 'comments' => $row->comments, 'is_contact' => $row->is_contact, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'is_edit' => $row->is_edit);
