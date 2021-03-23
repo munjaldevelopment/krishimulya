@@ -3955,7 +3955,7 @@ class apiController extends Controller
                 if($tractorSellEnquiryExists > 0)
                 {
                     $date = date('Y-m-d H:i:s');
-                    
+
                     DB::table('labour_enquiry')->where('id', $labour_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
 
                     $status_code = '1';
@@ -3993,19 +3993,28 @@ class apiController extends Controller
         {
             $json = $labourEnquiryData = array();
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id; $agri_rent_enquiry_id = $request->agri_rent_enquiry_id;
+            $customer_id = $request->customer_id;
+            $agri_rent_enquiry_id = $request->agri_rent_enquiry_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+            $how_much_time = $request->how_much_time;
+            $is_edit = $request->is_edit;
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
                 $tractorSellEnquiryExists = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists > 0)
                 {
-                    $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->first();
+                    $date = date('Y-m-d H:i:s');
 
+                    DB::table('agriland_rent_enquiry')->where('id', '=', $agri_rent_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'updated_at' => $date, 'is_edit' => $is_edit]);
 
                     $status_code = '1';
-                    $message = 'Rent Enquiry history';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'size_in_acore' => $tractorSellEnquiry->size_in_acore, 'how_much_time' => $tractorSellEnquiry->how_much_time, 'land_type' => $tractorSellEnquiry->land_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                    $message = 'Rent Enquiry updated sucessfully';
+                    $json = array('status_code' => $status_code, 'message' => $message);
                 }
                 else
                 {
