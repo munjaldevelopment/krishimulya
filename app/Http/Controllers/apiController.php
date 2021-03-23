@@ -4046,18 +4046,33 @@ class apiController extends Controller
         {
             $json = $labourEnquiryData = array();
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id; $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
+            $customer_id = $request->customer_id;
+            $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $is_edit = $request->is_edit;
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
                 $tractorSellEnquiryExists = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists)
                 {
-                    $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->first();
+                    $date = date('Y-m-d H:i:s');
+
+                    DB::table('agriland_sale_enquiry')->where('id', '=', $agri_sale_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
 
                     $status_code = '1';
-                    $message = 'Agriland Sale Enquiry history';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => $tractorSellEnquiry->comment, 'size_in_acre' => $tractorSellEnquiry->size_in_acre, 'exp_price' => $tractorSellEnquiry->exp_price, 'land_type' => $tractorSellEnquiry->land_type, 'is_contact' => $tractorSellEnquiry->is_contact, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                    $message = 'Agriland Sale Enquiry updated successfully';
+                    $json = array('status_code' => $status_code, 'message' => $message);
                 }
                 else
                 {
