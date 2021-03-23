@@ -3321,7 +3321,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'comment' => $row->comment, 'size_in_acre' => $row->size_in_acre, 'exp_price' => $row->exp_price, 'land_type' => $row->land_type, 'is_contact' => $row->is_contact, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'is_edit' => $row->is_edit);
+                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => $row->comment, 'size_in_acre' => $row->size_in_acre, 'exp_price' => $row->exp_price, 'land_type' => $row->land_type, 'is_contact' => $row->is_contact, 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
