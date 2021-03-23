@@ -143,15 +143,15 @@ Route::post('agriland-sale-enquiry-detail', 'apiController@agriSaleEnquiryDetail
 
 
 // Update
-Route::put('tractor-sale-detail', 'apiController@tractorSaleDetailSave');
-Route::put('tractor-purchase-detail', 'apiController@tractorPurchaseDetailSave');
-Route::put('tractor-rent-detail', 'apiController@tractorRentDetailSave');
-Route::put('tractor-refinance-detail', 'apiController@tractorRefinanceDetailSave');
+Route::post('tractor-sale-detail-save', 'apiController@tractorSaleDetailSave');
+Route::post('tractor-purchase-detail-save', 'apiController@tractorPurchaseDetailSave');
+Route::post('tractor-rent-detail-save', 'apiController@tractorRentDetailSave');
+Route::post('tractor-refinance-detail-save', 'apiController@tractorRefinanceDetailSave');
 
-Route::put('labour-enquiry-detail', 'apiController@labourEnquiryDetailSave');
+Route::post('labour-enquiry-detail-save', 'apiController@labourEnquiryDetailSave');
 
-Route::put('agriland-rent-enquiry-detail', 'apiController@agriRentEnquiryDetailSave');
-Route::put('agriland-sale-enquiry-detail', 'apiController@agriSaleEnquiryDetailSave');
+Route::post('agriland-rent-enquiry-detail-save', 'apiController@agriRentEnquiryDetailSave');
+Route::post('agriland-sale-enquiry-detail-save', 'apiController@agriSaleEnquiryDetailSave');
 
 
 
