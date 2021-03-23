@@ -3750,8 +3750,8 @@ class apiController extends Controller
                     $name = $customer->name;
                     $mobile = $customer->telephone;
                     $date = date('Y-m-d H:i:s');
-                    
-                    DB::table('tractor_rent_enquiry')->where('id', $tractor_rent_id)->update(['name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'isactive' => $isactive, 'is_edit' => $is_edit, 'updated_at' => $date]);  
+
+                    DB::table('tractor_rent_enquiry')->where('id', $tractor_rent_id)->update(['name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'is_edit' => $is_edit, 'updated_at' => $date]);  
 
                     $status_code = '1';
                     $message = 'Tractor Rent history';
