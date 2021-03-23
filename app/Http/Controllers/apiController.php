@@ -3734,17 +3734,28 @@ class apiController extends Controller
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;
             $tractor_rent_id = $request->tractor_rent_id;
+            $what_need = $request->what_need;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $available_date = date("Y-m-d",strtotime($request->available_date));
+            $comment = $request->comment;
+            $is_edit = $request->is_edit;
+
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
                 $tractorSellEnquiryExists = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_rent_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists)
                 {
-                    $tractorSellEnquiry = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_rent_id)->where('isactive', '1')->first();
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    $date = date('Y-m-d H:i:s');
+                    
+                    DB::table('tractor_rent_enquiry')->where('id', $tractor_rent_id)->update(['name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'isactive' => $isactive, 'is_edit' => $is_edit, 'updated_at' => $date]);  
 
                     $status_code = '1';
                     $message = 'Tractor Rent history';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'available_date' => $tractorSellEnquiry->available_date, 'comment' => $tractorSellEnquiry->comment, 'model' => ($tractorSellEnquiry->model == NULL ? "" : $tractorSellEnquiry->model), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'what_type' => $tractorSellEnquiry->what_type, 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                    $json = array('status_code' => $status_code, 'message' => $message);
                 }
                 else
                 {
