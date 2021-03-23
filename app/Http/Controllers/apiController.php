@@ -3803,6 +3803,8 @@ class apiController extends Controller
     {
         try 
         {
+            dd($request->all());
+            
             $json = $tractorSaleData = array();
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;
