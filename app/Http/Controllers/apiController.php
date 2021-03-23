@@ -3041,7 +3041,7 @@ class apiController extends Controller
                 {
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $tractorPurchaseData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city ==  NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'uses_type' => $row->uses_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                        $tractorPurchaseData[] = array('id' => $row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city ==  NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'uses_type' => $row->uses_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
@@ -3087,7 +3087,7 @@ class apiController extends Controller
                 {
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $tractorRentData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'available_date' => $row->available_date, 'comment' => $row->comment, 'model' => ($row->model == NULL ? "" : $row->model), 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'what_type' => $row->what_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                        $tractorRentData[] = array('id' => $row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'available_date' => $row->available_date, 'comment' => $row->comment, 'model' => ($row->model == NULL ? "" : $row->model), 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'what_type' => $row->what_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
@@ -3133,7 +3133,7 @@ class apiController extends Controller
                 {
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $tractorRefinanceData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                        $tractorRefinanceData[] = array('id' => $row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
@@ -3180,7 +3180,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $tractorSaleData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'comment' => $row->comment, 'model' => $row->model, 'year_manufacturer' => $row->year_manufacturer, 'hourse_power' => $row->hourse_power, 'hrs' => $row->hrs, 'exp_price' => $row->exp_price, 'image' => asset('/uploads/tractor_image/').$row->image, 'sale_type' => $row->sale_type, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'is_contact' => $row->is_contact, 'is_edit' => $row->is_edit, 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'payment_type' => $row->payment_type);
+                        $tractorSaleData[] = array('id' => $row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'comment' => $row->comment, 'model' => $row->model, 'year_manufacturer' => $row->year_manufacturer, 'hourse_power' => $row->hourse_power, 'hrs' => $row->hrs, 'exp_price' => $row->exp_price, 'image' => asset('/uploads/tractor_image/').$row->image, 'sale_type' => $row->sale_type, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'is_contact' => $row->is_contact, 'is_edit' => $row->is_edit, 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'payment_type' => $row->payment_type);
                     }
 
                     $status_code = '1';
@@ -3227,7 +3227,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'purpose' => $row->purpose, 'need' => ($row->need == NULL ? "" : $row->need), 'labour_no' => $row->labour_no, 'comments' => ($row->comments == NULL ? "" : $row->comments), 'is_contact' => ($row->is_contact == NULL ? "" : $row->is_contact), 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => $row->is_edit);
+                        $labourEnquiryData[] = array('id' => $row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'purpose' => $row->purpose, 'need' => ($row->need == NULL ? "" : $row->need), 'labour_no' => $row->labour_no, 'comments' => ($row->comments == NULL ? "" : $row->comments), 'is_contact' => ($row->is_contact == NULL ? "" : $row->is_contact), 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
@@ -3274,7 +3274,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => ($row->comment == NULL ? "" : $row->comment), 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => $row->is_edit);
+                        $labourEnquiryData[] = array('id' => $row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => ($row->comment == NULL ? "" : $row->comment), 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
@@ -3321,7 +3321,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => $row->comment, 'size_in_acre' => $row->size_in_acre, 'exp_price' => $row->exp_price, 'land_type' => $row->land_type, 'is_contact' => $row->is_contact, 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => $row->is_edit);
+                        $labourEnquiryData[] = array('id' => $row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => $row->comment, 'size_in_acre' => $row->size_in_acre, 'exp_price' => $row->exp_price, 'land_type' => $row->land_type, 'is_contact' => $row->is_contact, 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
