@@ -3268,9 +3268,10 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
-                $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
-                if($tractorSellEnquiry)
+                $tractorSellEnquiryExists = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
                 {
+                    $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
                         $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'comment' => $row->comment, 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => $row->is_edit);
@@ -3314,9 +3315,10 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
-                $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
-                if($tractorSellEnquiry)
+                $tractorSellEnquiryExists = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
                 {
+                    $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
                         $labourEnquiryData[] = array('location' => $row->location, 'other_city' => $row->other_city, 'comment' => $row->comment, 'size_in_acre' => $row->size_in_acre, 'exp_price' => $row->exp_price, 'land_type' => $row->land_type, 'is_contact' => $row->is_contact, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'is_edit' => $row->is_edit);
