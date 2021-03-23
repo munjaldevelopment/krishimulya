@@ -4047,6 +4047,7 @@ class apiController extends Controller
             $json = $labourEnquiryData = array();
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;
+
             $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
             $land_type = $request->land_type;
             $location = $request->location;
@@ -4060,6 +4061,7 @@ class apiController extends Controller
             $contact_person_otp = $request->contact_person_otp;
 
             $is_edit = $request->is_edit;
+            $exp_price = 0;
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
