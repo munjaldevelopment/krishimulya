@@ -3041,7 +3041,7 @@ class apiController extends Controller
                 {
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $tractorPurchaseData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL : "" ? $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city ==  NULL : "" ? $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'uses_type' => $row->uses_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
+                        $tractorPurchaseData[] = array('name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city ==  NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'uses_type' => $row->uses_type, 'user_type' => $row->user_type, 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
