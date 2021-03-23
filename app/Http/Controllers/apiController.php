@@ -1454,7 +1454,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','payment_type','sale_type','location', 'other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('isactive', '=', 1)->whereNull('deleted_at');
+                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','payment_type','sale_type','location', 'other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('isactive', '=', 1)->where('customer_id', '=', $customer_id)->whereNull('deleted_at');
 
                     if($what_need){
                         $purchaseOldList = $purchaseOldList->where('sale_type',$what_need);    
@@ -1723,7 +1723,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('isactive', '=', 1);
+                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('customer_id', '=', $customer_id)->where('isactive', '=', 1);
 
                     if($labour_no){
                         $labour_noto = 0;
