@@ -3227,7 +3227,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'purpose' => $row->purpose, 'need' => $row->need, 'labour_no' => $row->labour_no, 'comments' => $row->comments, 'is_contact' => $row->is_contact, 'contact_person_name' => $row->contact_person_name, 'contact_person_phone' => $row->contact_person_phone, 'contact_person_otp' => $row->contact_person_otp, 'is_edit' => $row->is_edit);
+                        $labourEnquiryData[] = array('location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'purpose' => $row->purpose, 'need' => ($row->need == NULL ? "" : $row->need), 'labour_no' => $row->labour_no, 'comments' => ($row->comments == NULL ? "" : $row->comments), 'is_contact' => ($row->is_contact == NULL ? "" : $row->is_contact), 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => $row->is_edit);
                     }
 
                     $status_code = '1';
