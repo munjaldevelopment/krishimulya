@@ -142,6 +142,18 @@ Route::post('agriland-rent-enquiry-detail', 'apiController@agriRentEnquiryDetail
 Route::post('agriland-sale-enquiry-detail', 'apiController@agriSaleEnquiryDetail');
 
 
+// Update
+Route::put('tractor-sale-detail', 'apiController@tractorSaleDetailSave');
+Route::put('tractor-purchase-detail', 'apiController@tractorPurchaseDetailSave');
+Route::put('tractor-rent-detail', 'apiController@tractorRentDetailSave');
+Route::put('tractor-refinance-detail', 'apiController@tractorRefinanceDetailSave');
+
+Route::put('labour-enquiry-detail', 'apiController@labourEnquiryDetailSave');
+
+Route::put('agriland-rent-enquiry-detail', 'apiController@agriRentEnquiryDetailSave');
+Route::put('agriland-sale-enquiry-detail', 'apiController@agriSaleEnquiryDetailSave');
+
+
 
 
 /* Partner API */

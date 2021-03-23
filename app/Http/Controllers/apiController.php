@@ -3666,4 +3666,310 @@ class apiController extends Controller
     
         return response()->json($json, 200);
     }
+
+    // Save PAGE
+    public function tractorPurchaseDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorPurchaseData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $tractor_purchase_id = $request->tractor_purchase_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Puchase history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city ==  NULL ? "" : $tractorSellEnquiry->other_city), 'hourse_power' => $tractorSellEnquiry->hourse_power, 'payment_type' => $tractorSellEnquiry->payment_type, 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'uses_type' => $tractorSellEnquiry->uses_type, 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Puchase history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRentDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRentData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $tractor_rent_id = $request->tractor_rent_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_rent_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_rent_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Rent history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'available_date' => $tractorSellEnquiry->available_date, 'comment' => $tractorSellEnquiry->comment, 'model' => ($tractorSellEnquiry->model == NULL ? "" : $tractorSellEnquiry->model), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'what_type' => $tractorSellEnquiry->what_type, 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRefinanceDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRefinanceData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $tractor_refinance_id = $request->tractor_refinance_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Refinance history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'hourse_power' => $tractorSellEnquiry->hourse_power, 'payment_type' => $tractorSellEnquiry->payment_type, 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Refinance history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorSaleDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorSaleData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $tractor_sale_id = $request->tractor_sale_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Sale history';
+
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'comment' => $tractorSellEnquiry->comment, 'model' => $tractorSellEnquiry->model, 'year_manufacturer' => $tractorSellEnquiry->year_manufacturer, 'hourse_power' => $tractorSellEnquiry->hourse_power, 'hrs' => $tractorSellEnquiry->hrs, 'exp_price' => $tractorSellEnquiry->exp_price, 'image' => asset('/uploads/tractor_image/')."/".$tractorSellEnquiry->image, 'sale_type' => $tractorSellEnquiry->sale_type, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'is_contact' => $tractorSellEnquiry->is_contact, 'is_edit' => "".$tractorSellEnquiry->is_edit, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'payment_type' => $tractorSellEnquiry->payment_type);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Sale history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function labourEnquiryDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $labour_enquiry_id = $request->labour_enquiry_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $labour_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $labour_enquiry_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Labor Enquiry history';
+
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'purpose' => $tractorSellEnquiry->purpose, 'need' => ($tractorSellEnquiry->need == NULL ? "" : $tractorSellEnquiry->need), 'labour_no' => $tractorSellEnquiry->labour_no, 'comments' => ($tractorSellEnquiry->comments == NULL ? "" : $tractorSellEnquiry->comments), 'is_contact' => ($tractorSellEnquiry->is_contact == NULL ? "" : $tractorSellEnquiry->is_contact), 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Labor Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriRentEnquiryDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $agri_rent_enquiry_id = $request->agri_rent_enquiry_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->first();
+
+
+                    $status_code = '1';
+                    $message = 'Rent Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'size_in_acore' => $tractorSellEnquiry->size_in_acore, 'how_much_time' => $tractorSellEnquiry->how_much_time, 'land_type' => $tractorSellEnquiry->land_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriSaleEnquiryDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Agriland Sale Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => $tractorSellEnquiry->comment, 'size_in_acre' => $tractorSellEnquiry->size_in_acre, 'exp_price' => $tractorSellEnquiry->exp_price, 'land_type' => $tractorSellEnquiry->land_type, 'is_contact' => $tractorSellEnquiry->is_contact, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Agriland Sale Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
 }
