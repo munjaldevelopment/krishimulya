@@ -3761,7 +3761,8 @@ class apiController extends Controller
         {
             $json = $tractorRefinanceData = array();
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id; $tractor_refinance_id = $request->tractor_refinance_id;
+            $customer_id = $request->customer_id; 
+            $tractor_refinance_id = $request->tractor_refinance_id;
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
@@ -3804,19 +3805,66 @@ class apiController extends Controller
         {
             $json = $tractorSaleData = array();
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id; $tractor_sale_id = $request->tractor_sale_id;
+            $customer_id = $request->customer_id;
+            $tractor_sale_id = $request->tractor_sale_id;
+
+            $name = $request->name;
+            $mobile = $request->mobile;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $comment = $request->comment;
+            $model = $request->model;
+            $year_manufacturer = $request->year_manufacturer;
+            $hourse_power = $request->hourse_power;
+            $hrs = $request->hrs;
+            $exp_price = $request->exp_price;
+            $sale_type = $request->sale_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+            $payment_type = $request->payment_type;
+
+            $is_edit = $request->is_edit;
+
+            $tractor_image = $request->tractor_image;
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
                 $tractorSellEnquiryExists = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists > 0)
                 {
-                    $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->first();
-
                     $status_code = '1';
-                    $message = 'Tractor Sale history';
+                    $message = 'Tractor Sale updated successfully.';
 
-                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'comment' => $tractorSellEnquiry->comment, 'model' => $tractorSellEnquiry->model, 'year_manufacturer' => $tractorSellEnquiry->year_manufacturer, 'hourse_power' => $tractorSellEnquiry->hourse_power, 'hrs' => $tractorSellEnquiry->hrs, 'exp_price' => $tractorSellEnquiry->exp_price, 'image' => asset('/uploads/tractor_image/')."/".$tractorSellEnquiry->image, 'sale_type' => $tractorSellEnquiry->sale_type, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'is_contact' => $tractorSellEnquiry->is_contact, 'is_edit' => "".$tractorSellEnquiry->is_edit, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'payment_type' => $tractorSellEnquiry->payment_type);
+                    $date = date('Y-m-d H:i:s');
+
+                    $tractorimage = "";
+                    if($tractor_image != ''){
+                        $image_parts = explode(";base64,", $tractor_image);
+                        $image_type_aux = explode("image/", $image_parts[0]);
+                        $image_type = $image_type_aux[1];
+
+                        $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
+                        $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
+
+                        $data = base64_decode($image_parts[1]);
+                        // $data = $image_parts[1];
+                        file_put_contents($destinationPath, $data);
+                    }
+
+                    if($tractorimage != "")
+                    {
+                        DB::table('tractor_sell_enquiry')->where('id', $tractor_sale_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'is_edit' => $is_edit, 'updated_at' => $date]);
+                    }
+                    else
+                    {
+                        DB::table('tractor_sell_enquiry')->where('id', $tractor_sale_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'is_edit' => $is_edit, 'updated_at' => $date]);
+                    }
+
+                    $json = array('status_code' => $status_code, 'message' => $message);
                 }
                 else
                 {
