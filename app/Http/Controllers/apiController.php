@@ -14,6 +14,11 @@ use File;
 use Session;
 use QR_Code\QR_Code;
 
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+
 class apiController extends Controller
 {
     //START LOGIN
@@ -26,6 +31,37 @@ class apiController extends Controller
         $head = curl_exec($ch); 
         curl_close($ch);
         return $head;
+    }
+
+    public function sendNotification($customer_id)
+    {
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+                
+        $title = "Test Notification";
+        $message = "Munjal testing Notification";
+                
+        $notificationBuilder = new PayloadNotificationBuilder($title);
+        $notificationBuilder->setBody($message)->setSound('default');
+        
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['title' => $title, 'content' => $message]);
+        
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+
+        $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
+
+        $tokenData = array($userDeviceRow->registration_id);
+                            
+        $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
+                            
+        $success = $downstreamResponse->numberSuccess();
+        $fail = $downstreamResponse->numberFailure();
+        $total = $downstreamResponse->numberModification();
+
+        echo $success.",".$fail.",".$total; exit;
     }
 
     public function getPincodeInfo($pincode)

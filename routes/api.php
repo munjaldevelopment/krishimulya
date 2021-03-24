@@ -153,6 +153,8 @@ Route::post('labour-enquiry-detail-save', 'apiController@labourEnquiryDetailSave
 Route::post('agriland-rent-enquiry-detail-save', 'apiController@agriRentEnquiryDetailSave');
 Route::post('agriland-sale-enquiry-detail-save', 'apiController@agriSaleEnquiryDetailSave');
 
+// Send notification
+Route::get('send-notification/{customer_id}', 'apiController@sendNotification');
 
 
 
