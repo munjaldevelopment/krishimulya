@@ -42,7 +42,7 @@ class apiController extends Controller
         $message = "Munjal testing Notification";
                 
         $notificationBuilder = new PayloadNotificationBuilder($title);
-        $notificationBuilder->setBody($message)->setIcon("http://krishi.microcrm.in/uploads/logo/512-png-short.png")->setImage("https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png")->setSound('default');
+        $notificationBuilder->setBody($message)->setIcon("https://krishi.microcrm.in/uploads/logo/512-png-short.png")->setImage("https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png")->setSound('default');
         
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData(['title' => $title, 'content' => $message]);
