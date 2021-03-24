@@ -53,7 +53,7 @@ class apiController extends Controller
 
         $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
 
-        $tokenData = array($userDeviceRow->registration_id);
+        $tokenData = array($userDeviceRow->fcmToken);
                             
         $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
                             
