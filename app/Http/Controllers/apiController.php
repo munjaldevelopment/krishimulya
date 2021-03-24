@@ -61,6 +61,12 @@ class apiController extends Controller
         $fail = $downstreamResponse->numberFailure();
         $total = $downstreamResponse->numberModification();
 
+        if($success > 0)
+        {
+            $date = date('Y-m-d H:i:s');
+            $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'test', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        }
+
         echo $success.",".$fail.",".$total; exit;
     }
 
