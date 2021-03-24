@@ -3288,7 +3288,7 @@ class apiController extends Controller
 
                     $status_code = '1';
                     $message = 'Rent Enquiry history';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'labourEnquiryData' => $labourEnquiryData);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'agrilandRentEnquiryData' => $labourEnquiryData);
                 }
                 else
                 {
@@ -3335,7 +3335,7 @@ class apiController extends Controller
 
                     $status_code = '1';
                     $message = 'Agriland Sale Enquiry history';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'labourEnquiryData' => $labourEnquiryData);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'agrisaleEnquiryData' => $labourEnquiryData);
                 }
                 else
                 {
