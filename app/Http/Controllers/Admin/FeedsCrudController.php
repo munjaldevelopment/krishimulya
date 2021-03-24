@@ -55,7 +55,7 @@ class FeedsCrudController extends CrudController
             'name'      => 'category_id',
             'entity'    => 'allFeedCategories', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\FeedCateories", //name of Models
+            'model'     => "App\Models\FeedCategories", //name of Models
 
             ]);
 

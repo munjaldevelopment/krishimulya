@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\FeedCateoriesRequest;
+use App\Http\Requests\FeedCategoriesRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class FeedCateoriesCrudController
+ * Class FeedCategoriesCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class FeedCateoriesCrudController extends CrudController
+class FeedCategoriesCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,8 +26,8 @@ class FeedCateoriesCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\FeedCateories::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/feedcateories');
+        CRUD::setModel(\App\Models\FeedCategories::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/feedcategories');
         CRUD::setEntityNameStrings('Feed Cateories', 'Feed Cateories');
     }
 
@@ -73,7 +73,7 @@ class FeedCateoriesCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(FeedCateoriesRequest::class);
+        CRUD::setValidation(FeedCategoriesRequest::class);
 
         //CRUD::setFromDb(); // fields
 

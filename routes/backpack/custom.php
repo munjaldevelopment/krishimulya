@@ -33,7 +33,7 @@ Route::group([
     Route::crud('agrilandrentenquiry', 'AgrilandRentEnquiryCrudController');
     Route::crud('agrilandsaleenquiry', 'AgrilandsaleEnquiryCrudController');
     Route::crud('city', 'CityCrudController');
-    Route::crud('feedcateories', 'FeedCateoriesCrudController');
+    Route::crud('feedcategories', 'FeedCategoriesCrudController');
     Route::crud('homeslider', 'HomeSliderCrudController');
     Route::crud('feedback', 'FeedbackCrudController');
     Route::crud('enquirytracking', 'EnquiryTrackingCrudController');
@@ -54,4 +54,5 @@ Route::group([
     Route::crud('agri_tool', 'Agri_toolCrudController');
     Route::crud('agri_tool_enquiry', 'Agri_tool_enquiryCrudController');
     Route::crud('pincode', 'PinCodeCrudController');
+    Route::crud('app_popup', 'AppPopupCrudController');
 });

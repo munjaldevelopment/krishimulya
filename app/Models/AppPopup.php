@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FeedCateories extends Model
+class AppPopup extends Model
 {
     use CrudTrait;
-    use SoftDeletes;
 
     /*
     |--------------------------------------------------------------------------
@@ -17,7 +15,7 @@ class FeedCateories extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'feed_categories';
+    protected $table = 'app_popups';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];

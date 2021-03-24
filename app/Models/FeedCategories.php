@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Feeds extends Model
+class FeedCategories extends Model
 {
     use CrudTrait;
     use SoftDeletes;
@@ -17,7 +17,7 @@ class Feeds extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'feeds';
+    protected $table = 'feed_categories';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -31,18 +31,6 @@ class Feeds extends Model
     |--------------------------------------------------------------------------
     */
 
-     public function allFeedCategories()
-    {
-        return $this->belongsTo('App\Models\FeedCategories', 'category_id');
-    }
-    /*public function setImageAttribute($value)  
-    {  
-      $attribute_name = "image";  
-      $disk = "public";  
-      $destination_path = "/uploads/tractor_image";  
-      $this->uploadFileToDisk($value, $attribute_name, $disk, $destination_path);  
-    }*/
-    
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
