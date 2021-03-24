@@ -46,7 +46,7 @@ Route::group([
     Route::crud('soiltesttype', 'SoilTestTypeCrudController');
     Route::crud('soiltestorders', 'SoilTestOrdersCrudController');
     Route::crud('sevakendra', 'SevaKendraCrudController');
-    Route::crud('tblnotification', 'TblNotificationCrudController');
+    Route::crud('notification', 'NotificationCrudController');
     Route::crud('partners', 'PartnersCrudController');
     Route::crud('walletpayment', 'WalletPaymentCrudController');
     Route::crud('agri_type', 'Agri_typeCrudController');

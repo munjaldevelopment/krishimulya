@@ -6,7 +6,7 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('customer') }}'><i class='nav-icon la la-user'></i> Customers</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('walletpayment') }}'><i class='nav-icon la la-wallet'></i> Wallet Payments</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partners') }}'><i class='nav-icon la la-users'></i>Partners</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tblnotification') }}'><i class='nav-icon la la-mobile-alt'></i>Notifications</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('notification') }}'><i class='nav-icon la la-mobile-alt'></i>Notifications</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('states') }}'><i class='nav-icon la la-building'></i> States</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('city') }}'><i class='nav-icon la la-city'></i> Cities</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedcateories') }}'><i class='nav-icon la la-file'></i> Feed Cateories</a></li>

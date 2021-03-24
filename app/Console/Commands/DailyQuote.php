@@ -105,7 +105,7 @@ class DailyQuote extends Command
                        $notif_data = array($notification_title,$customerName,$notification_body,"","");
                     
                        $customerNotify = $this->push_notification($notif_data,$customerToken);
-                       $saveNotification = DB::table('tbl_notification')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                       $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                        /* End */
                     }

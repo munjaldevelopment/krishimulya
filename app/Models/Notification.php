@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TblNotification extends Model
+class Notification extends Model
 {
     use CrudTrait;
     use SoftDeletes;
@@ -17,7 +17,7 @@ class TblNotification extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'tbl_notification';
+    protected $table = 'notifications';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];

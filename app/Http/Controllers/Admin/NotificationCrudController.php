@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\TblNotificationRequest;
+use App\Http\Requests\NotificationRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class TblNotificationCrudController
+ * Class NotificationCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class TblNotificationCrudController extends CrudController
+class NotificationCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,8 +26,8 @@ class TblNotificationCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\TblNotification::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tblnotification');
+        CRUD::setModel(\App\Models\Notification::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/notification');
         CRUD::setEntityNameStrings('Notification', 'Notifications');
     }
 
@@ -56,7 +56,7 @@ class TblNotificationCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(TblNotificationRequest::class);
+        CRUD::setValidation(NotificationRequest::class);
 
         CRUD::setFromDb(); // fields
 
