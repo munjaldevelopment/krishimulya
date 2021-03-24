@@ -170,6 +170,18 @@ class PayloadNotificationBuilder
         return $this;
     }
 
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
     /**
      * Indicates a sound to play when the device receives a notification.
      * Supports default or the filename of a sound resource bundled in the app.

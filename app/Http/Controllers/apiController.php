@@ -42,13 +42,14 @@ class apiController extends Controller
         $message = "Munjal testing Notification";
                 
         $notificationBuilder = new PayloadNotificationBuilder($title);
-        $notificationBuilder->setBody($message)->setSound('default');
+        $notificationBuilder->setBody($message)->setImage("https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png")->setSound('default');
         
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData(['title' => $title, 'content' => $message]);
         
         $option = $optionBuilder->build();
-        $notification = $notificationBuilder->setIcon("https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png")->build();
+
+        $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
 
         $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
