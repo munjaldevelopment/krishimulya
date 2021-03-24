@@ -1,16 +1,25 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '065319c87290e30322c39fb8710913b9ab67b94a',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
   array (
+    'apility/laravel-fcm' => 
+    array (
+      'pretty_version' => 'v1.4.4',
+      'version' => '1.4.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e1484d3831f346d5dc03d64c742e53b6f500f33c',
+    ),
     'asm89/stack-cors' => 
     array (
       'pretty_version' => 'v2.0.2',
@@ -154,6 +163,13 @@
       array (
       ),
       'reference' => 'dff976c2f3487d42c1db75a3b180e2b9f0e72ce0',
+    ),
+    'brozot/laravel-fcm' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '*',
+      ),
     ),
     'cocur/slugify' => 
     array (
@@ -669,12 +685,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '065319c87290e30322c39fb8710913b9ab67b94a',
     ),
     'laravel/tinker' => 
     array (
@@ -1081,8 +1097,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0',
-        1 => '1.0.0',
+        0 => '1.0.0',
+        1 => '1.0',
       ),
     ),
     'psr/simple-cache' => 
