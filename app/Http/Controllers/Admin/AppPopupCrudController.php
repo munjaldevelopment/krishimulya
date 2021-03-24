@@ -28,7 +28,7 @@ class AppPopupCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\AppPopup::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/app_popup');
-        CRUD::setEntityNameStrings('apppopup', 'app_popups');
+        CRUD::setEntityNameStrings('App Popup', 'App Popups');
     }
 
     /**
@@ -39,7 +39,21 @@ class AppPopupCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
+
+        $this->crud->addColumn([
+                'label'     => 'Image',
+                'type'      => 'image',
+                'name'      => 'image'
+                
+         ]);
+         
+        $this->crud->addColumn([
+                'label'     => 'Status',
+                'type'      => 'check',
+                'name'      => 'status'
+                
+         ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -58,7 +72,28 @@ class AppPopupCrudController extends CrudController
     {
         CRUD::setValidation(AppPopupRequest::class);
 
-        CRUD::setFromDb(); // fields
+        //CRUD::setFromDb(); // fields
+
+        $this->crud->addField([
+                'label'     => 'Image',
+                'type'      => 'browse',
+                'name'      => 'image'
+                
+         ]);
+         
+        $this->crud->addField([
+                'label'     => 'Description',
+                'type'      => 'ckeditor',
+                'name'      => 'description'
+                
+         ]);
+
+        $this->crud->addField([
+                'label'     => 'Status',
+                'type'      => 'checkbox',
+                'name'      => 'status'
+                
+         ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
