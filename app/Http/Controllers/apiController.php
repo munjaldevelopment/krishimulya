@@ -48,7 +48,7 @@ class apiController extends Controller
         $dataBuilder->addData(['title' => $title, 'content' => $message]);
         
         $option = $optionBuilder->build();
-        $notification = $notificationBuilder->build();
+        $notification = $notificationBuilder->setIcon("https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png")->build();
         $data = $dataBuilder->build();
 
         $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
@@ -2947,6 +2947,9 @@ class apiController extends Controller
                             if($notifylist->notification_type == 'soil_order'){
 
                                 $notification_type = 'Soil Order';
+                            } else if($notifylist->notification_type == 'agriland'){
+
+                                $notification_type = 'Agri Land';
                             }
 
                             $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
