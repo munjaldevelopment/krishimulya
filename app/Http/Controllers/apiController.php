@@ -688,7 +688,7 @@ class apiController extends Controller
             }
 
             $sliderArr = array();
-            $sliderList = DB::table('app_popups')->where('status', '=', 1)->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
+            $sliderList = DB::table('app_popups')->where('status', '=', 1)->orderBy('id', 'DESC')->first();
             if($sliderList) {
                 $sliderimage  =  $baseUrl."/public/".$sliderList->image;
                 $sliderArr[] = ['id' => (int)$sliderList->id, 'short_description' => $sliderList->short_description, 'slider_image' => $sliderimage];
