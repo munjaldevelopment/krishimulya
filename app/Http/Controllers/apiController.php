@@ -1268,7 +1268,7 @@ class apiController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
                     //print_r($resultData); exit;
 
@@ -1283,7 +1283,7 @@ class apiController extends Controller
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
-                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
                     //print_r($resultData); exit;
 
@@ -3720,7 +3720,8 @@ class apiController extends Controller
         {
             $json = $labourEnquiryData = array();
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id; $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
+            $customer_id = $request->customer_id; 
+            $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
