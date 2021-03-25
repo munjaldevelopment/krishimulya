@@ -15,6 +15,8 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
 
+    Route::get('dashboard', 'AdminController@dashboard')->name('backpack.dashboard');
+
     Route::crud('customer', 'CustomerCrudController');
     Route::crud('feeds', 'FeedsCrudController');
     Route::crud('states', 'StatesCrudController');
