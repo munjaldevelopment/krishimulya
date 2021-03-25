@@ -669,6 +669,48 @@ class apiController extends Controller
     }
 
     //START show cities 
+    public function appPopup(Request $request)
+    {
+        try 
+        {
+            Setting::assignSetting();
+
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $customer_id = $request->customer_id;
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer) {
+                $custname = $customer->name;
+                $custcrn = ($customer->crn == NULL ? "" : $customer->crn);
+            } else {
+                $custname = "Guest";
+                $custcrn = "";
+            }
+
+            $sliderArr = array();
+            $sliderList = DB::table('app_popups')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
+            if($sliderList) {
+                $sliderimage  =  $baseUrl."/public/".$sliderList->image;
+                $sliderArr[] = ['id' => (int)$sliderList->id, 'short_description' => $sliderList->short_description, 'slider_image' => $sliderimage];
+            }
+            
+            $status_code = '1';
+            $message = 'Popup list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'crn' => $custcrn, 'popupList' => $sliderArr);
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    //END 
+
+    //START show cities 
     public function homeSlider(Request $request)
     {
         try 
