@@ -40,6 +40,13 @@ class AppPopupCrudController extends CrudController
     protected function setupListOperation()
     {
         //CRUD::setFromDb(); // columns
+        
+        $this->crud->addColumn([
+                'label'     => 'Title',
+                'type'      => 'text',
+                'name'      => 'title'
+                
+         ]);
 
         $this->crud->addColumn([
                 'label'     => 'Image',
@@ -75,9 +82,23 @@ class AppPopupCrudController extends CrudController
         //CRUD::setFromDb(); // fields
 
         $this->crud->addField([
+                'label'     => 'Title',
+                'type'      => 'text',
+                'name'      => 'title'
+                
+         ]);
+
+        $this->crud->addField([
                 'label'     => 'Image',
                 'type'      => 'browse',
                 'name'      => 'image'
+                
+         ]);
+
+        $this->crud->addField([
+                'label'     => 'Short Description',
+                'type'      => 'textarea',
+                'name'      => 'short_description'
                 
          ]);
          

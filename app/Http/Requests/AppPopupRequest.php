@@ -26,7 +26,8 @@ class AppPopupRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'title' => 'required|max:191',
+            'image' => 'required'
         ];
     }
 

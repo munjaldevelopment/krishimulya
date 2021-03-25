@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('getPincodeInfo/{pincode}', 'apiController@getPincodeInfo');
 
+Route::get('app-popup', 'apiController@appPopup');
+
 Route::get('home-slider', 'apiController@homeSlider');
 
 Route::post('today-wheather', 'apiController@todayWheateher');
