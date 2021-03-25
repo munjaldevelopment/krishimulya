@@ -689,14 +689,16 @@ class apiController extends Controller
 
             $sliderArr = array();
             $sliderList = DB::table('app_popups')->where('status', '=', 1)->orderBy('id', 'DESC')->first();
+            $short_description = $sliderimage = $title = '';
             if($sliderList) {
+                $title = $sliderList->title;
+                $short_description = $sliderList->short_description;
                 $sliderimage  =  $baseUrl."/public/".$sliderList->image;
-                $sliderArr[] = ['id' => (int)$sliderList->id, 'short_description' => $sliderList->short_description, 'slider_image' => $sliderimage];
             }
             
             $status_code = '1';
             $message = 'Popup list';
-            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'crn' => $custcrn, 'popupList' => $sliderArr);
+            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage);
         }
         
         catch(\Exception $e) {
