@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
+use Charts;
 
 class AdminController extends Controller
 {

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '0870429545c1a60f95c7932da0cf0c9385acb99a',
+    'reference' => '019be7f99b2eb3d073ef98a44b4b4867bcdc774e',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -119,6 +119,15 @@
       ),
       'reference' => '1efa57e3f4a23fee2eb8eec81da969e3cfc13034',
     ),
+    'balping/json-raw-encoder' => 
+    array (
+      'pretty_version' => 'v1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e2b0ab888342b0716f1f0628e2fa13b345c5f276',
+    ),
     'barryvdh/elfinder-flysystem-driver' => 
     array (
       'pretty_version' => 'v0.3.0',
@@ -171,15 +180,6 @@
         0 => '*',
       ),
     ),
-    'chartisan/php' => 
-    array (
-      'pretty_version' => '1.2.1',
-      'version' => '1.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '85d2352077800e9bcb411aec1ff7e4d23eef93a1',
-    ),
     'cocur/slugify' => 
     array (
       'pretty_version' => 'v4.0.0',
@@ -209,12 +209,12 @@
     ),
     'consoletvs/charts' => 
     array (
-      'pretty_version' => '7.2.0',
-      'version' => '7.2.0.0',
+      'pretty_version' => '6.5.5',
+      'version' => '6.5.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'cc820595e9bec13fbaf4cf552128860830a0f9e2',
+      'reference' => '0005d14e4fe6715f4146a4dc3b56add768233001',
     ),
     'cordoval/hamcrest-php' => 
     array (
@@ -717,7 +717,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0870429545c1a60f95c7932da0cf0c9385acb99a',
+      'reference' => '019be7f99b2eb3d073ef98a44b4b4867bcdc774e',
     ),
     'laravel/tinker' => 
     array (
