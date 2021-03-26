@@ -71,7 +71,7 @@ class AdminController extends Controller
         $this->data['chart1'] = $chart1;
 
         $chart2 = \Chart::title([
-            'text' => 'New Users Past 7 Days',
+            'text' => 'New Entries',
         ])
         ->chart([
             'type'     => 'areaspline', // pie , columnt ect
