@@ -113,9 +113,9 @@ class AdminController extends Controller
             'text' => 'Graph1',
         ])
         ->chart([
-            'plotBackgroundColor' => 'null',
-            'plotBorderWidth' => 'null',
-            'plotShadow' => 'false',
+            'plotBackgroundColor' => null,
+            'plotBorderWidth' => null,
+            'plotShadow' => false,
             'type'     => 'pie', // pie , columnt ect
             'renderTo' => 'chart3', // render the chart into your div with id
         ])
