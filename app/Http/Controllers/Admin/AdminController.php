@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
-use Charts;
 
 class AdminController extends Controller
 {
@@ -286,7 +285,7 @@ class AdminController extends Controller
          ->options([]);
         $this->data['chart6'] = $chart6;
 
-        $chart7 = Charts::create('pie', 'highcharts')
+        $chart7 = \Charts::create('pie', 'highcharts')
             ->title('My nice chart')
             ->labels(['First', 'Second', 'Third'])
             ->values([5,10,20])
