@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "apapazisis/laravel-echarts": "^1.4",
         "apility/laravel-fcm": "^1.4",
         "backpack/backupmanager": "^3.0",
         "backpack/crud": "4.1.*",

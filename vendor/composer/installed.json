@@ -1,6 +1,56 @@
 {
     "packages": [
         {
+            "name": "apapazisis/laravel-echarts",
+            "version": "v1.4",
+            "version_normalized": "1.4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/apapazisis/laracharts.git",
+                "reference": "cf4879d081736cf8c7017093c05e915258e3bb24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/apapazisis/laracharts/zipball/cf4879d081736cf8c7017093c05e915258e3bb24",
+                "reference": "cf4879d081736cf8c7017093c05e915258e3bb24",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "time": "2019-06-20T08:45:35+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Apapazisis\\Echarts\\EchartsServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Apapazisis\\Echarts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Apostolos Papazisis",
+                    "email": "info@apapazisis.de"
+                }
+            ],
+            "description": "Laravel Echarts",
+            "support": {
+                "issues": "https://github.com/apapazisis/laracharts/issues",
+                "source": "https://github.com/apapazisis/laracharts/tree/master"
+            },
+            "install-path": "../apapazisis/laravel-echarts"
+        },
+        {
             "name": "apility/laravel-fcm",
             "version": "v1.4.4",
             "version_normalized": "1.4.4.0",

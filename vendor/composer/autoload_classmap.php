@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Apapazisis\\Echarts\\Classes\\BaseChart' => $vendorDir . '/apapazisis/laravel-echarts/src/Classes/BaseChart.php',
+    'Apapazisis\\Echarts\\Classes\\Dataset' => $vendorDir . '/apapazisis/laravel-echarts/src/Classes/Dataset.php',
+    'Apapazisis\\Echarts\\EchartsServiceProvider' => $vendorDir . '/apapazisis/laravel-echarts/src/EchartsServiceProvider.php',
     'App\\Console\\Commands\\DailyQuote' => $baseDir . '/app/Console/Commands/DailyQuote.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',

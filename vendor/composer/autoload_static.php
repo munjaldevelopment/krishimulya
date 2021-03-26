@@ -228,6 +228,7 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         array (
             'Asm89\\Stack\\' => 12,
             'App\\' => 4,
+            'Apapazisis\\Echarts\\' => 19,
         ),
     );
 
@@ -726,6 +727,10 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Apapazisis\\Echarts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/apapazisis/laravel-echarts/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -771,6 +776,9 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
     );
 
     public static $classMap = array (
+        'Apapazisis\\Echarts\\Classes\\BaseChart' => __DIR__ . '/..' . '/apapazisis/laravel-echarts/src/Classes/BaseChart.php',
+        'Apapazisis\\Echarts\\Classes\\Dataset' => __DIR__ . '/..' . '/apapazisis/laravel-echarts/src/Classes/Dataset.php',
+        'Apapazisis\\Echarts\\EchartsServiceProvider' => __DIR__ . '/..' . '/apapazisis/laravel-echarts/src/EchartsServiceProvider.php',
         'App\\Console\\Commands\\DailyQuote' => __DIR__ . '/../..' . '/app/Console/Commands/DailyQuote.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',

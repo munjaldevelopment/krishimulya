@@ -129,4 +129,5 @@ return array(
     'Backpack\\BackupManager\\' => array($vendorDir . '/backpack/backupmanager/src'),
     'Asm89\\Stack\\' => array($vendorDir . '/asm89/stack-cors/src'),
     'App\\' => array($baseDir . '/app'),
+    'Apapazisis\\Echarts\\' => array($vendorDir . '/apapazisis/laravel-echarts/src'),
 );

@@ -33,6 +33,7 @@ final class Versions
      * @internal
      */
     const VERSIONS          = array (
+  'apapazisis/laravel-echarts' => 'v1.4@cf4879d081736cf8c7017093c05e915258e3bb24',
   'apility/laravel-fcm' => 'v1.4.4@e1484d3831f346d5dc03d64c742e53b6f500f33c',
   'asm89/stack-cors' => 'v2.0.3@9cb795bf30988e8c96dd3c40623c48a877bc6714',
   'backpack/backupmanager' => 'v3.0.2@7e8dc4d32238befd7fe78d28c1ddb9e49779f17c',
@@ -186,7 +187,7 @@ final class Versions
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
-  'laravel/laravel' => 'dev-main@811a1dbd51d7ba2378f6311c3424f7388d5f5f90',
+  'laravel/laravel' => 'dev-main@556686446e0af799812b9f1f8fc73379fac88aff',
 );
 
     private function __construct()

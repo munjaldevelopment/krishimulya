@@ -6,11 +6,20 @@
     'aliases' => 
     array (
     ),
-    'reference' => '811a1dbd51d7ba2378f6311c3424f7388d5f5f90',
+    'reference' => '556686446e0af799812b9f1f8fc73379fac88aff',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
   array (
+    'apapazisis/laravel-echarts' => 
+    array (
+      'pretty_version' => 'v1.4',
+      'version' => '1.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'cf4879d081736cf8c7017093c05e915258e3bb24',
+    ),
     'apility/laravel-fcm' => 
     array (
       'pretty_version' => 'v1.4.4',
@@ -717,7 +726,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '811a1dbd51d7ba2378f6311c3424f7388d5f5f90',
+      'reference' => '556686446e0af799812b9f1f8fc73379fac88aff',
     ),
     'laravel/tinker' => 
     array (
