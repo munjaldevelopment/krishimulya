@@ -39,9 +39,6 @@ class AdminController extends Controller
         ->subtitle([
             'text' => '',
         ])
-        ->colors([
-            '#0c2959'
-        ])
         ->xaxis([
             'categories' => [
                 '6 days ago',
