@@ -138,21 +138,19 @@ class AdminController extends Controller
                 'data'  => [
                     [
                         'name' => 'Chrome',
-                        'y' => '61.41',
-                        'sliced' => 'true',
-                        'selected' => 'true'
+                        'y' => 61.41,
                     ],
                     [
                         'name' => 'Internet Explorer',
-                        'y' => '11.84'
+                        'y' => 11.84
                     ],
                     [
                         'name' => 'Firefox',
-                        'y' => '10.84'
+                        'y' => 10.84
                     ],
                     [
                         'name' => 'Edge',
-                        'y' => '4.67'
+                        'y' => 4.67
                     ]
                 ],
             ]
