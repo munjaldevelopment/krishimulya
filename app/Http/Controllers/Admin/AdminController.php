@@ -123,11 +123,287 @@ class AdminController extends Controller
         )
         ->display();
         $this->data['chart2'] = $chart2;
+
+        $chart3 = \Chart::title([
+            'text' => 'Voting ballon d`or 2018',
+        ])
+        ->chart([
+            'type'     => 'line', // pie , columnt ect
+            'renderTo' => 'chart3', // render the chart into your div with id
+        ])
+        ->subtitle([
+            'text' => 'This Subtitle',
+        ])
+        ->colors([
+            '#0c2959'
+        ])
+        ->xaxis([
+            'categories' => [
+                'Alex Turner',
+                'Julian Casablancas',
+                'Bambang Pamungkas',
+                'Mbah Surip',
+            ],
+            'labels'     => [
+                'rotation'  => 15,
+                'align'     => 'top',
+                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
+                // use 'startJs:yourjavasscripthere:endJs'
+            ],
+        ])
+        ->yaxis([
+            'text' => 'This Y Axis',
+        ])
+        ->legend([
+            'layout'        => 'vertikal',
+            'align'         => 'right',
+            'verticalAlign' => 'middle',
+        ])
+        ->series(
+            [
+                [
+                    'name'  => 'Voting',
+                    'data'  => [43934, 52503, 57177, 69658],
+                    // 'color' => '#0c2959',
+                ],
+            ]
+        )
+        ->display();
         $this->data['chart3'] = $chart3;
+
+        $chart4 = \Chart::title([
+            'text' => 'Voting ballon d`or 2018',
+        ])
+        ->chart([
+            'type'     => 'line', // pie , columnt ect
+            'renderTo' => 'chart4', // render the chart into your div with id
+        ])
+        ->subtitle([
+            'text' => 'This Subtitle',
+        ])
+        ->colors([
+            '#0c2959'
+        ])
+        ->xaxis([
+            'categories' => [
+                'Alex Turner',
+                'Julian Casablancas',
+                'Bambang Pamungkas',
+                'Mbah Surip',
+            ],
+            'labels'     => [
+                'rotation'  => 15,
+                'align'     => 'top',
+                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
+                // use 'startJs:yourjavasscripthere:endJs'
+            ],
+        ])
+        ->yaxis([
+            'text' => 'This Y Axis',
+        ])
+        ->legend([
+            'layout'        => 'vertikal',
+            'align'         => 'right',
+            'verticalAlign' => 'middle',
+        ])
+        ->series(
+            [
+                [
+                    'name'  => 'Voting',
+                    'data'  => [43934, 52503, 57177, 69658],
+                    // 'color' => '#0c2959',
+                ],
+            ]
+        )
+        ->display();
         $this->data['chart4'] = $chart4;
+
+        $chart5 = \Chart::title([
+            'text' => 'Voting ballon d`or 2018',
+        ])
+        ->chart([
+            'type'     => 'line', // pie , columnt ect
+            'renderTo' => 'chart5', // render the chart into your div with id
+        ])
+        ->subtitle([
+            'text' => 'This Subtitle',
+        ])
+        ->colors([
+            '#0c2959'
+        ])
+        ->xaxis([
+            'categories' => [
+                'Alex Turner',
+                'Julian Casablancas',
+                'Bambang Pamungkas',
+                'Mbah Surip',
+            ],
+            'labels'     => [
+                'rotation'  => 15,
+                'align'     => 'top',
+                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
+                // use 'startJs:yourjavasscripthere:endJs'
+            ],
+        ])
+        ->yaxis([
+            'text' => 'This Y Axis',
+        ])
+        ->legend([
+            'layout'        => 'vertikal',
+            'align'         => 'right',
+            'verticalAlign' => 'middle',
+        ])
+        ->series(
+            [
+                [
+                    'name'  => 'Voting',
+                    'data'  => [43934, 52503, 57177, 69658],
+                    // 'color' => '#0c2959',
+                ],
+            ]
+        )
+        ->display();
         $this->data['chart5'] = $chart5;
+
+        $chart6 = \Chart::title([
+            'text' => 'Voting ballon d`or 2018',
+        ])
+        ->chart([
+            'type'     => 'line', // pie , columnt ect
+            'renderTo' => 'chart6', // render the chart into your div with id
+        ])
+        ->subtitle([
+            'text' => 'This Subtitle',
+        ])
+        ->colors([
+            '#0c2959'
+        ])
+        ->xaxis([
+            'categories' => [
+                'Alex Turner',
+                'Julian Casablancas',
+                'Bambang Pamungkas',
+                'Mbah Surip',
+            ],
+            'labels'     => [
+                'rotation'  => 15,
+                'align'     => 'top',
+                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
+                // use 'startJs:yourjavasscripthere:endJs'
+            ],
+        ])
+        ->yaxis([
+            'text' => 'This Y Axis',
+        ])
+        ->legend([
+            'layout'        => 'vertikal',
+            'align'         => 'right',
+            'verticalAlign' => 'middle',
+        ])
+        ->series(
+            [
+                [
+                    'name'  => 'Voting',
+                    'data'  => [43934, 52503, 57177, 69658],
+                    // 'color' => '#0c2959',
+                ],
+            ]
+        )
+        ->display();
         $this->data['chart6'] = $chart6;
+
+        $chart7 = \Chart::title([
+            'text' => 'Voting ballon d`or 2018',
+        ])
+        ->chart([
+            'type'     => 'line', // pie , columnt ect
+            'renderTo' => 'chart7', // render the chart into your div with id
+        ])
+        ->subtitle([
+            'text' => 'This Subtitle',
+        ])
+        ->colors([
+            '#0c2959'
+        ])
+        ->xaxis([
+            'categories' => [
+                'Alex Turner',
+                'Julian Casablancas',
+                'Bambang Pamungkas',
+                'Mbah Surip',
+            ],
+            'labels'     => [
+                'rotation'  => 15,
+                'align'     => 'top',
+                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
+                // use 'startJs:yourjavasscripthere:endJs'
+            ],
+        ])
+        ->yaxis([
+            'text' => 'This Y Axis',
+        ])
+        ->legend([
+            'layout'        => 'vertikal',
+            'align'         => 'right',
+            'verticalAlign' => 'middle',
+        ])
+        ->series(
+            [
+                [
+                    'name'  => 'Voting',
+                    'data'  => [43934, 52503, 57177, 69658],
+                    // 'color' => '#0c2959',
+                ],
+            ]
+        )
+        ->display();
         $this->data['chart7'] = $chart7;
+
+        $chart8 = \Chart::title([
+            'text' => 'Voting ballon d`or 2018',
+        ])
+        ->chart([
+            'type'     => 'line', // pie , columnt ect
+            'renderTo' => 'chart8', // render the chart into your div with id
+        ])
+        ->subtitle([
+            'text' => 'This Subtitle',
+        ])
+        ->colors([
+            '#0c2959'
+        ])
+        ->xaxis([
+            'categories' => [
+                'Alex Turner',
+                'Julian Casablancas',
+                'Bambang Pamungkas',
+                'Mbah Surip',
+            ],
+            'labels'     => [
+                'rotation'  => 15,
+                'align'     => 'top',
+                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
+                // use 'startJs:yourjavasscripthere:endJs'
+            ],
+        ])
+        ->yaxis([
+            'text' => 'This Y Axis',
+        ])
+        ->legend([
+            'layout'        => 'vertikal',
+            'align'         => 'right',
+            'verticalAlign' => 'middle',
+        ])
+        ->series(
+            [
+                [
+                    'name'  => 'Voting',
+                    'data'  => [43934, 52503, 57177, 69658],
+                    // 'color' => '#0c2959',
+                ],
+            ]
+        )
+        ->display();
         $this->data['chart8'] = $chart8;
 
         return view('admin.dashboard', $this->data);
