@@ -52,26 +52,25 @@ class AdminController extends Controller
                 'Yesterday',
                 'Today'
             ],
-            'labels'     => [
-                'rotation'  => 15,
-                'align'     => 'top',
-                //'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
-                // use 'startJs:yourjavasscripthere:endJs'
-            ],
+            'crosshair' => 'true',
         ])
         ->yaxis([
-            'text' => 'T',
+            'min' => '0',
+            'title' => [
+                'text' => ''
+            ],
         ])
-        ->legend([
-            'layout'        => 'vertikal',
-            'align'         => 'right',
-            'verticalAlign' => 'middle',
+        ->plotoptions([
+            'column' => [
+                'pointPadding' => '0.2',
+                'borderWidth' => '0'
+            ]
         ])
         ->series(
             [
                 [
                     'name'  => 'Voting',
-                    'data'  => [43934, 52503, 57177, 69658],
+                    'data'  => [13, 11, 23, 19, 19, 13, 11],
                     // 'color' => '#0c2959',
                 ],
             ]
