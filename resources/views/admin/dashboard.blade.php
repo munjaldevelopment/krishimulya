@@ -139,45 +139,35 @@
 	</div>
 
 	<div class="row" name="widget_198974168" section="after_content">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="card">
         		<div class="card-header">Line Chart - Chartjs</div>
         		<div class="card-body">
         			<div class="card-wrapper">
         				<div id="chart6"></div>
 
-			    		{!! $chart6 !!}
+			    		{!! $chart6->render() !!}
 			    	</div>
 			    </div>
 			</div>
 		</div>
 
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="card">
         		<div class="card-header">Line Chart - Echarts</div>
         		<div class="card-body">
         			<div class="card-wrapper">
         				<div id="chart7"></div>
 
-			    		{!! $chart7 !!}
-			    	</div>
-			    </div>
-			</div>
-		</div>
-
-		<div class="col-md-4">
-			<div class="card">
-        		<div class="card-header">Line Chart - Highcharts</div>
-        		<div class="card-body">
-        			<div class="card-wrapper">
-        				<div id="chart8"></div>
-
-			    		{!! $chart8->render() !!}
+			    		{!! $chart7->html() !!}
 			    	</div>
 			    </div>
 			</div>
 		</div>
 	</div>
+
+{!! eCharts::scripts() !!}
+{!! $echart->script() !!}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
+use eCharts;
 
 class AdminController extends Controller
 {
@@ -265,101 +266,7 @@ class AdminController extends Controller
         ->display();
         $this->data['chart5'] = $chart5;
 
-        $chart6 = \Chart::title([
-            'text' => 'Voting ballon d`or 2018',
-        ])
-        ->chart([
-            'type'     => 'line', // pie , columnt ect
-            'renderTo' => 'chart6', // render the chart into your div with id
-        ])
-        ->subtitle([
-            'text' => 'This Subtitle',
-        ])
-        ->colors([
-            '#0c2959'
-        ])
-        ->xaxis([
-            'categories' => [
-                'Alex Turner',
-                'Julian Casablancas',
-                'Bambang Pamungkas',
-                'Mbah Surip',
-            ],
-            'labels'     => [
-                'rotation'  => 15,
-                'align'     => 'top',
-                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
-                // use 'startJs:yourjavasscripthere:endJs'
-            ],
-        ])
-        ->yaxis([
-            'text' => 'This Y Axis',
-        ])
-        ->legend([
-            'layout'        => 'vertikal',
-            'align'         => 'right',
-            'verticalAlign' => 'middle',
-        ])
-        ->series(
-            [
-                [
-                    'name'  => 'Voting',
-                    'data'  => [43934, 52503, 57177, 69658],
-                    // 'color' => '#0c2959',
-                ],
-            ]
-        )
-        ->display();
-        $this->data['chart6'] = $chart6;
-
-        $chart7 = \Chart::title([
-            'text' => 'Voting ballon d`or 2018',
-        ])
-        ->chart([
-            'type'     => 'line', // pie , columnt ect
-            'renderTo' => 'chart7', // render the chart into your div with id
-        ])
-        ->subtitle([
-            'text' => 'This Subtitle',
-        ])
-        ->colors([
-            '#0c2959'
-        ])
-        ->xaxis([
-            'categories' => [
-                'Alex Turner',
-                'Julian Casablancas',
-                'Bambang Pamungkas',
-                'Mbah Surip',
-            ],
-            'labels'     => [
-                'rotation'  => 15,
-                'align'     => 'top',
-                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
-                // use 'startJs:yourjavasscripthere:endJs'
-            ],
-        ])
-        ->yaxis([
-            'text' => 'This Y Axis',
-        ])
-        ->legend([
-            'layout'        => 'vertikal',
-            'align'         => 'right',
-            'verticalAlign' => 'middle',
-        ])
-        ->series(
-            [
-                [
-                    'name'  => 'Voting',
-                    'data'  => [43934, 52503, 57177, 69658],
-                    // 'color' => '#0c2959',
-                ],
-            ]
-        )
-        ->display();
-        $this->data['chart7'] = $chart7;
-
-        $chart8 = app()->chartjs
+        $chart6 = app()->chartjs
          ->name('barChartTest')
          ->type('bar')
          ->size(['width' => 400, 'height' => 200])
@@ -377,9 +284,12 @@ class AdminController extends Controller
              ]
          ])
          ->options([]);
-        $this->data['chart8'] = $chart8;
+        $this->data['chart6'] = $chart6;
 
-        
+        $chart7 = eCharts::database(User::all(), 'bar', 'echarts')
+            ->elementLabel("Total")
+            ->GroupByYear();
+        $this->data['chart7'] = $chart7;
 
         return view('admin.dashboard', $this->data);
     }

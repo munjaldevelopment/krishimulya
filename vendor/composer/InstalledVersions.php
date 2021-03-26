@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'e63e7ffb56d5f0763a5a0965ffd1653191f197f8',
+    'reference' => '3ce55a95a4413f872db1dffcfa398d284e1a8985',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -195,6 +195,15 @@ private static $installed = array (
         0 => '*',
       ),
     ),
+    'chartisan/php' => 
+    array (
+      'pretty_version' => '1.2.1',
+      'version' => '1.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '85d2352077800e9bcb411aec1ff7e4d23eef93a1',
+    ),
     'cocur/slugify' => 
     array (
       'pretty_version' => 'v4.0.0',
@@ -221,6 +230,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
+    ),
+    'consoletvs/charts' => 
+    array (
+      'pretty_version' => '7.2.0',
+      'version' => '7.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'cc820595e9bec13fbaf4cf552128860830a0f9e2',
     ),
     'cordoval/hamcrest-php' => 
     array (
@@ -723,7 +741,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'e63e7ffb56d5f0763a5a0965ffd1653191f197f8',
+      'reference' => '3ce55a95a4413f872db1dffcfa398d284e1a8985',
     ),
     'laravel/tinker' => 
     array (

@@ -181,6 +181,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class, 
         RezaAr\Highcharts\Provider::class,
         Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
 
     ],
@@ -238,6 +239,7 @@ return [
 		'Input' => Illuminate\Support\Facades\Request::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Chart' => RezaAr\Highcharts\Facade::class,
+        'eCharts' => ConsoleTVs\Charts\Facades\Charts::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
 
