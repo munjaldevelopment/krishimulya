@@ -96,7 +96,7 @@ class AdminController extends Controller
             [
                 [
                     'name'  => '',
-                    'data'  => [13, 11, 23, 19, 19, 13, 11],
+                    'data'  => [13, 11, 23, 19, 19, 13, 11, 3, 4, 3, 5, 4, 10, 12],
                     // 'color' => '#0c2959',
                 ],
             ]
