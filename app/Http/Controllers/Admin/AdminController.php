@@ -60,7 +60,7 @@ class AdminController extends Controller
                 'text' => ''
             ],
         ])
-        ->plotoptions([
+        ->plotOptions([
             'column' => [
                 'pointPadding' => '0.2',
                 'borderWidth' => '0'
