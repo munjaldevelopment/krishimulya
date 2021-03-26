@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Routing\Controller;
-use eCharts;
 
 class AdminController extends Controller
 {
@@ -286,7 +285,7 @@ class AdminController extends Controller
          ->options([]);
         $this->data['chart6'] = $chart6;
 
-        $chart7 = eCharts::database(User::all(), 'bar', 'echarts')
+        $chart7 = \eCharts::database(User::all(), 'bar', 'echarts')
             ->elementLabel("Total")
             ->GroupByYear();
         $this->data['chart7'] = $chart7;
