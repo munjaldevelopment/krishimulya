@@ -180,6 +180,7 @@ return [
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class, 
         RezaAr\Highcharts\Provider::class,
+        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
 
     ],

@@ -359,52 +359,27 @@ class AdminController extends Controller
         ->display();
         $this->data['chart7'] = $chart7;
 
-        $chart8 = \Chart::title([
-            'text' => 'Voting ballon d`or 2018',
-        ])
-        ->chart([
-            'type'     => 'line', // pie , columnt ect
-            'renderTo' => 'chart8', // render the chart into your div with id
-        ])
-        ->subtitle([
-            'text' => 'This Subtitle',
-        ])
-        ->colors([
-            '#0c2959'
-        ])
-        ->xaxis([
-            'categories' => [
-                'Alex Turner',
-                'Julian Casablancas',
-                'Bambang Pamungkas',
-                'Mbah Surip',
-            ],
-            'labels'     => [
-                'rotation'  => 15,
-                'align'     => 'top',
-                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
-                // use 'startJs:yourjavasscripthere:endJs'
-            ],
-        ])
-        ->yaxis([
-            'text' => 'This Y Axis',
-        ])
-        ->legend([
-            'layout'        => 'vertikal',
-            'align'         => 'right',
-            'verticalAlign' => 'middle',
-        ])
-        ->series(
-            [
-                [
-                    'name'  => 'Voting',
-                    'data'  => [43934, 52503, 57177, 69658],
-                    // 'color' => '#0c2959',
-                ],
-            ]
-        )
-        ->display();
+        $chart8 = app()->chartjs
+         ->name('barChartTest')
+         ->type('bar')
+         ->size(['width' => 400, 'height' => 200])
+         ->labels(['Label x', 'Label y'])
+         ->datasets([
+             [
+                 "label" => "My First dataset",
+                 'backgroundColor' => ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+                 'data' => [69, 59]
+             ],
+             [
+                 "label" => "My First dataset",
+                 'backgroundColor' => ['rgba(255, 99, 132, 0.3)', 'rgba(54, 162, 235, 0.3)'],
+                 'data' => [65, 12]
+             ]
+         ])
+         ->options([]);
         $this->data['chart8'] = $chart8;
+
+        
 
         return view('admin.dashboard', $this->data);
     }

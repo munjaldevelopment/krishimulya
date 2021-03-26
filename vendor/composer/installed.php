@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'bd93f2205f9cae952fbd1ee627c9f785cd25e390',
+    'reference' => 'e63e7ffb56d5f0763a5a0965ffd1653191f197f8',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -374,6 +374,15 @@
       ),
       'reference' => '01de0fe5f71c70d1930ee9a80385f9cc28e0f63a',
     ),
+    'fx3costa/laravelchartjs' => 
+    array (
+      'pretty_version' => '2.8.0',
+      'version' => '2.8.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f6560fa90ad2b12e11959fb5addda045d068f224',
+    ),
     'fzaninotto/faker' => 
     array (
       'pretty_version' => 'v1.9.2',
@@ -690,7 +699,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'bd93f2205f9cae952fbd1ee627c9f785cd25e390',
+      'reference' => 'e63e7ffb56d5f0763a5a0965ffd1653191f197f8',
     ),
     'laravel/tinker' => 
     array (

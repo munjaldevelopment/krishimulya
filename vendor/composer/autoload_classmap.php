@@ -1739,6 +1739,8 @@ return array(
     'FontLib\\WOFF\\TableDirectoryEntry' => $vendorDir . '/phenx/php-font-lib/src/FontLib/WOFF/TableDirectoryEntry.php',
     'Fruitcake\\Cors\\CorsServiceProvider' => $vendorDir . '/fruitcake/laravel-cors/src/CorsServiceProvider.php',
     'Fruitcake\\Cors\\HandleCors' => $vendorDir . '/fruitcake/laravel-cors/src/HandleCors.php',
+    'Fx3costa\\LaravelChartJs\\Builder' => $vendorDir . '/fx3costa/laravelchartjs/src/Builder.php',
+    'Fx3costa\\LaravelChartJs\\Providers\\ChartjsServiceProvider' => $vendorDir . '/fx3costa/laravelchartjs/src/Providers/ChartjsServiceProvider.php',
     'GeoIp2\\Database\\Reader' => $vendorDir . '/geoip2/geoip2/src/Database/Reader.php',
     'GeoIp2\\Exception\\AddressNotFoundException' => $vendorDir . '/geoip2/geoip2/src/Exception/AddressNotFoundException.php',
     'GeoIp2\\Exception\\AuthenticationException' => $vendorDir . '/geoip2/geoip2/src/Exception/AuthenticationException.php',

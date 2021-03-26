@@ -172,7 +172,7 @@
         			<div class="card-wrapper">
         				<div id="chart8"></div>
 
-			    		{!! $chart8 !!}
+			    		{!! $chart8->render() !!}
 			    	</div>
 			    </div>
 			</div>
