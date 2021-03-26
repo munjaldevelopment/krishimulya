@@ -159,7 +159,7 @@
         			<div class="card-wrapper">
         				<div id="chart7"></div>
 
-			    		{!! $chart7->html() !!}
+			    		{!! $chart7->render() !!}
 			    	</div>
 			    </div>
 			</div>
