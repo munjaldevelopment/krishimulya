@@ -122,11 +122,11 @@ class AdminController extends Controller
         ->subtitle([
             'text' => 'This Subtitle',
         ])
+        ->xaxis([
+            
+        ])
         ->yaxis([
-            'min' => '0',
-            'title' => [
-                'text' => ''
-            ],
+            
         ])
         ->colors([
             '#0c2959'
