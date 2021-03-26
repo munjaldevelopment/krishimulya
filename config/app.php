@@ -179,6 +179,7 @@ return [
 		PragmaRX\Tracker\Vendor\Laravel\ServiceProvider::class,
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class, 
+        RezaAr\Highcharts\Provider::class,
         LaravelFCM\FCMServiceProvider::class,
 
     ],
@@ -235,6 +236,7 @@ return [
 		'Tracker' => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
 		'Input' => Illuminate\Support\Facades\Request::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Chart' => RezaAr\Highcharts\Facade::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
 
