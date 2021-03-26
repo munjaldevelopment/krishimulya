@@ -71,45 +71,32 @@ class AdminController extends Controller
         $this->data['chart1'] = $chart1;
 
         $chart2 = \Chart::title([
-            'text' => 'Voting ballon d`or 2018',
+            'text' => 'New Users Past 7 Days',
         ])
         ->chart([
-            'type'     => 'line', // pie , columnt ect
+            'type'     => 'areaspline', // pie , columnt ect
             'renderTo' => 'chart2', // render the chart into your div with id
         ])
         ->subtitle([
-            'text' => 'This Subtitle',
-        ])
-        ->colors([
-            '#0c2959'
+            'text' => '',
         ])
         ->xaxis([
             'categories' => [
-                'Alex Turner',
-                'Julian Casablancas',
-                'Bambang Pamungkas',
-                'Mbah Surip',
+                "30 days ago","29 days ago","28 days ago","27 days ago","26 days ago","25 days ago","24 days ago","23 days ago","22 days ago","21 days ago","20 days ago","19 days ago","18 days ago","17 days ago","16 days ago","15 days ago","14 days ago","13 days ago","12 days ago","11 days ago","10 days ago","9 days ago","8 days ago","7 days ago","6 days ago","5 days ago","4 days ago","3 days ago","2 days ago","1 days ago","0 days ago"
             ],
-            'labels'     => [
-                'rotation'  => 15,
-                'align'     => 'top',
-                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
-                // use 'startJs:yourjavasscripthere:endJs'
-            ],
+            'crosshair' => 'true',
         ])
         ->yaxis([
-            'text' => 'This Y Axis',
-        ])
-        ->legend([
-            'layout'        => 'vertikal',
-            'align'         => 'right',
-            'verticalAlign' => 'middle',
+            'min' => '0',
+            'title' => [
+                'text' => ''
+            ],
         ])
         ->series(
             [
                 [
-                    'name'  => 'Voting',
-                    'data'  => [43934, 52503, 57177, 69658],
+                    'name'  => '',
+                    'data'  => [13, 11, 23, 19, 19, 13, 11],
                     // 'color' => '#0c2959',
                 ],
             ]
