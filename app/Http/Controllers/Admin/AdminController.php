@@ -286,9 +286,12 @@ class AdminController extends Controller
          ->options([]);
         $this->data['chart6'] = $chart6;
 
-        $chart7 = Charts::database(User::all(), 'bar', 'echarts')
-            ->elementLabel("Total")
-            ->GroupByYear();
+        $chart7 = Charts::create('pie', 'highcharts')
+            ->title('My nice chart')
+            ->labels(['First', 'Second', 'Third'])
+            ->values([5,10,20])
+            ->dimensions(1000,500)
+            ->responsive(false);
         $this->data['chart7'] = $chart7;
 
         return view('admin.dashboard', $this->data);

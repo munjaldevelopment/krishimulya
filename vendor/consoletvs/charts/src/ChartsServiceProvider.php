@@ -1,46 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ConsoleTVs\Charts;
 
-use Illuminate\Routing\Router;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\Registrar as RouteRegistrar;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class ChartsServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
-     *
-     * @return void
+     * Register any application services.
      */
-    public function boot(Router $router)
+    public function register(): void
     {
-        $this->publishes([
-            __DIR__.'/Config/charts.php' => config_path('charts.php'),
-        ], 'charts_config');
-
-        $this->loadViewsFrom(__DIR__.'/Views', 'charts');
-
-        $this->publishes([
-            __DIR__.'/Views' => resource_path('views/vendor/charts'),
-        ]);
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                \ConsoleTVs\Charts\Commands\ChartsCommand::class,
-            ]);
-        }
+        // Merge the configuration files.
+        $this->mergeConfigFrom(__DIR__.'/Config/charts.php', 'charts');
+        // Register the Chart Registerer singleton class to avoid resolving it
+        // multiple times in the application.
+        $this->app->singleton(Registrar::class, fn (Application $app) => new Registrar(
+            $app,
+            $app->make(Repository::class),
+            $app->make(RouteRegistrar::class)
+        ));
     }
 
     /**
-     * Register the application services.
-     *
-     * @return void
+     * Bootstrap any application services.
      */
-    public function register()
+    public function boot(Repository $config, Registrar $charts): void
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/Config/charts.php',
-            'charts'
-        );
+        // Publish the configuration file to the config path.
+        $this->publishes([__DIR__.'/Config/charts.php' => config_path('charts.php')], 'charts');
+        // Create the blade directrives
+        $routeNamePrefix = $config->get('charts.global_route_name_prefix');
+        Blade::directive('chart', function ($expression) use ($routeNamePrefix) {
+            return "<?php echo route('{$routeNamePrefix}.'.{$expression}); ?>";
+        });
+        // Register the console commands.
+        if ($this->app->runningInConsole()) {
+            $this->commands([Commands\CreateChart::class]);
+        }
     }
 }

@@ -44,16 +44,16 @@ final class Versions
   'backpack/permissionmanager' => '6.0.5@f1ead608e2a9e2fce583e7a3761a7fa577a520ee',
   'backpack/revise-operation' => '1.0.6@6208330fda66499d0670aad88c7025c4e9840c8d',
   'backpack/settings' => '3.0.9@1efa57e3f4a23fee2eb8eec81da969e3cfc13034',
-  'balping/json-raw-encoder' => 'v1.0.1@e2b0ab888342b0716f1f0628e2fa13b345c5f276',
   'barryvdh/elfinder-flysystem-driver' => 'v0.3.0@5a6c893dfb97e9848d7b1e5e990e943af7bc3550',
   'barryvdh/laravel-debugbar' => 'v3.5.2@cae0a8d1cb89b0f0522f65e60465e16d738e069b',
   'barryvdh/laravel-dompdf' => 'v0.8.7@30310e0a675462bf2aa9d448c8dcbf57fbcc517d',
   'barryvdh/laravel-elfinder' => 'v0.4.7@f2a5f7d2b69b7c2f5419b0b02874b91b6d480c6c',
   'brick/math' => '0.9.2@dff976c2f3487d42c1db75a3b180e2b9f0e72ce0',
+  'chartisan/php' => '1.2.1@85d2352077800e9bcb411aec1ff7e4d23eef93a1',
   'cocur/slugify' => 'v4.0.0@3f1ffc300f164f23abe8b64ffb3f92d35cec8307',
   'composer/ca-bundle' => '1.2.9@78a0e288fdcebf92aa2318a8d3656168da6ac1a5',
   'composer/package-versions-deprecated' => '1.11.99.1@7413f0b55a051e89485c5cb9f765fe24bb02a7b6',
-  'consoletvs/charts' => '6.5.5@0005d14e4fe6715f4146a4dc3b56add768233001',
+  'consoletvs/charts' => '7.2.0@cc820595e9bec13fbaf4cf552128860830a0f9e2',
   'creativeorange/gravatar' => 'v1.0.20@8c2c1a3a59fdf05f50c9d9413dd9d2d50835e017',
   'cviebrock/eloquent-sluggable' => '7.0.0@4543263ebcb889845abef09ea40979a1a454612d',
   'dnoegel/php-xdg-base-dir' => 'v0.1.1@8f8a6e48c5ecb0f991c2fdcf5f154a47d85f9ffd',
@@ -186,7 +186,7 @@ final class Versions
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
-  'laravel/laravel' => 'dev-main@019be7f99b2eb3d073ef98a44b4b4867bcdc774e',
+  'laravel/laravel' => 'dev-main@760a95f653e1850dc89dd160ce9726bbc93c2020',
 );
 
     private function __construct()
