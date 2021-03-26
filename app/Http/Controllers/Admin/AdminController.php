@@ -129,7 +129,7 @@ class AdminController extends Controller
             
         ])
         ->colors([
-            '#0c2959'
+            
         ])
         ->series(
             [
