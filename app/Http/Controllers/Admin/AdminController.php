@@ -110,7 +110,7 @@ class AdminController extends Controller
         $this->data['chart2'] = $chart2;
 
         $chart3 = \Chart::title([
-            'text' => 'Graph1',
+            'text' => '',
         ])
         ->chart([
             'plotBackgroundColor' => null,
@@ -122,14 +122,26 @@ class AdminController extends Controller
         ->subtitle([
             'text' => 'This Subtitle',
         ])
-        ->xaxis([
-            
+        ->subtitle([
+            'text' => 'This Subtitle',
         ])
-        ->yaxis([
-            
+        ->tooltip([
+            'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>'''
         ])
-        ->colors([
-            
+        ->accessibility([
+            'point' => [
+                'valueSuffix' => '%'
+            ]
+        ])
+        ->plotOptions([
+            'pie' => [
+                'allowPointSelect' => true,
+                'cursor' => 'pointer',
+                'dataLabels' => [
+                    'enabled' => false
+                ,
+                'showInLegend' => true
+            ]
         ])
         ->series(
             [
