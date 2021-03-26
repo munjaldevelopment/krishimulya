@@ -159,7 +159,7 @@ class AdminController extends Controller
         $chart4 = app()->chartjs
          ->name('barChartTest1')
          ->type('bar')
-         ->size(['width' => 400, 'height' => 200])
+         ->size(['width' => 400, 'height' => 400])
          ->labels(['Label x', 'Label y'])
          ->datasets([
              [
