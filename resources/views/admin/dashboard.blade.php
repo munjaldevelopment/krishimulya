@@ -98,9 +98,9 @@
 
 	
 	<div class="row" name="widget_293385369" section="after_content">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="card">
-        		<div class="card-header">Pie Chart - Chartjs</div>
+        		<div class="card-header">Chart3</div>
         		<div class="card-body">
         			<div class="card-wrapper">
         				<div id="chart3"></div>
@@ -111,55 +111,14 @@
 			</div>
 		</div>
 
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="card">
-        		<div class="card-header">Pie Chart - Echarts</div>
+        		<div class="card-header">Chart4</div>
         		<div class="card-body">
         			<div class="card-wrapper">
         				<div id="chart4"></div>
 
-			    		{!! $chart4 !!}
-			    	</div>
-			    </div>
-			</div>
-		</div>
-
-		<div class="col-md-4">
-			<div class="card">
-        		<div class="card-header">Pie Chart - Highcharts</div>
-        		<div class="card-body">
-        			<div class="card-wrapper">
-        				<div id="chart5"></div>
-
-			    		{!! $chart5 !!}
-			    	</div>
-			    </div>
-			</div>
-		</div>
-	</div>
-
-	<div class="row" name="widget_198974168" section="after_content">
-		<div class="col-md-6">
-			<div class="card">
-        		<div class="card-header">Line Chart - Chartjs</div>
-        		<div class="card-body">
-        			<div class="card-wrapper">
-        				<div id="chart6"></div>
-
-			    		{!! $chart6->render() !!}
-			    	</div>
-			    </div>
-			</div>
-		</div>
-
-		<div class="col-md-6">
-			<div class="card">
-        		<div class="card-header">Line Chart - Echarts</div>
-        		<div class="card-body">
-        			<div class="card-wrapper">
-        				<div id="chart7"></div>
-
-			    		{!! $chart7->render() !!}
+			    		{!! $chart4->render() !!}
 			    	</div>
 			    </div>
 			</div>
