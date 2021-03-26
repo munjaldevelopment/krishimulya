@@ -30,34 +30,37 @@ class AdminController extends Controller
         ];
 
         $chart1 = \Chart::title([
-            'text' => 'Voting ballon d`or 2018',
+            'text' => 'New Users Past 7 Days',
         ])
         ->chart([
-            'type'     => 'line', // pie , columnt ect
+            'type'     => 'column', // pie , columnt ect
             'renderTo' => 'chart1', // render the chart into your div with id
         ])
         ->subtitle([
-            'text' => 'This Subtitle',
+            'text' => '',
         ])
         ->colors([
             '#0c2959'
         ])
         ->xaxis([
             'categories' => [
-                'Alex Turner',
-                'Julian Casablancas',
-                'Bambang Pamungkas',
-                'Mbah Surip',
+                '6 days ago',
+                '5 days ago',
+                '4 days ago',
+                '3 days ago',
+                '2 days ago',
+                'Yesterday',
+                'Today'
             ],
             'labels'     => [
                 'rotation'  => 15,
                 'align'     => 'top',
-                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
+                //'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
                 // use 'startJs:yourjavasscripthere:endJs'
             ],
         ])
         ->yaxis([
-            'text' => 'This Y Axis',
+            'text' => 'T',
         ])
         ->legend([
             'layout'        => 'vertikal',
