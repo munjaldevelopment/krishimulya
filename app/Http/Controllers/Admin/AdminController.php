@@ -76,6 +76,11 @@ class AdminController extends Controller
         ->display();
 
         $this->data['chart1'] = $chart1;
+        $this->data['chart2'] = $chart1;
+        $this->data['chart3'] = $chart1;
+        $this->data['chart4'] = $chart1;
+        $this->data['chart5'] = $chart1;
+        $this->data['chart6'] = $chart1;
 
         return view('admin.dashboard', $this->data);
     }
