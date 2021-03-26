@@ -74,7 +74,7 @@
 		        <div class="card-header">New Users Past 7 Days</div>
 	        	<div class="card-body">
 			    	<div class="card-wrapper">
-			    		<div class="chart1"></div>
+			    		<div id="chart1"></div>
 
 			    		{!! $chart1 !!}
 					</div>
@@ -87,7 +87,7 @@
 		        <div class="card-header">New Entries</div>
 	        	<div class="card-body">
 			    	<div class="card-wrapper">
-			    		<div class="chart2"></div>
+			    		<div id="chart2"></div>
 
 			    		{!! $chart2 !!}
 					</div>
@@ -103,7 +103,7 @@
         		<div class="card-header">Pie Chart - Chartjs</div>
         		<div class="card-body">
         			<div class="card-wrapper">
-        				<div class="chart3"></div>
+        				<div id="chart3"></div>
 
 			    		{!! $chart3 !!}
 			    	</div>
@@ -116,7 +116,7 @@
         		<div class="card-header">Pie Chart - Echarts</div>
         		<div class="card-body">
         			<div class="card-wrapper">
-        				<div class="chart4"></div>
+        				<div id="chart4"></div>
 
 			    		{!! $chart4 !!}
 			    	</div>
@@ -129,7 +129,7 @@
         		<div class="card-header">Pie Chart - Highcharts</div>
         		<div class="card-body">
         			<div class="card-wrapper">
-        				<div class="chart5"></div>
+        				<div id="chart5"></div>
 
 			    		{!! $chart5 !!}
 			    	</div>
@@ -144,9 +144,9 @@
         		<div class="card-header">Line Chart - Chartjs</div>
         		<div class="card-body">
         			<div class="card-wrapper">
-        				<div class="chart6"></div>
+        				<div id="chart6"></div>
 
-			    		{!! $chart3 !!}
+			    		{!! $chart6 !!}
 			    	</div>
 			    </div>
 			</div>
@@ -157,9 +157,9 @@
         		<div class="card-header">Line Chart - Echarts</div>
         		<div class="card-body">
         			<div class="card-wrapper">
-        				<div class="chart7"></div>
+        				<div id="chart7"></div>
 
-			    		{!! $chart4 !!}
+			    		{!! $chart7 !!}
 			    	</div>
 			    </div>
 			</div>
@@ -170,9 +170,9 @@
         		<div class="card-header">Line Chart - Highcharts</div>
         		<div class="card-body">
         			<div class="card-wrapper">
-        				<div class="chart8"></div>
+        				<div id="chart8"></div>
 
-			    		{!! $chart5 !!}
+			    		{!! $chart8 !!}
 			    	</div>
 			    </div>
 			</div>
