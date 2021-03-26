@@ -63,7 +63,7 @@ class AdminController extends Controller
         ->series(
             [
                 [
-                    'name'  => '#',
+                    'name'  => '',
                     'data'  => [13, 11, 23, 19, 19, 13, 11],
                     // 'color' => '#0c2959',
                 ],
