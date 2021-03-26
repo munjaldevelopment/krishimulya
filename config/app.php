@@ -239,6 +239,7 @@ return [
 		'Input' => Illuminate\Support\Facades\Request::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Chart' => RezaAr\Highcharts\Facade::class,
+        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
         'eCharts' => ConsoleTVs\Charts\Facades\Charts::class,
         'FCM'      => LaravelFCM\Facades\FCM::class,
         'FCMGroup' => LaravelFCM\Facades\FCMGroup::class, // Optional
