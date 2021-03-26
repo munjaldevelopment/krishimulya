@@ -181,7 +181,6 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class, 
         RezaAr\Highcharts\Provider::class,
         Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
-        ConsoleTVs\Charts\ChartsServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
 
     ],

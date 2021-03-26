@@ -186,7 +186,7 @@ final class Versions
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
-  'laravel/laravel' => 'dev-main@760a95f653e1850dc89dd160ce9726bbc93c2020',
+  'laravel/laravel' => 'dev-main@811a1dbd51d7ba2378f6311c3424f7388d5f5f90',
 );
 
     private function __construct()
