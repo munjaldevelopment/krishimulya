@@ -60,16 +60,10 @@ class AdminController extends Controller
                 'text' => ''
             ],
         ])
-        ->plotOptions([
-            'column' => [
-                'pointPadding' => '0.2',
-                'borderWidth' => '0'
-            ]
-        ])
         ->series(
             [
                 [
-                    'name'  => 'Voting',
+                    'name'  => '#',
                     'data'  => [13, 11, 23, 19, 19, 13, 11],
                     // 'color' => '#0c2959',
                 ],
