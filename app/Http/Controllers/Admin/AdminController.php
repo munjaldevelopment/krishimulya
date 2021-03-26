@@ -110,10 +110,13 @@ class AdminController extends Controller
         $this->data['chart2'] = $chart2;
 
         $chart3 = \Chart::title([
-            'text' => 'Voting ballon d`or 2018',
+            'text' => 'Graph1',
         ])
         ->chart([
-            'type'     => 'line', // pie , columnt ect
+            'plotBackgroundColor' => 'null',
+            'plotBorderWidth' => 'null',
+            'plotShadow' => 'false',
+            'type'     => 'pie', // pie , columnt ect
             'renderTo' => 'chart3', // render the chart into your div with id
         ])
         ->subtitle([
@@ -122,34 +125,29 @@ class AdminController extends Controller
         ->colors([
             '#0c2959'
         ])
-        ->xaxis([
-            'categories' => [
-                'Alex Turner',
-                'Julian Casablancas',
-                'Bambang Pamungkas',
-                'Mbah Surip',
-            ],
-            'labels'     => [
-                'rotation'  => 15,
-                'align'     => 'top',
-                'formatter' => 'startJs:function(){return this.value + " (Footbal Player)"}:endJs', 
-                // use 'startJs:yourjavasscripthere:endJs'
-            ],
-        ])
-        ->yaxis([
-            'text' => 'This Y Axis',
-        ])
-        ->legend([
-            'layout'        => 'vertikal',
-            'align'         => 'right',
-            'verticalAlign' => 'middle',
-        ])
         ->series(
             [
-                [
-                    'name'  => 'Voting',
-                    'data'  => [43934, 52503, 57177, 69658],
-                    // 'color' => '#0c2959',
+                'name'  => 'Brands',
+                'colorByPoint' => 'true',
+                'data'  => [
+                    [
+                        'name' => 'Chrome',
+                        'y' => '61.41',
+                        'sliced' => 'true',
+                        'selected' => 'true'
+                    ],
+                    [
+                        'name' => 'Internet Explorer',
+                        'y' => '11.84'
+                    ],
+                    [
+                        'name' => 'Firefox',
+                        'y' => '10.84'
+                    ],
+                    [
+                        'name' => 'Edge',
+                        'y' => '4.67'
+                    ]
                 ],
             ]
         )
