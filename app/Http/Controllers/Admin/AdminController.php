@@ -122,9 +122,6 @@ class AdminController extends Controller
         ->subtitle([
             'text' => 'This Subtitle',
         ])
-        ->tooltip([
-            'pointFormat' => '{series.name}: <b>{point.percentage:.1f}%</b>'
-        ])
         ->accessibility([
             'point' => [
                 'valueSuffix' => '%'
