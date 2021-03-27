@@ -29,9 +29,11 @@
                 <div class="col-sm-12 py-5">
                     <img src="{{ URL::to("/")."/".$sliderList->image }}" class="img-fluid">
 
-                    <h3>{{ $sliderList->short_description }}</h3>
+                    <h3 class="py-5">{{ $sliderList->short_description }}</h3>
 
-                    {!! $sliderList->description !!}
+                    <div class="py-5">
+                        {!! $sliderList->description !!}
+                    </div>
                 </div>
             </div>
         </div>
