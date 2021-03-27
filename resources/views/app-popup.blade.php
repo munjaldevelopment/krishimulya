@@ -29,6 +29,8 @@
                 <div class="col-sm-12 py-5">
                     <img src="{{ URL::to("/")."/".$sliderList->image }}" class="img-fluid">
 
+                    <h1 class="py-2">{{ $sliderList->title }}</h1>
+
                     <h3 class="py-2">{{ $sliderList->short_description }}</h3>
 
                     <div class="py-1">
