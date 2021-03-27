@@ -36,7 +36,7 @@ class NotificationCrudController extends CrudController
                     'name'      => 'customer_id',
                     'entity'    => 'customer', //function name
                     'attribute' => 'name', //name of fields in models table like districts
-                    'model'     => "App\Model\Customer", //name of Models
+                    'model'     => "App\Models\Customer", //name of Models
                     ]);
 
         $this->crud->addColumn([
@@ -65,7 +65,7 @@ class NotificationCrudController extends CrudController
                     'name'      => 'customer_id',
                     'entity'    => 'customer', //function name
                     'attribute' => 'name', //name of fields in models table like districts
-                    'model'     => "App\Model\Customer", //name of Models
+                    'model'     => "App\Models\Customer", //name of Models
                     ]);
 
         $this->crud->addField([
