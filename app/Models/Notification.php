@@ -27,7 +27,8 @@ class Notification extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    
+    protected $fillable = ['customer_id', 'notification_title', 'notification_content', 'notification_type', 'user_type', 'isactive'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -36,6 +37,14 @@ class Notification extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Model\Customer', 'customer_id');
+    }
+
+    public function sendUserNotication() {
+        return "<a class='btn btn-success ladda-button tooltipped' data-position='right' data-delay='50' data-tooltip='Send Notification' href='".backpack_url('sendNotification')."'><i class='fa fa-download'></i> Send Notification </a> &nbsp;&nbsp;"; 
+    }
 
     public static function sendNotification($customer_id, $title, $message, $image = '')
     {
