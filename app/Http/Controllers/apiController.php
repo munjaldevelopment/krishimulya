@@ -3964,8 +3964,6 @@ class apiController extends Controller
             $customer_id = $request->customer_id;
             $tractor_sale_id = $request->tractor_sale_id;
 
-            $name = $request->name;
-            $mobile = $request->mobile;
             $company_name = $request->company_name;
             $other_company = $request->other_company;
             $comment = $request->comment;
@@ -3996,6 +3994,9 @@ class apiController extends Controller
                     $message = 'Tractor Sale updated successfully.';
 
                     $date = date('Y-m-d H:i:s');
+
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
 
                     $tractorimage = "";
                     if($tractor_image != ''){
