@@ -4216,6 +4216,15 @@ class apiController extends Controller
 
                     DB::table('agriland_sale_enquiry')->where('id', '=', $agri_sale_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
 
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Sale Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Exp. Price: ".$exp_price.", Comments:".$comments;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
                     $status_code = '1';
                     $message = 'Agriland Sale Enquiry updated successfully';
                     $json = array('status_code' => $status_code, 'message' => $message);
