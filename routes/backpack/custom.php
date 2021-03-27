@@ -57,4 +57,7 @@ Route::group([
     Route::crud('agri_tool_enquiry', 'Agri_tool_enquiryCrudController');
     Route::crud('pincode', 'PinCodeCrudController');
     Route::crud('app_popup', 'AppPopupCrudController');
+
+    Route::get('sendNotification', 'UserNotificationController@sendNotification');
+    Route::post('sendNotification', 'UserNotificationController@sendNotificationMessage');
 });
