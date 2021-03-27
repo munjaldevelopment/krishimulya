@@ -1105,7 +1105,7 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Rent enquiry added successfully';
