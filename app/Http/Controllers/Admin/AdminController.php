@@ -136,7 +136,7 @@ class AdminController extends Controller
                 'cursor' => 'pointer',
                 'dataLabels' => [
                     'enabled' => false
-                ,
+                ],
                 'showInLegend' => true
             ]
         ])
