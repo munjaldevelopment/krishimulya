@@ -122,11 +122,6 @@ class AdminController extends Controller
         ->subtitle([
             'text' => 'This Subtitle',
         ])
-        ->accessibility([
-            'point' => [
-                'valueSuffix' => '%'
-            ]
-        ])
         ->plotOptions([
             'pie' => [
                 'allowPointSelect' => true,
