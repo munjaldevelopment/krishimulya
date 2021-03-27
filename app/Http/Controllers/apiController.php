@@ -1386,6 +1386,15 @@ class apiController extends Controller
 
                     $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Sale";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
                     $status_code = $success = '1';
                     $message = 'Tractor sale enquiry added successfully';
                     
@@ -1435,6 +1444,15 @@ class apiController extends Controller
                     $name = $customer->name;
                     $mobile = $customer->telephone;
                     DB::table('tractor_refinance_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Refinance";
+                        $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = $success = '1';
                     $message = 'Tractor re-finance enquiry added successfully';
