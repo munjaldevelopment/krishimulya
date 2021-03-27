@@ -698,7 +698,7 @@ class apiController extends Controller
             
             $status_code = '1';
             $message = 'Popup list';
-            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'slider_url' => $baseUrl.'app-popup');
+            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'slider_url' => $baseUrl.'/app-popup');
         }
         
         catch(\Exception $e) {
