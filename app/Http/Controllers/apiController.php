@@ -4019,6 +4019,15 @@ class apiController extends Controller
                         DB::table('tractor_sell_enquiry')->where('id', $tractor_sale_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'is_edit' => $is_edit, 'updated_at' => $date]);
                     }
 
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Sale";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
                     $json = array('status_code' => $status_code, 'message' => $message);
                 }
                 else
@@ -4075,6 +4084,15 @@ class apiController extends Controller
 
                     DB::table('labour_enquiry')->where('id', $labour_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
 
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Labor Enquiry";
+                        $message1 = "Location: ".$location.", Purpose:".$purpose.", Need:".$need.", Labor No:".$labour_no.", Comments:".$comments;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
                     $status_code = '1';
                     $message = 'Labor Enquiry updated successfully';
 
@@ -4128,6 +4146,15 @@ class apiController extends Controller
                     $date = date('Y-m-d H:i:s');
 
                     DB::table('agriland_rent_enquiry')->where('id', '=', $agri_rent_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'updated_at' => $date, 'is_edit' => $is_edit]);
+
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Rent Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Time:".$how_much_time.", Comments:".$comments;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = '1';
                     $message = 'Rent Enquiry updated sucessfully';
