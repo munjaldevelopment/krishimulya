@@ -33,16 +33,15 @@ class apiController extends Controller
         return $head;
     }
 
-    public function sendNotification($customer_id)
+    public function sendNotification($customer_id, $title, $message, $image = '')
     {
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60*20);
-                
-        $title = "Test Notification";
-        $message = "Munjal testing Notification";
+
+        $image = "https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png";
                 
         $notificationBuilder = new PayloadNotificationBuilder($title);
-        $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage("https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png")->setSound('default');
+        $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
         
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData(['title' => $title, 'content' => $message]);
@@ -3791,6 +3790,15 @@ class apiController extends Controller
 
                     DB::table('tractor_purchase_enquiry')->where('id', '=', $tractor_purchase_id)->update(['name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'updated_at' => $date, 'is_edit' => $is_edit]);
 
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor purchase";
+                        $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
                     $json = array('status_code' => $status_code, 'message' => $message);
                 }
                 else
@@ -3843,6 +3851,15 @@ class apiController extends Controller
                     $date = date('Y-m-d H:i:s');
 
                     DB::table('tractor_rent_enquiry')->where('id', $tractor_rent_id)->update(['name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'is_edit' => $is_edit, 'updated_at' => $date]);  
+
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Rent";
+                        $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = '1';
                     $message = 'Tractor Rent updated successfully';
@@ -3899,6 +3916,15 @@ class apiController extends Controller
                     $mobile = $customer->telephone;
 
                     DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'is_edit' => $is_edit, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Refinance";
+                        $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = '1';
                     $message = 'Tractor Refinance updated successfully';

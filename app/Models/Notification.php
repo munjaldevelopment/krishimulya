@@ -6,6 +6,12 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use DB;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+
 class Notification extends Model
 {
     use CrudTrait;
@@ -30,6 +36,43 @@ class Notification extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+    public static function sendNotification($customer_id, $title, $message, $image = '')
+    {
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+
+        $image = "https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png";
+                
+        $notificationBuilder = new PayloadNotificationBuilder($title);
+        $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
+        
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['title' => $title, 'content' => $message]);
+        
+        $option = $optionBuilder->build();
+
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+
+        $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
+
+        $tokenData = array($userDeviceRow->fcmToken);
+                            
+        $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
+                            
+        $success = $downstreamResponse->numberSuccess();
+        $fail = $downstreamResponse->numberFailure();
+        $total = $downstreamResponse->numberModification();
+
+        if($success > 0)
+        {
+            $date = date('Y-m-d H:i:s');
+            $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'test', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        }
+
+        return $success;
+    }
 
     /*
     |--------------------------------------------------------------------------
