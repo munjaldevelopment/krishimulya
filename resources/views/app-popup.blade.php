@@ -18,11 +18,11 @@
             <div class="row">
                 <div class="col-sm-12">
                     <img src="{{ URL::to("/")."/".$sliderList->image }}" class="img-fluid">
-            <div class="content">
-                <div class="title m-b-md">
-                    Welcome At Krishivalue
-                </div>
 
+                    <h3>{{ $sliderList->short_description }}</h3>
+
+                    {!! $sliderList->description !!}
+                </div>
             </div>
         </div>
     </body>
