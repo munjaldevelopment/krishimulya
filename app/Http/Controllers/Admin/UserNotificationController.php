@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Auth;
+use DB;
+use App;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -37,8 +39,8 @@ class UserNotificationController extends CrudController
 
     public function sendNotificationMessage(Request $request)
     {
-        $user = Auth::user();
-        $user_id = $user->id;
+        //$user = Auth::user();
+        //$user_id = $user->id;
 
         $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
 
