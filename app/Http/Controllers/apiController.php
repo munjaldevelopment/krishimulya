@@ -1107,6 +1107,15 @@ class apiController extends Controller
                     $mobile = $customer->telephone;
                     DB::table('tractor_rent_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Rent";
+                        $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
                     $status_code = $success = '1';
                     $message = 'Rent enquiry added successfully';
                     
@@ -2111,6 +2120,15 @@ class apiController extends Controller
                     
                     DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Rent Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Time:".$how_much_time.", Comments:".$comments;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
                     $status_code = $success = '1';
                     $message = 'Agri land rent enquiry added successfully';
                     
@@ -2280,6 +2298,15 @@ class apiController extends Controller
                 if($customer){ 
                     
                     DB::table('agriland_sale_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Sale Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Exp. Price: ".$exp_price.", Comments:".$comments;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = $success = '1';
                     $message = 'Agri land sale enquiry added successfully';
