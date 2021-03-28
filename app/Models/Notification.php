@@ -51,7 +51,7 @@ class Notification extends Model
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60*20);
 
-        $image = "https://www.microprixs.com/wp-content/uploads/2021/01/mpx_logo-1.png";
+        $image = "http://krishi.microcrm.in/uploads/logo/512-png-short.png";
                 
         $notificationBuilder = new PayloadNotificationBuilder($title);
         $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
