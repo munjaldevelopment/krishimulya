@@ -1107,7 +1107,7 @@ class apiController extends Controller
                     $mobile = $customer->telephone;
                     DB::table('tractor_rent_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -1395,7 +1395,7 @@ class apiController extends Controller
 
                     $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -1454,7 +1454,7 @@ class apiController extends Controller
                     $mobile = $customer->telephone;
                     DB::table('tractor_refinance_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -1516,7 +1516,7 @@ class apiController extends Controller
                     $mobile = $customer->telephone;
                     DB::table('tractor_purchase_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -2120,7 +2120,7 @@ class apiController extends Controller
                     
                     DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -2299,7 +2299,7 @@ class apiController extends Controller
                     
                     DB::table('agriland_sale_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -3845,7 +3845,7 @@ class apiController extends Controller
 
                     DB::table('tractor_purchase_enquiry')->where('id', '=', $tractor_purchase_id)->update(['name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'updated_at' => $date, 'is_edit' => $is_edit]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -3907,7 +3907,7 @@ class apiController extends Controller
 
                     DB::table('tractor_rent_enquiry')->where('id', $tractor_rent_id)->update(['name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'is_edit' => $is_edit, 'updated_at' => $date]);  
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -3972,7 +3972,7 @@ class apiController extends Controller
 
                     DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'is_edit' => $is_edit, 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -4075,7 +4075,7 @@ class apiController extends Controller
                         DB::table('tractor_sell_enquiry')->where('id', $tractor_sale_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'is_edit' => $is_edit, 'updated_at' => $date]);
                     }
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -4140,7 +4140,7 @@ class apiController extends Controller
 
                     DB::table('labour_enquiry')->where('id', $labour_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -4203,7 +4203,7 @@ class apiController extends Controller
 
                     DB::table('agriland_rent_enquiry')->where('id', '=', $agri_rent_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'updated_at' => $date, 'is_edit' => $is_edit]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
@@ -4272,7 +4272,7 @@ class apiController extends Controller
 
                     DB::table('agriland_sale_enquiry')->where('id', '=', $agri_sale_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
 
-                    $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {

@@ -41,7 +41,7 @@ class UserNotificationController extends CrudController
         //$user = Auth::user();
         //$user_id = $user->id;
 
-        $customers = DB::table('customers')->whereIn('id', ['75', '208'])->get();
+        $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
         foreach($customers as $cust)
         {
