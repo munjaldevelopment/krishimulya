@@ -2118,7 +2118,7 @@ class apiController extends Controller
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -2177,7 +2177,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('isactive', '=', 1)->where('customer_id', '=', $customer_id)->whereNull('deleted_at');
+                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acre','how_much_time','comment', 'location','other_city')->where('isactive', '=', 1)->where('customer_id', '=', $customer_id)->whereNull('deleted_at');
 
                     if($land_type){
                         $rentListquery = $rentListquery->where('land_type',$land_type);    
@@ -2192,7 +2192,7 @@ class apiController extends Controller
                     }
 
                     if($size_in_acre){
-                        $rentListquery = $rentListquery->where('size_in_acore',$size_in_acre);    
+                        $rentListquery = $rentListquery->where('size_in_acre',$size_in_acre);    
                     }
 
                     if($rent_time){
@@ -2212,7 +2212,7 @@ class apiController extends Controller
                             $customer_telphone = $rscustomer->telephone;
                             $pimage = '';
                             $othercity = ($rlist->other_city != '') ? $rlist->other_city : "";
-                            $r_List[] = ['id' => (string)$rlist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'land_type' =>$rlist->land_type, 'location' => $rlist->location, 'other_city' => $othercity, 'size_in_acre' => $rlist->size_in_acore, 'rent_time' => $rlist->how_much_time, 'comment' => $rlist->comment]; 
+                            $r_List[] = ['id' => (string)$rlist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'land_type' =>$rlist->land_type, 'location' => $rlist->location, 'other_city' => $othercity, 'size_in_acre' => $rlist->size_in_acre, 'rent_time' => $rlist->how_much_time, 'comment' => $rlist->comment]; 
                         }
 
                         $status_code = $success = '1';
@@ -2304,7 +2304,7 @@ class apiController extends Controller
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Sale Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Exp. Price: ".$exp_price.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comments;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
@@ -3427,7 +3427,7 @@ class apiController extends Controller
                     $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
-                        $labourEnquiryData[] = array('id' => "".$row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => ($row->comment == NULL ? "" : $row->comment), 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => "".$row->is_edit);
+                        $labourEnquiryData[] = array('id' => "".$row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => ($row->comment == NULL ? "" : $row->comment), 'size_in_acre' => $row->size_in_acre, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => "".$row->is_edit);
                     }
 
                     $status_code = '1';
@@ -3742,7 +3742,7 @@ class apiController extends Controller
 
                     $status_code = '1';
                     $message = 'Rent Enquiry history';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'size_in_acore' => $tractorSellEnquiry->size_in_acore, 'how_much_time' => $tractorSellEnquiry->how_much_time, 'land_type' => $tractorSellEnquiry->land_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'size_in_acre' => $tractorSellEnquiry->size_in_acre, 'how_much_time' => $tractorSellEnquiry->how_much_time, 'land_type' => $tractorSellEnquiry->land_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
                 }
                 else
                 {
@@ -4201,14 +4201,14 @@ class apiController extends Controller
                 {
                     $date = date('Y-m-d H:i:s');
 
-                    DB::table('agriland_rent_enquiry')->where('id', '=', $agri_rent_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'updated_at' => $date, 'is_edit' => $is_edit]);
+                    DB::table('agriland_rent_enquiry')->where('id', '=', $agri_rent_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'updated_at' => $date, 'is_edit' => $is_edit]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Rent Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Time:".$how_much_time.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comments;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
@@ -4277,7 +4277,7 @@ class apiController extends Controller
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Sale Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Exp. Price: ".$exp_price.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comments;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
