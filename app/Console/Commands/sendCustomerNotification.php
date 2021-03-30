@@ -9,7 +9,7 @@ use LaravelFCM\Message\PayloadNotificationBuilder;
 use FCM;
 use DB;
 
-class sendCustomerNotification extends Command
+class SendCustomerNotification extends Command
 {
     /**
      * The name and signature of the console command.
