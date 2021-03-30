@@ -2118,14 +2118,14 @@ class apiController extends Controller
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Rent Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acore.", Time:".$how_much_time.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comments;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
