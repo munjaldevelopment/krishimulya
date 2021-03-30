@@ -42,13 +42,14 @@ class SendCustomerNotification extends Command
      */
     public function handle()
     {
-        $customerNotify = DB::table('notifications')->where('is_sent', 0)->get();
+        $customerNotify = DB::table('notifications')->where('is_sent', 0)->skip(0)->take(100)->get();
         if($customerNotify)
         {
             foreach($customerNotify as $row)
             {
                 $title = $row->notification_title;
                 $message = $row->notification_content;
+                $customer_id = $row->customer_id;
 
                 $optionBuilder = new OptionsBuilder();
                 $optionBuilder->setTimeToLive(60*20);
@@ -76,11 +77,8 @@ class SendCustomerNotification extends Command
                 $fail = $downstreamResponse->numberFailure();
                 $total = $downstreamResponse->numberModification();
 
-                if($success > 0)
-                {
-                    $date   = date('Y-m-d H:i:s');
-                    DB::table('notifications')->where('id', '=', $row->id)->update(['is_sent' => '1', 'updated_at' => $date]);
-                }
+                $date   = date('Y-m-d H:i:s');
+                DB::table('notifications')->where('id', '=', $row->id)->update(['is_sent' => '1', 'updated_at' => $date]);
             }
         }
     }
