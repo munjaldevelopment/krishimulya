@@ -2094,7 +2094,7 @@ class apiController extends Controller
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Rent Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
@@ -2273,7 +2273,7 @@ class apiController extends Controller
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Sale Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
@@ -4177,7 +4177,7 @@ class apiController extends Controller
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Rent Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
@@ -4246,7 +4246,7 @@ class apiController extends Controller
                     foreach($customers as $cust)
                     {
                         $title = "Agriland Sale Enquiry";
-                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comments;
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
                         $this->sendNotification($cust->id, $title, $message1, '');
                     }
 
