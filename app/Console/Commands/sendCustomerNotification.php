@@ -16,7 +16,7 @@ class SendCustomerNotification extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'send:customer_notification';
 
     /**
      * The console command description.
