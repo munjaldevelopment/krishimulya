@@ -48,39 +48,15 @@ class Notification extends Model
 
     public static function sendNotification($customer_id, $title, $message, $image = '')
     {
-        $optionBuilder = new OptionsBuilder();
-        $optionBuilder->setTimeToLive(60*20);
+        $date = date('Y-m-d H:i:s');
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        //echo $success.",".$fail.",".$total; exit;
+    }
 
-        $image = "http://krishi.microcrm.in/uploads/logo/512-png-short.png";
-                
-        $notificationBuilder = new PayloadNotificationBuilder($title);
-        $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
-        
-        $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['title' => $title, 'content' => $message]);
-        
-        $option = $optionBuilder->build();
-
-        $notification = $notificationBuilder->build();
-        $data = $dataBuilder->build();
-
-        $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
-
-        $tokenData = array($userDeviceRow->fcmToken);
-                            
-        $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
-                            
-        $success = $downstreamResponse->numberSuccess();
-        $fail = $downstreamResponse->numberFailure();
-        $total = $downstreamResponse->numberModification();
-
-        if($success > 0)
-        {
-            $date = date('Y-m-d H:i:s');
-            $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'test', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
-        }
-
-        return $success;
+    public  function sendNotification($customer_id, $title, $message, $image = '')
+    {
+        $date = date('Y-m-d H:i:s');
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'test', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
     }
 
     /*
