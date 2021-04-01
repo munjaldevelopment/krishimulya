@@ -36,3 +36,24 @@ Route::get('/app-popup', function () {
 	$sliderList = DB::table('app_popups')->where('status', '=', 1)->orderBy('id', 'DESC')->first();
     return view('app-popup', compact('sliderList'));
 });
+
+Route::get('/update-age', function () {
+	$file = fopen("/home/krishi55/public_html/public/customers_email.csv","r");
+
+	$k = 0;
+	while(! feof($file))
+	{
+		$code = fgetcsv($file);
+		$id = $code[0];
+		//echo $id;
+		if($id != "id")
+		{
+			$sql = "UPDATE customers SET email = '".str_replace(" ", ".", strtolower($code[1]))."@krishimulya.com' WHERE id = '".$code[0]."'";
+			echo $sql."<br />";
+			\DB::statement($sql);
+		}
+		$k++;
+	}
+
+	fclose($file);
+});
