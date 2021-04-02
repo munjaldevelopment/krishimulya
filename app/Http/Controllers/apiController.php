@@ -351,6 +351,10 @@ class apiController extends Controller
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){
                 $custname = $customer->name;
+
+                // update app version in
+                $date = date('Y-m-d H:i:s');
+                DB::table('customers')->where('id', '=', $customer_id)->update(['app_version' => $app_version, 'updated_at' => $date]);
             }else{
                 $custname = "Guest";
             }
