@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '556686446e0af799812b9f1f8fc73379fac88aff',
+    'reference' => '809a3c8b7434e6d518ad2de2614d78467f454f28',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -370,6 +370,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '0dbf5d78455d4d6a41d186da50adc1122ec066f4',
+    ),
+    'fabpot/goutte' => 
+    array (
+      'pretty_version' => 'v3.3.1',
+      'version' => '3.3.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '80a23b64f44d54dd571d114c473d9d7e9ed84ca5',
     ),
     'facade/flare-client-php' => 
     array (
@@ -750,7 +759,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '556686446e0af799812b9f1f8fc73379fac88aff',
+      'reference' => '809a3c8b7434e6d518ad2de2614d78467f454f28',
     ),
     'laravel/tinker' => 
     array (
@@ -1206,6 +1215,15 @@ private static $installed = array (
       ),
       'reference' => 'cd4032040a750077205918c86049aa0f43d22947',
     ),
+    'raulr/google-play-scraper' => 
+    array (
+      'pretty_version' => '0.3.0',
+      'version' => '0.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5a14881d1f88367f058e6290202831c36ae227f6',
+    ),
     'rhumsaa/uuid' => 
     array (
       'replaced' => 
@@ -1393,6 +1411,15 @@ private static $installed = array (
       ),
       'reference' => '15f7faf8508e04471f666633addacf54c0ab5933',
     ),
+    'symfony/browser-kit' => 
+    array (
+      'pretty_version' => 'v5.2.4',
+      'version' => '5.2.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '3ca3a57ce9860318b20a924fec5daf5c6db44d93',
+    ),
     'symfony/console' => 
     array (
       'pretty_version' => 'v5.2.5',
@@ -1428,6 +1455,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '5fa56b4074d1ae755beb55617ddafe6f5d78f665',
+    ),
+    'symfony/dom-crawler' => 
+    array (
+      'pretty_version' => 'v5.2.4',
+      'version' => '5.2.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '400e265163f65aceee7e904ef532e15228de674b',
     ),
     'symfony/error-handler' => 
     array (
