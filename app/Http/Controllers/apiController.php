@@ -1153,7 +1153,7 @@ class apiController extends Controller
                         $rentinList = $rentinList->where('what_type',$what_need);    
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $rentinList = $rentinList->where('location','LIKE',$location);    
                     }
 
@@ -1834,7 +1834,7 @@ class apiController extends Controller
                         //$labourList = $labourList->whereBetween('labour_no', [$labour_noto, $labour_no]);
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $labourList = $labourList->where('location','LIKE',$location);    
                     }
                     if($other_city){
@@ -2148,7 +2148,7 @@ class apiController extends Controller
                         $rentListquery = $rentListquery->where('land_type',$land_type);    
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $rentListquery = $rentListquery->where('location',$location);    
                     }
 
@@ -2156,7 +2156,7 @@ class apiController extends Controller
                         $rentListquery = $rentListquery->where('other_city',$other_city);    
                     }
 
-                    if($size_in_acre){
+                    if($size_in_acre != "All"){
                         $rentListquery = $rentListquery->where('size_in_acore',$size_in_acre);    
                     }
 
@@ -2325,7 +2325,7 @@ class apiController extends Controller
                         $purchaseOldList = $purchaseOldList->where('land_type',$land_type);    
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $purchaseOldList = $purchaseOldList->where('location',$location);    
                     }
 
@@ -2333,7 +2333,7 @@ class apiController extends Controller
                         $purchaseOldList = $purchaseOldList->where('other_city',$other_city);    
                     }
 
-                    if($size_in_acre){
+                    if($size_in_acre != "All"){
                         $purchaseOldList = $purchaseOldList->where('size_in_acre','LIKE',$size_in_acre);    
                     }
 
