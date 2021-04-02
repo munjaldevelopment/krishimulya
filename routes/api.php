@@ -67,7 +67,7 @@ Route::get('tractor-hp', 'apiController@all_hp');
 Route::get('payment-type', 'apiController@payment_type');
 Route::get('what-need-list', 'apiController@what_need_list');
 Route::post('rent-enquiry', 'apiController@rent_enquiry');
-Route::post('rent-in-enquiry', 'apiController@rent_in_enquiry');
+Route::post('rent-in-enquiry', 'apiController@rent_in_enquiry'); // Search
 
 Route::post('verify-customer-mobile', 'apiController@verifyOrderMobile');
 
@@ -78,12 +78,12 @@ Route::post('tractor-sale-enquiry-verify', 'apiController@tractorSaleEnquiryVeri
 Route::post('tractor-refinance-enquiry', 'apiController@tractorRefinanceEnquiry');
 
 Route::post('tractor-purchase-enquiry', 'apiController@tractorPurchaseEnquiry');
-Route::post('purchase-old-result', 'apiController@purchaseOldResult');
+Route::post('purchase-old-result', 'apiController@purchaseOldResult'); // Search
 
 Route::get('labour-need', 'apiController@all_labour_need');
 Route::get('labour-purpose', 'apiController@all_purpose');
 Route::post('labour-enquiry', 'apiController@labourEnquiry');
-Route::post('labour-result', 'apiController@labourResult');
+Route::post('labour-result', 'apiController@labourResult'); // Search
 
 Route::get('insurance-type', 'apiController@insurance_type');
 Route::post('insurance-enquiry', 'apiController@insurance_enquiry');
@@ -93,10 +93,10 @@ Route::get('land-size', 'apiController@all_land_size');
 Route::get('rent-time', 'apiController@all_rent_time');
 
 Route::post('agriland-rent-enquiry', 'apiController@agri_land_rent_enquiry');
-Route::post('agriland-rent-result', 'apiController@agrilandRentResults');
+Route::post('agriland-rent-result', 'apiController@agrilandRentResults'); // Search
 
 Route::post('agriland-sale-enquiry', 'apiController@agrilandSaleEnquiry');
-Route::post('agriland-purchase-result', 'apiController@agrilandPurchaseResult');
+Route::post('agriland-purchase-result', 'apiController@agrilandPurchaseResult'); // Search
 
 Route::post('agriland-feedback', 'apiController@agriland_feedback');
 

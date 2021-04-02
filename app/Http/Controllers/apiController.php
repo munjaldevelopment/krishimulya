@@ -346,7 +346,13 @@ class apiController extends Controller
             $baseUrl = URL::to("/");
             $json       =   array();
             $customer_id = $request->customer_id;
-            $app_version = $request->app_version;
+
+            $app_version = "";
+
+            if(isset($request->app_version))
+            {
+                $app_version = $request->app_version;
+            }
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){
@@ -1159,10 +1165,7 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
-
-                    
-                    
+                if($customer){
                     $rentinList = DB::table('tractor_rent_enquiry')->select('id','customer_id','name','mobile','location', 'other_city', 'what_type','available_date','comment')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($what_need){
