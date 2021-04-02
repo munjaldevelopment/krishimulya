@@ -1014,6 +1014,8 @@ class apiController extends Controller
             
             $companyList = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
+            $companyList[0] = array('id' => 0, 'name' => 'All');
+
             $status_code = '1';
             $message = 'Company list';
             $json = array('status_code' => $status_code,  'message' => $message, 'companyList' => $companyList);
