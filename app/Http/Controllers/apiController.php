@@ -1576,11 +1576,11 @@ class apiController extends Controller
                     }
 
                     if($model){
-                        $purchaseOldList = $purchaseOldList->where('model',$model);    
+                        //$purchaseOldList = $purchaseOldList->where('model',$model);    
                     }
 
                     if($year_manufacturer){
-                        $purchaseOldList = $purchaseOldList->where('year_manufacturer',$year_manufacturer);    
+                        //$purchaseOldList = $purchaseOldList->where('year_manufacturer',$year_manufacturer);    
                     }
 
                     if($payment_type){
