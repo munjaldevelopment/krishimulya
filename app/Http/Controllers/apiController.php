@@ -2209,8 +2209,23 @@ class apiController extends Controller
             $how_much_time = $request->how_much_time;
             $isactive = 1;
             $error = "";
-            if($location == ""){
+            if($location == "" || $location == "All"){
                 $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($size_in_acre == "" || $size_in_acre == "All"){
+                $error = "Please enter size (acre) for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($how_much_time == "" || $how_much_time == "All"){
+                $error = "Please enter time for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($land_type == "" || $land_type == "All"){
+                $error = "Please enter land type for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
             
