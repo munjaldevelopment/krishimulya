@@ -1436,8 +1436,8 @@ class apiController extends Controller
             }
 
             if($payment_type == "" || $payment_type == "All"){
-                $error = "Please enter payment type of tractor";
-                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+                //$error = "Please enter payment type of tractor";
+                //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
 
             if($contact_person_phone != "")
