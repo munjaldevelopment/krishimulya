@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Raulr\GooglePlayScraper\Scraper;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,7 @@ Route::get('/app-popup', function () {
 });
 
 Route::get('/update-age', function () {
-	$file = fopen("/home/krishi55/public_html/public/customers_email.csv","r");
+	/*$file = fopen("/home/krishi55/public_html/public/customers_email.csv","r");
 
 	$k = 0;
 	while(! feof($file))
@@ -55,5 +56,12 @@ Route::get('/update-age', function () {
 		$k++;
 	}
 
-	fclose($file);
+	fclose($file);*/
+});
+
+Route::get('/play-store', function () {
+	$scraper = new Scraper();
+
+	$app = $scraper->getApp('com.microprixs.krishimulya');
+	echo '<pre>';print_r($app);
 });

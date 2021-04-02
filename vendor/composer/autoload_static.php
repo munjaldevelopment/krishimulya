@@ -15,6 +15,8 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
+        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
@@ -29,13 +31,11 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '9cdd7b9056abc3081735233ba9dd9c7f' => __DIR__ . '/..' . '/facade/flare-client-php/src/helpers.php',
-        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'ae2fadc5a311f32b20ba30a524ca3683' => __DIR__ . '/..' . '/pragmarx/support/src/helpers.php',
         '0c3c22e27afa83be19b4c938f4c6e9ea' => __DIR__ . '/..' . '/spatie/laravel-backup/src/Helpers/functions.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
-        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
     );
 
@@ -92,9 +92,11 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\ErrorHandler\\' => 31,
+            'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Component\\BrowserKit\\' => 29,
             'Svg\\' => 4,
             'Spatie\\TemporaryDirectory\\' => 26,
             'Spatie\\Permission\\' => 18,
@@ -104,6 +106,7 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'R' => 
         array (
             'RezaAr\\Highcharts\\' => 18,
+            'Raulr\\GooglePlayScraper\\' => 24,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
@@ -165,6 +168,7 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
+            'Goutte\\' => 7,
             'GeoIp2\\' => 7,
         ),
         'F' => 
@@ -363,6 +367,10 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         array (
             0 => __DIR__ . '/..' . '/symfony/error-handler',
         ),
+        'Symfony\\Component\\DomCrawler\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/dom-crawler',
+        ),
         'Symfony\\Component\\Debug\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/debug',
@@ -374,6 +382,10 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Symfony\\Component\\BrowserKit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
         'Svg\\' => 
         array (
@@ -398,6 +410,10 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'RezaAr\\Highcharts\\' => 
         array (
             0 => __DIR__ . '/..' . '/muhamadrezaar/highcharts/src',
+        ),
+        'Raulr\\GooglePlayScraper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/raulr/google-play-scraper/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -546,6 +562,10 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Goutte\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fabpot/goutte/Goutte',
         ),
         'GeoIp2\\' => 
         array (
@@ -780,6 +800,7 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'Apapazisis\\Echarts\\Classes\\Dataset' => __DIR__ . '/..' . '/apapazisis/laravel-echarts/src/Classes/Dataset.php',
         'Apapazisis\\Echarts\\EchartsServiceProvider' => __DIR__ . '/..' . '/apapazisis/laravel-echarts/src/EchartsServiceProvider.php',
         'App\\Console\\Commands\\DailyQuote' => __DIR__ . '/../..' . '/app/Console/Commands/DailyQuote.php',
+        'App\\Console\\Commands\\SendCustomerNotification' => __DIR__ . '/../..' . '/app/Console/Commands/SendCustomerNotification.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AdminController.php',
@@ -822,6 +843,7 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'App\\Http\\Controllers\\Admin\\TractorPurchaseEnquiryCrudController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/TractorPurchaseEnquiryCrudController.php',
         'App\\Http\\Controllers\\Admin\\TractorRentEnquiryCrudController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/TractorRentEnquiryCrudController.php',
         'App\\Http\\Controllers\\Admin\\TractorSellEnquiryCrudController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/TractorSellEnquiryCrudController.php',
+        'App\\Http\\Controllers\\Admin\\UserNotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/UserNotificationController.php',
         'App\\Http\\Controllers\\Admin\\WalletPaymentCrudController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/WalletPaymentCrudController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\SoilTestController' => __DIR__ . '/../..' . '/app/Http/Controllers/SoilTestController.php',
@@ -2554,6 +2576,7 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'GeoIp2\\Record\\Traits' => __DIR__ . '/..' . '/geoip2/geoip2/src/Record/Traits.php',
         'GeoIp2\\Util' => __DIR__ . '/..' . '/geoip2/geoip2/src/Util.php',
         'GeoIp2\\WebService\\Client' => __DIR__ . '/..' . '/geoip2/geoip2/src/WebService/Client.php',
+        'Goutte\\Client' => __DIR__ . '/..' . '/fabpot/goutte/Goutte/Client.php',
         'GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
         'GuzzleHttp\\ClientInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/ClientInterface.php',
         'GuzzleHttp\\Cookie\\CookieJar' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/CookieJar.php',
@@ -5521,6 +5544,10 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'Ramsey\\Uuid\\UuidInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidInterface.php',
         'Ramsey\\Uuid\\Validator\\GenericValidator' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/GenericValidator.php',
         'Ramsey\\Uuid\\Validator\\ValidatorInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/ValidatorInterface.php',
+        'Raulr\\GooglePlayScraper\\Client' => __DIR__ . '/..' . '/raulr/google-play-scraper/src/Client.php',
+        'Raulr\\GooglePlayScraper\\Exception\\NotFoundException' => __DIR__ . '/..' . '/raulr/google-play-scraper/src/Exception/NotFoundException.php',
+        'Raulr\\GooglePlayScraper\\Exception\\RequestException' => __DIR__ . '/..' . '/raulr/google-play-scraper/src/Exception/RequestException.php',
+        'Raulr\\GooglePlayScraper\\Scraper' => __DIR__ . '/..' . '/raulr/google-play-scraper/src/Scraper.php',
         'RecursiveCallbackFilterIterator' => __DIR__ . '/..' . '/studio-42/elfinder/php/elFinderVolumeLocalFileSystem.class.php',
         'RezaAr\\Highcharts\\Classes\\Presenters\\ChartPresenter' => __DIR__ . '/..' . '/muhamadrezaar/highcharts/src/Classes/Presenters/ChartPresenter.php',
         'RezaAr\\Highcharts\\Classes\\Presenters\\ContainerPresenter' => __DIR__ . '/..' . '/muhamadrezaar/highcharts/src/Classes/Presenters/ContainerPresenter.php',
@@ -5807,6 +5834,16 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'Svg\\Tag\\StyleTag' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/Tag/StyleTag.php',
         'Svg\\Tag\\Text' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/Tag/Text.php',
         'Svg\\Tag\\UseTag' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/Tag/UseTag.php',
+        'Symfony\\Component\\BrowserKit\\AbstractBrowser' => __DIR__ . '/..' . '/symfony/browser-kit/AbstractBrowser.php',
+        'Symfony\\Component\\BrowserKit\\Cookie' => __DIR__ . '/..' . '/symfony/browser-kit/Cookie.php',
+        'Symfony\\Component\\BrowserKit\\CookieJar' => __DIR__ . '/..' . '/symfony/browser-kit/CookieJar.php',
+        'Symfony\\Component\\BrowserKit\\Exception\\BadMethodCallException' => __DIR__ . '/..' . '/symfony/browser-kit/Exception/BadMethodCallException.php',
+        'Symfony\\Component\\BrowserKit\\History' => __DIR__ . '/..' . '/symfony/browser-kit/History.php',
+        'Symfony\\Component\\BrowserKit\\HttpBrowser' => __DIR__ . '/..' . '/symfony/browser-kit/HttpBrowser.php',
+        'Symfony\\Component\\BrowserKit\\Request' => __DIR__ . '/..' . '/symfony/browser-kit/Request.php',
+        'Symfony\\Component\\BrowserKit\\Response' => __DIR__ . '/..' . '/symfony/browser-kit/Response.php',
+        'Symfony\\Component\\BrowserKit\\Test\\Constraint\\BrowserCookieValueSame' => __DIR__ . '/..' . '/symfony/browser-kit/Test/Constraint/BrowserCookieValueSame.php',
+        'Symfony\\Component\\BrowserKit\\Test\\Constraint\\BrowserHasCookie' => __DIR__ . '/..' . '/symfony/browser-kit/Test/Constraint/BrowserHasCookie.php',
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\Color' => __DIR__ . '/..' . '/symfony/console/Color.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
@@ -5965,6 +6002,22 @@ class ComposerStaticInita7cffd0cd7eb2ef853fe6ae2c0c23c97
         'Symfony\\Component\\Debug\\FatalErrorHandler\\FatalErrorHandlerInterface' => __DIR__ . '/..' . '/symfony/debug/FatalErrorHandler/FatalErrorHandlerInterface.php',
         'Symfony\\Component\\Debug\\FatalErrorHandler\\UndefinedFunctionFatalErrorHandler' => __DIR__ . '/..' . '/symfony/debug/FatalErrorHandler/UndefinedFunctionFatalErrorHandler.php',
         'Symfony\\Component\\Debug\\FatalErrorHandler\\UndefinedMethodFatalErrorHandler' => __DIR__ . '/..' . '/symfony/debug/FatalErrorHandler/UndefinedMethodFatalErrorHandler.php',
+        'Symfony\\Component\\DomCrawler\\AbstractUriElement' => __DIR__ . '/..' . '/symfony/dom-crawler/AbstractUriElement.php',
+        'Symfony\\Component\\DomCrawler\\Crawler' => __DIR__ . '/..' . '/symfony/dom-crawler/Crawler.php',
+        'Symfony\\Component\\DomCrawler\\Field\\ChoiceFormField' => __DIR__ . '/..' . '/symfony/dom-crawler/Field/ChoiceFormField.php',
+        'Symfony\\Component\\DomCrawler\\Field\\FileFormField' => __DIR__ . '/..' . '/symfony/dom-crawler/Field/FileFormField.php',
+        'Symfony\\Component\\DomCrawler\\Field\\FormField' => __DIR__ . '/..' . '/symfony/dom-crawler/Field/FormField.php',
+        'Symfony\\Component\\DomCrawler\\Field\\InputFormField' => __DIR__ . '/..' . '/symfony/dom-crawler/Field/InputFormField.php',
+        'Symfony\\Component\\DomCrawler\\Field\\TextareaFormField' => __DIR__ . '/..' . '/symfony/dom-crawler/Field/TextareaFormField.php',
+        'Symfony\\Component\\DomCrawler\\Form' => __DIR__ . '/..' . '/symfony/dom-crawler/Form.php',
+        'Symfony\\Component\\DomCrawler\\FormFieldRegistry' => __DIR__ . '/..' . '/symfony/dom-crawler/FormFieldRegistry.php',
+        'Symfony\\Component\\DomCrawler\\Image' => __DIR__ . '/..' . '/symfony/dom-crawler/Image.php',
+        'Symfony\\Component\\DomCrawler\\Link' => __DIR__ . '/..' . '/symfony/dom-crawler/Link.php',
+        'Symfony\\Component\\DomCrawler\\Test\\Constraint\\CrawlerSelectorAttributeValueSame' => __DIR__ . '/..' . '/symfony/dom-crawler/Test/Constraint/CrawlerSelectorAttributeValueSame.php',
+        'Symfony\\Component\\DomCrawler\\Test\\Constraint\\CrawlerSelectorExists' => __DIR__ . '/..' . '/symfony/dom-crawler/Test/Constraint/CrawlerSelectorExists.php',
+        'Symfony\\Component\\DomCrawler\\Test\\Constraint\\CrawlerSelectorTextContains' => __DIR__ . '/..' . '/symfony/dom-crawler/Test/Constraint/CrawlerSelectorTextContains.php',
+        'Symfony\\Component\\DomCrawler\\Test\\Constraint\\CrawlerSelectorTextSame' => __DIR__ . '/..' . '/symfony/dom-crawler/Test/Constraint/CrawlerSelectorTextSame.php',
+        'Symfony\\Component\\DomCrawler\\UriResolver' => __DIR__ . '/..' . '/symfony/dom-crawler/UriResolver.php',
         'Symfony\\Component\\ErrorHandler\\BufferingLogger' => __DIR__ . '/..' . '/symfony/error-handler/BufferingLogger.php',
         'Symfony\\Component\\ErrorHandler\\Debug' => __DIR__ . '/..' . '/symfony/error-handler/Debug.php',
         'Symfony\\Component\\ErrorHandler\\DebugClassLoader' => __DIR__ . '/..' . '/symfony/error-handler/DebugClassLoader.php',
