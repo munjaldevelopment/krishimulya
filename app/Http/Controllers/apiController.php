@@ -659,7 +659,7 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
 
-    //START show cities 
+    //START show popup 
     public function appPopup(Request $request)
     {
         try 
@@ -703,7 +703,7 @@ class apiController extends Controller
     }
     //END 
 
-    //START show cities 
+    //START show home slider 
     public function homeSlider(Request $request)
     {
         try 
@@ -806,11 +806,12 @@ class apiController extends Controller
         {   
             $json       =   array();
             
-            
 
             $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $cityList[] = array('id' => 0, 'name' => 'All');
+
+            asort($cityList);
 
             
 
