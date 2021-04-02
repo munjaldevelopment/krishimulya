@@ -2417,7 +2417,7 @@ class apiController extends Controller
                 if($customer){ 
                     $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('customer_id', '=', $customer_id)->where('isactive', '=', 1)->whereNull('deleted_at');
 
-                    if($land_type){
+                    if($land_type != "All"){
                         $purchaseOldList = $purchaseOldList->where('land_type',$land_type);    
                     }
 
