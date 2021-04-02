@@ -699,10 +699,21 @@ class apiController extends Controller
                 $short_description = $sliderList->short_description;
                 $sliderimage  =  $baseUrl."/public/".$sliderList->image;
             }
+
+            $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+            $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
+
+            $live_version = $appInfo->getAppVersion();
+
+            $same_version = '';
+            if($live_version != $app_version)
+            {
+                $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
+            }
             
             $status_code = '1';
             $message = 'Popup list';
-            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya', 'slider_url' => $baseUrl.'/app-popup');
+            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => $same_version, 'slider_url' => $baseUrl.'/app-popup');
         }
         
         catch(\Exception $e) {
