@@ -53,12 +53,6 @@ class Notification extends Model
         //echo $success.",".$fail.",".$total; exit;
     }
 
-    public  function sendNotification($customer_id, $title, $message, $image = '')
-    {
-        $date = date('Y-m-d H:i:s');
-        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'test', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
-    }
-
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
