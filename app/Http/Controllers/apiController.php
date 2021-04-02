@@ -2041,7 +2041,7 @@ class apiController extends Controller
             $language = $request->language;
             $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $rent_time[0] = array('id' => 0, 'name' => 'All');
+            $rent_time[0] = array('name' => 'All');
             
             $status_code = '1';
             $message = 'Rent Time list';
