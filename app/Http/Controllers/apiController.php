@@ -1661,7 +1661,10 @@ class apiController extends Controller
                         $purchaseOldList = $purchaseOldList->where('other_city',$other_city);    
                     }
 
-                    if($hourse_power != "All"){
+                    if($hourse_power == "" || $hourse_power == "All"){
+                    }
+                    else
+                    {
                         $hparr = explode('-', $hourse_power);
                         $hpfrom = $hparr[0];
                         $hpto = $hparr[1];
