@@ -1416,8 +1416,8 @@ class apiController extends Controller
 
             $isactive = 1;
             $error = "";
-            if($location == "All"){
-                $error = "Please enter company name for tractor";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
 
@@ -1427,6 +1427,16 @@ class apiController extends Controller
             }
             if($model == "" || $model == "All"){
                 $error = "Please enter model name of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($hourse_power == "" || $hourse_power == "All"){
+                $error = "Please enter horse power of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($payment_type == "" || $payment_type == "All"){
+                $error = "Please enter payment type of tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
 
