@@ -2015,7 +2015,7 @@ class apiController extends Controller
             
             $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $landsize[0] = array('id' => 0, 'name' => 'All');
+            $landsize[0] = array('name' => 'All');
             
             
             $status_code = '1';
