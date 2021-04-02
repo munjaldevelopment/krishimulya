@@ -705,7 +705,7 @@ class apiController extends Controller
 
             $live_version = $appInfo->getAppVersion();
 
-            $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
+            $same_version = '';
             if($live_version != $app_version)
             {
                 $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
