@@ -1557,7 +1557,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','payment_type','sale_type','location', 'other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('isactive', '=', 1)->where('customer_id', '=', $customer_id)->where('is_edit','1')->whereNull('deleted_at');
+                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','payment_type','sale_type','location', 'other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('isactive', '=', 1)->where('is_edit','1')->whereNull('deleted_at'); //where('customer_id', '=', $customer_id)->
 
                     if($what_need){
                         $purchaseOldList = $purchaseOldList->where('sale_type',$what_need);    
@@ -1605,7 +1605,7 @@ class apiController extends Controller
                     }
 
                    
-                    $purchaseOldList = $purchaseOldList->orderBy('hrs', 'ASC')->orderBy('hourse_power1', 'DESC')->get(); 
+                    $purchaseOldList = $purchaseOldList->orderBy('hrs', 'ASC')->orderBy('hourse_power', 'DESC')->get(); 
                     //dd($purchaseOldList);
 
                     if(count($purchaseOldList) > 0){
