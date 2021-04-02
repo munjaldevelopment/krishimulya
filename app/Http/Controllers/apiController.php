@@ -2048,9 +2048,17 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-            $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $landTypeList1 = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $landTypeList[] = array('name' => 'All');
+
+            if($landTypeList1)
+            {
+                foreach ($landTypeList1 as $key => $value) {
+                    # code...
+                    $landTypeList[] = array('name' => $value->name);
+                }
+            }
 
            /* $landTypeList[] = array('name' => "agriculture");
             $landTypeList[] = array('name' => "non-agriculture");
@@ -2078,10 +2086,17 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-            $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $landsize1 = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $landsize[] = array('name' => 'All');
-            
+
+            if($landsize1)
+            {
+                foreach ($landsize1 as $key => $value) {
+                    # code...
+                    $landsize[] = array('name' => $value->name);
+                }
+            }
             
             $status_code = '1';
             $message = 'land Size list';
@@ -2104,9 +2119,17 @@ class apiController extends Controller
             
             $json       =   array();
             $language = $request->language;
-            $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $rent_time1 = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $rent_time[] = array('name' => 'All');
+
+            if($rent_time1)
+            {
+                foreach ($rent_time1 as $key => $value) {
+                    # code...
+                    $rent_time[] = array('name' => $value->name);
+                }
+            }
             
             $status_code = '1';
             $message = 'Rent Time list';
