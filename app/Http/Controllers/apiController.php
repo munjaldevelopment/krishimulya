@@ -780,9 +780,19 @@ class apiController extends Controller
             $baseUrl = URL::to("/");
             $json       =   array();
             $language = $request->language;
-            $paymentList = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
 
             $paymentList[] = array('name' => 'All');
+            $paymentList1 = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            if($paymentList1)
+            {
+                foreach($paymentList1 as $row)
+                {
+                   $paymentList[] = array('name' => $row->name); 
+                }
+            }
+
             
             $status_code = '1';
             $message = 'Payment Type list';
@@ -841,10 +851,17 @@ class apiController extends Controller
         {   
             $json  =   array();
             
-            
-            $cityList = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
-
             $cityList[] = array('id' => 0, 'typename' => 'All');
+
+            $cityList1 = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            if($cityList1)
+            {
+                foreach ($cityList1 as $key => $value) {
+                    # code...
+                    $cityList[] = array('id' => $value->id, 'typename' => $value->typename);
+                }
+            }
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -962,9 +979,17 @@ class apiController extends Controller
         {   
             $json  =   array();
      
-            $toolList = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
-
             $toolList[] = array('id' => 0, 'title' => 'All');
+
+            $toolList1 = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            if($toolList1)
+            {
+                foreach ($toolList1 as $key => $value) {
+                    # code...
+                    $toolList[] = array('id' => $value->id, 'title' => $value->title);
+                }
+            }
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -1042,9 +1067,17 @@ class apiController extends Controller
             
             //$insTypList = array('1' => "Tractor",'2' => "Equipment");
             
-            $companyList = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $companyList1 = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $companyList[] = array('id' => 0, 'title' => 'All');
+
+            if($companyList1)
+            {
+                foreach ($companyList1 as $key => $value) {
+                    # code...
+                    $companyList[] = array('id' => $value->id, 'title' => $value->title);
+                }
+            }
 
             $status_code = '1';
             $message = 'Company list';
@@ -1067,9 +1100,17 @@ class apiController extends Controller
         {   
             $json       =   array();
             $language = $request->language;
-            $tractorHpList = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
+            $tractorHpList1 = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
 
             $tractorHpList[] = array('name' => 'All');
+
+            if($tractorHpList1)
+            {
+                foreach ($tractorHpList1 as $key => $value) {
+                    # code...
+                    $tractorHpList[] = array('name' => $value->name);
+                }
+            }
 
             $status_code = '1';
             $message = 'Tractor HP list';
