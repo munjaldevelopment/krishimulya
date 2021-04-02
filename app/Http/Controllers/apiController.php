@@ -761,7 +761,6 @@ class apiController extends Controller
             $paymentList = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
             $paymentList[0] = array('name' => 'All');
-           
             
             $status_code = '1';
             $message = 'Payment Type list';
