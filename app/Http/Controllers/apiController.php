@@ -1980,7 +1980,9 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-             $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $landTypeList[0] = array('id' => 0, 'name' => 'All');
 
            /* $landTypeList[] = array('name' => "agriculture");
             $landTypeList[] = array('name' => "non-agriculture");
@@ -2008,7 +2010,9 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-             $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $landsize[0] = array('id' => 0, 'name' => 'All');
             
             /*$landsize[] = array('name' => "1-3 acre");
             $landsize[] = array('name' => "3-5 acre");
