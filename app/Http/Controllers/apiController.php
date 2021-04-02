@@ -1592,6 +1592,11 @@ class apiController extends Controller
                 $error = "Please enter payment type for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
+
+            if($hourse_power == "" || $hourse_power == "All"){
+                $error = "Please enter horse power for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
