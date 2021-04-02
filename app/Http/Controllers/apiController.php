@@ -1014,7 +1014,7 @@ class apiController extends Controller
             
             $companyList = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $companyList[0] = array('id' => 0, 'name' => 'All');
+            $companyList[0] = array('id' => 0, 'title' => 'All');
 
             $status_code = '1';
             $message = 'Company list';
@@ -1035,10 +1035,11 @@ class apiController extends Controller
     {
         try 
         {   
-            
             $json       =   array();
             $language = $request->language;
             $tractorHpList = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
+
+            $tractorHpList[0] = array('id' => 0, 'name' => 'All');
 
             $status_code = '1';
             $message = 'Tractor HP list';
