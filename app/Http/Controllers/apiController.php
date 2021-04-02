@@ -760,6 +760,7 @@ class apiController extends Controller
             $language = $request->language;
             $paymentList = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
+            $paymentList[0] = array('id' => 0, 'name' => 'All');
            
             
             $status_code = '1';
@@ -816,6 +817,8 @@ class apiController extends Controller
             
             
             $cityList = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $cityList[0] = array('id' => 0, 'typename' => 'All');
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -932,9 +935,10 @@ class apiController extends Controller
         try 
         {   
             $json  =   array();
-            
-            
+     
             $toolList = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $toolList[0] = array('id' => 0, 'title' => 'All');
 
             $status_code = '1';
             $message = 'All Agri Type';
