@@ -1986,7 +1986,7 @@ class apiController extends Controller
             
             $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $landTypeList[0] = array('id' => 0, 'name' => 'All');
+            $landTypeList[0] = array('name' => 'All');
 
            /* $landTypeList[] = array('name' => "agriculture");
             $landTypeList[] = array('name' => "non-agriculture");
