@@ -1042,7 +1042,7 @@ class apiController extends Controller
             $language = $request->language;
             $tractorHpList = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
 
-            $tractorHpList[0] = array('id' => 0, 'name' => 'All');
+            $tractorHpList[0] = array('name' => 'All');
 
             $status_code = '1';
             $message = 'Tractor HP list';
