@@ -2014,17 +2014,6 @@ class apiController extends Controller
 
             $landsize[0] = array('id' => 0, 'name' => 'All');
             
-            /*$landsize[] = array('name' => "1-3 acre");
-            $landsize[] = array('name' => "3-5 acre");
-            $landsize[] = array('name' => "5-8 acre");
-            $landsize[] = array('name' => "8-10 acre");
-            $landsize[] = array('name' => "10-12 acre");
-            $landsize[] = array('name' => "12-15 acre");
-            $landsize[] = array('name' => "15-20 acre");
-            $landsize[] = array('name' => "20-25 acre");
-            $landsize[] = array('name' => "25-50 acre");*/
-            
-           
             
             $status_code = '1';
             $message = 'land Size list';
@@ -2047,17 +2036,9 @@ class apiController extends Controller
             
             $json       =   array();
             $language = $request->language;
-             $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
-           
-           /* $rent_time[] = array('name' => "1-2 Year");
-            $rent_time[] = array('name' => "2-5 Year");
-            $rent_time[] = array('name' => "5-8 Year");
-            $rent_time[] = array('name' => "8-10 Year");
-            $rent_time[] = array('name' => "10-12 Year");
-            $rent_time[] = array('name' => "12-15 Year");
-            $rent_time[] = array('name' => "15-20 Year");
-           */ 
-           
+            $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $rent_time[0] = array('id' => 0, 'name' => 'All');
             
             $status_code = '1';
             $message = 'Rent Time list';
