@@ -807,13 +807,17 @@ class apiController extends Controller
             $json       =   array();
             
 
-            $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
-
             $cityList[] = array('id' => 0, 'name' => 'All');
 
-            //arsort($cityList);
+            $cityList1 = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            
+            if($cityList1)
+            {
+                foreach($cityList1 as $row)
+                {
+                   $cityList[] = array('id' => $row>->id, 'name' => $row>->name); 
+                }
+            }
 
             $status_code = '1';
             $message = 'All City list';
