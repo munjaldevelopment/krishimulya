@@ -787,6 +787,8 @@ class apiController extends Controller
             
             $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
+            dd($cityList);
+
             $status_code = '1';
             $message = 'All City list';
             $json = array('status_code' => $status_code,  'message' => $message, 'cityList' => $cityList);
