@@ -811,7 +811,7 @@ class apiController extends Controller
 
             $cityList[] = array('id' => 0, 'name' => 'All');
 
-            arsort($cityList);
+            //arsort($cityList);
 
             
 
