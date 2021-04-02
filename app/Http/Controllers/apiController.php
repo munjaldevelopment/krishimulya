@@ -1628,7 +1628,7 @@ class apiController extends Controller
                         $purchaseOldList = $purchaseOldList->where('sale_type',$what_need);    
                     }
 
-                    if($company_name){
+                    if($company_name != "All"){
                         $purchaseOldList = $purchaseOldList->where('company_name',$company_name);    
                     }
 
