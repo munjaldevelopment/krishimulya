@@ -368,7 +368,7 @@ class apiController extends Controller
 
             $status_code = '1';
             $message = 'All Customer Type';
-            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'same_version' => $same_version);
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'same_version' => "".$same_version);
         }
         
         catch(\Exception $e) {
