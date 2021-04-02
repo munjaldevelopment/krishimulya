@@ -815,7 +815,7 @@ class apiController extends Controller
             {
                 foreach($cityList1 as $row)
                 {
-                   $cityList[] = array('id' => $row>->id, 'name' => $row>->name); 
+                   $cityList[] = array('id' => $row->id, 'name' => $row->name); 
                 }
             }
 
