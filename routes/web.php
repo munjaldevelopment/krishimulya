@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Raulr\GooglePlayScraper\Scraper;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,8 +59,8 @@ Route::get('/update-age', function () {
 });
 
 Route::get('/play-store', function () {
-	$scraper = new Scraper();
+	$gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+	$appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
 
-	$app = $scraper->getApp('com.microprixs.krishimulya');
-	echo '<pre>';print_r($app);
+	echo '<pre>';print_r($appInfo);
 });

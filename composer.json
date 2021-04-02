@@ -34,8 +34,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "muhamadrezaar/highcharts": "^2.0",
+        "nelexa/google-play-scraper": "^0.2.1",
         "pragmarx/tracker": "^4.0",
-        "raulr/google-play-scraper": "^0.3.0",
         "venturecraft/revisionable": "^1.35"
     },
     "require-dev": {
