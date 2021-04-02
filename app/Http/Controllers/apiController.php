@@ -811,8 +811,6 @@ class apiController extends Controller
 
             $cityList[] = array('id' => 0, 'name' => 'All');
 
-            array_reverse($cityList);
-
             //arsort($cityList);
 
             
