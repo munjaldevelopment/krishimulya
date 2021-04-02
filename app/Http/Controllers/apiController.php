@@ -785,8 +785,10 @@ class apiController extends Controller
             $json       =   array();
             
             
-            $cityList[0] = array('id' => '0', 'name' => 'All');
+
             $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $cityList[0] = array('id' => '0', 'name' => 'All');
 
             
 
