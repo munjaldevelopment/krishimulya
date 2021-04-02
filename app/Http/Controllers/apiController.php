@@ -360,10 +360,10 @@ class apiController extends Controller
 
             $live_version = $appInfo->getAppVersion();
 
-            $same_version = 0;
+            $same_version = 1;
             if($live_version != $app_version)
             {
-                $same_version = 1;
+                $same_version = 0;
             }
 
             $status_code = '1';
