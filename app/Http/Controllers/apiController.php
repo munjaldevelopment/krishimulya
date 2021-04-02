@@ -346,17 +346,29 @@ class apiController extends Controller
             $baseUrl = URL::to("/");
             $json       =   array();
             $customer_id = $request->customer_id;
+            $app_version = $request->app_version;
+
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){
                 $custname = $customer->name;
             }else{
                 $custname = "Guest";
-            }    
-           
-            
+            }
+
+            $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+            $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
+
+            $live_version = $appInfo->getAppVersion();
+
+            $same_version = 0;
+            if($live_version != $app_version)
+            {
+                $same_version = 1;
+            }
+
             $status_code = '1';
             $message = 'All Customer Type';
-            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname);
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'same_version' => $same_version);
         }
         
         catch(\Exception $e) {
