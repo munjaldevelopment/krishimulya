@@ -1739,11 +1739,16 @@ class apiController extends Controller
             $language = $request->language;
             
 
-             $purposeType = DB::table('purpose_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $purposeType1 = DB::table('purpose_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-
-           /* $purposeType[] = array('name' => "Farming work");
-            $purposeType[] = array('name' => "Non-Farming work");*/
+            $purposeType[] = array('name' => 'All');
+            if($purposeType1)
+            {
+                foreach($purposeType1 as $row)
+                {
+                    $purposeType[] = array('name' => $row->name);   
+                }
+            }
             
             
             $status_code = '1';
