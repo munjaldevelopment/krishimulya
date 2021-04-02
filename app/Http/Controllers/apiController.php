@@ -1167,7 +1167,7 @@ class apiController extends Controller
             $model = '';
             $isactive = 1;
             $error = "";
-            if($location == ""){
+            if($location == "" || $location == "All"){
                 $error = "Please enter location for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
@@ -1416,11 +1416,16 @@ class apiController extends Controller
 
             $isactive = 1;
             $error = "";
-            if($company_name == ""){
+            if($location == "All"){
                 $error = "Please enter company name for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
-            if($model == ""){
+
+            if($company_name == "" || $company_name == "All"){
+                $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+            if($model == "" || $model == "All"){
                 $error = "Please enter model name of tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
@@ -1573,8 +1578,18 @@ class apiController extends Controller
             $payment_type = $request->payment_type;
             $isactive = 1;
             $error = "";
-            if($company_name == ""){
+            if($company_name == "" || $company_name == "All"){
                 $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($payment_type == "" || $payment_type == "All"){
+                $error = "Please enter payment type for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
             
