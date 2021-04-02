@@ -782,7 +782,7 @@ class apiController extends Controller
             $language = $request->language;
             $paymentList = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $paymentList[0] = array('name' => 'All');
+            $paymentList[] = array('name' => 'All');
             
             $status_code = '1';
             $message = 'Payment Type list';
@@ -810,7 +810,7 @@ class apiController extends Controller
 
             $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $cityList[0] = array('id' => 0, 'name' => 'All');
+            $cityList[] = array('id' => 0, 'name' => 'All');
 
             
 
@@ -839,7 +839,7 @@ class apiController extends Controller
             
             $cityList = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $cityList[0] = array('id' => 0, 'typename' => 'All');
+            $cityList[] = array('id' => 0, 'typename' => 'All');
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -959,7 +959,7 @@ class apiController extends Controller
      
             $toolList = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $toolList[0] = array('id' => 0, 'title' => 'All');
+            $toolList[] = array('id' => 0, 'title' => 'All');
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -1039,7 +1039,7 @@ class apiController extends Controller
             
             $companyList = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $companyList[0] = array('id' => 0, 'title' => 'All');
+            $companyList[] = array('id' => 0, 'title' => 'All');
 
             $status_code = '1';
             $message = 'Company list';
@@ -1064,7 +1064,7 @@ class apiController extends Controller
             $language = $request->language;
             $tractorHpList = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
 
-            $tractorHpList[0] = array('name' => 'All');
+            $tractorHpList[] = array('name' => 'All');
 
             $status_code = '1';
             $message = 'Tractor HP list';
@@ -2004,7 +2004,7 @@ class apiController extends Controller
             
             $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $landTypeList[0] = array('name' => 'All');
+            $landTypeList[] = array('name' => 'All');
 
            /* $landTypeList[] = array('name' => "agriculture");
             $landTypeList[] = array('name' => "non-agriculture");
@@ -2034,7 +2034,7 @@ class apiController extends Controller
             
             $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $landsize[0] = array('name' => 'All');
+            $landsize[] = array('name' => 'All');
             
             
             $status_code = '1';
@@ -2060,7 +2060,7 @@ class apiController extends Controller
             $language = $request->language;
             $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-            $rent_time[0] = array('name' => 'All');
+            $rent_time[] = array('name' => 'All');
             
             $status_code = '1';
             $message = 'Rent Time list';
