@@ -62,5 +62,5 @@ Route::get('/play-store', function () {
 	$gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
 	$appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
 
-	echo '<pre>';print_r($appInfo);
+	echo '<pre>';print_r($appInfo->getInstalls());
 });
