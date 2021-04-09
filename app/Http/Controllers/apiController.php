@@ -237,9 +237,12 @@ class apiController extends Controller
                 {
                     $customerid = $customer->id;
                     $otp = rand(111111, 999999);
-                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
+
+                    $smsmessage = str_replace(" ", "%20", "Thank you for registering on KRISHI MULYA AGRO PRIVATE LIMITED. ".$otp." is the OTP for your Login id. Please do not share with anyone.");
      
-                     $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                    $this->httpGet("http://sms.messageindia.in/sendSMS?username=krishim&message=".$smsmessage."&sendername=KMAOTP&smstype=TRANS&numbers=".$mobile."&apikey=b82ccff1-85cc-4cd5-9401-beed47647ed0");//http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+
+                    //$this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
                     DB::table('customers_temp')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
 
@@ -711,7 +714,7 @@ class apiController extends Controller
                 $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
             }
             
-            $status_code = '1';
+            $status_code = '0';
             $message = 'Popup list';
             $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => $same_version, 'slider_url' => $baseUrl.'/app-popup');
         }
