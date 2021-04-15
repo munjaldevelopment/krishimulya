@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\FeedsRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use DB;
 
 /**
  * Class FeedsCrudController
@@ -218,12 +219,12 @@ class FeedsCrudController extends CrudController
 
         $result = $this->traitFeedStore();
 
-        $customers = \DB::table('customers')->whereNotNull('fcmToken')->get();
+        $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
         foreach($customers as $cust)
         {
-            $title = $this->crud->request()->title;
-            $message1 = $this->crud->request()->content;
+            $title = $this->crud->getRequest()->title;
+            $message1 = strip_tags($this->crud->getRequest()->content);
             $this->sendNotification($cust->id, $title, $message1, '');
         }
 
@@ -232,21 +233,29 @@ class FeedsCrudController extends CrudController
 
     public function update()
     {
+        //echo $this->crud->->title; exit;
+
         $this->crud->setRequest($this->crud->validateRequest());
         //$this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run
 
         $result = $this->traitFeedUpdate();
 
-        $customers = \DB::table('customers')->whereNotNull('fcmToken')->get();
+        $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
         foreach($customers as $cust)
         {
-            $title = $this->crud->request()->title;
-            $message1 = $this->crud->request()->content;
+            $title = $this->crud->getRequest()->title;
+            $message1 = strip_tags($this->crud->getRequest()->content);
             $this->sendNotification($cust->id, $title, $message1, '');
         }
 
         return $result;
+    }
+
+    public function sendNotification($customer_id, $title, $message, $image = '')
+    {
+        $date = date('Y-m-d H:i:s');
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
     }
 }
