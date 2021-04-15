@@ -218,6 +218,15 @@ class FeedsCrudController extends CrudController
 
         $result = $this->traitFeedStore();
 
+        $customers = \DB::table('customers')->whereNotNull('fcmToken')->get();
+
+        foreach($customers as $cust)
+        {
+            $title = $this->crud->request()->title;
+            $message1 = $this->crud->request()->content;
+            $this->sendNotification($cust->id, $title, $message1, '');
+        }
+
         return $result;
     }    
 
@@ -228,6 +237,15 @@ class FeedsCrudController extends CrudController
         $this->crud->unsetValidation(); // validation has already been run
 
         $result = $this->traitFeedUpdate();
+
+        $customers = \DB::table('customers')->whereNotNull('fcmToken')->get();
+
+        foreach($customers as $cust)
+        {
+            $title = $this->crud->request()->title;
+            $message1 = $this->crud->request()->content;
+            $this->sendNotification($cust->id, $title, $message1, '');
+        }
 
         return $result;
     }
