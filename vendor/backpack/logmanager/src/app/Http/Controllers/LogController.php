@@ -67,6 +67,10 @@ class LogController extends Controller
      */
     public function delete($file_name)
     {
+        if (config('backpack.logmanager.allow_delete') == false) {
+            abort(403);
+        }
+
         if (app('files')->delete(LogViewer::pathToLogFile(decrypt($file_name)))) {
             return 'success';
         }

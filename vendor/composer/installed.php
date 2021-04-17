@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '9126a812042d8926fdf2f28526872834f857a2da',
+    'reference' => '220a430c32379cbb337446297455511512dc8c85',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -40,12 +40,12 @@
     ),
     'backpack/backupmanager' => 
     array (
-      'pretty_version' => 'v3.0.2',
-      'version' => '3.0.2.0',
+      'pretty_version' => 'v3.0.3',
+      'version' => '3.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7e8dc4d32238befd7fe78d28c1ddb9e49779f17c',
+      'reference' => 'ad33731e6d6b878ee45b91e2aa4e8abd961c576a',
     ),
     'backpack/crud' => 
     array (
@@ -58,12 +58,12 @@
     ),
     'backpack/filemanager' => 
     array (
-      'pretty_version' => '1.1.4',
-      'version' => '1.1.4.0',
+      'pretty_version' => '1.1.5',
+      'version' => '1.1.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f3fbea46ee3bcb0dcd753d2de8362f955008e0f7',
+      'reference' => 'd55ff7f5229159424427e28034fe29f7cba004d9',
     ),
     'backpack/generators' => 
     array (
@@ -76,12 +76,12 @@
     ),
     'backpack/logmanager' => 
     array (
-      'pretty_version' => 'v4.0.2',
-      'version' => '4.0.2.0',
+      'pretty_version' => 'v4.0.4',
+      'version' => '4.0.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1ddc98de9f0f9aa9a3a0d338af547052e1aae522',
+      'reference' => '097cf7c0a1e658040bf9fbe727c79a0547eb4a78',
     ),
     'backpack/newscrud' => 
     array (
@@ -94,39 +94,39 @@
     ),
     'backpack/pagemanager' => 
     array (
-      'pretty_version' => '3.0.7',
-      'version' => '3.0.7.0',
+      'pretty_version' => '3.0.8',
+      'version' => '3.0.8.0',
       'aliases' => 
       array (
       ),
-      'reference' => '7599394b9c72a0e472a34365f6b7a3b54cebb532',
+      'reference' => '17f7fee807c62ba53ba34021846e4a7b60f943b1',
     ),
     'backpack/permissionmanager' => 
     array (
-      'pretty_version' => '6.0.5',
-      'version' => '6.0.5.0',
+      'pretty_version' => '6.0.6',
+      'version' => '6.0.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f1ead608e2a9e2fce583e7a3761a7fa577a520ee',
+      'reference' => '87cf8511a91b57bd5d9ac4ffa0ba507f5cf4de35',
     ),
     'backpack/revise-operation' => 
     array (
-      'pretty_version' => '1.0.6',
-      'version' => '1.0.6.0',
+      'pretty_version' => '1.0.7',
+      'version' => '1.0.7.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6208330fda66499d0670aad88c7025c4e9840c8d',
+      'reference' => 'f05e69ffbce8c13de348862bdfdbef7ac0332e1d',
     ),
     'backpack/settings' => 
     array (
-      'pretty_version' => '3.0.9',
-      'version' => '3.0.9.0',
+      'pretty_version' => '3.0.10',
+      'version' => '3.0.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1efa57e3f4a23fee2eb8eec81da969e3cfc13034',
+      'reference' => '164af798dbf5085864de29a84aeea59501f98b98',
     ),
     'barryvdh/elfinder-flysystem-driver' => 
     array (
@@ -139,12 +139,12 @@
     ),
     'barryvdh/laravel-debugbar' => 
     array (
-      'pretty_version' => 'v3.5.2',
-      'version' => '3.5.2.0',
+      'pretty_version' => 'v3.5.5',
+      'version' => '3.5.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'cae0a8d1cb89b0f0522f65e60465e16d738e069b',
+      'reference' => '6420113d90bb746423fa70b9940e9e7c26ebc121',
     ),
     'barryvdh/laravel-dompdf' => 
     array (
@@ -257,15 +257,6 @@
         0 => '*',
       ),
     ),
-    'dnoegel/php-xdg-base-dir' => 
-    array (
-      'pretty_version' => 'v0.1.1',
-      'version' => '0.1.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '8f8a6e48c5ecb0f991c2fdcf5f154a47d85f9ffd',
-    ),
     'doctrine/cache' => 
     array (
       'pretty_version' => '1.10.2',
@@ -358,21 +349,21 @@
     ),
     'facade/flare-client-php' => 
     array (
-      'pretty_version' => '1.5.0',
-      'version' => '1.5.0.0',
+      'pretty_version' => '1.7.0',
+      'version' => '1.7.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9dd6f2b56486d939c4467b3f35475d44af57cf17',
+      'reference' => '6bf380035890cb0a09b9628c491ae3866b858522',
     ),
     'facade/ignition' => 
     array (
-      'pretty_version' => '2.7.0',
-      'version' => '2.7.0.0',
+      'pretty_version' => '2.8.3',
+      'version' => '2.8.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'bdc8b0b32c888f6edc838ca641358322b3d9506d',
+      'reference' => 'a8201d51aae83addceaef9344592a3b068b5d64d',
     ),
     'facade/ignition-contracts' => 
     array (
@@ -735,7 +726,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '9126a812042d8926fdf2f28526872834f857a2da',
+      'reference' => '220a430c32379cbb337446297455511512dc8c85',
     ),
     'laravel/tinker' => 
     array (
@@ -793,12 +784,12 @@
     ),
     'maxmind-db/reader' => 
     array (
-      'pretty_version' => 'v1.10.0',
-      'version' => '1.10.0.0',
+      'pretty_version' => 'v1.10.1',
+      'version' => '1.10.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '07f84d969cfc527ce49388558a366ad376f1f35c',
+      'reference' => '569bd44d97d30a4ec12c7793a33004a76d4caf18',
     ),
     'maxmind/web-service-common' => 
     array (
@@ -921,12 +912,12 @@
     ),
     'opis/closure' => 
     array (
-      'pretty_version' => '3.6.1',
-      'version' => '3.6.1.0',
+      'pretty_version' => '3.6.2',
+      'version' => '3.6.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5',
+      'reference' => '06e2ebd25f2869e54a306dda991f7db58066f7f6',
     ),
     'phar-io/manifest' => 
     array (
@@ -1184,12 +1175,12 @@
     ),
     'psy/psysh' => 
     array (
-      'pretty_version' => 'v0.10.7',
-      'version' => '0.10.7.0',
+      'pretty_version' => 'v0.10.8',
+      'version' => '0.10.8.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a395af46999a12006213c0c8346c9445eb31640c',
+      'reference' => 'e4573f47750dd6c92dca5aee543fa77513cbd8d3',
     ),
     'ralouphie/getallheaders' => 
     array (
@@ -1362,12 +1353,12 @@
     ),
     'spatie/laravel-backup' => 
     array (
-      'pretty_version' => '6.15.1',
-      'version' => '6.15.1.0',
+      'pretty_version' => '6.16.0',
+      'version' => '6.16.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '94be6b3bb5248727367a50161be90e6c422558b4',
+      'reference' => '6b2229a07d92c2bb146ad9c5223fc32e9d74830c',
     ),
     'spatie/laravel-permission' => 
     array (
