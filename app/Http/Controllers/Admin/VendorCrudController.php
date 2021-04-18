@@ -35,7 +35,7 @@ class VendorCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Vendor::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/vendor');
-        CRUD::setEntityNameStrings('vendor', 'vendors');
+        CRUD::setEntityNameStrings('Vendor', 'Vendors');
 
         $this->crud->addColumn([
                 'label'     => 'User',
