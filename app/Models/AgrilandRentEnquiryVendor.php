@@ -30,9 +30,9 @@ class AgrilandRentEnquiryVendor extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-     public function allCustomers()
+     public function vendors()
     {
-        return $this->belongsTo('App\Models\Customer', 'customer_id');
+        return $this->belongsTo('App\Models\Vendor', 'vendor_id');
     }
     /*
     |--------------------------------------------------------------------------
