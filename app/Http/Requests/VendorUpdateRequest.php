@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Http\Requests\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
-class VendorRequest extends FormRequest
+class VendorUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,13 @@ class VendorRequest extends FormRequest
      */
     public function rules()
     {
+        $user_id = request('user_id');
+
         return [
             'user_id' => 'required',
             'name' => 'required',
-            'email' => 'required|unique:users,email,'.$this->id,
-            'phone' => 'required|unique:users,phone,'.$this->id,
-            'password' => 'required'
+            'email' => 'required|unique:users,email,'.$user_id,
+            'phone' => 'required|unique:users,phone,'.$user_id
         ];
     }
 
