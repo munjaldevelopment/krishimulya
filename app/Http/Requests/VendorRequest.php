@@ -26,7 +26,7 @@ class VendorRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
+            //'user_id' => 'required',
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$this->id,
             'phone' => 'required|unique:users,phone,'.$this->id,

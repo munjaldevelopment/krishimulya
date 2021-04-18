@@ -16,7 +16,7 @@
 	{
 		$invoiceInfoArr = array();
 		
-		$bankData = \DB::table('lender_banking')->where('lender_id', $entry->getKey())->where('banking_arrangment_id', $k)->first();
+		$bankData = \DB::table('vendor_service_assign')->where('lender_id', $entry->getKey())->where('banking_arrangment_id', $k)->first();
 		if($bankData)
 		{
 			$invoiceInfoArr[$k] = array('lender_banking_status' => $bankData->lender_banking_status, 'sanction_amount' => $bankData->sanction_amount, 'outstanding_amount' => $bankData->outstanding_amount);
