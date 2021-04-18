@@ -60,4 +60,6 @@ Route::group([
 
     Route::get('sendNotification', 'UserNotificationController@sendNotification');
     Route::post('sendNotification', 'UserNotificationController@sendNotificationMessage');
+    Route::crud('vendorservice', 'VendorServiceCrudController');
+    Route::crud('vendor', 'VendorCrudController');
 });
