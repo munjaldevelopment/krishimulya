@@ -320,7 +320,7 @@ class VendorCrudController extends CrudController
         if($this->crud->getRequest()->vendor_assign)
         {
             \DB::table('vendor_service_assign')->where('vendor_id', $this->crud->getRequest()->id)->delete();
-            
+
             foreach($this->crud->getRequest()->vendor_assign as $k => $vendor_assign)
             {
                 if(!is_null($vendor_assign))
@@ -331,5 +331,30 @@ class VendorCrudController extends CrudController
         }
         
         return $result;
+    }
+
+    protected function handlePasswordInput($request)
+    {
+        // Remove fields not present on the user.
+        $this->crud->getRequest()->request->remove('password_confirmation');
+
+        // Encrypt password if specified.
+        if ($this->crud->getRequest()->input('password')) {
+            $this->crud->getRequest()->request->set('password', Hash::make($this->crud->getRequest()->input('password')));
+        } else {
+            $this->crud->getRequest()->request->remove('password');
+        }
+
+        return $this->crud->getRequest();
+    }
+
+    public function destroy($id)
+    {
+        $this->crud->hasAccessOrFail('delete');
+
+        \DB::table('vendor_service_assign')->where('vendor_id', $id)->delete();
+        //\DB::table('lender_banking_details')->where('lender_id', $id)->delete();
+
+        return $this->crud->delete($id);
     }
 }
