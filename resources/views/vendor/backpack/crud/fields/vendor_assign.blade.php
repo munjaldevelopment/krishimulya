@@ -8,14 +8,14 @@
 		}
 	}
 
-	$cableData1 = \DB::table('pincodes')->where('active', '=', '1')->get();
+	/*$cableData1 = \DB::table('pincodes')->where('active', '=', '1')->get();
 	if($cableData1)
 	{
 		foreach($cableData1 as $k => $row)
 		{
 			$pincode[$row->id] = $row->zip;
 		}
-	}
+	}*/
 
 	for($count=1;$count<=20;$count++)
 	{
@@ -45,23 +45,10 @@
 	<div class="form-group col-sm-4">
 		<label>{!! $field['label'] !!} Zipcode</label>
 
-		<select
+		<textarea
 	        name="{{ $field['name'] }}_zipcode[]"
-	        style="width: 100%"
-	        data-init-function="bpFieldInitSelect2Element"
-			class='form-control select2 select2_from_array'
-			multiple
-			id="invoice_info_zipcode_<?php echo $count; ?>"
-	        >
-
-	        <option value="">-</option>
-
-	        @if (count($pincode))
-	            @foreach ($pincode as $key => $value)
-					<option value="{{ $key }}" data-type="{{ $key }}">{{ $value }}</option>
-	            @endforeach
-	        @endif
-	    </select>
+			class='form-control'
+	        ></textarea>
 		
 	    {{-- HINT --}}
 	    @if (isset($field['hint']))

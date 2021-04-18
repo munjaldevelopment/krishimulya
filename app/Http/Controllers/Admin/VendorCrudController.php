@@ -258,4 +258,78 @@ class VendorCrudController extends CrudController
         CRUD::setFromDb(); // fields
         //$this->setupCreateOperation();
     }
+
+    public function store()
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+        $this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation(); // validation has already been run
+        
+        $result = $this->traitVendorStore();
+        
+        // Save Data in user table
+        $id = $this->crud->entry->id;
+
+        $user_id = User::insertGetId([
+            'name' => $this->crud->getRequest()->name,
+            'email' => $this->crud->getRequest()->email,
+            'password' => Hash::make($this->crud->getRequest()->password),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        
+        Vnedor::where('id', $id)->update(['user_id' => $user_id]);
+        
+        // create role entry-
+        \DB::table('model_has_roles')->insert(['role_id' => '2', 'model_type' => 'App\User', 'model_id' => $user_id]);
+
+        if($this->crud->getRequest()->vendor_assign)
+        {
+            foreach($this->crud->getRequest()->vendor_assign as $k => $vendor_assign)
+            {
+                if(!is_null($vendor_assign))
+                {
+                    \DB::table('vendor_service_assign')->insert(['vendor_id' => $id, 'vendor_service_id' => $vendor_assign, 'zip_code' => $this->crud->getRequest()->vendor_assign_zipcode[$k], 'price' => $this->crud->getRequest()->vendor_assign_price[$k], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    public function update()
+    {
+        $user_logged_id = \Auth::user()->id;
+        $this->crud->setRequest($this->crud->validateRequest());
+        //$this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation(); // validation has already been run
+
+        $result = $this->traitVendorUpdate();
+
+        $user_id = $this->crud->getRequest()->user_id;
+
+        if($this->crud->getRequest()->password == NULL)
+        {
+            User::where('id', $user_id)->update(['name' => $this->crud->getRequest()->name, 'email' => $this->crud->getRequest()->email, 'updated_at' => date('Y-m-d H:i:s')]);
+        }
+        else
+        {
+            User::where('id', $user_id)->update(['name' => $this->crud->getRequest()->name, 'email' => $this->crud->getRequest()->email, 'password' => Hash::make($this->crud->getRequest()->password), 'updated_at' => date('Y-m-d H:i:s')]);
+        }
+
+        if($this->crud->getRequest()->vendor_assign)
+        {
+            \DB::table('vendor_service_assign')->where('vendor_id', $this->crud->getRequest()->id)->delete();
+            
+            foreach($this->crud->getRequest()->vendor_assign as $k => $vendor_assign)
+            {
+                if(!is_null($vendor_assign))
+                {
+                    \DB::table('vendor_service_assign')->insert(['vendor_id' => $this->crud->getRequest()->id, 'vendor_service_id' => $vendor_assign, 'zip_code' => $this->crud->getRequest()->vendor_assign_zipcode[$k], 'price' => $this->crud->getRequest()->vendor_assign_price[$k], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
+                }
+            }
+        }
+        
+        return $result;
+    }
 }
