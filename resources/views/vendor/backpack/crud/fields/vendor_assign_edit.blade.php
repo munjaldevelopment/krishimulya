@@ -1,79 +1,85 @@
 <?php
 	$incomingType = array();
 	
-	$panelData = \DB::table('banking_arrangment')->orderBy('lft', 'DESC')->get();
-	if($panelData)
-	{
-		foreach($panelData as $k => $row)
-		{
-			$incomingType[$row->id] = $row->name;
-		}
-	}
+	$cableData = \DB::table('vendor_services')->where('status', '=', '1')->get();
+    if($cableData)
+    {
+        foreach($cableData as $k => $row)
+        {
+            $incomingType[$row->id] = $row->name;
+        }
+    }
 	
 	//dd($incomingType);
 	
-	foreach($incomingType as $k => $v)
-	{
-		$invoiceInfoArr = array();
+	$invoiceInfoArr = array();
 		
-		$bankData = \DB::table('vendor_service_assign')->where('lender_id', $entry->getKey())->where('banking_arrangment_id', $k)->first();
-		if($bankData)
-		{
-			$invoiceInfoArr[$k] = array('lender_banking_status' => $bankData->lender_banking_status, 'sanction_amount' => $bankData->sanction_amount, 'outstanding_amount' => $bankData->outstanding_amount);
-		}
+	$bankData = \DB::table('vendor_service_assign')->where('vendor_id', $entry->getKey())->get();
+	if($bankData)
+	{
+        foreach($bankData as $row1)
+        {
+            $invoiceInfoArr[] = array('vendor_service_id' => $row1->vendor_service_id, 'zip_code' => $row1->zip_code, 'price' => $row1->price);
+        }
+	}
+
+    //dd($invoiceInfoArr);
+
+    for($count=1;$count<=20;$count++)
+    {
 ?>
 <!-- select2 from array -->
 
-<div class="form-group col-sm-6">
-    <label>{{ $v }} Sanction</label>
-	
-	<input
-            type="hidden"
-            name="banking_arrangment_id[]"
-            value="{{ $k }}"
-        >
+<div class="form-group col-sm-4">
+        <label>{!! $field['label'] !!}  #<?php echo $count; ?></label>
 
-    <input
-            type="hidden"
-            name="lender_banking_status_old[]"
-            value="@if(isset($invoiceInfoArr[$k])){{$invoiceInfoArr[$k]['lender_banking_status']}}@endif"
-        >
+        <select
+            name="{{ $field['name'] }}[]"
+            style="width: 100%"
+            class='form-control select2_from_array'
+            id="invoice_info_name_<?php echo $count; ?>"
+            >
 
-    <input
-            type="hidden"
-            name="{{ $field['name'] }}_sanction_old[]"
-            value="@if(isset($invoiceInfoArr[$k])){{$invoiceInfoArr[$k]['sanction_amount']}}@endif"
-        >
-		
-	<input
-            type="text"
-            class="form-control"
-            name="{{ $field['name'] }}_sanction[]"
-            value="@if(isset($invoiceInfoArr[$k])){{$invoiceInfoArr[$k]['sanction_amount']}}@endif"
-        >
-</div>
+            <option value="">-</option>
 
-<div class="form-group col-sm-6">
-	<label>{{ $v }} Outstanding</label>
+            @if (count($incomingType))
+                @foreach ($incomingType as $key => $value)
+                    <option value="{{ $key }}" data-type="{{ $key }}" @if(isset($invoiceInfoArr[$count-1]) && ($invoiceInfoArr[$count-1]['vendor_service_id'] == $key)) selected @endif>{{ $value }}</option>
+                @endforeach
+            @endif
+        </select>
+    </div>
 
-	<input
-            type="hidden"
-            name="{{ $field['name'] }}_outstanding_old[]"
-            value="@if(isset($invoiceInfoArr[$k])){{$invoiceInfoArr[$k]['outstanding_amount']}}@endif"
-        >
+    <div class="form-group col-sm-4">
+        <label>{!! $field['label'] !!} Zipcode</label>
 
-	<input
-            type="text"
-            class="form-control"
-            name="{{ $field['name'] }}_outstanding[]"
-            value="@if(isset($invoiceInfoArr[$k])){{$invoiceInfoArr[$k]['outstanding_amount']}}@endif"
-        >
-	
-    {{-- HINT --}}
-    @if (isset($field['hint']))
-        <p class="help-block">{!! $field['hint'] !!}</p>
-    @endif
-</div>
+        <textarea
+            name="{{ $field['name'] }}_zipcode[]"
+            class='form-control'
+            >@if(isset($invoiceInfoArr[$count-1]['zip_code'])) {{ $invoiceInfoArr[$count-1]['zip_code'] }} @endif</textarea>
+        
+        {{-- HINT --}}
+        @if (isset($field['hint']))
+            <p class="help-block">{!! $field['hint'] !!}</p>
+        @endif
+    </div>  
+
+    <div class="form-group col-sm-4">
+        <label>{!! $field['label'] !!} Price</label>
+
+        <input type="text"
+            name="{{ $field['name'] }}_price[]"
+            class='form-control'
+            value="@if(isset($invoiceInfoArr[$count-1]['price'])) {{ $invoiceInfoArr[$count-1]['price'] }} @endif"
+            >
+        
+        {{-- HINT --}}
+        @if (isset($field['hint']))
+            <p class="help-block">{!! $field['hint'] !!}</p>
+        @endif
+    </div>  
+
+</div><div class="row">
 <?php
 	}
 ?>

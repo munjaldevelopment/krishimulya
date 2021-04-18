@@ -152,6 +152,16 @@ class VendorCrudController extends CrudController
                                 'options' => ['Approve' => 'Approve', 'Pending' => 'Pending', 'Onboarded' => 'Onboarded'],
                                 'tab' => 'User'
                             ]);
+
+        $this->crud->addField([
+                'label' => 'Tags',
+                'type' => 'relationship',
+                'name' => 'vendorService', // the method that defines the relationship in your Model
+                'entity' => 'vendorService', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+                'tab'   => 'Vendor Service',
+            ]);
                             
                     
         $this->crud->addField([
@@ -216,6 +226,16 @@ class VendorCrudController extends CrudController
                                 'options' => ['Yet to onboarded' => 'Yet to onboarded', 'Onboarded' => 'Onboarded'],
                                 'tab' => 'User'
                             ]);
+
+        $this->crud->addField([
+                'label' => 'Tags',
+                'type' => 'relationship',
+                'name' => 'vendorService', // the method that defines the relationship in your Model
+                'entity' => 'vendorService', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'pivot' => true, // on create&update, do you need to add/delete pivot table entries?
+                'tab'   => 'Vendor Service',
+            ]);
                             
                             
         $this->crud->addField([
@@ -278,7 +298,7 @@ class VendorCrudController extends CrudController
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
         
-        Vnedor::where('id', $id)->update(['user_id' => $user_id]);
+        Vendor::where('id', $id)->update(['user_id' => $user_id]);
         
         // create role entry-
         \DB::table('model_has_roles')->insert(['role_id' => '2', 'model_type' => 'App\User', 'model_id' => $user_id]);
@@ -289,7 +309,7 @@ class VendorCrudController extends CrudController
             {
                 if(!is_null($vendor_assign))
                 {
-                    \DB::table('vendor_service_assign')->insert(['vendor_id' => $id, 'vendor_service_id' => $vendor_assign, 'zip_code' => $this->crud->getRequest()->vendor_assign_zipcode[$k], 'price' => $this->crud->getRequest()->vendor_assign_price[$k], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
+                    \DB::table('vendor_service_assign')->insert(['vendor_id' => $id, 'vendor_service_id' => $vendor_assign, 'zip_code' => $this->crud->getRequest()->vendor_assign_zipcode[$k], 'price' => $this->crud->getRequest()->vendor_assign_price[$k]]);
                 }
             }
         }
@@ -299,7 +319,6 @@ class VendorCrudController extends CrudController
 
     public function update()
     {
-        $user_logged_id = \Auth::user()->id;
         $this->crud->setRequest($this->crud->validateRequest());
         //$this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
         $this->crud->unsetValidation(); // validation has already been run
@@ -325,7 +344,7 @@ class VendorCrudController extends CrudController
             {
                 if(!is_null($vendor_assign))
                 {
-                    \DB::table('vendor_service_assign')->insert(['vendor_id' => $this->crud->getRequest()->id, 'vendor_service_id' => $vendor_assign, 'zip_code' => $this->crud->getRequest()->vendor_assign_zipcode[$k], 'price' => $this->crud->getRequest()->vendor_assign_price[$k], 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
+                    \DB::table('vendor_service_assign')->insert(['vendor_id' => $this->crud->getRequest()->id, 'vendor_service_id' => $vendor_assign, 'zip_code' => $this->crud->getRequest()->vendor_assign_zipcode[$k], 'price' => $this->crud->getRequest()->vendor_assign_price[$k]]);
                 }
             }
         }

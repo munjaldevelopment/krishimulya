@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
+use Venturecraft\Revisionable\RevisionableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model
 {
-    use CrudTrait;
+    use CrudTrait, RevisionableTrait;
 
     /*
     |--------------------------------------------------------------------------
@@ -33,6 +34,11 @@ class Vendor extends Model
     public function users()
     {
         return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function vendorService()
+    {
+        return $this->belongsToMany('App\Models\VendorService', 'vendor_vendor_assign');
     }
 
     /*
