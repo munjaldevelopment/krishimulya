@@ -22,7 +22,7 @@
 
 		
 ?>
-	<div class="form-group col-sm-6">
+	<div class="form-group col-sm-4">
 	    <label>{!! $field['label'] !!}  #<?php echo $count; ?></label>
 
 	    <select
@@ -42,7 +42,7 @@
 	    </select>
 	</div>
 
-	<div class="form-group col-sm-6">
+	<div class="form-group col-sm-4">
 		<label>{!! $field['label'] !!} Zipcode</label>
 
 		<select
@@ -62,6 +62,20 @@
 	            @endforeach
 	        @endif
 	    </select>
+		
+	    {{-- HINT --}}
+	    @if (isset($field['hint']))
+	        <p class="help-block">{!! $field['hint'] !!}</p>
+	    @endif
+	</div>	
+
+	<div class="form-group col-sm-4">
+		<label>{!! $field['label'] !!} Price</label>
+
+		<input type="text"
+	        name="{{ $field['name'] }}_price[]"
+			class='form-control'
+	        >
 		
 	    {{-- HINT --}}
 	    @if (isset($field['hint']))
