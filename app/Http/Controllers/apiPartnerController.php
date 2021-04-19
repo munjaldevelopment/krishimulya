@@ -883,7 +883,7 @@ class apiPartnerController extends Controller
         {
             $json       =   array();
             $partner_id = $request->partner_id;
-            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($partner){ 
                     $soilnotificationExists = DB::table('notifications')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
@@ -920,6 +920,72 @@ class apiPartnerController extends Controller
 
                 }
         }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function appPopup(Request $request)
+    {
+        try 
+        {
+            Setting::assignSetting();
+
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $customer_id = $request->partner_id;
+
+            // To do
+            $app_version = "";
+
+            if(isset($request->app_version))
+            {
+                $app_version = $request->app_version;
+            }
+
+            $customer = DB::table('vendors')->where('id', $customer_id)->where('is_onboard', '=', '1')->first();
+            if($customer){
+                $custname = $customer->name;
+                $custcrn = ($customer->crn == NULL ? "" : $customer->crn);
+
+                // update app version in
+                $date = date('Y-m-d H:i:s');
+                DB::table('customers')->where('id', '=', $customer_id)->update(['app_version' => $app_version, 'updated_at' => $date]);
+            } else {
+                $custname = "Guest";
+                $custcrn = "";
+            }
+
+            $sliderArr = array();
+            $sliderList = DB::table('app_popups')->where('status', '=', 1)->orderBy('id', 'DESC')->first();
+            $short_description = $sliderimage = $title = '';
+            if($sliderList) {
+                $title = $sliderList->title;
+                $short_description = $sliderList->short_description;
+                $sliderimage  =  $baseUrl."/public/".$sliderList->image;
+            }
+
+            $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+            $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
+
+            $live_version = $appInfo->getAppVersion();
+
+            $same_version = '';
+            if($live_version != $app_version)
+            {
+                $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
+            }
+            
+            $status_code = '0';
+            $message = 'Popup list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => $same_version, 'slider_url' => $baseUrl.'/app-popup');
+        }
+        
         catch(\Exception $e) {
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
