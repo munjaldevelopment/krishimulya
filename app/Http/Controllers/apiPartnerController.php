@@ -71,7 +71,7 @@ class apiPartnerController extends Controller
 
                         $status_code = '1';
                         $message = 'Partner login successfully';
-                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'phone' => $mobile, 'pincode' =>  $vendors->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
+                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'phone' => $mobile, 'pincode' =>  $vendors->pincode, 'referurl' =>  $refer_url, "partner_type" => "already");
                     } else{
                     
                         $status_code = $success = '0';
