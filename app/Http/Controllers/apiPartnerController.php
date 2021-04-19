@@ -37,7 +37,7 @@ class apiPartnerController extends Controller
                 $json = $userData = array();
                 $mobile = $mobile;
                 $date   = date('Y-m-d H:i:s');
-                $vendors = DB::table('vendors')->where('mobile', $mobile)->where('password', $password)->first();
+                $vendors = DB::table('vendors')->where('phone', $mobile)->where('password', $password)->first();
                 if($vendors) 
                 {
                     
@@ -52,13 +52,13 @@ class apiPartnerController extends Controller
 
                         $status_code = '1';
                         $message = 'Partner login successfully';
-                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'mobile' => $mobile, 'pincode' =>  $vendors->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
+                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'phone' => $mobile, 'pincode' =>  $vendors->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
                     }else{
                         DB::table('vendors')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
 
                         $status_code = '0';
                         $message = 'Partner not active, please contact to support';
-                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'mobile' => $mobile, "partner_type" => "not active");
+                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'phone' => $mobile, "partner_type" => "not active");
                     }
                     
                 }else{
@@ -66,7 +66,7 @@ class apiPartnerController extends Controller
                     
                     $status_code = $success = '0';
                     $message = 'Please enter valid partner login detail';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'mobile' => $mobile, "partner_type" => "not found");
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'phone' => $mobile, "partner_type" => "not found");
                }
             }   
         }
