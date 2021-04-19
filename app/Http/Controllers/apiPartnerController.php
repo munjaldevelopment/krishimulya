@@ -271,7 +271,7 @@ class apiPartnerController extends Controller
                 }else{
                  $age = "";
                 } 
-                $mobile = $partner->mobile;
+                $mobile = $partner->phone;
                 
                 if($partner->pcode){
                     $pcode = $partner->pcode; 
