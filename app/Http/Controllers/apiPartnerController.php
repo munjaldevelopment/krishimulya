@@ -253,7 +253,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
            
-            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('statuis_onboard', '=', '1')->first();
             if($partner){ 
                 
                 if($partner->name){
@@ -402,7 +402,7 @@ class apiPartnerController extends Controller
              $baseUrl = URL::to("/");
             $json       =   array();
             $partner_id = $request->partner_id;
-            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($partner){ 
                     $soilodrExists = DB::table('soil_test_orders')->where('customer_id', $partner_id)->where('user_type', 'partner')->where('order_status', 'done')->orderBy('id', 'DESC')->count();
 
@@ -466,7 +466,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
             if($partner_id != ""){
-                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($partner){ 
 
                     $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','sale_type','location', 'other_city','user_type','sale_commission')->where('customer_id', $partner_id)->where('user_type', 'partner')->where('is_converted', '=', 1)->orderBy('id', 'desc')->get();
@@ -549,7 +549,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
            
-            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partner){ 
                 if($partner->name){
                     $name = $partner->name;
@@ -649,7 +649,7 @@ class apiPartnerController extends Controller
             $city = $request->city;
             //$pincode = $request->pincode;
 
-            $partners = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partners = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partners){ 
                 $partnerimage = '';
                 if($partner_image != ''){
@@ -698,7 +698,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
            
-            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partner){ 
                 
                 $status_code = $success = '1';
@@ -750,7 +750,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($partner){ 
                     
                     DB::table('tractor_rent_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'user_type' => 'partner', 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
