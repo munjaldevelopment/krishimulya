@@ -739,7 +739,7 @@ class apiPartnerController extends Controller
                    // $data = $image_parts[1];
                     file_put_contents($destinationPath, $data);
 
-                    echo $destinationPath; exit;
+                    //echo $destinationPath; exit;
                 }
 
                 // check for email already exists
