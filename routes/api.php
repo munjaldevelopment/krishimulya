@@ -171,6 +171,8 @@ Route::post('partner-logout', 'apiPartnerController@partner_logout');
 Route::post('partner-rent-enquiry', 'apiPartnerController@partner_rent_enquiry');
 Route::post('partner-rent-in-result', 'apiPartnerController@partner_rent_result_enquiry');
 
+Route::get('partner-token', 'apiPartnerController@getPartnerType');
+
 Route::post('partner-tractor-sale-enquiry', 'apiPartnerController@tractor_sale_enquiry');
 Route::post('partner-tractor_purchase-enquiry', 'apiPartnerController@tractor_purchase_enquiry');
 Route::post('partner-tractor-old-enquiry', 'apiPartnerController@purchase_old_results');

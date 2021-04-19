@@ -14,6 +14,17 @@ use QR_Code\QR_Code;
 
 class apiPartnerController extends Controller
 {
+	public function httpGet($url)
+    {
+        $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $head = curl_exec($ch); 
+        curl_close($ch);
+        return $head;
+    }
+
     //START LOGIN
 	public function partnerLogin(Request $request)
     {
@@ -97,19 +108,6 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
     // End Login
-    
-
-    public function httpGet($url)
-    {
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_VERBOSE, 0); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $head = curl_exec($ch); 
-        curl_close($ch);
-        return $head;
-    }
-
     
     //Forget Password
     public function forgotPassword(Request $request)
@@ -264,6 +262,58 @@ class apiPartnerController extends Controller
             $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
         
+        return response()->json($json, 200);
+    }
+
+    public function getPartnerType(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $partner_id = $request->partner_id;
+
+            $app_version = "";
+
+            if(isset($request->app_version))
+            {
+                $app_version = $request->app_version;
+            }
+
+            $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+            if($customer){
+                $custname = $customer->name;
+
+                // update app version in
+                $date = date('Y-m-d H:i:s');
+                DB::table('vendors')->where('id', '=', $customer_id)->update(['app_version' => $app_version, 'updated_at' => $date]);
+            }else{
+                $custname = "Guest";
+            }
+
+            $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+            $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
+
+            $live_version = $appInfo->getAppVersion();
+
+            $same_version = 1;
+            if($live_version != $app_version)
+            {
+                $same_version = 0;
+            }
+
+            $status_code = '1';
+            $message = 'All Customer Type';
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'same_version' => "".$same_version);
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
         return response()->json($json, 200);
     }
 
