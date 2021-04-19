@@ -402,7 +402,7 @@ class apiPartnerController extends Controller
              $baseUrl = URL::to("/");
             $json       =   array();
             $partner_id = $request->partner_id;
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     $soilodrExists = DB::table('soil_test_orders')->where('customer_id', $partner_id)->where('user_type', 'partner')->where('order_status', 'done')->orderBy('id', 'DESC')->count();
 
@@ -466,7 +466,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
             if($partner_id != ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
 
                     $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','sale_type','location', 'other_city','user_type','sale_commission')->where('customer_id', $partner_id)->where('user_type', 'partner')->where('is_converted', '=', 1)->orderBy('id', 'desc')->get();
@@ -549,7 +549,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
            
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
             if($partner){ 
                 if($partner->name){
                     $name = $partner->name;
@@ -649,7 +649,7 @@ class apiPartnerController extends Controller
             $city = $request->city;
             //$pincode = $request->pincode;
 
-            $partners = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partners = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
             if($partners){ 
                 $partnerimage = '';
                 if($partner_image != ''){
@@ -664,7 +664,7 @@ class apiPartnerController extends Controller
                    // $data = $image_parts[1];
                     file_put_contents($destinationPath, $data);
                 }
-                DB::table('partners')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
+                DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
 
                 $status_code = $success = '1';
                 $message = 'Partner info updated successfully';
@@ -698,7 +698,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
            
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
             if($partner){ 
                 
                 $status_code = $success = '1';
@@ -750,7 +750,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     
                     DB::table('tractor_rent_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'user_type' => 'partner', 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
@@ -804,7 +804,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
 
                     
@@ -913,7 +913,7 @@ class apiPartnerController extends Controller
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
             }
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     if($tractor_image != ''){
                         $image_parts = explode(";base64,", $tractor_image);
@@ -979,7 +979,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     
                     DB::table('tractor_purchase_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'user_type' => 'partner', 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
@@ -1034,7 +1034,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
 
                     
@@ -1154,7 +1154,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     
                     DB::table('insurance_enquiry')->insert(['customer_id' => $partner_id, 'insurance_type' => $insurance_type, 'name' => $name, 'mobile' => $mobile, 'other_insurance_type' => $other_insurance_type, 'comments' => $comments, 'user_type' => 'partner', 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
@@ -1201,7 +1201,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     
                     DB::table('partner_enquiry_tracking')->insert(['partner_id' => $partner_id, 'enquiry_type' => $enquiry_type, 'created_at' => $date, 'updated_at' => $date]);
@@ -1265,7 +1265,7 @@ class apiPartnerController extends Controller
                     $otp = rand(111111, 999999);
                     $message = str_replace(" ", "%20", "Thank you for registering on KRISHI MULYA AGRO PRIVATE LIMITED. ".$otp." is the OTP for your Login id. Please do not share with anyone.");
                     $result = $this->httpGet("http://sms.messageindia.in/v2/sendSMS?username=krishim&message=".$message."&sendername=KMAOTP&smstype=TRANS&numbers=".$mobile."&apikey=b82ccff1-85cc-4cd5-9401-beed47647ed0");//
-                    
+
                     DB::table('tbl_mobile_verify')->insertGetId(['mobile' => $mobile, 'otp' => $otp]);
                     $status_code = '1';
                     $message = 'OTP Send successfully';
@@ -1325,7 +1325,7 @@ class apiPartnerController extends Controller
             }        
             
             if($error == ""){
-                $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+                $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     
                   
@@ -1394,7 +1394,7 @@ class apiPartnerController extends Controller
              $baseUrl = URL::to("/");
             $json       =   array();
             $partner_id = $request->partner_id;
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     $soilodrExists = DB::table('soil_test_orders')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->count();
 
@@ -1463,7 +1463,7 @@ class apiPartnerController extends Controller
             $order_id = $request->order_id;
             $test_type = $request->test_type;
             $amount = $request->amount;
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     $soilodrList = DB::table('soil_test_orders')->select('id','order_no')->where('customer_id', $partner_id)->where('id', $order_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->first();
 
@@ -1512,7 +1512,7 @@ class apiPartnerController extends Controller
             $json      =   array();
             $partner_id = $request->partner_id;
             $order_id = $request->order_id;
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     $soilodrList = DB::table('soil_test_orders')->select('id','order_no')->where('customer_id', $partner_id)->where('id', $order_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->first();
 
@@ -1561,7 +1561,7 @@ class apiPartnerController extends Controller
             
             $json       =   array();
             $partner_id = $request->partner_id;
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
                 if($partner){ 
                     $soilnotificationExists = DB::table('notifications')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
