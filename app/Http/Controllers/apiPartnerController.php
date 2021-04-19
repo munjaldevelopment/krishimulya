@@ -55,6 +55,12 @@ class apiPartnerController extends Controller
                         $message = 'Partner login successfully';
                         $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'phone' => $mobile, 'pincode' =>  $vendors->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
                     }
+                    }else{
+                    
+                        $status_code = $success = '0';
+                        $message = 'Incorrect login details. Please try again.';
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                   }
                 }else{
 
                     
