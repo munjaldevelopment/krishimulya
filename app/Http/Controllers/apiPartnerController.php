@@ -116,7 +116,7 @@ class apiPartnerController extends Controller
 
                     $status_code = '1';
                     $message = 'OTP Send Successfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$vendors->id, 'otp' => $otp, 'phone' => $mobile);
+                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$vendors->id, 'otp' => "".$otp, 'phone' => $mobile);
                 } 
                 else 
                 {
