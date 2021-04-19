@@ -635,7 +635,7 @@ class apiPartnerController extends Controller
                     $email = "";
                 }
                 if($partner->age){
-                   $age = $partner->age;
+                   $age = date('m-d-Y', strtotime($partner->age));
                 }else{
                  $age = "";
                 } 
