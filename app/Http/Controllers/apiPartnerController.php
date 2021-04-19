@@ -716,11 +716,9 @@ class apiPartnerController extends Controller
             $name = $request->name;
             $age = $request->age;
             $email = $request->email;
-            //$mobile = $request->telephone;
             $address = $request->address;
             $partner_image = $request->partner_image;
             $city = $request->city;
-            //$pincode = $request->pincode;
 
             $partners = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partners){ 
@@ -751,7 +749,14 @@ class apiPartnerController extends Controller
                 }
                 else
                 {
-	                DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
+                	if($partnerimage != "")
+                	{
+	                	DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
+	                }
+	                else
+	                {
+	                	DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'updated_at' => $date]);
+	                }
 
 	                DB::table('users')->where('id', '=', $partners->user_id)->update(['name' => $name, 'email' => $email, 'updated_at' => $date]);
 
