@@ -42,7 +42,11 @@ class VendorServiceCrudController extends CrudController
         //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn('service_code');
-        $this->crud->addColumn('service_color');
+        $this->crud->addColumn([
+                'name' => 'service_color',
+                'label' => 'Color',
+                'type' => 'color',
+            ]);
         $this->crud->addColumn('name');
 
         $this->crud->addColumn([
