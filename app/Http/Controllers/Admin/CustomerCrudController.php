@@ -59,7 +59,7 @@ class CustomerCrudController extends CrudController
          $this->crud->addColumn([
             'name' => 'age',
             'label' => 'Birth of Date',
-            'type' => 'text',
+            'type' => 'date',
             'hint' => '',                                                                           
         ]);
 

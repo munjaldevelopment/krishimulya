@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\FeedsRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use DB;
 
 /**
  * Class FeedsCrudController
@@ -14,8 +15,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class FeedsCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation { store as traitFeedStore; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation { update as traitFeedUpdate; }
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
@@ -55,7 +56,7 @@ class FeedsCrudController extends CrudController
             'name'      => 'category_id',
             'entity'    => 'allFeedCategories', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\FeedCateories", //name of Models
+            'model'     => "App\Models\FeedCategories", //name of Models
 
             ]);
 
@@ -208,5 +209,53 @@ class FeedsCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function store()
+    {
+        $this->crud->setRequest($this->crud->validateRequest());
+        //$this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation(); // validation has already been run
+
+        $result = $this->traitFeedStore();
+
+        $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+        foreach($customers as $cust)
+        {
+            $title = $this->crud->getRequest()->title;
+            $message1 = strip_tags($this->crud->getRequest()->content);
+            $this->sendNotification($cust->id, $title, $message1, '');
+        }
+
+        return $result;
+    }    
+
+    public function update()
+    {
+        //echo $this->crud->->title; exit;
+
+        $this->crud->setRequest($this->crud->validateRequest());
+        //$this->crud->setRequest($this->handlePasswordInput($this->crud->getRequest()));
+        $this->crud->unsetValidation(); // validation has already been run
+
+        $result = $this->traitFeedUpdate();
+
+        $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+        foreach($customers as $cust)
+        {
+            $title = $this->crud->getRequest()->title;
+            $message1 = strip_tags($this->crud->getRequest()->content);
+            $this->sendNotification($cust->id, $title, $message1, '');
+        }
+
+        return $result;
+    }
+
+    public function sendNotification($customer_id, $title, $message, $image = '')
+    {
+        $date = date('Y-m-d H:i:s');
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
     }
 }

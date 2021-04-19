@@ -46,7 +46,7 @@ class Agri_type_enquiryCrudController extends CrudController
             'label'     => 'Customer Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'customers', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\Models\Customer", //name of Models
 

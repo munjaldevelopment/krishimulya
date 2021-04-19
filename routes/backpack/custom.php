@@ -15,6 +15,8 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
 
+    Route::get('dashboard', 'AdminController@dashboard')->name('backpack.dashboard');
+
     Route::crud('customer', 'CustomerCrudController');
     Route::crud('feeds', 'FeedsCrudController');
     Route::crud('states', 'StatesCrudController');
@@ -33,7 +35,7 @@ Route::group([
     Route::crud('agrilandrentenquiry', 'AgrilandRentEnquiryCrudController');
     Route::crud('agrilandsaleenquiry', 'AgrilandsaleEnquiryCrudController');
     Route::crud('city', 'CityCrudController');
-    Route::crud('feedcateories', 'FeedCateoriesCrudController');
+    Route::crud('feedcategories', 'FeedCategoriesCrudController');
     Route::crud('homeslider', 'HomeSliderCrudController');
     Route::crud('feedback', 'FeedbackCrudController');
     Route::crud('enquirytracking', 'EnquiryTrackingCrudController');
@@ -46,11 +48,18 @@ Route::group([
     Route::crud('soiltesttype', 'SoilTestTypeCrudController');
     Route::crud('soiltestorders', 'SoilTestOrdersCrudController');
     Route::crud('sevakendra', 'SevaKendraCrudController');
-    Route::crud('tblnotification', 'TblNotificationCrudController');
+    Route::crud('notification', 'NotificationCrudController');
     Route::crud('partners', 'PartnersCrudController');
     Route::crud('walletpayment', 'WalletPaymentCrudController');
     Route::crud('agri_type', 'Agri_typeCrudController');
     Route::crud('agri_type_enquiry', 'Agri_type_enquiryCrudController');
     Route::crud('agri_tool', 'Agri_toolCrudController');
     Route::crud('agri_tool_enquiry', 'Agri_tool_enquiryCrudController');
+    Route::crud('pincode', 'PinCodeCrudController');
+    Route::crud('app_popup', 'AppPopupCrudController');
+
+    Route::get('sendNotification', 'UserNotificationController@sendNotification');
+    Route::post('sendNotification', 'UserNotificationController@sendNotificationMessage');
+    Route::crud('vendorservice', 'VendorServiceCrudController');
+    Route::crud('vendor', 'VendorCrudController');
 });

@@ -33,7 +33,7 @@ class Feeds extends Model
 
      public function allFeedCategories()
     {
-        return $this->belongsTo('App\Models\FeedCateories', 'category_id');
+        return $this->belongsTo('App\Models\FeedCategories', 'category_id');
     }
     /*public function setImageAttribute($value)  
     {  

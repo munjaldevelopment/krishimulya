@@ -39,6 +39,15 @@ class LogManagerServiceProvider extends ServiceProvider
         // - then the stock views that come with the package, in case a published view might be missing
         $this->loadViewsFrom(realpath(__DIR__.'/resources/views'), 'logmanager');
 
+        // use the vendor configuration file as fallback
+        $this->mergeConfigFrom(
+            __DIR__.'/config/backpack/logmanager.php',
+            'backpack.logmanager'
+        );
+
+        // publish config file
+        $this->publishes([__DIR__.'/config' => config_path()], 'config');
+
         // publish lang files
         $this->publishes([__DIR__.'/resources/lang' => resource_path('lang/vendor/backpack')], 'lang');
         // publish the views

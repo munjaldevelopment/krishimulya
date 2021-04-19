@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
+use App\Models\Setting;
 use DB;
 use App;
 use Illuminate\Routing\UrlGenerator;
@@ -13,10 +14,62 @@ use File;
 use Session;
 use QR_Code\QR_Code;
 
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+
 class apiController extends Controller
 {
     //START LOGIN
-	public function customerLogin(Request $request)
+    public function httpGet($url)
+    {
+        $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $head = curl_exec($ch); 
+        curl_close($ch);
+        return $head;
+    }
+
+    public function sendNotification($customer_id, $title, $message, $image = '')
+    {
+        $date = date('Y-m-d H:i:s');
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        //echo $success.",".$fail.",".$total; exit;
+    }
+
+    public function getPincodeInfo($pincode)
+    {
+        /*$result = $this->httpGet("https://api.postalpincode.in/pincode/".$pincode);
+        $resultArr = json_decode($result, 1);
+
+        $customerCodeData = array();
+        $customerCode = $customerCity = $customerState = "";
+        if($resultArr)
+        {
+            if($resultArr[0]['Status'] == 'Success')
+            {
+                $customerCode = substr($resultArr[0]['PostOffice'][0]['State'],0,3).substr($resultArr[0]['PostOffice'][0]['Block'],0,3);
+                $customerCode = strtoupper($customerCode);
+
+                $customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $resultArr[0]['PostOffice'][0]['Block'], 'customer_state' => $resultArr[0]['PostOffice'][0]['State']);
+            }
+        }*/
+
+        $customerCodeData = array();
+        $pincodeData = DB::table('pincodes')->where('zip', $pincode)->where('active', '1')->first();
+        if($pincodeData) 
+        {
+            $customerCode = substr($pincodeData->state, 0, 3).substr($pincodeData->city, 0, 3);
+            $customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $pincodeData->city, 'customer_state' => $pincodeData->state);
+        }
+
+        return $customerCodeData;
+    }
+
+    public function customerLogin(Request $request)
     {
         try 
         {
@@ -25,105 +78,79 @@ class apiController extends Controller
             $fcmToken = $request->fcmToken;
             $refer_code = $request->refer_code;
             $error = "";
+            $json = array();
+
             if($mobile == ""){
                 $error = "Please enter valid mobile number";
                 $json = array('status_code' => '0', 'message' => $error);
             }
+            
             if($device_id == ""){
-                $error = "Divice id not found";
+                $error = "Device ID not found";
                 $json = array('status_code' => '0', 'message' => $error);
             }
+
             if($error == ""){
-                $json = $userData = array();
-                $mobile = $mobile;
+                $userData = array();
+                
                 $date   = date('Y-m-d H:i:s');
-                $customer = DB::table('customers')->where('telephone', $mobile)->first();
+                $customer = DB::table('customers')->where('telephone', $mobile)->where('status', '1')->first();
                 if($customer) 
                 {
-                    
                     $customerid = $customer->id;
                     $deviceid = $customer->device_id;
-                    $customer_status = $customer->status;
 
-
-                    
-                    if($device_id == $deviceid){
-                        if($customer_status == 1){
-
-                            DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
-
-                            $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishimulya&referrer=krvrefer".$customerid;
-                            
-                            $status_code = '1';
-                            $message = 'Customer login successfully';
-                            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
-                        }else{
-                            $otp = rand(111111, 999999);
-                            $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
-                        
-                            $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
-                        
-                     
-
-                            DB::table('customers')->where('id', '=', $customerid)->update(['otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
-
-                            $status_code = '1';
-                            $message = 'Customer Otp Send, Please Process Next Step';
-                            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
+                    DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
+                    if($refer_code != "")
+                    {
+                        $usertype = explode('refer',$refer_code);
+                        if($usertype[0]=='krvp'){
+                            $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+                        } else {
+                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
+                            $referal_customer_id = $referCustomerid;
                         }
-                        
-                    }else{    
-                        /*$otp = rand(111111, 999999);
-                        $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
-         
-                         $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
-                        
-                        DB::table('customers')->where('id', '=', $customerid)->update(['otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
-
-                        $status_code = '1';
-                        $message = 'Customer Otp Send, Please Process Next Step';
-                        $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile,"customer_type" => "new", 'otp' => "".$otp);*/
-                        $status_code = '0';
-                        $message = 'Customer is already logged in with another device.';
-                        $json = array('status_code' => $status_code, 'message' => $message);
+                        if($referal_customer_id != "")
+                        {
+                            DB::table('customers')->where('id', '=', $customerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
+                        }
                     }
+
+
+                    $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishimulya&referrer=krvrefer".$customerid;
+                    
+                    $status_code = '1';
+                    $message = 'Customer login successfully';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'temp_customer_id' => '', 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
                 }else{
                 	/* If device id already register with another mobile */
+                    $otp = rand(111111, 999999);
+                    $smsmessage = str_replace(" ", "%20", "Thank you for registering on KRISHI MULYA AGRO PRIVATE LIMITED. ".$otp." is the OTP for your Login id. Please do not share with anyone.");
+     
+                    $this->httpGet("http://sms.messageindia.in/sendSMS?username=krishim&message=".$smsmessage."&sendername=KMAOTP&smstype=TRANS&numbers=".$mobile."&apikey=b82ccff1-85cc-4cd5-9401-beed47647ed0");//http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
-                	$customer = DB::table('customers')->where('device_id', $device_id)->first();
-	                if($customer) 
-	                {
-	                	$error = "Device id already registered with another customer";
-                		$json = array('status_code' => '0', 'message' => $error);
+                    $customerid = DB::table('customers_temp')->insertGetId(['telephone' => $mobile, 'otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
 
-	                }else{	
-	                    $otp = rand(111111, 999999);
-	                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
-	     
-	                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                    if($refer_code != "")
+                    {
+                        $usertype = explode('refer',$refer_code);
+                        if($usertype[0]=='krvp'){
+                            $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+                        } else {
+                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
+                            $referal_customer_id = $referCustomerid;
+                        }
 
-	                    $customerid = DB::table('customers')->insertGetId(['telephone' => $mobile, 'otp' => $otp, 'device_id' => $device_id, 'fcmToken' => $fcmToken, 'created_at' => $date, 'updated_at' => $date]); 
+                        if($referal_customer_id != "")
+                        {
+                            DB::table('customers_temp')->where('id', '=', $customerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
+                        }
+                    }
 
-	                    $date   = date('Y-m-d H:i:s');
-	                    if($refer_code != ""){
-	                        $usertype = explode('refer',$refer_code);
-	                        if($usertype[0]=='krvp'){
-	                            $referal_partner_id = str_replace('krvprefer', '', $refer_code);
-	                            $referPartnerid = DB::table('partner_refer_register')->insertGetId(['customer_id' => $customerid, 'referal_partner_id' => $referal_partner_id, 'created_at' => $date]);  
-	                        }else{
-	                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
-	                            $referal_customer_id = $referCustomerid;
-	                            $refercustomerid = DB::table('customer_refer_register')->insertGetId(['customer_id' => $customerid, 'referal_customer_id' => $referal_customer_id, 'created_at' => $date]);    
-	                        }
-	                        
-	                        
-	                    }
-
-	                    $status_code = $success = '1';
-	                    $message = 'Customer Otp Send, Please Process Next Step';
-	                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
-	                }
+                    $status_code = $success = '1';
+                    $message = 'Customer Otp Send, Please Process Next Step';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '', 'temp_customer_id' => $customerid, 'mobile' => $mobile, "customer_type" => "new", 'otp' => "".$otp);
                }
             }   
         }
@@ -138,18 +165,6 @@ class apiController extends Controller
     }
     // End Login
     
-
-    public function httpGet($url)
-    {
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_VERBOSE, 0); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $head = curl_exec($ch); 
-        curl_close($ch);
-        return $head;
-    }
-
     //START VERIFY
     public function customerVerify(Request $request)
     {
@@ -165,22 +180,23 @@ class apiController extends Controller
                 $json = array('status_code' => '0', 'message' => $error);
             }
             if($otp == ""){
-                $error = "otp not found";
+                $error = "Please fill correct OTP";
                 $json = array('status_code' => '0', 'message' => $error);
             }
             if($error == ""){
-                $customer = DB::table('customers')->where('telephone', $mobile)->where('otp', $otp)->first();
+                $customer = DB::table('customers_temp')->where('telephone', $mobile)->where('otp', $otp)->orderBy('id', 'DESC')->first();
                 if($customer) 
                 {
-                    DB::table('customers')->where(['id' => $customer->id])->update(['status' => 1]);
-                    $customerData= DB::table('customers')->where('id', $customer->id)->first();
+                    DB::table('customers_temp')->where(['id' => $customer->id])->update(['status' => 1]);
+
+                    $customerData= DB::table('customers_temp')->where('id', $customer->id)->first();
                     
                     $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishimulya&referrer=krvrefer".$customer->id;
 
                     $status_code = '1';
                     $message = 'Customer activated successfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'customer_id' => (int)$customerData->id, 'mobile' => $mobile, 'pincode' => $customer->pincode, 'referurl' => $refer_url);
-                } 
+                    $json = array('status_code' => $status_code,  'message' => $message, 'customer_id' => (int)$customer->id, 'mobile' => $mobile, 'pincode' => $customer->pincode, 'referurl' => $refer_url);
+                }
                 else 
                 {
                     $status_code = $success = '0';
@@ -209,23 +225,26 @@ class apiController extends Controller
             $mobile = $request->mobile;
             $date   = date('Y-m-d H:i:s');
             $error = "";
+
             if($mobile == ""){
                 $error = "Please enter valid mobile number";
                 $json = array('status_code' => '0', 'message' => $error);
             }
            
             if($error == ""){
-                $customer = DB::table('customers')->where('telephone', $mobile)->first();
+                $customer = DB::table('customers_temp')->where('telephone', $mobile)->orderBy('id', 'DESC')->first();
                 if($customer) 
                 {
                     $customerid = $customer->id;
                     $otp = rand(111111, 999999);
-                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
+
+                    $smsmessage = str_replace(" ", "%20", "Thank you for registering on KRISHI MULYA AGRO PRIVATE LIMITED. ".$otp." is the OTP for your Login id. Please do not share with anyone.");
      
-                     $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=OALERT&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+                    $this->httpGet("http://sms.messageindia.in/sendSMS?username=krishim&message=".$smsmessage."&sendername=KMAOTP&smstype=TRANS&numbers=".$mobile."&apikey=b82ccff1-85cc-4cd5-9401-beed47647ed0");//http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
+                    //$this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
 
-                     DB::table('customers')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
+                    DB::table('customers_temp')->where('id', '=', $customerid)->update(['otp' => $otp, 'updated_at' => $date]);
 
                     $status_code = '1';
                     $message = 'OTP Send sucessfully';
@@ -250,6 +269,78 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
 
+    public function customerRegister(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $name = $request->name;
+            $age = $request->age;
+            $pincode = $request->pincode;
+
+            $customer = DB::table('customers_temp')->where('id', $customer_id)->where('status', '1')->first();
+            if($customer){
+                $otp = rand(111111, 999999);
+                
+                // Add entry in customer table
+                $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
+
+                $customerCodeData = $this->getPincodeInfo($pincode);
+
+                //$customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
+
+                $newCustomerID = "00001";
+                if($customerid > 9 && $customerid <= 99)
+                {
+                    $newCustomerID = "000".$customerid;
+                }
+                else if($customerid > 99 && $customerid <= 999)
+                {
+                    $newCustomerID = "00".$customerid;
+                }
+                else if($customerid > 999 && $customerid <= 9999)
+                {
+                    $newCustomerID = "0".$customerid;
+                }
+                else
+                {
+                    $newCustomerID = $customerid;
+                }
+
+                if($customerCodeData)
+                {
+                    $crn = $customerCodeData['customer_code'].$newCustomerID;
+                    $customer_city = $customerCodeData['customer_city'];
+                    $customer_state = $customerCodeData['customer_state'];
+
+                    DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+
+                    DB::table('customers_temp')->where('id', '=', $customer_id)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+                }
+                
+                $status_code = $success = '1';
+                $message = 'Customer info added successfully';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'pincode' => $pincode);
+            } else{
+                $status_code = $success = '0';
+                $message = 'Customer not exists or not verified';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     /* Get customer detail */
     public function getCustomerType(Request $request)
     {
@@ -258,17 +349,39 @@ class apiController extends Controller
             $baseUrl = URL::to("/");
             $json       =   array();
             $customer_id = $request->customer_id;
+
+            $app_version = "";
+
+            if(isset($request->app_version))
+            {
+                $app_version = $request->app_version;
+            }
+
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){
                 $custname = $customer->name;
+
+                // update app version in
+                $date = date('Y-m-d H:i:s');
+                DB::table('customers')->where('id', '=', $customer_id)->update(['app_version' => $app_version, 'updated_at' => $date]);
             }else{
                 $custname = "Guest";
-            }    
-           
-            
+            }
+
+            $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+            $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
+
+            $live_version = $appInfo->getAppVersion();
+
+            $same_version = 1;
+            if($live_version != $app_version)
+            {
+                $same_version = 0;
+            }
+
             $status_code = '1';
             $message = 'All Customer Type';
-            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname);
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'same_version' => "".$same_version);
         }
         
         catch(\Exception $e) {
@@ -281,8 +394,9 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
     //END 
-     //START show feed list 
-    public function birth_year(Request $request)
+    
+    //START show feed list 
+    /*public function birth_year(Request $request)
     {
         try 
         {   
@@ -306,49 +420,11 @@ class apiController extends Controller
         }
     
         return response()->json($json, 200);
-    }
+    }*/
     //END 
 
-
     //Customer Update
-    public function customerstep3(Request $request)
-    {
-        try 
-        {
-            $json = $userData = array();
-            $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id;
-            $name = $request->name;
-            $age = $request->age;
-            $pincode = $request->pincode;
-
-            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-            if($customer){ 
-                
-                DB::table('customers')->where('id', '=', $customer_id)->update(['name' => $name, 'age' => $age, 'pincode' => $pincode, 'updated_at' => $date]);
-
-                $status_code = $success = '1';
-                $message = 'Customer info added successfully';
-                
-                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'pincode' => $pincode);
-
-
-            } else{
-                $status_code = $success = '0';
-                $message = 'Customer not exists or not verified';
-                
-                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
-            }
-        }
-        catch(\Exception $e) {
-            $status_code = '0';
-            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
-        }
-        
-        return response()->json($json, 200);
-    }
 
 
     //Customer Update
@@ -586,19 +662,91 @@ class apiController extends Controller
         return response()->json($json, 200);
     }
 
-    //START show cities 
-    public function home_slider(Request $request)
+    //START show popup 
+    public function appPopup(Request $request)
     {
         try 
-        {   
+        {
+            Setting::assignSetting();
+
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $customer_id = $request->customer_id;
+
+            // To do
+            $app_version = "";
+
+            if(isset($request->app_version))
+            {
+                $app_version = $request->app_version;
+            }
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){
+                $custname = $customer->name;
+                $custcrn = ($customer->crn == NULL ? "" : $customer->crn);
+
+                // update app version in
+                $date = date('Y-m-d H:i:s');
+                DB::table('customers')->where('id', '=', $customer_id)->update(['app_version' => $app_version, 'updated_at' => $date]);
+            } else {
+                $custname = "Guest";
+                $custcrn = "";
+            }
+
+            $sliderArr = array();
+            $sliderList = DB::table('app_popups')->where('status', '=', 1)->orderBy('id', 'DESC')->first();
+            $short_description = $sliderimage = $title = '';
+            if($sliderList) {
+                $title = $sliderList->title;
+                $short_description = $sliderList->short_description;
+                $sliderimage  =  $baseUrl."/public/".$sliderList->image;
+            }
+
+            $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+            $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
+
+            $live_version = $appInfo->getAppVersion();
+
+            $same_version = '';
+            if($live_version != $app_version)
+            {
+                $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
+            }
+            
+            $status_code = '1';
+            $message = 'Popup list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => $same_version, 'slider_url' => $baseUrl.'/app-popup');
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    //END 
+
+    //START show home slider 
+    public function homeSlider(Request $request)
+    {
+        try 
+        {
+            Setting::assignSetting();
+
             $baseUrl = URL::to("/");
             $json       =   array();
             $customer_id = $request->customer_id;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer) {
                 $custname = $customer->name;
+                $custcrn = ($customer->crn == NULL ? "" : $customer->crn);
             } else {
                 $custname = "Guest";
+                $custcrn = "";
             }
 
             $sliderArr = array();
@@ -610,7 +758,7 @@ class apiController extends Controller
             
             $status_code = '1';
             $message = 'All Slider list';
-            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'sliderList' => $sliderArr);
+            $json = array('status_code' => $status_code,  'message' => $message, 'name' => $custname, 'crn' => $custcrn, 'marque' => HOMEPAGE_MARQUEE, 'sliderList' => $sliderArr);
         }
         
         catch(\Exception $e) {
@@ -659,9 +807,19 @@ class apiController extends Controller
             $baseUrl = URL::to("/");
             $json       =   array();
             $language = $request->language;
-            $paymentList = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-           
+
+            $paymentList[] = array('name' => 'All');
+            $paymentList1 = DB::table('payment_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            if($paymentList1)
+            {
+                foreach($paymentList1 as $row)
+                {
+                   $paymentList[] = array('name' => $row->name); 
+                }
+            }
+
             
             $status_code = '1';
             $message = 'Payment Type list';
@@ -685,8 +843,18 @@ class apiController extends Controller
         {   
             $json       =   array();
             
-            
-            $cityList = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $cityList[] = array('id' => 0, 'name' => 'All');
+
+            $cityList1 = DB::table('cities')->select('id','name')->where('state_id', '=', 1)->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            if($cityList1)
+            {
+                foreach($cityList1 as $row)
+                {
+                   $cityList[] = array('id' => $row->id, 'name' => $row->name); 
+                }
+            }
 
             $status_code = '1';
             $message = 'All City list';
@@ -704,14 +872,23 @@ class apiController extends Controller
     //END 
 
     //START show agri type 
-    public function agri_type(Request $request)
+    public function agriType(Request $request)
     {
         try 
         {   
             $json  =   array();
             
-            
-            $cityList = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $cityList[] = array('id' => 0, 'typename' => 'All');
+
+            $cityList1 = DB::table('agri_type')->select('id','typename')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            if($cityList1)
+            {
+                foreach ($cityList1 as $key => $value) {
+                    # code...
+                    $cityList[] = array('id' => $value->id, 'typename' => $value->typename);
+                }
+            }
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -729,7 +906,7 @@ class apiController extends Controller
     //END
 
      //Rent Enquiry
-    public function agri_type_enquiry(Request $request)
+    public function agriTypeEnquiry(Request $request)
     {
         try 
         {
@@ -779,15 +956,67 @@ class apiController extends Controller
     }
 
 
-     //START show agri type 
-    public function agri_tool(Request $request)
+    //START show agri type 
+    public function pinCode(Request $request)
     {
         try 
         {   
             $json  =   array();
             
             
-            $toolList = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $toolList = DB::table('pincodes')->select('id','zip')->where('active', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $status_code = '1';
+            $message = 'All Pincode List';
+            $json = array('status_code' => $status_code,  'message' => $message, 'pincodes' => $toolList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function settingData(Request $request)
+    {
+        try 
+        {
+            $json  =   array();
+            Setting::assignSetting();
+            
+            $status_code = '1';
+            $json = array('status_code' => $status_code, 'setting' => array(array('name' => YES_DATA), array('name' => NO_DATA)));
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriTool(Request $request)
+    {
+        try 
+        {   
+            $json  =   array();
+     
+            $toolList[] = array('id' => 0, 'title' => 'All');
+
+            $toolList1 = DB::table('agri_tool_type')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            if($toolList1)
+            {
+                foreach ($toolList1 as $key => $value) {
+                    # code...
+                    $toolList[] = array('id' => $value->id, 'title' => $value->title);
+                }
+            }
 
             $status_code = '1';
             $message = 'All Agri Type';
@@ -805,7 +1034,7 @@ class apiController extends Controller
     //END
 
      //Rent Enquiry
-    public function agri_tool_enquiry(Request $request)
+    public function agriToolEnquiry(Request $request)
     {
         try 
         {
@@ -865,7 +1094,17 @@ class apiController extends Controller
             
             //$insTypList = array('1' => "Tractor",'2' => "Equipment");
             
-            $companyList = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $companyList1 = DB::table('company')->select('id','title')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $companyList[] = array('id' => 0, 'title' => 'All');
+
+            if($companyList1)
+            {
+                foreach ($companyList1 as $key => $value) {
+                    # code...
+                    $companyList[] = array('id' => $value->id, 'title' => $value->title);
+                }
+            }
 
             $status_code = '1';
             $message = 'Company list';
@@ -886,10 +1125,19 @@ class apiController extends Controller
     {
         try 
         {   
-            
             $json       =   array();
             $language = $request->language;
-            $tractorHpList = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
+            $tractorHpList1 = DB::table('hpower')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('title', 'ASC')->get();
+
+            $tractorHpList[] = array('name' => 'All');
+
+            if($tractorHpList1)
+            {
+                foreach ($tractorHpList1 as $key => $value) {
+                    # code...
+                    $tractorHpList[] = array('name' => $value->name);
+                }
+            }
 
             $status_code = '1';
             $message = 'Tractor HP list';
@@ -922,7 +1170,7 @@ class apiController extends Controller
             $model = '';
             $isactive = 1;
             $error = "";
-            if($location == ""){
+            if($location == "" || $location == "All"){
                 $error = "Please enter location for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
@@ -932,7 +1180,16 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Rent";
+                        $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = $success = '1';
                     $message = 'Rent enquiry added successfully';
@@ -981,17 +1238,14 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
-
-                    
-                    
+                if($customer){
                     $rentinList = DB::table('tractor_rent_enquiry')->select('id','customer_id','name','mobile','location', 'other_city', 'what_type','available_date','comment')->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($what_need){
                         $rentinList = $rentinList->where('what_type',$what_need);    
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $rentinList = $rentinList->where('location','LIKE',$location);    
                     }
 
@@ -1074,10 +1328,70 @@ class apiController extends Controller
     //END 
 
     //Tractor Sale Enquiry
-    public function tractor_sale_enquiry(Request $request)
+    public function verifyOrderMobile(Request $request)
     {
         try 
         {
+            $json = $userData = array();
+            $mobile = $request->mobile;
+            $date   = date('Y-m-d H:i:s');
+            $error = "";
+            if($mobile == ""){
+                $error = "Please enter valid mobile number";
+                $json = array('status_code' => '0', 'message' => $error);
+            }
+           
+            if($error == ""){
+                $rsmobile = DB::table('tbl_mobile_verify')->where('mobile', $mobile)->first();
+                if($rsmobile) 
+                {
+                    $verifyid = $rsmobile->id;
+                    $otp = rand(111111, 999999);
+                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
+     
+                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+
+                    //print_r($resultData); exit;
+
+                    DB::table('tbl_mobile_verify')->where('id', '=', $verifyid)->update(['otp' => $otp]);
+
+                    $status_code = '1';
+                    $message = 'OTP Send successfully';
+                    $json = array('status_code' => $status_code,  'message' => $message,  'mobile' => $mobile, 'otp' => $otp);
+                } 
+                else 
+                {
+                    $otp = rand(111111, 999999);
+                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
+     
+                    $resultData = $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=TRANS&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=15");
+
+                    //print_r($resultData); exit;
+
+                    DB::table('tbl_mobile_verify')->insertGetId(['mobile' => $mobile, 'otp' => $otp]);
+                    $status_code = '1';
+                    $message = 'OTP Send successfully';
+                    $json = array('status_code' => $status_code,  'message' => $message,  'mobile' => $mobile, 'otp' => "".$otp);
+               }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+
+
+    public function tractorSaleEnquiry(Request $request)
+    {
+        try 
+        {
+
             $json = $userData = array();
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;
@@ -1093,49 +1407,151 @@ class apiController extends Controller
            
             $exp_price = $request->exp_price;
             $comment = $request->comment;
+
+            $payment_type = $request->payment_type;
+            
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
             $tractor_image = $request->tractor_image;
 
+            $isactive = 1;
+            $error = "";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($company_name == "" || $company_name == "All"){
+                $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+            if($model == "" || $model == "All"){
+                $error = "Please enter model name of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($hourse_power == "" || $hourse_power == "All"){
+                $error = "Please enter horse power of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($payment_type == "" || $payment_type == "All"){
+                //$error = "Please enter payment type of tractor";
+                //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+                    }else{
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                }
+            }
+
+            if($error == ""){
+                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                if($customer){ 
+                  if($tractor_image != ''){
+                        $image_parts = explode(";base64,", $tractor_image);
+                        $image_type_aux = explode("image/", $image_parts[0]);
+                        $image_type = $image_type_aux[1];
+
+                        $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
+                        $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
+
+                        $data = base64_decode($image_parts[1]);
+                        // $data = $image_parts[1];
+                        file_put_contents($destinationPath, $data);
+                    } 
+
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+
+                    $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Sale";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor sale enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'tractor_sell_enquiry_id' => $tractor_sell_enquiry_id);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    // TO DO
+    public function tractorRefinanceEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $hourse_power = $request->hourse_power;
+            $payment_type = $request->payment_type;
             $isactive = 1;
             $error = "";
             if($company_name == ""){
                 $error = "Please enter company name for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
-            if($model == ""){
-                $error = "Please enter model name of tractor";
-                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
-            }
+            
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                  if($tractor_image != ''){
-                    $image_parts = explode(";base64,", $tractor_image);
-                    $image_type_aux = explode("image/", $image_parts[0]);
-                    $image_type = $image_type_aux[1];
-
-                    $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
-                    $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
-
-                    $data = base64_decode($image_parts[1]);
-                   // $data = $image_parts[1];
-                    file_put_contents($destinationPath, $data);
-                  }  
-                /*if ($request->hasFile('tractor_image')) {
-                    $image = $request->file('tractor_image'); 
-                    if($image)
-                    {
-                        $tractor_image = rand(10000, 99999).'-'.time().'.'.$image->getClientOriginalExtension();
-                        $destinationPath = public_path('/uploads/tractor_image/');
-                        $image->move($destinationPath, $tractor_image);
-                        
-                    }
-                }*/
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('tractor_sell_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('tractor_refinance_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Refinance";
+                        $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = $success = '1';
-                    $message = 'Tractor sale enquiry added successfully';
+                    $message = 'Tractor re-finance enquiry added successfully';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
 
@@ -1159,7 +1575,7 @@ class apiController extends Controller
     }
 
     //Tractor Purchase Enquiry
-    public function tractor_purchase_enquiry(Request $request)
+    public function tractorPurchaseEnquiry(Request $request)
     {
         try 
         {
@@ -1175,8 +1591,23 @@ class apiController extends Controller
             $payment_type = $request->payment_type;
             $isactive = 1;
             $error = "";
-            if($company_name == ""){
+            if($company_name == "" || $company_name == "All"){
                 $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($payment_type == "" || $payment_type == "All"){
+                $error = "Please enter payment type for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($hourse_power == "" || $hourse_power == "All"){
+                $error = "Please enter horse power for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
             
@@ -1185,7 +1616,16 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('tractor_purchase_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('tractor_purchase_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor purchase";
+                        $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = $success = '1';
                     $message = 'Tractor purchase enquiry added successfully';
@@ -1212,7 +1652,7 @@ class apiController extends Controller
     }
 
     //Purchase Old Enquiry
-    public function purchase_old_results(Request $request)
+    public function purchaseOldResult(Request $request)
     {
         try 
         {
@@ -1228,6 +1668,8 @@ class apiController extends Controller
             $hourse_power = $request->hourse_power;
             $model = $request->model;
             $year_manufacturer = $request->year_manufacturer;
+            $payment_type = $request->payment_type;
+
             $error = "";
             if($what_need == ""){
                 $error = "Please select what need to search";
@@ -1237,13 +1679,13 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','sale_type','location', 'other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
+                    $purchaseOldList = DB::table('tractor_sell_enquiry')->select('id','customer_id','name','mobile','company_name','other_company','model','hourse_power','hrs', 'exp_price', 'image','payment_type','sale_type','location', 'other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('isactive', '=', 1)->where('is_edit','1')->whereNull('deleted_at'); //where('customer_id', '=', $customer_id)->
 
                     if($what_need){
                         $purchaseOldList = $purchaseOldList->where('sale_type',$what_need);    
                     }
 
-                    if($company_name){
+                    if($company_name != "All"){
                         $purchaseOldList = $purchaseOldList->where('company_name',$company_name);    
                     }
 
@@ -1251,23 +1693,35 @@ class apiController extends Controller
                         $purchaseOldList = $purchaseOldList->where('other_company',$other_company);    
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $purchaseOldList = $purchaseOldList->where('location',$location);    
                     }
 
                     if($model){
-                        $purchaseOldList = $purchaseOldList->orWhere('model',$model);    
+                        //$purchaseOldList = $purchaseOldList->where('model',$model);    
                     }
 
                     if($year_manufacturer){
-                        $purchaseOldList = $purchaseOldList->orWhere('year_manufacturer',$year_manufacturer);    
+                        //$purchaseOldList = $purchaseOldList->where('year_manufacturer',$year_manufacturer);    
+                    }
+
+                    if($payment_type){
+                        $purchaseOldList = $purchaseOldList->where('payment_type',$payment_type);    
+                    }
+                    else
+                    {
+                        $purchaseOldList = $purchaseOldList->where('payment_type', 'Cash (नकद भुगतान)');
+                        
                     }
 
                     if($other_city){
                         $purchaseOldList = $purchaseOldList->where('other_city',$other_city);    
                     }
 
-                    if($hourse_power){
+                    if($hourse_power == "" || $hourse_power == "All"){
+                    }
+                    else
+                    {
                         $hparr = explode('-', $hourse_power);
                         $hpfrom = $hparr[0];
                         $hpto = $hparr[1];
@@ -1276,16 +1730,26 @@ class apiController extends Controller
                     }
 
                    
-                    $purchaseOldList = $purchaseOldList->orderBy('id', 'desc')->get(); 
+                    $purchaseOldList = $purchaseOldList->orderBy('hrs', 'ASC')->orderBy('hourse_power', 'DESC')->get(); 
+                    //dd($purchaseOldList);
 
-                    if(count($purchaseOldList) >0){
+                    if(count($purchaseOldList) > 0){
                         $purchaseList = array();
                         foreach($purchaseOldList as $plist)
                         {
-                            
-                         
-                            $customer_name = $plist->name;
-                            $customer_telphone = $plist->mobile;
+                            $is_contact = $plist->is_contact;   
+
+                            if($is_contact == "No")
+                            {
+                                $customer_name = $plist->contact_person_name;
+                                $customer_telphone = $plist->contact_person_phone;
+                            }
+                            else
+                            {
+                                $customer_name = $plist->name;
+                                $customer_telphone = $plist->mobile;
+                            }
+
                             $baseUrl = URL::to("/");
                             $tractor_image  = "";
                             if($plist->image){
@@ -1294,7 +1758,7 @@ class apiController extends Controller
                             }
                             $other_company = ($plist->other_company != '') ? $plist->other_company : "";
                             $othercity = ($plist->other_city != '') ? $plist->other_city : "";
-                            $purchaseList[] = ['id' => (string)$plist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'company_name' =>$plist->company_name, 'other_company' =>$other_company, 'what_need' =>$plist->sale_type, 'location' =>$plist->location, 'other_city' =>$othercity, 'model' => $plist->model, 'hourse_power' => $plist->hourse_power, 'hrs' => $plist->hrs, 'exp_price' => $plist->exp_price, 'image' => $tractor_image]; 
+                            $purchaseList[] = ['id' => (string)$plist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'company_name' =>$plist->company_name, 'other_company' =>$other_company, 'what_need' =>$plist->sale_type, 'location' =>$plist->location, 'other_city' =>$othercity, 'model' => $plist->model, 'hourse_power' => $plist->hourse_power, 'hrs' => $plist->hrs, 'exp_price' => $plist->exp_price, 'payment_type' => $plist->payment_type, 'image' => $tractor_image]; 
                         }
 
                         $status_code = $success = '1';
@@ -1335,11 +1799,16 @@ class apiController extends Controller
             $language = $request->language;
             
 
-             $purposeType = DB::table('purpose_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $purposeType1 = DB::table('purpose_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
 
-
-           /* $purposeType[] = array('name' => "Farming work");
-            $purposeType[] = array('name' => "Non-Farming work");*/
+            $purposeType[] = array('name' => 'All');
+            if($purposeType1)
+            {
+                foreach($purposeType1 as $row)
+                {
+                    $purposeType[] = array('name' => $row->name);   
+                }
+            }
             
             
             $status_code = '1';
@@ -1385,9 +1854,9 @@ class apiController extends Controller
     }
 
     //Labour Enquiry
-    public function labour_enquiry(Request $request)
+    public function labourEnquiry(Request $request)
     {
-       header('Content-Type: text/html; charset=utf-8');
+        header('Content-Type: text/html; charset=utf-8');
         try 
         {
             $json = $userData = array();
@@ -1402,16 +1871,40 @@ class apiController extends Controller
             $isactive = 1;
             $error = "";
 
+            // TO DO
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
             if($labour_no == ""){
                 $error = "Please enter no of labour";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+                    }else{
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                }
             }
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('labour_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments,  'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('labour_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments,  'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Labour enquiry added successfully';
@@ -1439,7 +1932,7 @@ class apiController extends Controller
 
 
      //Rent IN Result
-    public function labour_result(Request $request)
+    public function labourResult(Request $request)
     {
         try 
         {
@@ -1452,6 +1945,7 @@ class apiController extends Controller
             $location = $request->location;
             $other_city = $request->other_city;
             $purpose = $request->purpose;
+            
             //$available_date = date("Y-m-d",strtotime($request->available_date));
             $error = "";
             if($location == ""){
@@ -1461,11 +1955,8 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
-
-                    
-                    
-                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('isactive', '=', 1);
+                if($customer){
+                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('customer_id', '=', $customer_id)->where('isactive', '=', 1);
 
                     if($labour_no){
                         $labour_noto = 0;
@@ -1473,7 +1964,7 @@ class apiController extends Controller
                         //$labourList = $labourList->whereBetween('labour_no', [$labour_noto, $labour_no]);
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $labourList = $labourList->where('location','LIKE',$location);    
                     }
                     if($other_city){
@@ -1495,11 +1986,15 @@ class apiController extends Controller
                     if(count($labourList) >0){
                         $r_list = array();
                         foreach($labourList as $rlist)
-                        {
-                            
+                        {                            
                             $rscustomer = DB::table('customers')->where('id', $rlist->customer_id)->first();
-                            $customer_name = $rscustomer->name;
-                            $customer_telphone = $rscustomer->telephone;
+                            $customer_name = $customer_telphone = "";
+                            if($rscustomer)
+                            {
+                                $customer_name = $rscustomer->name;
+                                $customer_telphone = $rscustomer->telephone;
+                            }
+                            
                             $othercity = ($rlist->other_city != '') ? $rlist->other_city : "";
                             //$available_date = date("d-m-Y",strtotime($rlist->available_date));
                             $r_list[] = ['id' => (string)$rlist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'location' =>$rlist->location, 'other_city' =>$othercity, 'labour_no' => $rlist->labour_no, 'purpose' => $rlist->purpose, 'comment' => $rlist->comments]; 
@@ -1618,7 +2113,17 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-             $landTypeList = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+            $landTypeList1 = DB::table('land_type')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $landTypeList[] = array('name' => 'All');
+
+            if($landTypeList1)
+            {
+                foreach ($landTypeList1 as $key => $value) {
+                    # code...
+                    $landTypeList[] = array('name' => $value->name);
+                }
+            }
 
            /* $landTypeList[] = array('name' => "agriculture");
             $landTypeList[] = array('name' => "non-agriculture");
@@ -1646,19 +2151,17 @@ class apiController extends Controller
             $json       =   array();
             $language = $request->language;
             
-             $landsize = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
-            
-            /*$landsize[] = array('name' => "1-3 acre");
-            $landsize[] = array('name' => "3-5 acre");
-            $landsize[] = array('name' => "5-8 acre");
-            $landsize[] = array('name' => "8-10 acre");
-            $landsize[] = array('name' => "10-12 acre");
-            $landsize[] = array('name' => "12-15 acre");
-            $landsize[] = array('name' => "15-20 acre");
-            $landsize[] = array('name' => "20-25 acre");
-            $landsize[] = array('name' => "25-50 acre");*/
-            
-           
+            $landsize1 = DB::table('land_size')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $landsize[] = array('name' => 'All');
+
+            if($landsize1)
+            {
+                foreach ($landsize1 as $key => $value) {
+                    # code...
+                    $landsize[] = array('name' => $value->name);
+                }
+            }
             
             $status_code = '1';
             $message = 'land Size list';
@@ -1681,17 +2184,17 @@ class apiController extends Controller
             
             $json       =   array();
             $language = $request->language;
-             $rent_time = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
-           
-           /* $rent_time[] = array('name' => "1-2 Year");
-            $rent_time[] = array('name' => "2-5 Year");
-            $rent_time[] = array('name' => "5-8 Year");
-            $rent_time[] = array('name' => "8-10 Year");
-            $rent_time[] = array('name' => "10-12 Year");
-            $rent_time[] = array('name' => "12-15 Year");
-            $rent_time[] = array('name' => "15-20 Year");
-           */ 
-           
+            $rent_time1 = DB::table('rent_time')->select('title as name')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'ASC')->get();
+
+            $rent_time[] = array('name' => 'All');
+
+            if($rent_time1)
+            {
+                foreach ($rent_time1 as $key => $value) {
+                    # code...
+                    $rent_time[] = array('name' => $value->name);
+                }
+            }
             
             $status_code = '1';
             $message = 'Rent Time list';
@@ -1724,8 +2227,23 @@ class apiController extends Controller
             $how_much_time = $request->how_much_time;
             $isactive = 1;
             $error = "";
-            if($location == ""){
+            if($location == "" || $location == "All"){
                 $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($size_in_acre == "" || $size_in_acre == "All"){
+                $error = "Please enter size (acre) for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($how_much_time == "" || $how_much_time == "All"){
+                $error = "Please enter time for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($land_type == "" || $land_type == "All"){
+                $error = "Please enter land type for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
             
@@ -1733,7 +2251,16 @@ class apiController extends Controller
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Rent Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = $success = '1';
                     $message = 'Agri land rent enquiry added successfully';
@@ -1760,7 +2287,7 @@ class apiController extends Controller
     }
 
     //Purchase Old Enquiry
-    public function agriland_rent_results(Request $request)
+    public function agrilandRentResults(Request $request)
     {
         try 
         {
@@ -1773,6 +2300,7 @@ class apiController extends Controller
             $other_city = $request->other_city;
             $size_in_acre = $request->size;
             $rent_time = $request->rent_time;
+
             $error = "";
             if($location == ""){
                 $error = "Please select location to search";
@@ -1781,17 +2309,14 @@ class apiController extends Controller
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
-                if($customer){ 
-
-                    
-                    
-                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
+                if($customer){
+                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('isactive', '=', 1)->where('customer_id', '=', $customer_id)->whereNull('deleted_at');
 
                     if($land_type){
                         $rentListquery = $rentListquery->where('land_type',$land_type);    
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $rentListquery = $rentListquery->where('location',$location);    
                     }
 
@@ -1799,7 +2324,7 @@ class apiController extends Controller
                         $rentListquery = $rentListquery->where('other_city',$other_city);    
                     }
 
-                    if($size_in_acre){
+                    if($size_in_acre != "All"){
                         $rentListquery = $rentListquery->where('size_in_acore',$size_in_acre);    
                     }
 
@@ -1853,7 +2378,7 @@ class apiController extends Controller
     }
 
     //Agri Land Sale Enquiry
-    public function agri_land_sale_enquiry(Request $request)
+    public function agrilandSaleEnquiry(Request $request)
     {
         try 
         {
@@ -1867,7 +2392,12 @@ class apiController extends Controller
             $other_city = $request->other_city;
             $size_in_acre = $request->size;
             $comment = $request->comment;
-           //print_r($request->all(), 1);
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
             //exit;
             //$exp_price = $request->exp_price;
             $exp_price = 0;
@@ -1877,12 +2407,39 @@ class apiController extends Controller
                 $error = "Please enter location";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
+
+            if($contact_person_phone != "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+                    }else{
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                }
+            }
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('agriland_sale_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('agriland_sale_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Sale Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
 
                     $status_code = $success = '1';
                     $message = 'Agri land sale enquiry added successfully';
@@ -1909,7 +2466,7 @@ class apiController extends Controller
     }
 
     //Agri land Purchase Old Enquiry
-    public function agriland_purchase_result(Request $request)
+    public function agrilandPurchaseResult(Request $request)
     {
         try 
         {
@@ -1930,16 +2487,13 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
+                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('customer_id', '=', $customer_id)->where('isactive', '=', 1)->whereNull('deleted_at');
 
-                    
-                    
-                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city')->where('isactive', '=', 1)->whereNull('deleted_at');
-
-                    if($land_type){
+                    if($land_type != "All"){
                         $purchaseOldList = $purchaseOldList->where('land_type',$land_type);    
                     }
 
-                    if($location){
+                    if($location != "All"){
                         $purchaseOldList = $purchaseOldList->where('location',$location);    
                     }
 
@@ -1947,7 +2501,7 @@ class apiController extends Controller
                         $purchaseOldList = $purchaseOldList->where('other_city',$other_city);    
                     }
 
-                    if($size_in_acre){
+                    if($size_in_acre != "All"){
                         $purchaseOldList = $purchaseOldList->where('size_in_acre','LIKE',$size_in_acre);    
                     }
 
@@ -1958,10 +2512,29 @@ class apiController extends Controller
                         $purchaseList = array();
                         foreach($purchaseOldList as $plist)
                         {
-                            
-                            $rscustomer = DB::table('customers')->where('id', $plist->customer_id)->first();
-                            $customer_name = $rscustomer->name;
-                            $customer_telphone = $rscustomer->telephone;
+                            $is_contact = $plist->is_contact;   
+
+                            if($is_contact == "No")
+                            {
+                                $customer_name = $plist->contact_person_name;
+                                $customer_telphone = $plist->contact_person_phone;
+                            }
+                            else
+                            {
+                                $rscustomer = DB::table('customers')->where('id', $plist->customer_id)->first();
+
+                                if($rscustomer)
+                                {
+                                    $customer_name = $rscustomer->name;
+                                    $customer_telphone = $rscustomer->telephone;
+                                }
+                                else
+                                {
+                                    $customer_name = "Guest";
+                                    $customer_telphone = "";
+                                }
+                            }
+
                             $pimage = '';
                             $othercity = ($plist->other_city != '') ? $plist->other_city : "";
 
@@ -2309,7 +2882,7 @@ class apiController extends Controller
                    $notif_data = array($notification_title,$customerName,$notification_body,"","");
                 
                    $customerNotify = $this->push_notification($notif_data,$customerToken);
-                   $saveNotification = DB::table('tbl_notification')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                   $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                    /* End */
                     $status_code = $success = '1';
@@ -2416,7 +2989,7 @@ class apiController extends Controller
 
                     if($soilodrList){
                         $date   = date('Y-m-d H:i:s');
-                         DB::table('soil_test_orders')->where('id', '=', $order_id)->update(['test_type' => $test_type, 'amount' => $amount, 'updated_at' => $date]);
+                        DB::table('soil_test_orders')->where('id', '=', $order_id)->update(['test_type' => $test_type, 'amount' => $amount, 'updated_at' => $date]);
                         
                         /* FCM Notification */
                        $customerToken = $customer->fcmToken; 
@@ -2427,7 +3000,7 @@ class apiController extends Controller
                        $notif_data = array($notification_title,$customerName,$notification_body,"","");
                     
                         $customerNotify = $this->push_notification($notif_data,$customerToken);
-                       $saveNotification = DB::table('tbl_notification')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                       $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                        /* End */    
                         $status_code = '1';
@@ -2515,7 +3088,7 @@ class apiController extends Controller
                        $notif_data = array($notification_title,$customerName,$notification_body,"","");
                     
                        $customerNotify = $this->push_notification($notif_data,$customerToken);
-                       $saveNotification = DB::table('tbl_notification')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                       $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                        /* End */
                     }
@@ -2561,7 +3134,7 @@ class apiController extends Controller
                        $notif_data = array($notification_title,$customerName,$notification_body,"","");
                     
                         $customerNotify = $this->push_notification($notif_data,$customerToken);
-                       $saveNotification = DB::table('tbl_notification')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                       $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                        /* End */    
                         $status_code = '1';
@@ -2594,10 +3167,10 @@ class apiController extends Controller
             $customer_id = $request->customer_id;
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    $soilnotificationExists = DB::table('tbl_notification')->where('customer_id', $customer_id)->where('user_type', 'customer')->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
+                    $soilnotificationExists = DB::table('notifications')->where('customer_id', $customer_id)->where('user_type', 'customer')->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
                     if($soilnotificationExists >0){
-                        $soilNotifyList = DB::table('tbl_notification')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
+                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
 
                         
                         foreach($soilNotifyList as $notifylist)
@@ -2606,6 +3179,9 @@ class apiController extends Controller
                             if($notifylist->notification_type == 'soil_order'){
 
                                 $notification_type = 'Soil Order';
+                            } else if($notifylist->notification_type == 'agriland'){
+
+                                $notification_type = 'Agri Land';
                             }
 
                             $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
@@ -2705,7 +3281,7 @@ class apiController extends Controller
                         $wheatherRespone = $this->httpGet($appurl);
                         
                         $wheather = json_decode($wheatherRespone);
-                        print_r($wheather);
+                        
                         //print_r($wheather->weather[0]);
                         $mainval =  $wheather->weather[0]->main;
                         $wheatherType =  $wheather->weather[0]->description;
@@ -2731,5 +3307,1138 @@ class apiController extends Controller
         
             return response()->json($json, 200);
     }
+
+
+    public function tractorPurchaseHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorPurchaseData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorPurchaseData[] = array('id' => "".$row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city ==  NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'uses_type' => $row->uses_type, 'user_type' => $row->user_type, 'is_edit' => "".$row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Purchase history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorPurchaseData' => $tractorPurchaseData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Purchase history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRentHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRentData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorRentData[] = array('id' => "".$row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'available_date' => $row->available_date, 'comment' => $row->comment, 'model' => ($row->model == NULL ? "" : $row->model), 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'what_type' => $row->what_type, 'user_type' => $row->user_type, 'is_edit' => "".$row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Rent history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorRentData' => $tractorRentData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRefinanceHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRefinanceData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorRefinanceData[] = array('id' => "".$row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'user_type' => $row->user_type, 'is_edit' => "".$row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Refinance history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorRefinanceData' => $tractorRefinanceData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Refinance history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorSaleHistory(Request $request)
+    {
+        try 
+        {
+            $json = $tractorSaleData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $tractorSaleData[] = array('id' => "".$row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'comment' => $row->comment, 'model' => $row->model, 'year_manufacturer' => $row->year_manufacturer, 'hourse_power' => $row->hourse_power, 'hrs' => $row->hrs, 'exp_price' => $row->exp_price, 'image' => asset('/uploads/tractor_image/')."/".$row->image, 'sale_type' => $row->sale_type, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'is_contact' => $row->is_contact, 'is_edit' => "".$row->is_edit, 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'payment_type' => $row->payment_type);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Sale history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorSaleData' => $tractorSaleData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Sale history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function labourEnquiryHistory(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $labourEnquiryData[] = array('id' => "".$row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'purpose' => $row->purpose, 'need' => ($row->need == NULL ? "" : $row->need), 'labour_no' => $row->labour_no, 'comments' => ($row->comments == NULL ? "" : $row->comments), 'is_contact' => ($row->is_contact == NULL ? "" : $row->is_contact), 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => "".$row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Labor Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'labourEnquiryData' => $labourEnquiryData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Labor Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriRentEnquiryHistory(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $labourEnquiryData[] = array('id' => "".$row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => ($row->comment == NULL ? "" : $row->comment), 'size_in_acore' => $row->size_in_acore, 'how_much_time' => $row->how_much_time, 'land_type' => $row->land_type, 'is_edit' => "".$row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Rent Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'agrilandRentEnquiryData' => $labourEnquiryData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriSaleEnquiryHistory(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    foreach($tractorSellEnquiry as $row)
+                    {
+                        $labourEnquiryData[] = array('id' => "".$row->id, 'location' => $row->location, 'other_city' => ($row->other_city == NULL ? "" : $row->other_city), 'comment' => $row->comment, 'size_in_acre' => $row->size_in_acre, 'exp_price' => $row->exp_price, 'land_type' => $row->land_type, 'is_contact' => $row->is_contact, 'contact_person_name' => ($row->contact_person_name == NULL ? "" : $row->contact_person_name), 'contact_person_phone' => ($row->contact_person_phone == NULL ? "" : $row->contact_person_phone), 'contact_person_otp' => ($row->contact_person_otp == NULL ? "" : $row->contact_person_otp), 'is_edit' => "".$row->is_edit);
+                    }
+
+                    $status_code = '1';
+                    $message = 'Agriland Sale Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'agrisaleEnquiryData' => $labourEnquiryData);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Agriland Sale Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    
+
+    // DETAIL PAGE
+    public function tractorPurchaseDetail(Request $request)
+    {
+        try 
+        {
+            $json = $tractorPurchaseData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $tractor_purchase_id = $request->tractor_purchase_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Purchase history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city ==  NULL ? "" : $tractorSellEnquiry->other_city), 'hourse_power' => $tractorSellEnquiry->hourse_power, 'payment_type' => $tractorSellEnquiry->payment_type, 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'uses_type' => $tractorSellEnquiry->uses_type, 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Purchase history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRentDetail(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRentData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $tractor_rent_id = $request->tractor_rent_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_rent_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_rent_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Rent history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'available_date' => $tractorSellEnquiry->available_date, 'comment' => $tractorSellEnquiry->comment, 'model' => ($tractorSellEnquiry->model == NULL ? "" : $tractorSellEnquiry->model), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'what_type' => $tractorSellEnquiry->what_type, 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRefinanceDetail(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRefinanceData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $tractor_refinance_id = $request->tractor_refinance_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Refinance history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'hourse_power' => $tractorSellEnquiry->hourse_power, 'payment_type' => $tractorSellEnquiry->payment_type, 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'user_type' => $tractorSellEnquiry->user_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Refinance history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorSaleDetail(Request $request)
+    {
+        try 
+        {
+            $json = $tractorSaleData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $tractor_sale_id = $request->tractor_sale_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Tractor Sale history';
+
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'comment' => $tractorSellEnquiry->comment, 'model' => $tractorSellEnquiry->model, 'year_manufacturer' => $tractorSellEnquiry->year_manufacturer, 'hourse_power' => $tractorSellEnquiry->hourse_power, 'hrs' => $tractorSellEnquiry->hrs, 'exp_price' => $tractorSellEnquiry->exp_price, 'image' => asset('/uploads/tractor_image/')."/".$tractorSellEnquiry->image, 'sale_type' => $tractorSellEnquiry->sale_type, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'is_contact' => $tractorSellEnquiry->is_contact, 'is_edit' => "".$tractorSellEnquiry->is_edit, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'payment_type' => $tractorSellEnquiry->payment_type);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Sale history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function labourEnquiryDetail(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $labour_enquiry_id = $request->labour_enquiry_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $labour_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $labour_enquiry_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Labor Enquiry history';
+
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'purpose' => $tractorSellEnquiry->purpose, 'need' => ($tractorSellEnquiry->need == NULL ? "" : $tractorSellEnquiry->need), 'labour_no' => $tractorSellEnquiry->labour_no, 'comments' => ($tractorSellEnquiry->comments == NULL ? "" : $tractorSellEnquiry->comments), 'is_contact' => ($tractorSellEnquiry->is_contact == NULL ? "" : $tractorSellEnquiry->is_contact), 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Labor Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriRentEnquiryDetail(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; $agri_rent_enquiry_id = $request->agri_rent_enquiry_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $tractorSellEnquiry = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->first();
+
+
+                    $status_code = '1';
+                    $message = 'Rent Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => ($tractorSellEnquiry->comment == NULL ? "" : $tractorSellEnquiry->comment), 'size_in_acore' => $tractorSellEnquiry->size_in_acore, 'how_much_time' => $tractorSellEnquiry->how_much_time, 'land_type' => $tractorSellEnquiry->land_type, 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriSaleEnquiryDetail(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; 
+            $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $tractorSellEnquiry = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->first();
+
+                    $status_code = '1';
+                    $message = 'Agriland Sale Enquiry history';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'comment' => $tractorSellEnquiry->comment, 'size_in_acre' => $tractorSellEnquiry->size_in_acre, 'exp_price' => $tractorSellEnquiry->exp_price, 'land_type' => $tractorSellEnquiry->land_type, 'is_contact' => $tractorSellEnquiry->is_contact, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'is_edit' => "".$tractorSellEnquiry->is_edit);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Agriland Sale Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    // Save PAGE
+    public function tractorPurchaseDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorPurchaseData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $tractor_purchase_id = $request->tractor_purchase_id;
+
+            $what_need = $request->what_need;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $hourse_power = $request->hourse_power;
+            $payment_type = $request->payment_type;
+            $is_edit = $request->is_edit;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $status_code = '1';
+                    $message = 'Tractor Purchase updated successfully';
+
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    $date = date('Y-m-d H:i:s');
+
+                    DB::table('tractor_purchase_enquiry')->where('id', '=', $tractor_purchase_id)->update(['name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'updated_at' => $date, 'is_edit' => $is_edit]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor purchase";
+                        $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Purchase history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRentDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRentData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $tractor_rent_id = $request->tractor_rent_id;
+            $what_need = $request->what_need;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $available_date = date("Y-m-d",strtotime($request->available_date));
+            $comment = $request->comment;
+            $is_edit = $request->is_edit;
+
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_rent_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    $date = date('Y-m-d H:i:s');
+
+                    DB::table('tractor_rent_enquiry')->where('id', $tractor_rent_id)->update(['name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'is_edit' => $is_edit, 'updated_at' => $date]);  
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Rent";
+                        $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Rent updated successfully';
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorRefinanceDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorRefinanceData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id; 
+            $tractor_refinance_id = $request->tractor_refinance_id;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $hourse_power = $request->hourse_power;
+            $payment_type = $request->payment_type;
+            $is_edit = $request->is_edit;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $date   = date('Y-m-d H:i:s');
+            
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+
+                    DB::table('tractor_refinance_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_refinance_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'is_edit' => $is_edit, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Refinance";
+                        $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = '1';
+                    $message = 'Tractor Refinance updated successfully';
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Refinance history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function tractorSaleDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $tractorSaleData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $tractor_sale_id = $request->tractor_sale_id;
+
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $comment = $request->comment;
+            $model = $request->model;
+            $year_manufacturer = $request->year_manufacturer;
+            $hourse_power = $request->hourse_power;
+            $hrs = $request->hrs;
+            $exp_price = $request->exp_price;
+            $sale_type = $request->sale_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+            $payment_type = $request->payment_type;
+
+            $is_edit = $request->is_edit;
+
+            $tractor_image = $request->tractor_image;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $status_code = '1';
+                    $message = 'Tractor Sale updated successfully.';
+
+                    $date = date('Y-m-d H:i:s');
+
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+
+                    $tractorimage = "";
+                    if($tractor_image != ''){
+                        $image_parts = explode(";base64,", $tractor_image);
+                        $image_type_aux = explode("image/", $image_parts[0]);
+                        $image_type = $image_type_aux[1];
+
+                        $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
+                        $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
+
+                        $data = base64_decode($image_parts[1]);
+                        // $data = $image_parts[1];
+                        file_put_contents($destinationPath, $data);
+                    }
+
+                    if($tractorimage != "")
+                    {
+                        DB::table('tractor_sell_enquiry')->where('id', $tractor_sale_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'is_edit' => $is_edit, 'updated_at' => $date]);
+                    }
+                    else
+                    {
+                        DB::table('tractor_sell_enquiry')->where('id', $tractor_sale_id)->update(['name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'is_edit' => $is_edit, 'updated_at' => $date]);
+                    }
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Sale";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Sale history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function labourEnquiryDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $labour_enquiry_id = $request->labour_enquiry_id;
+
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $purpose = $request->purpose;
+            $need = $request->need;
+            $labour_no = $request->labour_no;
+            $comments = $request->comments;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+            $is_edit = $request->is_edit;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $labour_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $date = date('Y-m-d H:i:s');
+
+                    DB::table('labour_enquiry')->where('id', $labour_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Labor Enquiry";
+                        $message1 = "Location: ".$location.", Purpose:".$purpose.", Need:".$need.", Labor No:".$labour_no.", Comments:".$comments;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = '1';
+                    $message = 'Labor Enquiry updated successfully';
+
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Labor Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriRentEnquiryDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $agri_rent_enquiry_id = $request->agri_rent_enquiry_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+            $how_much_time = $request->how_much_time;
+            $is_edit = $request->is_edit;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists > 0)
+                {
+                    $date = date('Y-m-d H:i:s');
+
+                    DB::table('agriland_rent_enquiry')->where('id', '=', $agri_rent_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time,   'comment' => $comment, 'updated_at' => $date, 'is_edit' => $is_edit]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Rent Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = '1';
+                    $message = 'Rent Enquiry updated sucessfully';
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Rent Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function agriSaleEnquiryDetailSave(Request $request)
+    {
+        try 
+        {
+            $json = $labourEnquiryData = array();
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+
+            $agri_sale_enquiry_id = $request->agri_sale_enquiry_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $is_edit = $request->is_edit;
+            $exp_price = 0;
+
+            $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+            if($customer){ 
+                $tractorSellEnquiryExists = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->count();
+                if($tractorSellEnquiryExists)
+                {
+                    $date = date('Y-m-d H:i:s');
+
+                    DB::table('agriland_sale_enquiry')->where('id', '=', $agri_sale_enquiry_id)->update(['location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => $is_edit, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Sale Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = '1';
+                    $message = 'Agriland Sale Enquiry updated successfully';
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                else
+                {
+                    $status_code = $success = '0';
+                    $message = 'Agriland Sale Enquiry history not exists';
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+            else
+            {
+                $status_code = $success = '0';
+                $message = 'Customer not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
 }

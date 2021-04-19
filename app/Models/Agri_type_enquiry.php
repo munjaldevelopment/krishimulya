@@ -30,7 +30,7 @@ class Agri_type_enquiry extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-     public function allCustomers()
+     public function customers()
     {
         return $this->belongsTo('App\Models\Customer', 'customer_id');
     }

@@ -42,7 +42,9 @@
             <td>
                 <a class="btn btn-sm btn-link" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/preview/'. encrypt($file['file_name'])) }}"><i class="la la-eye"></i> {{ trans('backpack::logmanager.preview') }}</a>
                 <a class="btn btn-sm btn-link" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/download/'.encrypt($file['file_name'])) }}"><i class="la la-cloud-download"></i> {{ trans('backpack::logmanager.download') }}</a>
-                <a class="btn btn-sm btn-link" data-button-type="delete" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/delete/'.encrypt($file['file_name'])) }}"><i class="la la-trash-o"></i> {{ trans('backpack::logmanager.delete') }}</a>
+                @if (config('backpack.logmanager.allow_delete'))
+                    <a class="btn btn-sm btn-link" data-button-type="delete" href="{{ url(config('backpack.base.route_prefix', 'admin').'/log/delete/'.encrypt($file['file_name'])) }}"><i class="la la-trash-o"></i> {{ trans('backpack::logmanager.delete') }}</a>
+                @endif
             </td>
           </tr>
           @endforeach

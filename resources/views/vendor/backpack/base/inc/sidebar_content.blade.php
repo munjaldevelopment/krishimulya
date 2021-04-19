@@ -1,30 +1,55 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> {{ trans('backpack::base.dashboard') }}</a></li>
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('homeslider') }}'><i class='nav-icon la la-image'></i>Home Slider</a></li>
+<li class="nav-item nav-dropdown">
+	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Master</a>
+	<ul class="nav-dropdown-items">
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('homeslider') }}'><i class='nav-icon la la-image'></i>Home Slider</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('states') }}'><i class='nav-icon la la-building'></i> States</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('city') }}'><i class='nav-icon la la-city'></i> Cities</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('pincode') }}'><i class='nav-icon la la-user'></i> PinCodes</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('setting') }}'><i class='nav-icon la la-cog'></i> Settings</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('page') }}'><i class='nav-icon la la-file-o'></i> <span>Pages</span></a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('app_popup') }}'><i class='nav-icon la la-user'></i> App Popups</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('vendorservice') }}'><i class='nav-icon la la-user'></i> Vendor Service</a></li>
+	</ul>
+</li>
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('customer') }}'><i class='nav-icon la la-user'></i> Customers</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('walletpayment') }}'><i class='nav-icon la la-wallet'></i> Wallet Payments</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('partners') }}'><i class='nav-icon la la-users'></i>Partners</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tblnotification') }}'><i class='nav-icon la la-mobile-alt'></i>Notifications</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('states') }}'><i class='nav-icon la la-building'></i> States</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('city') }}'><i class='nav-icon la la-city'></i> Cities</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedcateories') }}'><i class='nav-icon la la-file'></i> Feed Cateories</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feeds') }}'><i class='nav-icon la la-newspaper'></i> Feeds</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_type') }}'><i class='nav-icon la la-pagelines'></i> Agri Types</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_type_enquiry') }}'><i class='nav-icon la la-pagelines'></i> Agri Type Enquiry</a></li>
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool') }}'><i class='nav-icon la la-wrench'></i> Agri Tools</a></li>
+{{--<li class='nav-item'><a class='nav-link' href='{{ backpack_url('walletpayment') }}'><i class='nav-icon la la-wallet'></i> Wallet Payments</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('partners') }}'><i class='nav-icon la la-users'></i>Partners</a></li>--}}
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool_enquiry') }}'><i class='nav-icon la la-wrench'></i> Agri Tool Enquiry</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('notification') }}'><i class='nav-icon la la-mobile-alt'></i>Notifications</a></li>
+
+<li class="nav-item nav-dropdown">
+	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Feed</a>
+	<ul class="nav-dropdown-items">
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedcategories') }}'><i class='nav-icon la la-file'></i> Feed Categories</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feeds') }}'><i class='nav-icon la la-newspaper'></i> Feeds</a></li>
+	</ul>
+</li>
+
+<li class="nav-item nav-dropdown">
+	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Agri Type</a>
+	<ul class="nav-dropdown-items">
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_type') }}'><i class='nav-icon la la-pagelines'></i> Agri Type</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_type_enquiry') }}'><i class='nav-icon la la-pagelines'></i> Agri Type Enquiry</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool') }}'><i class='nav-icon la la-wrench'></i> Agri Tool</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool_enquiry') }}'><i class='nav-icon la la-wrench'></i> Agri Tool Enquiry</a></li>
+	</ul>
+</li>
 
 {{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('finance_enquiry') }}'><i class='nav-icon la la-question'></i> Finance Enquiries</a></li> --}}
+
 <li class="nav-item nav-dropdown">
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Soil Test</a>
 	<ul class="nav-dropdown-items">
-	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltesttype') }}'><i class='nav-icon la la-question'></i> Soil Test Types</a></li>
-	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders') }}'><i class='nav-icon la la-question'></i> Soil Test Orders</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sevakendra')  }}'><i class='nav-icon la la-question'></i> Seva Kendra</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltesttype') }}'><i class='nav-icon la la-building'></i> Soil Test Types</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders') }}'><i class='nav-icon la la-building'></i> Soil Test Orders</a></li>
+	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sevakendra')  }}'><i class='nav-icon la la-building'></i> Seva Kendra</a></li>
 	</ul>
 </li>
 
@@ -74,10 +99,8 @@
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('enquirytracking') }}'><i class='nav-icon la la-headset'></i> Enquiry Tracking</a></li>
 
-{{--<li class='nav-item'><a class='nav-link' href='{{ backpack_url('backup') }}'><i class='nav-icon la la-hdd-o'></i> Backups</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('log') }}'><i class='nav-icon la la-terminal'></i> Logs</a></li>--}}
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('setting') }}'><i class='nav-icon la la-cog'></i> Settings</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('page') }}'><i class='nav-icon la la-file-o'></i> <span>Pages</span></a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('log') }}'><i class='nav-icon la la-terminal'></i> Logs</a></li>
+
 
 {{-- <li class="nav-item nav-dropdown">
     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-newspaper-o"></i>Krishi Feeds</a>
@@ -93,7 +116,9 @@
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i> Authentication</a>
 	<ul class="nav-dropdown-items">
 	  <li class="nav-item"><a class="nav-link" href="{{ backpack_url('user') }}"><i class="nav-icon la la-user"></i> <span>Users</span></a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('vendor') }}'><i class='nav-icon la la-user'></i> Vendors</a></li>
 	  {{--<li class="nav-item"><a class="nav-link" href="{{ backpack_url('role') }}"><i class="nav-icon la la-id-badge"></i> <span>Roles</span></a></li>
 	  <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>--}}
 	</ul>
 </li> 
+

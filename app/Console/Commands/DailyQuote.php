@@ -166,4 +166,3 @@ class DailyQuote extends Command
             return true;
         }
 }
-
