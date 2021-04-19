@@ -733,6 +733,7 @@ class apiPartnerController extends Controller
 
                     $partnerimage = rand(10000, 99999).'-'.time().'.'.$image_type;
                     $destinationPath = public_path('uploads/partner_image/').$partnerimage;
+                    echo $destinationPath; exit;
 
                     $data = base64_decode($image_parts[1]);
                    // $data = $image_parts[1];
