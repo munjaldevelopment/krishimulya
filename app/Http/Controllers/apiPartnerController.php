@@ -737,14 +737,27 @@ class apiPartnerController extends Controller
                    // $data = $image_parts[1];
                     file_put_contents($destinationPath, $data);
                 }
-                DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
 
-                $status_code = $success = '1';
-                $message = 'Partner info updated successfully';
-                
-                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                // check for email already exists
+                $isExists = DB::table('users')->where('email', '=', $email)->where('id', '!=', $partners->user_id)->count();
 
+                if($isExists > 0)
+                {
+                	$status_code = $success = '0';
+	                $message = 'Email already exists';
+	                
+	                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
 
+                }
+                else
+                {
+	                DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
+
+	                $status_code = $success = '1';
+	                $message = 'Partner info updated successfully';
+	                
+	                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+				}
             } else{
                 $status_code = $success = '0';
                 $message = 'Partner not exists or not verified';
