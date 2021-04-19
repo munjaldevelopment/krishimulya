@@ -170,7 +170,7 @@ class VendorCrudController extends CrudController
                                 'name' => 'is_onboard',
                                 'label' => 'User On-board',
                                 'type' => 'select2_from_array',
-                                'options' => ['Approve' => 'Approve', 'Pending' => 'Pending', 'Onboarded' => 'Onboarded'],
+                                'options' => ['0' => 'Inactive', '1' => 'Active'],
                                 'tab' => 'User'
                             ]);
 
@@ -316,7 +316,7 @@ class VendorCrudController extends CrudController
                                 'name' => 'is_onboard',
                                 'label' => 'User On-board',
                                 'type' => 'select2_from_array',
-                                'options' => ['Yet to onboarded' => 'Yet to onboarded', 'Onboarded' => 'Onboarded'],
+                                'options' => ['0' => 'Inactive', '1' => 'Active'],
                                 'tab' => 'User'
                             ]);
 
