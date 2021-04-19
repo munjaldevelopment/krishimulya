@@ -714,11 +714,14 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
             $name = $request->name;
-            $age = $request->age;
+            $ageEntry = $request->age;
             $email = $request->email;
             $address = $request->address;
             $partner_image = $request->partner_image;
             $city = $request->city;
+
+            $ageData = explode("-", $ageEntry);
+            $age = $ageData[2]."/".$ageData[1]."/".$ageData[0];
 
             $partners = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partners){ 
