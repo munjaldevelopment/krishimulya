@@ -50,7 +50,7 @@ class apiPartnerController extends Controller
                         $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishivalu&referrer=krvprefer".$partnerid;
                    
                         DB::table('vendors')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
-                        
+
                         $status_code = '1';
                         $message = 'Partner login successfully';
                         $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'phone' => $mobile, 'pincode' =>  $vendors->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
@@ -116,7 +116,7 @@ class apiPartnerController extends Controller
 
                     $status_code = '1';
                     $message = 'OTP Send Successfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$vendors->id, 'phone' => $mobile);
+                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$vendors->id, 'otp' => $otp, 'phone' => $mobile);
                 } 
                 else 
                 {
