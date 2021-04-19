@@ -714,7 +714,7 @@ class apiController extends Controller
                 $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
             }
             
-            $status_code = '0';
+            $status_code = '1';
             $message = 'Popup list';
             $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => $same_version, 'slider_url' => $baseUrl.'/app-popup');
         }

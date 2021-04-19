@@ -42,6 +42,7 @@ class VendorServiceCrudController extends CrudController
         //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn('service_code');
+        $this->crud->addColumn('service_color');
         $this->crud->addColumn('name');
 
         $this->crud->addColumn([
@@ -67,7 +68,21 @@ class VendorServiceCrudController extends CrudController
     {
         CRUD::setValidation(VendorServiceRequest::class);
 
-        CRUD::setFromDb(); // fields
+        $this->crud->addField('service_code');
+        $this->crud->addField([
+                'name' => 'service_color',
+                'label' => 'color',
+                'type' => 'color',
+            ]);
+        $this->crud->addField('name');
+
+        $this->crud->addField([
+                'name' => 'status',
+                'label' => 'Status',
+                'type' => 'checkbox',
+            ]);
+
+        //CRUD::setFromDb(); // fields
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
