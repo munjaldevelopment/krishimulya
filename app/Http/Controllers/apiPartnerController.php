@@ -108,9 +108,9 @@ class apiPartnerController extends Controller
                     $date   = date('Y-m-d H:i:s');
                     $vendorsid = $vendors->id;
                     $otp = rand(111111, 999999);
-                    $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
-     
-                    $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
+
+                    $message = str_replace(" ", "%20", "Your OTP is ".$otp);
+                    $this->httpGet("http://54.36.26.171/rest/services/sendSMS/sendGroupSms?AUTH_KEY=fa4c8291909ebf28ecab817b387d5078&message=".$message."&senderId=RELABL&routeId=1&mobileNos=".$mobile."&smsContentType=english");
 
                      DB::table('vendors')->where('id', '=', $vendorsid)->update(['otp' => $otp, 'updated_at' => $date]);
 
