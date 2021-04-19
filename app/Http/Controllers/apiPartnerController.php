@@ -43,7 +43,7 @@ class apiPartnerController extends Controller
                     
                     $partnerid = $vendors->id;
                     $deviceid = $vendors->device_id;
-                    $partner_status = $vendors->status;
+                    $partner_status = $vendors->is_onboard;
                     $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishivalu&referrer=krvprefer".$partnerid;
                    
                     if($partner_status == 1){
