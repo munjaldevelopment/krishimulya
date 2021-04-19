@@ -37,24 +37,24 @@ class apiPartnerController extends Controller
                 $json = $userData = array();
                 $mobile = $mobile;
                 $date   = date('Y-m-d H:i:s');
-                $partners = DB::table('partners')->where('mobile', $mobile)->where('password', $password)->first();
-                if($partners) 
+                $vendors = DB::table('vendors')->where('mobile', $mobile)->where('password', $password)->first();
+                if($vendors) 
                 {
                     
-                    $partnerid = $partners->id;
-                    $deviceid = $partners->device_id;
-                    $partner_status = $partners->status;
+                    $partnerid = $vendors->id;
+                    $deviceid = $vendors->device_id;
+                    $partner_status = $vendors->status;
                     $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishivalu&referrer=krvprefer".$partnerid;
                    
                     if($partner_status == 1){
 
-                        DB::table('partners')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
+                        DB::table('vendors')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
 
                         $status_code = '1';
                         $message = 'Partner login successfully';
-                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $partners->name, 'mobile' => $mobile, 'pincode' =>  $partners->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
+                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'mobile' => $mobile, 'pincode' =>  $vendors->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
                     }else{
-                        DB::table('partners')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
+                        DB::table('vendors')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
 
                         $status_code = '0';
                         $message = 'Partner not active, please contact to support';
@@ -108,21 +108,21 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $partners = DB::table('partners')->where('mobile', $mobile)->first();
-                if($partners) 
+                $vendors = DB::table('vendors')->where('mobile', $mobile)->first();
+                if($vendors) 
                 {
                     $date   = date('Y-m-d H:i:s');
-                    $partnersid = $partners->id;
+                    $vendorsid = $vendors->id;
                     $otp = rand(111111, 999999);
                     $smsmessage = str_replace(" ", "%20", "Your OTP is ".$otp);
      
                     $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
-                     DB::table('partners')->where('id', '=', $partnersid)->update(['otp' => $otp, 'updated_at' => $date]);
+                     DB::table('vendors')->where('id', '=', $vendorsid)->update(['otp' => $otp, 'updated_at' => $date]);
 
                     $status_code = '1';
                     $message = 'OTP Send Successfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$partners->id, 'mobile' => $mobile);
+                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$vendors->id, 'mobile' => $mobile);
                 } 
                 else 
                 {
@@ -167,12 +167,12 @@ class apiPartnerController extends Controller
                 $json = array('status_code' => '0', 'message' => $error);
             }
             if($error == ""){
-                $partner = DB::table('partners')->where('mobile', $mobile)->where('otp', $otp)->first();
+                $partner = DB::table('vendors')->where('mobile', $mobile)->where('otp', $otp)->first();
                 if($partner) 
                 {
-                     $partnersid = $partner->id;
+                     $vendorsid = $partner->id;
                     $date   = date('Y-m-d H:i:s');
-                    DB::table('partners')->where('id', '=', $partnersid)->update(['password' => $password, 'updated_at' => $date]);
+                    DB::table('vendors')->where('id', '=', $vendorsid)->update(['password' => $password, 'updated_at' => $date]);
                     $status_code = '1';
                     $message = 'Password changed successfully';
                     $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$partner->id, 'mobile' => $mobile);
@@ -211,7 +211,7 @@ class apiPartnerController extends Controller
             }
            
             if($error == ""){
-                $partner = DB::table('partners')->where('mobile', $mobile)->first();
+                $partner = DB::table('vendors')->where('mobile', $mobile)->first();
                 if($partner) 
                 {
                     $partnerid = $partner->id;
@@ -220,7 +220,7 @@ class apiPartnerController extends Controller
      
                     $this->httpGet("http://opensms.microprixs.com/api/mt/SendSMS?user=krishimulya&password=krishimulya&senderid=KMAPAY&channel=trans&DCS=0&flashsms=0&number=".$mobile."&text=".$smsmessage."&route=35");
 
-                     DB::table('partners')->where('id', '=', $partnerid)->update(['otp' => $otp, 'updated_at' => $date]);
+                     DB::table('vendors')->where('id', '=', $partnerid)->update(['otp' => $otp, 'updated_at' => $date]);
 
                     $status_code = '1';
                     $message = 'OTP Send sucessfully';
@@ -254,7 +254,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
            
-            $partner = DB::table('partners')->where('id', $partner_id)->where('status', '=', '1')->first();
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('status', '=', '1')->first();
             if($partner){ 
                 
                 if($partner->name){

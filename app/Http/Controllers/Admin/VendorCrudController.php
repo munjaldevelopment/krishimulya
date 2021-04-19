@@ -123,6 +123,27 @@ class VendorCrudController extends CrudController
                                 'type' => 'text',
                                 'tab' => 'User'
                             ]);
+
+        $this->crud->addField([
+                                'name' => 'pcode',
+                                'label' => 'Pcode',
+                                'type' => 'text',
+                                'tab' => 'User'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'age',
+                                'label' => 'Age',
+                                'type' => 'date',
+                                'tab' => 'User'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'image',
+                                'label' => 'Image',
+                                'type' => 'browse',
+                                'tab' => 'User'
+                            ]);
                             
         $this->crud->addField([
                                 'name' => 'email',
@@ -151,6 +172,57 @@ class VendorCrudController extends CrudController
                                 'type' => 'select2_from_array',
                                 'options' => ['Approve' => 'Approve', 'Pending' => 'Pending', 'Onboarded' => 'Onboarded'],
                                 'tab' => 'User'
+                            ]);
+
+
+        // Address
+        $this->crud->addField([
+                                'name' => 'address',
+                                'label' => 'Address',
+                                'type' => 'textarea',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'city',
+                                'label' => 'City',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'state',
+                                'label' => 'State',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'pincode',
+                                'label' => 'Pincode',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'device_id',
+                                'label' => 'Device',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'fcmToken',
+                                'label' => 'fcmToken',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'otp',
+                                'label' => 'otp',
+                                'type' => 'number',
+                                'tab' => 'Address'
                             ]);
 
         $this->crud->addField([
@@ -190,6 +262,27 @@ class VendorCrudController extends CrudController
                 ],
                 'tab' => 'User'
                 ]);
+
+        $this->crud->addField([
+                                'name' => 'pcode',
+                                'label' => 'Pcode',
+                                'type' => 'text',
+                                'tab' => 'User'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'age',
+                                'label' => 'Age',
+                                'type' => 'date',
+                                'tab' => 'User'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'image',
+                                'label' => 'Image',
+                                'type' => 'browse',
+                                'tab' => 'User'
+                            ]);
                 
         $this->crud->addField([
                                 'name' => 'name',
@@ -225,6 +318,56 @@ class VendorCrudController extends CrudController
                                 'type' => 'select2_from_array',
                                 'options' => ['Yet to onboarded' => 'Yet to onboarded', 'Onboarded' => 'Onboarded'],
                                 'tab' => 'User'
+                            ]);
+
+        // Address
+        $this->crud->addField([
+                                'name' => 'address',
+                                'label' => 'Address',
+                                'type' => 'textarea',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'city',
+                                'label' => 'City',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'state',
+                                'label' => 'State',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'pincode',
+                                'label' => 'Pincode',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'device_id',
+                                'label' => 'Device',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'fcmToken',
+                                'label' => 'fcmToken',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'otp',
+                                'label' => 'otp',
+                                'type' => 'number',
+                                'tab' => 'Address'
                             ]);
 
         $this->crud->addField([
