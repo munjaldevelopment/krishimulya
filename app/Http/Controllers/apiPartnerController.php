@@ -111,7 +111,7 @@ class apiPartnerController extends Controller
 
                     $message = str_replace(" ", "%20", "Thank you for registering on KRISHI MULYA AGRO PRIVATE LIMITED. ".$otp." is the OTP for your Login id. Please do not share with anyone.");
                     $result = $this->httpGet("http://sms.messageindia.in/v2/sendSMS?username=krishim&message=".$message."&sendername=KMAOTP&smstype=TRANS&numbers=".$mobile."&apikey=b82ccff1-85cc-4cd5-9401-beed47647ed0");//
-                    print_r($result); exit;
+                    //print_r($result); exit;
 
                      DB::table('vendors')->where('id', '=', $vendorsid)->update(['otp' => $otp, 'updated_at' => $date]);
 
