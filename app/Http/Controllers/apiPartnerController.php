@@ -165,9 +165,13 @@ class apiPartnerController extends Controller
                 $partner = DB::table('vendors')->where('phone', $mobile)->where('otp', $otp)->first();
                 if($partner) 
                 {
-                     $vendorsid = $partner->id;
+                    $vendorsid = $partner->id;
+                    $user_id = $partner->user_id;
+
                     $date   = date('Y-m-d H:i:s');
-                    DB::table('vendors')->where('id', '=', $vendorsid)->update(['password' => $password, 'updated_at' => $date]);
+                    
+                    DB::table('vendors')->where('id', '=', $vendorsid)->update(['password' => Hash::make($password), 'updated_at' => $date]);
+                    DB::table('users')->where('id', '=', $user_id)->update(['password' => Hash::make($password), 'updated_at' => $date]);
                     $status_code = '1';
                     $message = 'Password changed successfully';
                     $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$partner->id, 'phone' => $mobile);
