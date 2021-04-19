@@ -21,7 +21,8 @@ class AgrilandRentEnquiryVendor extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    
+    protected $fillable = ['agriland_rent_enquiry_id', 'vendor_id', 'test_status', 'status_time'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -30,9 +31,14 @@ class AgrilandRentEnquiryVendor extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-     public function vendors()
+    public function vendor()
     {
         return $this->belongsTo('App\Models\Vendor', 'vendor_id');
+    }
+
+    public function agriLandEnquiry()
+    {
+        return $this->belongsTo('App\Models\AgrilandRentEnquiry', 'agriland_rent_enquiry_id');
     }
     /*
     |--------------------------------------------------------------------------

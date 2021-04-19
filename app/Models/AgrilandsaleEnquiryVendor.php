@@ -21,6 +21,26 @@ class AgrilandsaleEnquiryVendor extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+
+    protected $fillable = ['agriland_sale_enquiry_id', 'vendor_id', 'test_status', 'status_time'];
+    // protected $fillable = [];
+    // protected $hidden = [];
+    // protected $dates = [];
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+    public function vendors()
+    {
+        return $this->belongsTo('App\Models\Vendor', 'vendor_id');
+    }
+
+    public function agrilandsaleEnquiry()
+    {
+        return $this->belongsTo('App\Models\AgrilandsaleEnquiry', 'agriland_sale_enquiry_id');
+    }
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];

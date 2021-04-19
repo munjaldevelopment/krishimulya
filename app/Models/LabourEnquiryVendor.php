@@ -21,6 +21,8 @@ class LabourEnquiryVendor extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+
+    protected $fillable = ['labour_enquiry_id', 'vendor_id', 'test_status', 'status_time'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -33,6 +35,11 @@ class LabourEnquiryVendor extends Model
     public function vendors()
     {
         return $this->belongsTo('App\Models\Vendor', 'vendor_id');
+    }
+
+    public function labourEnquiry()
+    {
+        return $this->belongsTo('App\Models\LabourEnquiry', 'labour_enquiry_id');
     }
     /*
     |--------------------------------------------------------------------------
