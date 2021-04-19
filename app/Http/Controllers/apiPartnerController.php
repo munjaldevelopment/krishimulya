@@ -753,6 +753,8 @@ class apiPartnerController extends Controller
                 {
 	                DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
 
+	                DB::table('users')->where('id', '=', $partners->user_id)->update(['name' => $name, 'email' => $email, 'updated_at' => $date]);
+
 	                $status_code = $success = '1';
 	                $message = 'Partner info updated successfully';
 	                
