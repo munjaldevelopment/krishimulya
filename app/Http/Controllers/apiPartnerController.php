@@ -108,7 +108,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $vendors = DB::table('vendors')->where('mobile', $mobile)->first();
+                $vendors = DB::table('vendors')->where('phone', $mobile)->first();
                 if($vendors) 
                 {
                     $date   = date('Y-m-d H:i:s');
@@ -122,14 +122,14 @@ class apiPartnerController extends Controller
 
                     $status_code = '1';
                     $message = 'OTP Send Successfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$vendors->id, 'mobile' => $mobile);
+                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$vendors->id, 'phone' => $mobile);
                 } 
                 else 
                 {
                     $status_code = $success = '0';
                     $message = 'Sorry! Partner does not exists or Incorrect OTP!';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'mobile' => $mobile);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'phone' => $mobile);
                }
             }
         }
@@ -167,7 +167,7 @@ class apiPartnerController extends Controller
                 $json = array('status_code' => '0', 'message' => $error);
             }
             if($error == ""){
-                $partner = DB::table('vendors')->where('mobile', $mobile)->where('otp', $otp)->first();
+                $partner = DB::table('vendors')->where('phone', $mobile)->where('otp', $otp)->first();
                 if($partner) 
                 {
                      $vendorsid = $partner->id;
@@ -175,14 +175,14 @@ class apiPartnerController extends Controller
                     DB::table('vendors')->where('id', '=', $vendorsid)->update(['password' => $password, 'updated_at' => $date]);
                     $status_code = '1';
                     $message = 'Password changed successfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$partner->id, 'mobile' => $mobile);
+                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$partner->id, 'phone' => $mobile);
                 } 
                 else 
                 {
                     $status_code = $success = '0';
                     $message = 'Sorry! Partner does not exists or Incorrect OTP!';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'mobile' => $mobile);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'phone' => $mobile);
                }
             }
         }
@@ -211,7 +211,7 @@ class apiPartnerController extends Controller
             }
            
             if($error == ""){
-                $partner = DB::table('vendors')->where('mobile', $mobile)->first();
+                $partner = DB::table('vendors')->where('phone', $mobile)->first();
                 if($partner) 
                 {
                     $partnerid = $partner->id;
@@ -224,14 +224,14 @@ class apiPartnerController extends Controller
 
                     $status_code = '1';
                     $message = 'OTP Send sucessfully';
-                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$partnerid,  'mobile' => $mobile, 'otp' => "".$otp);
+                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => (int)$partnerid,  'phone' => $mobile, 'otp' => "".$otp);
                 } 
                 else 
                 {
                     $status_code = $success = '0';
                     $message = 'Sorry! Partner does not exists';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'mobile' => $mobile);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'phone' => $mobile);
                }
             }
         }
