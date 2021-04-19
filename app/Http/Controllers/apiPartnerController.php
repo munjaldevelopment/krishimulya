@@ -286,7 +286,7 @@ class apiPartnerController extends Controller
 
                 // update app version in
                 $date = date('Y-m-d H:i:s');
-                DB::table('vendors')->where('id', '=', $customer_id)->update(['app_version' => $app_version, 'updated_at' => $date]);
+                DB::table('vendors')->where('id', '=', $partner_id)->update(['app_version' => $app_version, 'updated_at' => $date]);
             }else{
                 $custname = "Guest";
             }
