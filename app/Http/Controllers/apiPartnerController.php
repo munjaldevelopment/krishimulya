@@ -996,4 +996,7 @@ class apiPartnerController extends Controller
     
         return response()->json($json, 200);
     }
+
+    // Services
+    
 }

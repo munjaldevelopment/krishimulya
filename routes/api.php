@@ -170,6 +170,8 @@ Route::post('update-partner-profile', 'apiPartnerController@update_profile');
 Route::post('partner-logout', 'apiPartnerController@partner_logout');
 Route::get('partner-token', 'apiPartnerController@getPartnerType');
 
+// Service API
+
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
 Route::get('partner-notification', 'apiPartnerController@notification_list');
