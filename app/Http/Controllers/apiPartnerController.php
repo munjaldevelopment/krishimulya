@@ -24,7 +24,9 @@ class apiPartnerController extends Controller
             $device_id = $request->device_id;
             $fcmToken = $request->fcmToken;
             $refer_code = $request->refer_code;
+            
             $error = "";
+
             if($mobile == ""){
                 $error = "Please enter valid mobile number";
                 $json = array('status_code' => '0', 'message' => $error);
@@ -50,6 +52,22 @@ class apiPartnerController extends Controller
                         $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishivalu&referrer=krvprefer".$partnerid;
                    
                         DB::table('vendors')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
+
+                        if($refer_code != "")
+	                    {
+	                        $usertype = explode('refer',$refer_code);
+	                        if($usertype[0]=='krvp'){
+	                            $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+	                        } else {
+	                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
+	                            $referal_customer_id = $referCustomerid;
+	                        }
+
+	                        if($referal_customer_id != "")
+	                        {
+	                            DB::table('vendors')->where('id', '=', $partnerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
+	                        }
+	                    }
 
                         $status_code = '1';
                         $message = 'Partner login successfully';
