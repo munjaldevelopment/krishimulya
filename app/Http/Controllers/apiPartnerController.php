@@ -11,6 +11,7 @@ use URL;
 use File;
 use Session;
 use QR_Code\QR_Code;
+use App\Models\Setting;
 
 class apiPartnerController extends Controller
 {
