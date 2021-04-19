@@ -674,7 +674,7 @@ class apiPartnerController extends Controller
                 $baseUrl = URL::to("/");
                 $partner_image  = "";
                 if($partner->image){
-                    $partner_image  =  $baseUrl."/public/uploads/partner_image/".$partner->image;
+                    $partner_image  =  $baseUrl."/".$partner->image;
                 
                 }else{
                    $partner_image  =  $baseUrl."/public/uploads/profile.jpg";
