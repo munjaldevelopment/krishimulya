@@ -37,30 +37,24 @@ class apiPartnerController extends Controller
                 $json = $userData = array();
                 $mobile = $mobile;
                 $date   = date('Y-m-d H:i:s');
-                $vendors = DB::table('vendors')->where('phone', $mobile)->where('password', $password)->first();
+                $vendors = DB::table('vendors')->where('phone', $mobile)->where('is_onboard', '1')->first();
                 if($vendors) 
                 {
-                    
-                    $partnerid = $vendors->id;
-                    $deviceid = $vendors->device_id;
-                    $partner_status = $vendors->is_onboard;
-                    $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishivalu&referrer=krvprefer".$partnerid;
+                    if (Auth::attempt(array(
+                        'phone' => $mobile,
+                        'password' => $password,
+                    ))) 
+                    {
+                        $partnerid = $vendors->id;
+                        $deviceid = $vendors->device_id;
+                        $refer_url = "https://play.google.com/store/apps/details?id=com.microprixs.krishivalu&referrer=krvprefer".$partnerid;
                    
-                    if($partner_status == 1){
-
                         DB::table('vendors')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
 
                         $status_code = '1';
                         $message = 'Partner login successfully';
                         $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partnerid, 'name' =>  $vendors->name, 'phone' => $mobile, 'pincode' =>  $vendors->pincode, 'refer_url' =>  $refer_url, "partner_type" => "already");
-                    }else{
-                        DB::table('vendors')->where('id', '=', $partnerid)->update(['device_id' => $device_id, 'fcmToken' => $fcmToken, 'updated_at' => $date]);
-
-                        $status_code = '0';
-                        $message = 'Partner not active, please contact to support';
-                        $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '', 'phone' => $mobile, "partner_type" => "not active");
                     }
-                    
                 }else{
 
                     
