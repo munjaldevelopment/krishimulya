@@ -566,7 +566,7 @@ class apiPartnerController extends Controller
                 }else{
                  $age = "";
                 } 
-                $mobile = $partner->mobile;
+                $mobile = $partner->phone;
                 
                 if($partner->pcode){
                     $pcode = $partner->pcode; 
@@ -753,7 +753,7 @@ class apiPartnerController extends Controller
                 $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($partner){ 
                     
-                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'user_type' => 'partner', 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city,  'what_type' => $what_need, 'user_type' => 'partner', 'isactive' => $insurance_typeive, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Rent enquiry added successfully';
