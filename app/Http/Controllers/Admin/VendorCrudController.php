@@ -226,6 +226,15 @@ class VendorCrudController extends CrudController
                             ]);
 
         $this->crud->addField([
+                                'name' => 'app_version',
+                                'label' => 'App Version',
+                                'type' => 'text',
+                                'tab' => 'Address'
+                            ]);
+
+        
+
+        $this->crud->addField([
                 'label' => 'Tags',
                 'type' => 'relationship',
                 'name' => 'vendorService', // the method that defines the relationship in your Model
