@@ -168,25 +168,11 @@ Route::post('resend-partner-sms', 'apiPartnerController@resendSMS');
 Route::get('partner-profile', 'apiPartnerController@partner_profile');
 Route::post('update-partner-profile', 'apiPartnerController@update_profile');
 Route::post('partner-logout', 'apiPartnerController@partner_logout');
-Route::post('partner-rent-enquiry', 'apiPartnerController@partner_rent_enquiry');
-Route::post('partner-rent-in-result', 'apiPartnerController@partner_rent_result_enquiry');
-
 Route::get('partner-token', 'apiPartnerController@getPartnerType');
 
-Route::post('partner-tractor-sale-enquiry', 'apiPartnerController@tractor_sale_enquiry');
-Route::post('partner-tractor_purchase-enquiry', 'apiPartnerController@tractor_purchase_enquiry');
-Route::post('partner-tractor-old-enquiry', 'apiPartnerController@purchase_old_results');
-Route::post('partner-insurance-enquiry', 'apiPartnerController@insurance_enquiry');
-Route::post('partner-enquiry-tracking', 'apiPartnerController@enquiry_tracking');
-Route::post('partner-soil-order', 'apiPartnerController@create_soiltest_order');
-Route::get('partner-order-history', 'apiPartnerController@get_partner_soilOdr');
-Route::post('partner-update-order', 'apiPartnerController@updateOdrTestType');
-
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
-Route::post('partner-order-report', 'apiPartnerController@orderReportCreated');
+Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
 Route::get('partner-notification', 'apiPartnerController@notification_list');
 
-Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
-
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');
