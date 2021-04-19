@@ -436,6 +436,7 @@ class VendorCrudController extends CrudController
         $user_id = User::insertGetId([
             'name' => $this->crud->getRequest()->name,
             'email' => $this->crud->getRequest()->email,
+            'phone' => $this->crud->getRequest()->phone,
             'password' => Hash::make($this->crud->getRequest()->password),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
@@ -472,11 +473,11 @@ class VendorCrudController extends CrudController
 
         if($this->crud->getRequest()->password == NULL)
         {
-            User::where('id', $user_id)->update(['name' => $this->crud->getRequest()->name, 'email' => $this->crud->getRequest()->email, 'updated_at' => date('Y-m-d H:i:s')]);
+            User::where('id', $user_id)->update(['name' => $this->crud->getRequest()->name, 'phone' => $this->crud->getRequest()->phone, 'email' => $this->crud->getRequest()->email, 'updated_at' => date('Y-m-d H:i:s')]);
         }
         else
         {
-            User::where('id', $user_id)->update(['name' => $this->crud->getRequest()->name, 'email' => $this->crud->getRequest()->email, 'password' => Hash::make($this->crud->getRequest()->password), 'updated_at' => date('Y-m-d H:i:s')]);
+            User::where('id', $user_id)->update(['name' => $this->crud->getRequest()->name, 'phone' => $this->crud->getRequest()->phone, 'email' => $this->crud->getRequest()->email, 'password' => Hash::make($this->crud->getRequest()->password), 'updated_at' => date('Y-m-d H:i:s')]);
         }
 
         if($this->crud->getRequest()->vendor_assign)

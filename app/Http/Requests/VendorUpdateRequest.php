@@ -31,7 +31,7 @@ class VendorUpdateRequest extends FormRequest
             'user_id' => 'required',
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$user_id,
-            //'phone' => 'required|unique:users,phone,'.$user_id
+            'phone' => 'required|unique:users,phone,'.$user_id
         ];
     }
 
