@@ -732,7 +732,7 @@ class apiPartnerController extends Controller
                     $image_type = $image_type_aux[1];
 
                     $partnerimage = rand(10000, 99999).'-'.time().'.'.$image_type;
-                    $destinationPath = public_path('/uploads/partner_image/').$partnerimage;
+                    $destinationPath = public_path('uploads/partner_image/').$partnerimage;
 
                     $data = base64_decode($image_parts[1]);
                    // $data = $image_parts[1];
@@ -754,7 +754,7 @@ class apiPartnerController extends Controller
                 {
                 	if($partnerimage != "")
                 	{
-	                	DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => $partnerimage, 'updated_at' => $date]);
+	                	DB::table('vendors')->where('id', '=', $partner_id)->update(['name' => $name, 'age' => $age, 'email' => $email, 'address' => $address, 'city' => $city, 'image' => "uploads/partner_image/".$partnerimage, 'updated_at' => $date]);
 	                }
 	                else
 	                {
