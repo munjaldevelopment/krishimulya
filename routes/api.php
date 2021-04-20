@@ -199,3 +199,4 @@ Route::get('soil-login', 'apiSoilController@soilLogin');
 Route::get('soil-myinfo', 'apiSoilController@soilMyInfo');
 Route::get('soil-create-farmer', 'apiSoilController@soilCreateFarmer');
 Route::get('soil-get-farmer', 'apiSoilController@soilGetFarmer');
+Route::get('soil-create-test', 'apiSoilController@soilCreateTest');
