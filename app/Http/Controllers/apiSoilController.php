@@ -49,7 +49,7 @@ class apiSoilController extends Controller
 
         curl_close($curl);
 
-        echo '<pre>'; prnit_r($response); exit;
+        echo '<pre>'; print_r($response); exit;
     }
 
 	public function soilLogin(Request $request)
