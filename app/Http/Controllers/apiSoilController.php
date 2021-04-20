@@ -13,20 +13,11 @@ use App\Models\Setting;
 
 class apiSoilController extends Controller
 {
-	public function httpGet($url)
-    {
-        $ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_VERBOSE, 0); 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $head = curl_exec($ch); 
-        curl_close($ch);
-        return $head;
-    }
-
-    //START LOGIN
+	//START LOGIN
     public function soilCreateFarmer(Request $request)
     {
+        Setting::AssignSetting();
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -41,7 +32,7 @@ class apiSoilController extends Controller
           CURLOPT_POSTFIELDS =>'{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) {\\r\\n    createFarmer(farmer: $createFarmerFarmer) {\\r\\n        id\\r\\n        latitude\\r\\n        longitude\\r\\n        name\\r\\n        address\\r\\n        phone\\r\\n        username\\r\\n        createdAt\\r\\n        updatedAt\\r\\n    }\\r\\n}","variables":{"createFarmerFarmer":{"name":"True Friend83", "address":"TestAddress", "phone":"+919999999999", "latitude":12.566465, "longitude":34.453666, "username":"truefriend832"}}}',
 
           CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb24iOiI2MDM4YmE5MTMwYThjZDAwMTIwMDExMGQiLCJ1c2VyIjoiNjAzOGJiNDgzMGE4Y2QwMDEyMDAxMTBlIiwiaWF0IjoxNjE4OTE0NDA1fQ.qxprKH7lH9k24dDnwhCvMd0aDx4B2Rr-SfCS-eIhqIo',
+            'Authorization: Bearer '.SOILTEST_TOKEN,
             'Content-Type: application/json'
           ),
         ));
@@ -55,6 +46,8 @@ class apiSoilController extends Controller
 
     public function soilMyInfo(Request $request)
     {
+        Setting::AssignSetting();
+
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -68,7 +61,7 @@ class apiSoilController extends Controller
           CURLOPT_CUSTOMREQUEST => 'POST',
           CURLOPT_POSTFIELDS =>'{"query":"query Query {\\r\\n  me {\\r\\n    organization {\\r\\n      id\\r\\n      slug\\r\\n      name\\r\\n    }\\r\\n    id\\r\\n    username\\r\\n    email\\r\\n    phone\\r\\n  }\\r\\n}","variables":{}}',
           CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb24iOiI2MDM4YmE5MTMwYThjZDAwMTIwMDExMGQiLCJ1c2VyIjoiNjAzOGJiNDgzMGE4Y2QwMDEyMDAxMTBlIiwiaWF0IjoxNjE4OTE0NDA1fQ.qxprKH7lH9k24dDnwhCvMd0aDx4B2Rr-SfCS-eIhqIo',
+            'Authorization: Bearer '.SOILTEST_TOKEN,
             'Content-Type: application/json'
           ),
         ));
@@ -109,6 +102,5 @@ class apiSoilController extends Controller
         $token = $result['data']['login'];
 
         DB::table("settings")->where('id', '8')->update(['value' => $token]);
-        echo $token;
     }
 }
