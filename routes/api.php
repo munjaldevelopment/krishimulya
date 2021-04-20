@@ -192,3 +192,7 @@ Route::get('app-popup-partner', 'apiPartnerController@appPopup');
 
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');
+
+
+/// soil testing
+Route::get('soil-login', 'apiSoilController@soilLogin');
