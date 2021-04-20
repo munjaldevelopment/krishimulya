@@ -107,6 +107,8 @@ class apiSoilController extends Controller
 
         $result = json_decode($response, 1);
         $token = $result['data']['login'];
+
+        DB::table("settings")->where('id', '8')->update(['value' => $token]);
         echo $token;
     }
 }
