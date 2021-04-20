@@ -1945,4 +1945,100 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    // Soil test
+    public function soilTestEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $land_size = $request->land_size;
+            $location = $request->location;
+            $khasra_no = $request->khasra_no;
+            $test_type = $request->test_type;
+            $amount = $request->amount;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+            
+            //$comments = $request->comment;
+            //$exp_price = $request->exp_price;
+            $order_status = 'pending';
+            $isactive = 1;
+            $error = "";
+            if($test_type == ""){
+                $error = "Please enter valid data.";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    
+                  
+                   /* get order no */
+                   $maxorderno = DB::table('soil_test_orders')->select('id','order_no')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
+                   //print_r($maxorderno);
+                  
+                   if(!empty($maxorderno) && $maxorderno->id != '') {
+                        
+                        if($maxorderno->order_no != ''){
+                            $orderno = $maxorderno->order_no;
+                            
+                            $orderno = $orderno+1;
+                        }else{
+                            $orderno = 1;
+                        }
+                        
+                   }else{
+                        $orderno = 1;
+                   }
+                  
+                    $order_no = str_pad($orderno, 3, "0", STR_PAD_LEFT);
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id, 'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+                   //DB::table('soil_test_orders')->where('id', '=', $orderid)->update(['order_no' => $order_no]);
+                   
+                   /* FCM Notification */
+                   $customerToken = $customer->fcmToken; 
+                   //$customerToken = 'e2k1jCT_Ty2qOLk4gSX_Hz:APA91bHXhqvz5KlPW6EW9vDNeldzJR-yQcIarygjgn8fo2b08ihcEIFiu-NzHI-1A3L7MJMYyI4ehSWzBwimX5T0ExRbooa6-UxGrfckSdD-F49FzJxwWcU4M58qRu8yeRduTk62eBMW';
+                   $customerName = $customer->name; 
+                   $notification_title = "Soil Test Order";
+                   $notification_body = $order_no." Your soil test order has been successfully created! Thanks for order with us.";
+                   $notification_type = "soil_order";
+                   $notif_data = array($notification_title,$customerName,$notification_body,"","");
+                
+                   $customerNotify = $this->push_notification($notif_data,$customerToken);
+                   $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                   /* End */
+                    $status_code = $success = '1';
+                    $message = 'Soil Test Order Added Successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'order_id' => "".$orderid);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 }
