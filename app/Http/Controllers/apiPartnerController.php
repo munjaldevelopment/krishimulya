@@ -1234,12 +1234,12 @@ class apiPartnerController extends Controller
             $partner_id = $request->partner_id;
             $insurance_type = $request->insurance_type;
             $other_insurance_type = $request->other_insurance_type;
-            $comments = $request->comments;
+            $comments = $request->comment;
             $is_contact = $request->is_contact;
             $contact_person_name = $request->contact_person_name;
             $contact_person_phone = $request->contact_person_phone;
             $contact_person_otp = $request->contact_person_otp;
-            
+
             $isactive = 1;
             $error = "";
             if($insurance_type == ""){
