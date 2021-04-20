@@ -1511,6 +1511,11 @@ class apiPartnerController extends Controller
             $other_city = $request->other_city;
             $available_date = date("Y-m-d",strtotime($request->available_date));
             $comment = $request->comment;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
             $model = '';
             $isactive = 1;
             $error = "";
@@ -1553,7 +1558,133 @@ class apiPartnerController extends Controller
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function tractorSaleEnquiry(Request $request)
+    {
+        try 
+        {
+
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $sale_type = $request->sale_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $model = $request->model;
+            $year_manufacturer = $request->year_manufacturer;
+            $hourse_power = $request->hourse_power;
+            $hrs = $request->hrs;
+           
+            $exp_price = $request->exp_price;
+            $comment = $request->comment;
+
+            $payment_type = $request->payment_type;
+            
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $tractor_image = $request->tractor_image;
+
+            $isactive = 1;
+            $error = "";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($company_name == "" || $company_name == "All"){
+                $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            if($model == "" || $model == "All"){
+                $error = "Please enter model name of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($hourse_power == "" || $hourse_power == "All"){
+                $error = "Please enter horse power of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($payment_type == "" || $payment_type == "All"){
+                //$error = "Please enter payment type of tractor";
+                //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+                    }else{
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+                }
+            }
+
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+
+                  	if($tractor_image != ''){
+                        $image_parts = explode(";base64,", $tractor_image);
+                        $image_type_aux = explode("image/", $image_parts[0]);
+                        $image_type = $image_type_aux[1];
+
+                        $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
+                        $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
+
+                        $data = base64_decode($image_parts[1]);
+                        // $data = $image_parts[1];
+                        file_put_contents($destinationPath, $data);
+                    } 
+
+                    $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Sale";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor sale enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'tractor_sell_enquiry_id' => $tractor_sell_enquiry_id);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
         
         return response()->json($json, 200);
