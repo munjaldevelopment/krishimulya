@@ -1397,7 +1397,7 @@ class apiPartnerController extends Controller
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
                     $name = $customer->name;
-                    $mobile = $customer->telephone;
+                    $mobile = $customer->phone;
                     DB::table('tractor_purchase_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
