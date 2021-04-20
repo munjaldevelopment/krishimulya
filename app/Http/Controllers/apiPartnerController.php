@@ -1004,8 +1004,6 @@ class apiPartnerController extends Controller
         {
             $json = $userData = array();
 
-            dd($request->all());
-            
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
             $land_type = $request->land_type;
