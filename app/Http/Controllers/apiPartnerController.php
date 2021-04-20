@@ -1199,8 +1199,6 @@ class apiPartnerController extends Controller
             if($error == ""){
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
-                    $name = $customer->name;
-                    $mobile = $customer->telephone;
                     DB::table('agri_tool_enquiry')->insert(['customer_id' => $partner_id, 'agri_tool' => $agritool, 'city' => $city, 'comment' => $comment, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
