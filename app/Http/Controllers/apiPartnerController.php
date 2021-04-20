@@ -1151,14 +1151,14 @@ class apiPartnerController extends Controller
                     $status_code = $success = '1';
                     $message = 'Agri land sale enquiry added successfully';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
 
 
                 } else{
                     $status_code = $success = '0';
                     $message = 'Customer not valid';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
                 }
             }
         }
@@ -1166,7 +1166,7 @@ class apiPartnerController extends Controller
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
         
         return response()->json($json, 200);
