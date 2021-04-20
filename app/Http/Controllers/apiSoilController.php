@@ -39,7 +39,7 @@ class apiSoilController extends Controller
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
           CURLOPT_POSTFIELDS =>'{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) {\\r\\n    createFarmer(farmer: $createFarmerFarmer) {\\r\\n        id\\r\\n        latitude\\r\\n        longitude\\r\\n        name\\r\\n        address\\r\\n        phone\\r\\n        username\\r\\n        createdAt\\r\\n        updatedAt\\r\\n    }\\r\\n}","variables":{"createFarmerFarmer":{"name":"True Friend83", "address":"TestAddress", "phone":"+919999999999", "latitude":12.566465, "longitude":34.453666, "username":"truefriend83"}}}',
-          
+
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb24iOiI2MDM4YmE5MTMwYThjZDAwMTIwMDExMGQiLCJ1c2VyIjoiNjAzOGJiNDgzMGE4Y2QwMDEyMDAxMTBlIiwiaWF0IjoxNjE4OTE0NDA1fQ.qxprKH7lH9k24dDnwhCvMd0aDx4B2Rr-SfCS-eIhqIo',
             'Content-Type: application/json'
@@ -49,6 +49,8 @@ class apiSoilController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
+
+        echo '<pre>'; print_r($response); exit;
     }
 
     public function soilMyInfo(Request $request)
