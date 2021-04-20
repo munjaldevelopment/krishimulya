@@ -50,7 +50,7 @@ class TractorRefinanceEnquiryPartnerCrudController extends CrudController
             'name'      => 'customer_id',
             'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);
 

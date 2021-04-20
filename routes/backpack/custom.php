@@ -69,7 +69,10 @@ Route::group([
     Route::crud('landsize', 'LandSizeCrudController');
     Route::crud('renttime', 'RentTimeCrudController');
     Route::crud('soiltesttype', 'SoilTestTypeCrudController');
+    
     Route::crud('soiltestorders', 'SoilTestOrdersCrudController');
+    Route::crud('soiltestorders_partner', 'SoilTestOrdersPartnerCrudController');
+    
     Route::crud('sevakendra', 'SevaKendraCrudController');
     Route::crud('notification', 'NotificationCrudController');
     Route::crud('partners', 'PartnersCrudController');

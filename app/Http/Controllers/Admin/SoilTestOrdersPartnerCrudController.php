@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class SoilTestOrdersCrudController extends CrudController
+class SoilTestOrdersPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,10 +27,10 @@ class SoilTestOrdersCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\SoilTestOrders::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders_partner');
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
 
-        $this->crud->addClause("where", "user_type", "=", "customer");
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -44,18 +44,18 @@ class SoilTestOrdersCrudController extends CrudController
         //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);
 
          $this->crud->addColumn('name');
          $this->crud->addColumn('mobile');
-         
+
          $this->crud->addColumn('order_no');
 
          $this->crud->addColumn([
@@ -92,12 +92,12 @@ class SoilTestOrdersCrudController extends CrudController
         $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name')->get();
+        $customers = \DB::table('vendors')->orderBy('name')->get();
         if($customers)
         {
             foreach($customers as $row)
             {
-                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->telephone;
+                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->phone;
             }
         }
 

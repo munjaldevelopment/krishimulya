@@ -50,6 +50,7 @@
 	<ul class="nav-dropdown-items">
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltesttype') }}'><i class='nav-icon la la-building'></i> Soil Test Types</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders') }}'><i class='nav-icon la la-building'></i> Soil Test Orders</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders_partner') }}'><i class='nav-icon la la-building'></i> Soil Test Orders Partner</a></li>
 	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sevakendra')  }}'><i class='nav-icon la la-building'></i> Seva Kendra</a></li>
 	</ul>
 </li>
