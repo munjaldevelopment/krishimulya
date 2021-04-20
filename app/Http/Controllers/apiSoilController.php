@@ -50,6 +50,6 @@ class apiSoilController extends Controller
 
         curl_close($curl);
 
-        return response()->json($response, 200);
+        echo json_encode($response);
     }
 }
