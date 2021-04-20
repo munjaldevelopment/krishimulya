@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Agri_tool_enquiryRequest;
+use App\Http\Requests\FeedbackRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class Agri_tool_enquiryCrudController
+ * Class FeedbackCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class Agri_tool_enquiryCrudController extends CrudController
+class FeedbackPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,11 @@ class Agri_tool_enquiryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Agri_tool_enquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_tool_enquiry');
-        CRUD::setEntityNameStrings('Agri Tool Enquiry', 'Agri Tool Enquiry');
+        CRUD::setModel(\App\Models\Feedback::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/feedback_partner');
+        CRUD::setEntityNameStrings('feedback', 'feedback');
+
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -39,32 +41,19 @@ class Agri_tool_enquiryCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-       // CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
 
-         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+        $this->crud->addColumn([
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
-         ]);
+         ]);  
 
-        $this->crud->addColumn('agri_tool');
-
-        $this->crud->addColumn('city');
-
-        $this->crud->addColumn('comment');
-        
-        $this->crud->addColumn([
-            'name' => 'isactive',
-            'label' => 'Is Active',
-            'type' => 'boolean',
-            'hint' => '',                                                                           
-        ]); 
-
-        $this->crud->addColumn('created_at');
+         $this->crud->addColumn('comment');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -81,82 +70,43 @@ class Agri_tool_enquiryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(Agri_tool_enquiryRequest::class);
+        CRUD::setValidation(FeedbackRequest::class);
 
         //CRUD::setFromDb(); // fields
 
-        $all_customers = array();
+         $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name')->get();
+        $customers = \DB::table('vendors')->orderBy('name')->get();
         if($customers)
         {
             foreach($customers as $row)
             {
-                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->telephone;
+                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->phone;
             }
         }
 
-        $all_agritype = array();
-        
-        $all_agritool[0] = 'Select';
-        $agritool = \DB::table('agri_tool_type')->orderBy('title')->get();
-        if($agritool)
-        {
-            foreach($agritool as $row)
-            {
-                $all_agritool[$row->title] = $row->title;
-            }
-        }
-
-        $all_city = array();
-        
-        $all_city[0] = 'Select';
-        $city = \DB::table('cities')->orderBy('name')->get();
-        if($city)
-        {
-            foreach($city as $row)
-            {
-                $all_city[$row->name] = $row->name;
-            }
-        }
-
-         $this->crud->addField([
+        $this->crud->addField([
                 'label'     => 'Customer',
                 'type'      => 'select2_from_array',
                 'name'      => 'customer_id',
                 'options'   => $all_customers
                 
          ]);
-         
+
         $this->crud->addField([
-                'label'     => 'Agri Tool',
-                'type'      => 'select2_from_array',
-                'name'      => 'agri_tool',
-                'options'   => $all_agritool
-                
-         ]);
-
-         $this->crud->addField([
-                'label'     => 'City',
-                'type'      => 'select2_from_array',
-                'name'      => 'city',
-                'options'   => $all_city
-                
-         ]);
-
-         $this->crud->addField([
                 'name' => 'comment',
                 'label' => 'Comment',
                 'type' => 'textarea',
                 'placeholder' => 'Your comment here',
             ]);
 
-         $this->crud->addField([
-                'name' => 'isactive',
-                'label' => 'Is Active',
-                'type' => 'checkbox',
-            ]);
+      $this->crud->addField([
+            'name' => 'isactive',
+            'label' => 'Is Active',
+            'type' => 'checkbox',
+        ]);
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

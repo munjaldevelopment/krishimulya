@@ -26,6 +26,13 @@ class apiPartnerController extends Controller
         return $head;
     }
 
+    public function sendNotification($customer_id, $title, $message, $image = '')
+    {
+        $date = date('Y-m-d H:i:s');
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        //echo $success.",".$fail.",".$total; exit;
+    }
+
     //START LOGIN
 	public function partnerLogin(Request $request)
     {
@@ -998,5 +1005,1040 @@ class apiPartnerController extends Controller
     }
 
     // Services
+    // Done
+    public function agrilandRentEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+            $how_much_time = $request->how_much_time;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $isactive = 1;
+            $error = "";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($size_in_acre == "" || $size_in_acre == "All"){
+                $error = "Please enter size (acre) for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($how_much_time == "" || $how_much_time == "All"){
+                $error = "Please enter time for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($land_type == "" || $land_type == "All"){
+                $error = "Please enter land type for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Rent Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Agri land rent enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function agrilandSaleEnquiry(Request $request)
+    {
+        try 
+        {
+          // header('Content-Type: text/html; charset=UTF-8');
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            //exit;
+            //$exp_price = $request->exp_price;
+            $exp_price = 0;
+            $isactive = 1;
+            $error = "";
+            if($location == ""){
+                $error = "Please enter location";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('agriland_sale_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Sale Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Agri land sale enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function agriToolEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $agritool = $request->agritool;
+            $city = $request->city;
+            $comment = $request->comment;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $isactive = 1;
+            $error = "";
+            if($agritool == ""){
+                $error = "Please enter agri tool";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    DB::table('agri_tool_enquiry')->insert(['customer_id' => $partner_id, 'agri_tool' => $agritool, 'city' => $city, 'comment' => $comment, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Agri Tool enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function insuranceEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $insurance_type = $request->insurance_type;
+            $other_insurance_type = $request->other_insurance_type;
+            $comments = $request->comment;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $isactive = 1;
+            $error = "";
+            if($insurance_type == ""){
+                $error = "Please enter insurance type";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer) {
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+                    DB::table('insurance_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'insurance_type' => $insurance_type, 'other_insurance_type' => $other_insurance_type, 'comments' => $comments, 'user_type' => 'customer', 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Insurance enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function labourEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $purpose = $request->purpose;
+            $need = $request->need;
+            $labour_no = $request->labour_no;
+            $comments = $request->comments;
+            $isactive = 1;
+            $error = "";
+
+            // TO DO
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            if($labour_no == ""){
+                $error = "Please enter no of labour";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+
+            if($contact_person_phone != "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+                    }else{
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+                }
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('labour_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments,  'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Labour enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    //Tractor Purchase Enquiry
+    public function tractorPurchaseEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $what_need = $request->what_need;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $hourse_power = $request->hourse_power;
+            $payment_type = $request->payment_type;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $isactive = 1;
+            $error = "";
+            if($company_name == "" || $company_name == "All"){
+                $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($payment_type == "" || $payment_type == "All"){
+                $error = "Please enter payment type for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($hourse_power == "" || $hourse_power == "All"){
+                $error = "Please enter horse power for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+                    DB::table('tractor_purchase_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor purchase";
+                        $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor purchase enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function tractorRefinanceEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $hourse_power = $request->hourse_power;
+            $payment_type = $request->payment_type;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $isactive = 1;
+            $error = "";
+            if($company_name == ""){
+                $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+                    DB::table('tractor_refinance_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Refinance";
+                        $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor re-finance enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function tractorRentEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $what_need = $request->what_need;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $available_date = date("Y-m-d",strtotime($request->available_date));
+            $comment = $request->comment;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $model = '';
+            $isactive = 1;
+            $error = "";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Rent";
+                        $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Rent enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function tractorSaleEnquiry(Request $request)
+    {
+        try 
+        {
+
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $sale_type = $request->sale_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $company_name = $request->company_name;
+            $other_company = $request->other_company;
+            $model = $request->model;
+            $year_manufacturer = $request->year_manufacturer;
+            $hourse_power = $request->hourse_power;
+            $hrs = $request->hrs;
+           
+            $exp_price = $request->exp_price;
+            $comment = $request->comment;
+
+            $payment_type = $request->payment_type;
+            
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $tractor_image = $request->tractor_image;
+
+            $isactive = 1;
+            $error = "";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($company_name == "" || $company_name == "All"){
+                $error = "Please enter company name for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            if($model == "" || $model == "All"){
+                $error = "Please enter model name of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($hourse_power == "" || $hourse_power == "All"){
+                $error = "Please enter horse power of tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($payment_type == "" || $payment_type == "All"){
+                //$error = "Please enter payment type of tractor";
+                //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+				}
+            }
+
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+
+                  	if($tractor_image != ''){
+                        $image_parts = explode(";base64,", $tractor_image);
+                        $image_type_aux = explode("image/", $image_parts[0]);
+                        $image_type = $image_type_aux[1];
+
+                        $tractorimage = rand(10000, 99999).'-'.time().'.'.$image_type;
+                        $destinationPath = public_path('/uploads/tractor_image/').$tractorimage;
+
+                        $data = base64_decode($image_parts[1]);
+                        // $data = $image_parts[1];
+                        file_put_contents($destinationPath, $data);
+                    } 
+
+                    $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Sale";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor sale enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'tractor_sell_enquiry_id' => $tractor_sell_enquiry_id);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function agriland_feedback(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $comment = $request->comment;
+            $isactive = 1;
+            $error = "";
+            if($comment == ""){
+                $error = "Please enter comment for feedback";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('feedback')->insert(['customer_id' => $partner_id, 'user_type' => 'partner', 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Feedback added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    // Soil test
+    public function soilTestEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $land_size = $request->land_size;
+            $location = $request->location;
+            $khasra_no = $request->khasra_no;
+            $test_type = $request->test_type;
+            $amount = $request->amount;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            //$comments = $request->comment;
+            //$exp_price = $request->exp_price;
+            $order_status = 'pending';
+            $isactive = 1;
+            $error = "";
+            if($test_type == ""){
+                $error = "Please enter valid data.";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    
+                  
+                   /* get order no */
+                   $maxorderno = DB::table('soil_test_orders')->select('id','order_no')->where('isactive', '=', 1)->whereNull('deleted_at')->orderBy('id', 'DESC')->first();
+                   //print_r($maxorderno);
+                  
+                   if(!empty($maxorderno) && $maxorderno->id != '') {
+                        
+                        if($maxorderno->order_no != ''){
+                            $orderno = $maxorderno->order_no;
+                            
+                            $orderno = $orderno+1;
+                        }else{
+                            $orderno = 1;
+                        }
+                        
+                   }else{
+                        $orderno = 1;
+                   }
+                  
+                    $order_no = str_pad($orderno, 3, "0", STR_PAD_LEFT);
+                    $name = $customer->name;
+                    $mobile = $customer->phone;
+                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $partner_id, 'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+                   //DB::table('soil_test_orders')->where('id', '=', $orderid)->update(['order_no' => $order_no]);
+                   
+                   /* FCM Notification */
+                   $customerToken = $customer->fcmToken; 
+                   //$customerToken = 'e2k1jCT_Ty2qOLk4gSX_Hz:APA91bHXhqvz5KlPW6EW9vDNeldzJR-yQcIarygjgn8fo2b08ihcEIFiu-NzHI-1A3L7MJMYyI4ehSWzBwimX5T0ExRbooa6-UxGrfckSdD-F49FzJxwWcU4M58qRu8yeRduTk62eBMW';
+                   $customerName = $customer->name; 
+                   $notification_title = "Soil Test Order";
+                   $notification_body = $order_no." Your soil test order has been successfully created! Thanks for order with us.";
+                   $notification_type = "soil_order";
+                   $notif_data = array($notification_title,$customerName,$notification_body,"","");
+                
+                   //$customerNotify = $this->push_notification($notif_data,$customerToken);
+                   $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $partner_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'partner', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                   /* End */
+                    $status_code = $success = '1';
+                    $message = 'Soil Test Order Added Successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'order_id' => "".$orderid);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 }

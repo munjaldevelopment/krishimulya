@@ -29,6 +29,8 @@ class AgrilandRentEnquiryCrudController extends CrudController
         CRUD::setModel(\App\Models\AgrilandRentEnquiry::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandrentenquiry');
         CRUD::setEntityNameStrings('Agri Land Rent Enquiry', 'Agri land Rent Enquiry');
+
+        $this->crud->addClause("where", "user_type", "=", "customer");
     }
 
     /**

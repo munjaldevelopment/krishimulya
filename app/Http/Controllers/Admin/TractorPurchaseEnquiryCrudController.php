@@ -31,6 +31,8 @@ class TractorPurchaseEnquiryCrudController extends CrudController
         CRUD::setEntityNameStrings('Tractor Purchase Enquiry', 'Tractor Purchase Enquiry');
 
         $this->crud->enableExportButtons();
+
+        $this->crud->addClause("where", "user_type", "=", "customer");
     }
 
     /**
@@ -203,7 +205,7 @@ class TractorPurchaseEnquiryCrudController extends CrudController
 
         $this->crud->addField([
                 'name' => 'hourse_power',
-                'label' => 'Hourse Power',
+                'label' => 'Horse Power',
                 'type' => 'select2_from_array',
                 'options'   => $all_hp
             ]);

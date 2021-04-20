@@ -171,6 +171,18 @@ Route::post('partner-logout', 'apiPartnerController@partner_logout');
 Route::get('partner-token', 'apiPartnerController@getPartnerType');
 
 // Service API
+Route::post('agriland-rent-enquiry-partner', 'apiPartnerController@agrilandRentEnquiry');
+Route::post('agriland-sale-enquiry-partner', 'apiPartnerController@agrilandSaleEnquiry');
+Route::post('agri-tool-enquiry-partner', 'apiPartnerController@agriToolEnquiry');
+Route::post('insurance-enquiry-partner', 'apiPartnerController@insuranceEnquiry');
+Route::post('labour-enquiry-partner', 'apiPartnerController@labourEnquiry');
+Route::post('tractor-purchase-enquiry-partner', 'apiPartnerController@tractorPurchaseEnquiry');
+Route::post('tractor-refinance-enquiry-partner', 'apiPartnerController@tractorRefinanceEnquiry');
+Route::post('tractor-rent-enquiry-partner', 'apiPartnerController@tractorRentEnquiry');
+Route::post('tractor-sale-enquiry-partner', 'apiPartnerController@tractorSaleEnquiry');
+Route::post('soiltest-order-partner', 'apiPartnerController@soilTestEnquiry');
+
+Route::post('agriland-feedback-partner', 'apiPartnerController@agriland_feedback');
 
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
@@ -180,3 +192,9 @@ Route::get('app-popup-partner', 'apiPartnerController@appPopup');
 
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');
+
+
+/// soil testing
+Route::get('soil-login', 'apiSoilController@soilLogin');
+Route::get('soil-myinfo', 'apiSoilController@soilMyInfo');
+Route::get('soil-create-farmer', 'apiSoilController@soilCreateFarmer');

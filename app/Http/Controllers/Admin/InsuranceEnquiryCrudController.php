@@ -29,6 +29,8 @@ class InsuranceEnquiryCrudController extends CrudController
         CRUD::setModel(\App\Models\InsuranceEnquiry::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/insuranceenquiry');
         CRUD::setEntityNameStrings('Insurance Enquiry', 'Insurance Enquiries');
+
+        $this->crud->addClause("where", "user_type", "=", "customer");
     }
 
     /**

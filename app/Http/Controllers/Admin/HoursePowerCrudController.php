@@ -28,7 +28,7 @@ class HoursePowerCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\HoursePower::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/hoursepower');
-        CRUD::setEntityNameStrings('Hourse Power', 'Hourse Power');
+        CRUD::setEntityNameStrings('Horse Power', 'Horse Power');
     }
 
     /**

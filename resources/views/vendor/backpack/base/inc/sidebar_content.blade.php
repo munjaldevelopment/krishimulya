@@ -39,6 +39,7 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool') }}'><i class='nav-icon la la-wrench'></i> Agri Tool</a></li>
 
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool_enquiry') }}'><i class='nav-icon la la-wrench'></i> Agri Tool Enquiry</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool_enquiry_partner') }}'><i class='nav-icon la la-wrench'></i> Agri Tool Enquiry Partner</a></li>
 	</ul>
 </li>
 
@@ -49,6 +50,7 @@
 	<ul class="nav-dropdown-items">
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltesttype') }}'><i class='nav-icon la la-building'></i> Soil Test Types</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders') }}'><i class='nav-icon la la-building'></i> Soil Test Orders</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders_partner') }}'><i class='nav-icon la la-building'></i> Soil Test Orders Partner</a></li>
 	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sevakendra')  }}'><i class='nav-icon la la-building'></i> Seva Kendra</a></li>
 	</ul>
 </li>
@@ -58,6 +60,7 @@
 	<ul class="nav-dropdown-items">
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('labourtype') }}'><i class='nav-icon la la-handshake'></i> Labour Type</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('labour_enquiry') }}'><i class='nav-icon la la-people-carry'></i> Labour Enquiries</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('labour_enquiry_partner') }}'><i class='nav-icon la la-people-carry'></i> Labour Enquiries Partner</a></li>
 
 	</ul>
 </li>
@@ -68,6 +71,7 @@
 	<ul class="nav-dropdown-items">
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('insurancetype') }}'><i class='nav-icon la la-house-damage'></i> Insurance Types</a></li>
 	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('insuranceenquiry') }}'><i class='nav-icon la la-headset'></i> Insurance Enquiries</a></li>
+	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('insuranceenquiry_partner') }}'><i class='nav-icon la la-headset'></i> Insurance Enquiries Partner</a></li>
 	</ul>
 </li>
 
@@ -77,8 +81,12 @@
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('landtype') }}'><i class='nav-icon la la-image'></i> Land Type</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('landsize') }}'><i class='nav-icon la la-sort-numeric-up'></i> Land Size</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('renttime') }}'><i class='nav-icon la la-clock'></i> Rent Time</a></li>
+
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandrentenquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiry</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandrentenquiry_partner') }}'><i class='nav-icon la la-headset'></i> Rent Enquiry Partner</a></li>
+
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandsaleenquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiry</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandsaleenquiry_partner') }}'><i class='nav-icon la la-headset'></i> Sale Enquiry Partner</a></li>
 	</ul>
 </li>
 
@@ -86,16 +94,29 @@
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-tractor"></i> Tractors</a>
 	<ul class="nav-dropdown-items">
 	  
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('company') }}'><i class='nav-icon la la-building'></i> Company</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('hoursepower') }}'><i class='nav-icon la la-horse'></i> Hourse Powers</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymenttype') }}'><i class='nav-icon la la-inr'></i> Payment Types</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('purposetype') }}'><i class='nav-icon la la-envira'></i> Purpose Type</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('company') }}'><i class='nav-icon la la-building'></i> Company</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('hoursepower') }}'><i class='nav-icon la la-horse'></i> Horse Powers</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymenttype') }}'><i class='nav-icon la la-inr'></i> Payment Types</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('purposetype') }}'><i class='nav-icon la la-envira'></i> Purpose Type</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries Partner</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries Partner</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries Partner</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_refinance_enquiry') }}'><i class='nav-icon la la-headset'></i> Refinance Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_refinance_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Refinance Enquiries Partner</a></li>
 	</ul>
 </li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback') }}'><i class='nav-icon la la-support'></i> Feedback</a></li>
+
+<li class="nav-item nav-dropdown">
+	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-tractor"></i> Feedback</a>
+	<ul class="nav-dropdown-items">
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback') }}'><i class='nav-icon la la-support'></i> Feedback</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback_partner') }}'><i class='nav-icon la la-support'></i> Feedback Partner</a></li>
+	</ul>
+</li>
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('enquirytracking') }}'><i class='nav-icon la la-headset'></i> Enquiry Tracking</a></li>
 

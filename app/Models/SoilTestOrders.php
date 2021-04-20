@@ -30,9 +30,14 @@ class SoilTestOrders extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-     public function allCustomers()
+    public function allCustomers()
     {
         return $this->belongsTo('App\Models\Customer', 'customer_id');
+    }
+
+    public function allVendors()
+    {
+        return $this->belongsTo('App\Models\Vendor', 'customer_id');
     }
     /*
     |--------------------------------------------------------------------------

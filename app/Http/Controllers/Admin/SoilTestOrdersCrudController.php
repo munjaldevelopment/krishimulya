@@ -29,6 +29,8 @@ class SoilTestOrdersCrudController extends CrudController
         CRUD::setModel(\App\Models\SoilTestOrders::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders');
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
+
+        $this->crud->addClause("where", "user_type", "=", "customer");
     }
 
     /**
@@ -41,24 +43,19 @@ class SoilTestOrdersCrudController extends CrudController
     {
         //CRUD::setFromDb(); // columns
 
-       
         $this->crud->addColumn([
-            'name' => 'customer_id',
-            'label' => 'Customer ID',
-            'type' => 'text',
-            'hint' => '',                                                                           
-        ]);
-         
-         $this->crud->addColumn([
             'label'     => 'Customer Name',
             'type'      => 'select',
-            'name'      => '',
+            'name'      => 'customer_id',
             'entity'    => 'allCustomers', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\Models\Customer", //name of Models
 
          ]);
 
+         $this->crud->addColumn('name');
+         $this->crud->addColumn('mobile');
+         
          $this->crud->addColumn('order_no');
 
          $this->crud->addColumn([

@@ -30,6 +30,8 @@ class LabourEnquiryCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/labour_enquiry');
         CRUD::setEntityNameStrings('Labour Enquiry', 'Labour Enquiry');
         $this->crud->enableExportButtons();
+
+        $this->crud->addClause("where", "user_type", "=", "customer");
     }
 
     /**
