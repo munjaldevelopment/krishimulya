@@ -171,6 +171,7 @@ Route::post('partner-logout', 'apiPartnerController@partner_logout');
 Route::get('partner-token', 'apiPartnerController@getPartnerType');
 
 // Service API
+Route::post('agriland-rent-enquiry-partner', 'apiPartnerController@agrilandRentEnquiry');
 
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');

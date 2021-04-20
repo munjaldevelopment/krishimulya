@@ -998,5 +998,84 @@ class apiPartnerController extends Controller
     }
 
     // Services
+    public function agrilandRentEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+            $how_much_time = $request->how_much_time;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $isactive = 1;
+            $error = "";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($size_in_acre == "" || $size_in_acre == "All"){
+                $error = "Please enter size (acre) for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($how_much_time == "" || $how_much_time == "All"){
+                $error = "Please enter time for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($land_type == "" || $land_type == "All"){
+                $error = "Please enter land type for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('agriland_rent_enquiry')->insert(['partner_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Rent Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Agri land rent enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 }
