@@ -47,7 +47,10 @@ Route::group([
     Route::crud('city', 'CityCrudController');
     Route::crud('feedcategories', 'FeedCategoriesCrudController');
     Route::crud('homeslider', 'HomeSliderCrudController');
+    
     Route::crud('feedback', 'FeedbackCrudController');
+    Route::crud('feedback_partner', 'FeedbackPartnerCrudController');
+    
     Route::crud('enquirytracking', 'EnquiryTrackingCrudController');
     Route::crud('paymenttype', 'PaymentTypeCrudController');
     Route::crud('purposetype', 'PurposeTypeCrudController');

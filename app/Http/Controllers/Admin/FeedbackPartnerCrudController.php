@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class FeedbackCrudController extends CrudController
+class FeedbackPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,10 +27,10 @@ class FeedbackCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Feedback::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/feedback');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/feedback_partner');
         CRUD::setEntityNameStrings('feedback', 'feedback');
 
-        $this->crud->addClause("where", "user_type", "=", "customer");
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -44,12 +44,12 @@ class FeedbackCrudController extends CrudController
         //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);  
 
@@ -77,12 +77,12 @@ class FeedbackCrudController extends CrudController
          $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name')->get();
+        $customers = \DB::table('vendors')->orderBy('name')->get();
         if($customers)
         {
             foreach($customers as $row)
             {
-                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->telephone;
+                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->phone;
             }
         }
 
