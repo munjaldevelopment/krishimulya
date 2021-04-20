@@ -99,9 +99,13 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('purposetype') }}'><i class='nav-icon la la-envira'></i> Purpose Type</a></li>
 
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries Partner</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries Partner</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries Partner</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_refinance_enquiry') }}'><i class='nav-icon la la-headset'></i> Refinance Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_refinance_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Refinance Enquiries Partner</a></li>
 	</ul>
 </li>
 

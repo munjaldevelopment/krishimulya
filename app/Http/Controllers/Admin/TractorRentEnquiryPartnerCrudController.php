@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\TractorPurchaseEnquiryRequest;
+use App\Http\Requests\TractorRentEnquiryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class TractorPurchaseEnquiryCrudController
+ * Class TractorRentEnquiryCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class TractorPurchaseEnquiryCrudController extends CrudController
+class TractorRentEnquiryPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,13 +26,12 @@ class TractorPurchaseEnquiryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\TractorPurchaseEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_purchase_enquiry');
-        CRUD::setEntityNameStrings('Tractor Purchase Enquiry', 'Tractor Purchase Enquiry');
-
+        CRUD::setModel(\App\Models\TractorRentEnquiry::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_rent_enquiry_partner');
+        CRUD::setEntityNameStrings('Tractor Rent Enquiry', 'Tractor Rent Enquiry');
         $this->crud->enableExportButtons();
 
-        $this->crud->addClause("where", "user_type", "=", "customer");
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -44,35 +43,34 @@ class TractorPurchaseEnquiryCrudController extends CrudController
     protected function setupListOperation()
     {
         //CRUD::setFromDb(); // columns
-        $this->crud->addColumn([
-            'label'     => 'Customer Name',
+
+        /**
+         * Columns can be defined using the fluent syntax or array syntax:
+         * - CRUD::column('price')->type('number');
+         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
+         */
+
+         $this->crud->addColumn([
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\Models\Customer", //name of Models
 
-         ]);
-
-         $this->crud->addColumn([
-            'label'     => 'What Type',
-            'type'      => 'text',
-            'name'      => 'uses_type'
-            
-         ]);   
+         ]);  
          $this->crud->addColumn('location');
-         $this->crud->addColumn('company_name');
-         $this->crud->addColumn('hourse_power'); 
-         $this->crud->addColumn('payment_type'); 
+         $this->crud->addColumn('available_date');
+         $this->crud->addColumn('what_type');
 
          $this->crud->addFilter([ // select2 filter
-                'name' => 'uses_type',
+                'name' => 'what_type',
                 'type' => 'select2',
                 'label'=> 'What Type',
             ], function () {
                 return ['Tractor (ट्रैक्टर)' => 'Tractor (ट्रैक्टर)', 'Equipment (उपकरण)' => 'Equipment (उपकरण)'];
             }, function ($value) { // if the filter is active
-                $this->crud->addClause('where', 'uses_type', $value);
+                $this->crud->addClause('where', 'what_type', $value);
             });
 
          $this->crud->addFilter([ // select2 filter
@@ -81,7 +79,7 @@ class TractorPurchaseEnquiryCrudController extends CrudController
                 'label'=> 'All Customer',
             ], function () {
                 $all_customers1 = array();
-                $customers1 = \DB::table('customers')->orderBy('name')->get();
+                $customers1 = \DB::table('vendors')->orderBy('name')->get();
                 if($customers1)
                 {
                     foreach($customers1 as $row1)
@@ -93,11 +91,6 @@ class TractorPurchaseEnquiryCrudController extends CrudController
             }, function ($value) { // if the filter is active
                 $this->crud->addClause('where', 'customer_id', $value);
             });
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
-         */
     }
 
     /**
@@ -108,14 +101,14 @@ class TractorPurchaseEnquiryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(TractorPurchaseEnquiryRequest::class);
+        CRUD::setValidation(TractorRentEnquiryRequest::class);
 
         //CRUD::setFromDb(); // fields
 
         $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name')->get();
+        $customers = \DB::table('vendors')->orderBy('name')->get();
         if($customers)
         {
             foreach($customers as $row)
@@ -136,42 +129,7 @@ class TractorPurchaseEnquiryCrudController extends CrudController
             }
         }
 
-        $all_company = array();
-        
-        $all_company[0] = 'Select';
-        $company = \DB::table('company')->orderBy('id')->get();
-        if($company)
-        {
-            foreach($company as $row)
-            {
-                $all_company[$row->title] = $row->title;
-            }
-        }
 
-
-        $all_hp = array();
-        
-        $all_hp[0] = 'Select';
-        $hpower = \DB::table('hpower')->orderBy('id')->get();
-        if($hpower)
-        {
-            foreach($hpower as $row)
-            {
-                $all_hp[$row->title] = $row->title;
-            }
-        }
-
-        $all_payment_type = array();
-        
-        $all_payment_type[0] = 'Select';
-        $payment_type = \DB::table('payment_type')->orderBy('id')->get();
-        if($payment_type)
-        {
-            foreach($payment_type as $row)
-            {
-                $all_payment_type[$row->title] = $row->title;
-            }
-        }
 
         $this->crud->addField([
                 'label'     => 'Customer',
@@ -182,7 +140,7 @@ class TractorPurchaseEnquiryCrudController extends CrudController
          ]);
 
         $this->crud->addField([
-            'name' => 'uses_type',
+            'name' => 'what_type',
             'label' => 'What Type',
             'type' => 'select2_from_array',
             'options' => ['Tractor (ट्रैक्टर)' => 'Tractor (ट्रैक्टर)', 'Equipment (उपकरण)' => 'Equipment (उपकरण)'],
@@ -190,36 +148,21 @@ class TractorPurchaseEnquiryCrudController extends CrudController
         ]);
 
         $this->crud->addField([
-                'name' => 'location',
-                'label' => 'Location',
-                'type' => 'select2_from_array',
-                'options'   => $all_city
-            ]);
-
-        $this->crud->addField([
-                'name' => 'company_name',
-                'label' => 'Company Name',
-                'type' => 'select2_from_array',
-                'options'   => $all_company
-            ]);
-
-        $this->crud->addField([
-                'name' => 'hourse_power',
-                'label' => 'Horse Power',
-                'type' => 'select2_from_array',
-                'options'   => $all_hp
-            ]);
-
-        
-         
-         $this->crud->addField([
-            'name' => 'payment_type',
-            'label' => 'Payment Type',
+            'name' => 'location',
+            'label' => 'Location',
             'type' => 'select2_from_array',
-            'options'   => $all_payment_type,
-            'hint' => '',
+            'options'   => $all_city
         ]);
 
+         $this->crud->addField([
+                'name' => 'available_date',
+                'label' => 'Available Date',
+                'type' => 'datetime',
+                'placeholder' => 'Your date',
+            ]);
+         
+
+        
          $this->crud->addField([
                 'name' => 'comment',
                 'label' => 'Comment',
@@ -227,11 +170,30 @@ class TractorPurchaseEnquiryCrudController extends CrudController
                 'placeholder' => 'Your comment here',
             ]);
 
-         $this->crud->addField([
+          $this->crud->addField([
                 'name' => 'isactive',
                 'label' => 'Is Active',
                 'type' => 'checkbox',
             ]);
+
+          $this->crud->addField([
+                'label'     => 'Person Name',
+                'type'      => 'text',
+                'name'      => 'contact_person_name'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person Phone',
+                'type'      => 'text',
+                'name'      => 'contact_person_phone'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person OTP',
+                'type'      => 'text',
+                'name'      => 'contact_person_otp'
+            ]); 
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -256,13 +218,14 @@ class TractorPurchaseEnquiryCrudController extends CrudController
         $this->setupListOperation();
 
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);  
     }
+
 }

@@ -34,6 +34,11 @@ class TractorRentEnquiry extends Model
     {
         return $this->belongsTo('App\Models\Customer', 'customer_id');
     }
+
+    public function allVendors()
+    {
+        return $this->belongsTo('App\Models\Vendor', 'customer_id');
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

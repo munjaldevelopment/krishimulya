@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\TractorPurchaseEnquiryRequest;
+use App\Http\Requests\TractorRefinanceEnquiryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class TractorPurchaseEnquiryCrudController extends CrudController
+class TractorRefinanceEnquiryPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,13 +26,13 @@ class TractorPurchaseEnquiryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\TractorPurchaseEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_purchase_enquiry');
-        CRUD::setEntityNameStrings('Tractor Purchase Enquiry', 'Tractor Purchase Enquiry');
+        CRUD::setModel(\App\Models\TractorRefinanceEnquiry::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_refinance_enquiry_partner');
+        CRUD::setEntityNameStrings('Tractor Refinance Enquiry', 'Tractor Refinance Enquiry');
 
         $this->crud->enableExportButtons();
 
-        $this->crud->addClause("where", "user_type", "=", "customer");
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -45,23 +45,17 @@ class TractorPurchaseEnquiryCrudController extends CrudController
     {
         //CRUD::setFromDb(); // columns
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\Models\Customer", //name of Models
 
          ]);
 
-         $this->crud->addColumn([
-            'label'     => 'What Type',
-            'type'      => 'text',
-            'name'      => 'uses_type'
-            
-         ]);   
-         $this->crud->addColumn('location');
          $this->crud->addColumn('company_name');
+         $this->crud->addColumn('location');
          $this->crud->addColumn('hourse_power'); 
          $this->crud->addColumn('payment_type'); 
 
@@ -81,7 +75,7 @@ class TractorPurchaseEnquiryCrudController extends CrudController
                 'label'=> 'All Customer',
             ], function () {
                 $all_customers1 = array();
-                $customers1 = \DB::table('customers')->orderBy('name')->get();
+                $customers1 = \DB::table('vendors')->orderBy('name')->get();
                 if($customers1)
                 {
                     foreach($customers1 as $row1)
@@ -108,14 +102,14 @@ class TractorPurchaseEnquiryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(TractorPurchaseEnquiryRequest::class);
+        CRUD::setValidation(TractorRefinanceEnquiryRequest::class);
 
         //CRUD::setFromDb(); // fields
 
         $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name')->get();
+        $customers = \DB::table('vendors')->orderBy('name')->get();
         if($customers)
         {
             foreach($customers as $row)
@@ -182,25 +176,17 @@ class TractorPurchaseEnquiryCrudController extends CrudController
          ]);
 
         $this->crud->addField([
-            'name' => 'uses_type',
-            'label' => 'What Type',
-            'type' => 'select2_from_array',
-            'options' => ['Tractor (ट्रैक्टर)' => 'Tractor (ट्रैक्टर)', 'Equipment (उपकरण)' => 'Equipment (उपकरण)'],
-            'hint' => '',
-        ]);
+                'name' => 'company_name',
+                'label' => 'Company Name',
+                'type' => 'select2_from_array',
+                'options'   => $all_company
+            ]);
 
         $this->crud->addField([
                 'name' => 'location',
                 'label' => 'Location',
                 'type' => 'select2_from_array',
                 'options'   => $all_city
-            ]);
-
-        $this->crud->addField([
-                'name' => 'company_name',
-                'label' => 'Company Name',
-                'type' => 'select2_from_array',
-                'options'   => $all_company
             ]);
 
         $this->crud->addField([
@@ -233,6 +219,26 @@ class TractorPurchaseEnquiryCrudController extends CrudController
                 'type' => 'checkbox',
             ]);
 
+        $this->crud->addField([
+                'label'     => 'Person Name',
+                'type'      => 'text',
+                'name'      => 'contact_person_name'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person Phone',
+                'type'      => 'text',
+                'name'      => 'contact_person_phone'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person OTP',
+                'type'      => 'text',
+                'name'      => 'contact_person_otp'
+            ]); 
+
+        
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -256,12 +262,12 @@ class TractorPurchaseEnquiryCrudController extends CrudController
         $this->setupListOperation();
 
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);  
     }
