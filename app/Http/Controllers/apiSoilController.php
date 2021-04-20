@@ -51,6 +51,7 @@ class apiSoilController extends Controller
         curl_close($curl);
 
         $result = json_decode($response, 1);
-        echo '<pre>';print_r($result);
+        $token = $result['data']['login'];
+        echo $token;
     }
 }
