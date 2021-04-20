@@ -14,6 +14,35 @@ use App\Models\Setting;
 class apiSoilController extends Controller
 {
 	//START LOGIN
+    public function soilGetFarmer(Request $request)
+    {
+        Setting::AssignSetting();
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>'{"query":"query Query($getUsersOrganization: ID!, $getUsersPhone: PhoneNumber) {\\r\\n    getUsers(organization: $getUsersOrganization, phone: $getUsersPhone) {\\r\\n        id\\r\\n        latitude\\r\\n        longitude\\r\\n        name\\r\\n        address\\r\\n        phone\\r\\n        email\\r\\n        username\\r\\n        createdAt\\r\\n        updatedAt\\r\\n    }\\r\\n}\\r\\n","variables":{"getUsersOrganization":"6038ba9130a8cd001200110d","getUsersPhone":"+919999999999"}}',
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.SOILTEST_TOKEN,
+            'Content-Type: application/json'
+          ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        echo '<pre>'; print_r($response); exit;
+    }
+
     public function soilCreateFarmer(Request $request)
     {
         Setting::AssignSetting();

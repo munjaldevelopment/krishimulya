@@ -198,3 +198,4 @@ Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_co
 Route::get('soil-login', 'apiSoilController@soilLogin');
 Route::get('soil-myinfo', 'apiSoilController@soilMyInfo');
 Route::get('soil-create-farmer', 'apiSoilController@soilCreateFarmer');
+Route::get('soil-get-farmer', 'apiSoilController@soilGetFarmer');
