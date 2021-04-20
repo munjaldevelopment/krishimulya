@@ -2013,7 +2013,7 @@ class apiPartnerController extends Controller
                    $notification_type = "soil_order";
                    $notif_data = array($notification_title,$customerName,$notification_body,"","");
                 
-                   $customerNotify = $this->push_notification($notif_data,$customerToken);
+                   //$customerNotify = $this->push_notification($notif_data,$customerToken);
                    $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $partner_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'partner', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                    /* End */
