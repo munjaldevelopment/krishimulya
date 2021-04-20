@@ -1005,6 +1005,7 @@ class apiPartnerController extends Controller
     }
 
     // Services
+    // Done
     public function agrilandRentEnquiry(Request $request)
     {
         try 
@@ -1044,6 +1045,32 @@ class apiPartnerController extends Controller
             if($land_type == "" || $land_type == "All"){
                 $error = "Please enter land type for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
             }
             
             if($error == ""){
@@ -1117,21 +1144,30 @@ class apiPartnerController extends Controller
 
             if($contact_person_phone != "")
             {
-                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
-                if($verifyOtp){ 
-                    $mobileverifyotp = $verifyOtp->otp;
-                    if($contact_person_otp != $mobileverifyotp){
-                        $error = "Please enter valid OTP to verify mobile.";
-                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
-                    }else{
-                        //$error = "Incorrect OTP.";
-                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
-                    }
-                } else {
-                    $error = "Please verify mobile.";
-                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
-                }
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
             }
+
             
             if($error == ""){
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
@@ -1195,6 +1231,32 @@ class apiPartnerController extends Controller
                 $error = "Please enter agri tool";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
             }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+            }
             
             if($error == ""){
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
@@ -1245,6 +1307,32 @@ class apiPartnerController extends Controller
             if($insurance_type == ""){
                 $error = "Please enter insurance type";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
             }
             
             if($error == ""){
@@ -1301,6 +1389,32 @@ class apiPartnerController extends Controller
             if($labour_no == ""){
                 $error = "Please enter no of labour";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
             }
 
             if($contact_person_phone != "")
@@ -1392,6 +1506,32 @@ class apiPartnerController extends Controller
                 $error = "Please enter horse power for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
             }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
+            }
             
             if($error == ""){
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
@@ -1456,6 +1596,32 @@ class apiPartnerController extends Controller
             if($company_name == ""){
                 $error = "Please enter company name for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
             }
             
             if($error == ""){
@@ -1522,6 +1688,32 @@ class apiPartnerController extends Controller
             if($location == "" || $location == "All"){
                 $error = "Please enter location for tractor";
                 $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
             }
             
             if($error == ""){
@@ -1622,20 +1814,28 @@ class apiPartnerController extends Controller
 
             if($contact_person_phone != "")
             {
-                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
-                if($verifyOtp){ 
-                    $mobileverifyotp = $verifyOtp->otp;
-                    if($contact_person_otp != $mobileverifyotp){
-                        $error = "Please enter valid OTP to verify mobile.";
-                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
-                    }else{
-                        //$error = "Incorrect OTP.";
-                        //$json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);  
-                    }
-                } else {
-                    $error = "Please verify mobile.";
-                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
-                }
+            	$customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+              	if($customer && $customer->phone == $contact_person_phone)
+              	{
+              		$error = "You can not enter your own mobile number.";
+	                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+              	}
+              	else
+              	{
+	                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+	                if($verifyOtp){ 
+	                    $mobileverifyotp = $verifyOtp->otp;
+	                    if($contact_person_otp != $mobileverifyotp){
+	                        $error = "Please enter valid OTP to verify mobile.";
+	                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+	                    }else{
+	                        //$error = "Incorrect OTP.";
+	                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                    }
+	                } else {
+	                    $error = "Please verify mobile.";
+	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+	                }
             }
 
             if($error == ""){
