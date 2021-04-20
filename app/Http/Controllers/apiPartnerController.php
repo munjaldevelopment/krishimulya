@@ -1003,6 +1003,8 @@ class apiPartnerController extends Controller
         try 
         {
             $json = $userData = array();
+
+            dd($request->all());
             
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
