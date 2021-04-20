@@ -25,6 +25,33 @@ class apiSoilController extends Controller
     }
 
     //START LOGIN
+    public function soilMyInfo(Request $request)
+    {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>'{"query":"query Query {\\r\\n  me {\\r\\n    organization {\\r\\n      id\\r\\n      slug\\r\\n      name\\r\\n    }\\r\\n    id\\r\\n    username\\r\\n    email\\r\\n    phone\\r\\n  }\\r\\n}","variables":{}}',
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb24iOiI2MDM4YmE5MTMwYThjZDAwMTIwMDExMGQiLCJ1c2VyIjoiNjAzOGJiNDgzMGE4Y2QwMDEyMDAxMTBlIiwiaWF0IjoxNjE4OTE0NDA1fQ.qxprKH7lH9k24dDnwhCvMd0aDx4B2Rr-SfCS-eIhqIo',
+            'Content-Type: application/json'
+          ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        echo '<pre>'; prnit_r($response); exit;
+    }
+
 	public function soilLogin(Request $request)
     {
         Setting::AssignSetting();

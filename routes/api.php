@@ -196,3 +196,4 @@ Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_co
 
 /// soil testing
 Route::get('soil-login', 'apiSoilController@soilLogin');
+Route::get('soil-myinfo', 'apiSoilController@soilMyInfo');
