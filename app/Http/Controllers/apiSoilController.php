@@ -40,7 +40,7 @@ class apiSoilController extends Controller
 
         curl_close($curl);
 
-        echo '<pre>'; print_r($response); exit;
+        echo $response;
     }
 
     public function soilCreateTest(Request $request)
