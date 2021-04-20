@@ -176,6 +176,7 @@ Route::post('agriland-sale-enquiry-partner', 'apiPartnerController@agrilandSaleE
 Route::post('agri-tool-enquiry-partner', 'apiPartnerController@agriToolEnquiry');
 Route::post('insurance-enquiry-partner', 'apiPartnerController@insuranceEnquiry');
 Route::post('labour-enquiry-partner', 'apiPartnerController@labourEnquiry');
+Route::post('tractor-purchase-enquiry-partner', 'apiPartnerController@tractorPurchaseEnquiry');
 
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');

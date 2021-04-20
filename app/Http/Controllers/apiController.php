@@ -3319,10 +3319,10 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
-                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->count();
+                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->where('user_type', 'customer')->count();
                 if($tractorSellEnquiryExists)
                 {
-                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->orderBy('id', 'DESC')->get();
+                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('isactive', '1')->where('user_type', 'customer')->orderBy('id', 'DESC')->get();
                     foreach($tractorSellEnquiry as $row)
                     {
                         $tractorPurchaseData[] = array('id' => "".$row->id, 'name' => $row->name, 'mobile' => $row->mobile, 'company_name' => $row->company_name, 'other_company' => ($row->other_company == NULL ? "" : $row->other_company), 'location' => $row->location, 'other_city' => ($row->other_city ==  NULL ? "" : $row->other_city), 'hourse_power' => $row->hourse_power, 'payment_type' => $row->payment_type, 'comment' => ($row->comment == NULL ? "" : $row->comment), 'uses_type' => $row->uses_type, 'user_type' => $row->user_type, 'is_edit' => "".$row->is_edit);
@@ -3650,10 +3650,10 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
-                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->count();
+                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->where('user_type', 'customer')->count();
                 if($tractorSellEnquiryExists > 0)
                 {
-                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->first();
+                    $tractorSellEnquiry = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->where('user_type', 'customer')->first();
 
                     $status_code = '1';
                     $message = 'Tractor Purchase history';
@@ -3966,7 +3966,7 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
-                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->count();
+                $tractorSellEnquiryExists = DB::table('tractor_purchase_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_purchase_id)->where('isactive', '1')->where('user_type', 'customer')->count();
                 if($tractorSellEnquiryExists > 0)
                 {
                     $status_code = '1';
