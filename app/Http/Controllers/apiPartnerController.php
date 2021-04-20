@@ -1030,7 +1030,7 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
