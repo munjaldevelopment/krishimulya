@@ -1071,6 +1071,7 @@ class apiPartnerController extends Controller
 	                    $error = "Please verify mobile.";
 	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
 	                }
+				}
             }
             
             if($error == ""){
@@ -1166,6 +1167,7 @@ class apiPartnerController extends Controller
 	                    $error = "Please verify mobile.";
 	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
 	                }
+				}
             }
 
             
@@ -1256,6 +1258,7 @@ class apiPartnerController extends Controller
 	                    $error = "Please verify mobile.";
 	                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
 	                }
+				}
             }
             
             if($error == ""){
