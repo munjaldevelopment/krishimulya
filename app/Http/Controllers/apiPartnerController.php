@@ -1137,7 +1137,7 @@ class apiPartnerController extends Controller
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
                 if($customer){ 
                     
-                    DB::table('agriland_sale_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('agriland_sale_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -1150,6 +1150,61 @@ class apiPartnerController extends Controller
 
                     $status_code = $success = '1';
                     $message = 'Agri land sale enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function agriToolEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $agritool = $request->agritool;
+            $city = $request->city;
+            $comment = $request->comment;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            $isactive = 1;
+            $error = "";
+            if($agritool == ""){
+                $error = "Please enter agri tool";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    DB::table('agri_tool_enquiry')->insert(['customer_id' => $partner_id, 'agri_tool' => $agritool, 'city' => $city, 'comment' => $comment, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Agri Tool enquiry added successfully';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
 
