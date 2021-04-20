@@ -39,6 +39,8 @@ class apiSoilController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
+
+        echo '<pre>'; print_r($response); exit;
     }
 
     public function soilGetFarmer(Request $request)
