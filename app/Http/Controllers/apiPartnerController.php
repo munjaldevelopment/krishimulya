@@ -1085,4 +1085,91 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function agrilandSaleEnquiry(Request $request)
+    {
+        try 
+        {
+          // header('Content-Type: text/html; charset=UTF-8');
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $land_type = $request->land_type;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $size_in_acre = $request->size;
+            $comment = $request->comment;
+
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            //exit;
+            //$exp_price = $request->exp_price;
+            $exp_price = 0;
+            $isactive = 1;
+            $error = "";
+            if($location == ""){
+                $error = "Please enter location";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+                    }else{
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+                }
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('agriland_sale_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Agriland Sale Enquiry";
+                        $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Agri land sale enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 }

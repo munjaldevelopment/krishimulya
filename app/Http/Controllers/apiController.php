@@ -2487,7 +2487,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('customer_id', '=', $customer_id)->where('isactive', '=', 1)->whereNull('deleted_at');
+                    $purchaseOldList = DB::table('agriland_sale_enquiry')->select('id','customer_id','land_type','size_in_acre','comment', 'location','other_city', 'is_contact', 'contact_person_name', 'contact_person_phone')->where('user_type', '=', 'customer')->where('customer_id', '=', $customer_id)->where('isactive', '=', 1)->whereNull('deleted_at');
 
                     if($land_type != "All"){
                         $purchaseOldList = $purchaseOldList->where('land_type',$land_type);    
