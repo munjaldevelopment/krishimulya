@@ -1964,7 +1964,7 @@ class apiPartnerController extends Controller
             $contact_person_name = $request->contact_person_name;
             $contact_person_phone = $request->contact_person_phone;
             $contact_person_otp = $request->contact_person_otp;
-            
+
             //$comments = $request->comment;
             //$exp_price = $request->exp_price;
             $order_status = 'pending';
@@ -2001,7 +2001,7 @@ class apiPartnerController extends Controller
                     $order_no = str_pad($orderno, 3, "0", STR_PAD_LEFT);
                     $name = $customer->name;
                     $mobile = $customer->phone;
-                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id, 'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $partner_id, 'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
                    //DB::table('soil_test_orders')->where('id', '=', $orderid)->update(['order_no' => $order_no]);
                    
                    /* FCM Notification */
@@ -2014,20 +2014,20 @@ class apiPartnerController extends Controller
                    $notif_data = array($notification_title,$customerName,$notification_body,"","");
                 
                    $customerNotify = $this->push_notification($notif_data,$customerToken);
-                   $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                   $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $partner_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'partner', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                    /* End */
                     $status_code = $success = '1';
                     $message = 'Soil Test Order Added Successfully';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'order_id' => "".$orderid);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'order_id' => "".$orderid);
 
 
                 } else{
                     $status_code = $success = '0';
                     $message = 'Customer not valid';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
                 }
             }
         }
@@ -2035,7 +2035,7 @@ class apiPartnerController extends Controller
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
         
         return response()->json($json, 200);
