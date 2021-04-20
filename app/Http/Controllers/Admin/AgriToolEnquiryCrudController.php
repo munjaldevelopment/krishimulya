@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\AgrilandsaleEnquiryRequest;
+use App\Http\Requests\Agri_tool_enquiryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class AgrilandsaleEnquiryCrudController
+ * Class Agri_tool_enquiryCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class AgrilandsaleEnquiryCrudController extends CrudController
+class AgriToolEnquiryCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class AgrilandsaleEnquiryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\AgrilandsaleEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandsaleenquiry');
-        CRUD::setEntityNameStrings('Agri Land Sale Enquiry', 'Agri Land Sale Enquiry');
+        CRUD::setModel(\App\Models\Agri_tool_enquiry::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_tool_enquiry');
+        CRUD::setEntityNameStrings('Agri Tool Enquiry', 'Agri Tool Enquiry');
 
         $this->crud->addClause("where", "user_type", "=", "customer");
     }
@@ -41,7 +41,7 @@ class AgrilandsaleEnquiryCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        //CRUD::setFromDb(); // columns
+       // CRUD::setFromDb(); // columns
 
          $this->crud->addColumn([
             'label'     => 'Customer Name',
@@ -53,11 +53,20 @@ class AgrilandsaleEnquiryCrudController extends CrudController
 
          ]);
 
-         $this->crud->addColumn('location');
-         $this->crud->addColumn('size_in_acre');
-        //  $this->crud->addColumn('exp_price');  
-         $this->crud->addColumn('land_type');
+        $this->crud->addColumn('agri_tool');
+
+        $this->crud->addColumn('city');
+
+        $this->crud->addColumn('comment');
         
+        $this->crud->addColumn([
+            'name' => 'isactive',
+            'label' => 'Is Active',
+            'type' => 'boolean',
+            'hint' => '',                                                                           
+        ]); 
+
+        $this->crud->addColumn('created_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -74,7 +83,7 @@ class AgrilandsaleEnquiryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(AgrilandsaleEnquiryRequest::class);
+        CRUD::setValidation(Agri_tool_enquiryRequest::class);
 
         //CRUD::setFromDb(); // fields
 
@@ -90,89 +99,62 @@ class AgrilandsaleEnquiryCrudController extends CrudController
             }
         }
 
+        $all_agritype = array();
+        
+        $all_agritool[0] = 'Select';
+        $agritool = \DB::table('agri_tool_type')->orderBy('title')->get();
+        if($agritool)
+        {
+            foreach($agritool as $row)
+            {
+                $all_agritool[$row->title] = $row->title;
+            }
+        }
 
         $all_city = array();
         
         $all_city[0] = 'Select';
-        $cities = \DB::table('cities')->orderBy('name')->get();
-        if($cities)
+        $city = \DB::table('cities')->orderBy('name')->get();
+        if($city)
         {
-            foreach($cities as $row)
+            foreach($city as $row)
             {
                 $all_city[$row->name] = $row->name;
             }
         }
 
-        $all_landType = array();
-        
-        $all_landType[0] = 'Select';
-        $landType = \DB::table('land_type')->orderBy('id')->get();
-        if($landType)
-        {
-            foreach($landType as $row)
-            {
-                $all_landType[$row->title] = $row->title;
-            }
-        }
-
-        $all_landSize = array();
-
-        $all_landSize[0] = 'Select';
-        $landSize = \DB::table('land_size')->orderBy('id')->get();
-        if($landSize)
-        {
-            foreach($landSize as $row)
-            {
-                $all_landSize[$row->title] = $row->title;
-            }
-        }
-
-        $this->crud->addField([
+         $this->crud->addField([
                 'label'     => 'Customer',
                 'type'      => 'select2_from_array',
                 'name'      => 'customer_id',
                 'options'   => $all_customers
                 
          ]);
-
+         
         $this->crud->addField([
-            'name' => 'land_type',
-            'label' => 'Land Type',
-            'type' => 'select2_from_array',
-            'options' => $all_landType,
-            'hint' => '',
-        ]);
-
-        $this->crud->addField([
-                'name' => 'location',
-                'label' => 'Location',
-                'type' => 'select2_from_array',
-                'options'   => $all_city
-            ]); 
-
-        $this->crud->addField([
-                'name' => 'size_in_acre',
-                'label' => 'Size In Acre',
-                'type' => 'select2_from_array',
-                'options' => $all_landSize,
-                'hint' => '',
-            ]); 
+                'label'     => 'Agri Tool',
+                'type'      => 'select2_from_array',
+                'name'      => 'agri_tool',
+                'options'   => $all_agritool
+                
+         ]);
 
          $this->crud->addField([
-                'name' => 'exp_price',
-                'label' => 'Expected Price',
-                'type' => 'text',
-                'placeholder' => 'Expected Price',
-            ]); 
+                'label'     => 'City',
+                'type'      => 'select2_from_array',
+                'name'      => 'city',
+                'options'   => $all_city
+                
+         ]);
 
-        $this->crud->addField([
+         $this->crud->addField([
                 'name' => 'comment',
                 'label' => 'Comment',
                 'type' => 'textarea',
                 'placeholder' => 'Your comment here',
             ]);
 
-        $this->crud->addField([
+         $this->crud->addField([
                 'name' => 'isactive',
                 'label' => 'Is Active',
                 'type' => 'checkbox',

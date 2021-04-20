@@ -39,6 +39,7 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool') }}'><i class='nav-icon la la-wrench'></i> Agri Tool</a></li>
 
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool_enquiry') }}'><i class='nav-icon la la-wrench'></i> Agri Tool Enquiry</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('agri_tool_enquiry_partner') }}'><i class='nav-icon la la-wrench'></i> Agri Tool Enquiry Partner</a></li>
 	</ul>
 </li>
 
@@ -77,8 +78,12 @@
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('landtype') }}'><i class='nav-icon la la-image'></i> Land Type</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('landsize') }}'><i class='nav-icon la la-sort-numeric-up'></i> Land Size</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('renttime') }}'><i class='nav-icon la la-clock'></i> Rent Time</a></li>
+
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandrentenquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiry</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandrentenquiry_partner') }}'><i class='nav-icon la la-headset'></i> Rent Enquiry Partner</a></li>
+
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandsaleenquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiry</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('agrilandsaleenquiry_partner') }}'><i class='nav-icon la la-headset'></i> Sale Enquiry Partner</a></li>
 	</ul>
 </li>
 

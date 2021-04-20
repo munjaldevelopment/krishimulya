@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class AgrilandsaleEnquiryCrudController extends CrudController
+class AgrilandsaleEnquiryPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,10 +27,10 @@ class AgrilandsaleEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\AgrilandsaleEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandsaleenquiry');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandsaleenquiry_partner');
         CRUD::setEntityNameStrings('Agri Land Sale Enquiry', 'Agri Land Sale Enquiry');
 
-        $this->crud->addClause("where", "user_type", "=", "customer");
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -44,12 +44,12 @@ class AgrilandsaleEnquiryCrudController extends CrudController
         //CRUD::setFromDb(); // columns
 
          $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Vendor Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);
 
@@ -81,12 +81,12 @@ class AgrilandsaleEnquiryCrudController extends CrudController
         $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name')->get();
+        $customers = \DB::table('vendors')->orderBy('name')->get();
         if($customers)
         {
             foreach($customers as $row)
             {
-                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->telephone;
+                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->phone;
             }
         }
 
@@ -128,7 +128,7 @@ class AgrilandsaleEnquiryCrudController extends CrudController
         }
 
         $this->crud->addField([
-                'label'     => 'Customer',
+                'label'     => 'Vendor',
                 'type'      => 'select2_from_array',
                 'name'      => 'customer_id',
                 'options'   => $all_customers
@@ -173,10 +173,34 @@ class AgrilandsaleEnquiryCrudController extends CrudController
             ]);
 
         $this->crud->addField([
+                'name' => 'is_edit',
+                'label' => 'Is Edit',
+                'type' => 'checkbox',
+            ]);
+
+        $this->crud->addField([
                 'name' => 'isactive',
                 'label' => 'Is Active',
                 'type' => 'checkbox',
             ]);
+
+        $this->crud->addField([
+                'label'     => 'Person Name',
+                'type'      => 'text',
+                'name'      => 'contact_person_name'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person Phone',
+                'type'      => 'text',
+                'name'      => 'contact_person_phone'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person OTP',
+                'type'      => 'text',
+                'name'      => 'contact_person_otp'
+            ]); 
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
