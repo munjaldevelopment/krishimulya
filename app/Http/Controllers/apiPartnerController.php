@@ -1450,7 +1450,7 @@ class apiPartnerController extends Controller
             $contact_person_name = $request->contact_person_name;
             $contact_person_phone = $request->contact_person_phone;
             $contact_person_otp = $request->contact_person_otp;
-            
+
             $isactive = 1;
             $error = "";
             if($company_name == ""){
@@ -1462,7 +1462,7 @@ class apiPartnerController extends Controller
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
                     $name = $customer->name;
-                    $mobile = $customer->telephone;
+                    $mobile = $customer->mobile;
                     DB::table('tractor_refinance_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
@@ -1493,6 +1493,67 @@ class apiPartnerController extends Controller
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
             $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function tractorRentEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $what_need = $request->what_need;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $available_date = date("Y-m-d",strtotime($request->available_date));
+            $comment = $request->comment;
+            $model = '';
+            $isactive = 1;
+            $error = "";
+            if($location == "" || $location == "All"){
+                $error = "Please enter location for tractor";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $name = $customer->name;
+                    $mobile = $customer->mobile;
+                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    foreach($customers as $cust)
+                    {
+                        $title = "Tractor Rent";
+                        $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
+                        $this->sendNotification($cust->id, $title, $message1, '');
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Rent enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
         }
         
         return response()->json($json, 200);
