@@ -174,6 +174,7 @@ Route::get('partner-token', 'apiPartnerController@getPartnerType');
 Route::post('agriland-rent-enquiry-partner', 'apiPartnerController@agrilandRentEnquiry');
 Route::post('agriland-sale-enquiry-partner', 'apiPartnerController@agrilandSaleEnquiry');
 Route::post('agri-tool-enquiry-partner', 'apiPartnerController@agriToolEnquiry');
+Route::post('insurance-enquiry-partner', 'apiPartnerController@insuranceEnquiry');
 
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');

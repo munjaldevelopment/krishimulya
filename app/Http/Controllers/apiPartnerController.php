@@ -1225,4 +1225,55 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function insuranceEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $insurance_type = $request->insurance_type;
+            $other_insurance_type = $request->other_insurance_type;
+            $comments = $request->comments;
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+            
+            $isactive = 1;
+            $error = "";
+            if($insurance_type == ""){
+                $error = "Please enter insurance type";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer) {
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    DB::table('insurance_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'insurance_type' => $insurance_type, 'other_insurance_type' => $other_insurance_type, 'comments' => $comments, 'user_type' => 'customer', 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Insurance enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 }
