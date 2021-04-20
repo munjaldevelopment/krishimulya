@@ -181,6 +181,7 @@ Route::post('tractor-refinance-enquiry-partner', 'apiPartnerController@tractorRe
 Route::post('tractor-rent-enquiry-partner', 'apiPartnerController@tractorRentEnquiry');
 Route::post('tractor-sale-enquiry-partner', 'apiPartnerController@tractorSaleEnquiry');
 Route::post('soiltest-order-partner', 'apiPartnerController@soilTestEnquiry');
+Route::post('agri-type-enquiry-partner', 'apiPartnerController@agriTypeEnquiry');
 
 Route::post('agriland-feedback-partner', 'apiPartnerController@agriland_feedback');
 
@@ -198,3 +199,6 @@ Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_co
 Route::get('soil-login', 'apiSoilController@soilLogin');
 Route::get('soil-myinfo', 'apiSoilController@soilMyInfo');
 Route::get('soil-create-farmer', 'apiSoilController@soilCreateFarmer');
+Route::get('soil-get-farmer', 'apiSoilController@soilGetFarmer');
+Route::get('soil-create-test', 'apiSoilController@soilCreateTest');
+Route::get('soil-get-test', 'apiSoilController@soilGetTest');
