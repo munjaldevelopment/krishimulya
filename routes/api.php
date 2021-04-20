@@ -181,6 +181,8 @@ Route::post('tractor-refinance-enquiry-partner', 'apiPartnerController@tractorRe
 Route::post('tractor-rent-enquiry-partner', 'apiPartnerController@tractorRentEnquiry');
 Route::post('tractor-sale-enquiry-partner', 'apiPartnerController@tractorSaleEnquiry');
 
+Route::post('agriland-feedback-partner', 'apiPartnerController@agriland_feedback');
+
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
 Route::get('partner-notification', 'apiPartnerController@notification_list');

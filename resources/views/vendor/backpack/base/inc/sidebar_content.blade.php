@@ -93,13 +93,14 @@
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-tractor"></i> Tractors</a>
 	<ul class="nav-dropdown-items">
 	  
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('company') }}'><i class='nav-icon la la-building'></i> Company</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('hoursepower') }}'><i class='nav-icon la la-horse'></i> Hourse Powers</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymenttype') }}'><i class='nav-icon la la-inr'></i> Payment Types</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('purposetype') }}'><i class='nav-icon la la-envira'></i> Purpose Type</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('company') }}'><i class='nav-icon la la-building'></i> Company</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('hoursepower') }}'><i class='nav-icon la la-horse'></i> Horse Powers</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('paymenttype') }}'><i class='nav-icon la la-inr'></i> Payment Types</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('purposetype') }}'><i class='nav-icon la la-envira'></i> Purpose Type</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries</a></li>
 	</ul>
 </li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('feedback') }}'><i class='nav-icon la la-support'></i> Feedback</a></li>
