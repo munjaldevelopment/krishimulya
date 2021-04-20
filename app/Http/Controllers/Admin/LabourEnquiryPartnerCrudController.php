@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class LabourEnquiryCrudController extends CrudController
+class LabourEnquiryPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,11 +27,11 @@ class LabourEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\LabourEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/labour_enquiry');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/labour_enquiry_partner');
         CRUD::setEntityNameStrings('Labour Enquiry', 'Labour Enquiry');
         $this->crud->enableExportButtons();
 
-        $this->crud->addClause("where", "user_type", "=", "customer");
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -51,12 +51,12 @@ class LabourEnquiryCrudController extends CrudController
          */
 
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);  
          $this->crud->addColumn('location');
@@ -68,15 +68,15 @@ class LabourEnquiryCrudController extends CrudController
          $this->crud->addFilter([ // select2 filter
                 'name' => 'customer_id',
                 'type' => 'select2',
-                'label'=> 'All Customer',
+                'label'=> 'All Vendor',
             ], function () {
                 $all_customers1 = array();
-                $customers1 = \DB::table('customers')->orderBy('name')->get();
+                $customers1 = \DB::table('vendors')->orderBy('name')->get();
                 if($customers1)
                 {
                     foreach($customers1 as $row1)
                     {
-                        $all_customers1[$row1->id] = ($row1->name != '') ? $row1->name : $row1->telephone;
+                        $all_customers1[$row1->id] = ($row1->name != '') ? $row1->name : $row1->phone;
                     }
                 }
                 return $all_customers1;
@@ -100,12 +100,12 @@ class LabourEnquiryCrudController extends CrudController
         $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name')->get();
+        $customers = \DB::table('vendors')->orderBy('name')->get();
         if($customers)
         {
             foreach($customers as $row)
             {
-                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->telephone;
+                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->phone;
             }
         }
 
@@ -181,6 +181,24 @@ class LabourEnquiryCrudController extends CrudController
                 'label' => 'Is Active',
                 'type' => 'checkbox',
             ]);
+
+        $this->crud->addField([
+                'label'     => 'Person Name',
+                'type'      => 'text',
+                'name'      => 'contact_person_name'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person Phone',
+                'type'      => 'text',
+                'name'      => 'contact_person_phone'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person OTP',
+                'type'      => 'text',
+                'name'      => 'contact_person_otp'
+            ]); 
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

@@ -59,6 +59,7 @@
 	<ul class="nav-dropdown-items">
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('labourtype') }}'><i class='nav-icon la la-handshake'></i> Labour Type</a></li>
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('labour_enquiry') }}'><i class='nav-icon la la-people-carry'></i> Labour Enquiries</a></li>
+	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('labour_enquiry_partner') }}'><i class='nav-icon la la-people-carry'></i> Labour Enquiries Partner</a></li>
 
 	</ul>
 </li>
@@ -69,6 +70,7 @@
 	<ul class="nav-dropdown-items">
 	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('insurancetype') }}'><i class='nav-icon la la-house-damage'></i> Insurance Types</a></li>
 	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('insuranceenquiry') }}'><i class='nav-icon la la-headset'></i> Insurance Enquiries</a></li>
+	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('insuranceenquiry_partner') }}'><i class='nav-icon la la-headset'></i> Insurance Enquiries Partner</a></li>
 	</ul>
 </li>
 

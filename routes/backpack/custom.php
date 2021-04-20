@@ -27,11 +27,16 @@ Route::group([
     Route::crud('tractor_rent_enquiry', 'TractorRentEnquiryCrudController');
     Route::crud('tractor_sell_enquiry', 'TractorSellEnquiryCrudController');
     Route::crud('tractor_purchase_enquiry', 'TractorPurchaseEnquiryCrudController');
+    
     Route::crud('labour_enquiry', 'LabourEnquiryCrudController');
+    Route::crud('labour_enquiry_partner', 'LabourEnquiryPartnerCrudController');
+    
     Route::crud('insurancetype', 'InsuranceTypeCrudController');
     Route::crud('company', 'CompanyCrudController');
     Route::crud('hoursepower', 'HoursePowerCrudController');
+
     Route::crud('insuranceenquiry', 'InsuranceEnquiryCrudController');
+    Route::crud('insuranceenquiry_partner', 'InsuranceEnquiryPartnerCrudController');
     
     Route::crud('agrilandrentenquiry', 'AgrilandRentEnquiryCrudController');
     Route::crud('agrilandsaleenquiry', 'AgrilandsaleEnquiryCrudController');

@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class InsuranceEnquiryCrudController extends CrudController
+class InsuranceEnquiryPartnerCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -27,10 +27,10 @@ class InsuranceEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\InsuranceEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/insuranceenquiry');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/insuranceenquiry_partner');
         CRUD::setEntityNameStrings('Insurance Enquiry', 'Insurance Enquiries');
 
-        $this->crud->addClause("where", "user_type", "=", "customer");
+        $this->crud->addClause("where", "user_type", "=", "partner");
     }
 
     /**
@@ -43,12 +43,12 @@ class InsuranceEnquiryCrudController extends CrudController
     {
         //CRUD::setFromDb(); // columns
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);
 
@@ -86,12 +86,12 @@ class InsuranceEnquiryCrudController extends CrudController
         $all_customers = array();
         
         $all_customers[0] = 'Select';
-        $customers = \DB::table('customers')->orderBy('name', 'asc')->get();
+        $customers = \DB::table('vendors')->orderBy('name', 'asc')->get();
         if($customers)
         {
             foreach($customers as $row)
             {
-                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->telephone;
+                $all_customers[$row->id] = ($row->name != '') ? $row->name : $row->phone;
             }
         }
 
@@ -135,6 +135,24 @@ class InsuranceEnquiryCrudController extends CrudController
                 'name' => 'isactive',
                 'label' => 'Is Active',
                 'type' => 'checkbox',
+            ]);
+
+        $this->crud->addField([
+                'label'     => 'Person Name',
+                'type'      => 'text',
+                'name'      => 'contact_person_name'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person Phone',
+                'type'      => 'text',
+                'name'      => 'contact_person_phone'
+            ]); 
+
+        $this->crud->addField([
+                'label'     => 'Person OTP',
+                'type'      => 'text',
+                'name'      => 'contact_person_otp'
             ]);
 
         /**
