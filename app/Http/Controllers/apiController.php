@@ -1956,7 +1956,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('customer_id', '=', $customer_id)->where('isactive', '=', 1);
+                    $labourList = DB::table('labour_enquiry')->select('id','customer_id','location', 'other_city', 'purpose','labour_no','comments')->whereNull('deleted_at')->where('customer_id', '=', $customer_id)->where('user_type', '=', 'customer')->where('isactive', '=', 1);
 
                     if($labour_no){
                         $labour_noto = 0;

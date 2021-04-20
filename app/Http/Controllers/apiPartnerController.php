@@ -1276,4 +1276,79 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function labourEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $location = $request->location;
+            $other_city = $request->other_city;
+            $purpose = $request->purpose;
+            $need = $request->need;
+            $labour_no = $request->labour_no;
+            $comments = $request->comments;
+            $isactive = 1;
+            $error = "";
+
+            // TO DO
+            $is_contact = $request->is_contact;
+            $contact_person_name = $request->contact_person_name;
+            $contact_person_phone = $request->contact_person_phone;
+            $contact_person_otp = $request->contact_person_otp;
+
+            if($labour_no == ""){
+                $error = "Please enter no of labour";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+
+            if($contact_person_phone != "")
+            {
+                $verifyOtp = DB::table('tbl_mobile_verify')->where('mobile', $contact_person_phone)->first();
+                if($verifyOtp){ 
+                    $mobileverifyotp = $verifyOtp->otp;
+                    if($contact_person_otp != $mobileverifyotp){
+                        $error = "Please enter valid OTP to verify mobile.";
+                        $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+                    }else{
+                        //$error = "Incorrect OTP.";
+                        //$json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+                    }
+                } else {
+                    $error = "Please verify mobile.";
+                    $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);  
+                }
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('labour_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments,  'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Labour enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 }
