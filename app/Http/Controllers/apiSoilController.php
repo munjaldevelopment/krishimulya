@@ -40,7 +40,9 @@ class apiSoilController extends Controller
 
         curl_close($curl);
 
-        echo $response;
+        $result = json_decode($response, 1);
+        
+        echo '<pre>';print_r($result); exit;
     }
 
     public function soilCreateTest(Request $request)
