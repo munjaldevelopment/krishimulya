@@ -30,6 +30,8 @@ class TractorRentEnquiryCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_rent_enquiry');
         CRUD::setEntityNameStrings('Tractor Rent Enquiry', 'Tractor Rent Enquiry');
         $this->crud->enableExportButtons();
+
+        $this->crud->addClause("where", "user_type", "=", "customer");
     }
 
     /**

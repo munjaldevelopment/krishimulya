@@ -101,6 +101,7 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_rent_enquiry') }}'><i class='nav-icon la la-headset'></i> Rent Enquiries</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_sell_enquiry') }}'><i class='nav-icon la la-headset'></i> Sale Enquiries</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_purchase_enquiry') }}'><i class='nav-icon la la-headset'></i> Purchase Enquiries</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_refinance_enquiry') }}'><i class='nav-icon la la-headset'></i> Refinance Enquiries</a></li>
 	</ul>
 </li>
 
