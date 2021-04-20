@@ -42,7 +42,7 @@ class apiSoilController extends Controller
 
         $result = json_decode($response, 1);
 
-        $soilResults = $result['data']['getExternalTestsByFarmer']);
+        $soilResults = $result['data']['getExternalTestsByFarmer'];
 
 		foreach($soilResults as $soil_result)
 		{
