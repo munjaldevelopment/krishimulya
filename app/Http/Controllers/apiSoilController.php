@@ -41,8 +41,16 @@ class apiSoilController extends Controller
         curl_close($curl);
 
         $result = json_decode($response, 1);
-        
-        echo '<pre>';print_r($result); exit;
+
+        $soilResults = $result['data']['getExternalTestsByFarmer']);
+
+		foreach($soilResults as $soil_result)
+		{
+			if($soil_result['status'] == "Completed")
+			{
+				echo $soil_result['test']['html']; exit;
+			}
+		}
     }
 
     public function soilCreateTest(Request $request)
