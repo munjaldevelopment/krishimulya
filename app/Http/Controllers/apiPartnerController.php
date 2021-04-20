@@ -26,6 +26,13 @@ class apiPartnerController extends Controller
         return $head;
     }
 
+    public function sendNotification($customer_id, $title, $message, $image = '')
+    {
+        $date = date('Y-m-d H:i:s');
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        //echo $success.",".$fail.",".$total; exit;
+    }
+
     //START LOGIN
 	public function partnerLogin(Request $request)
     {
