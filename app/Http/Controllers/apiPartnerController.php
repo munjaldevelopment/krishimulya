@@ -754,12 +754,16 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
             $language = $request->language;
+
+            $baseUrl = URL::to("/");
            
             $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partner){ 
                 $assignService = array();
 
                 $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
+
+                \App::setLocale($language);
 
                 foreach ($partnerAssign as $key => $value) {
                     # code...
