@@ -654,19 +654,17 @@ class apiPartnerController extends Controller
                     // Get Value
                     $vendorData1 = \DB::table($table_name_vendor)->where('id', $lead_id)->first();
 
-                    echo $table_name.",".$vendorData1->$table_name_id;
-                    exit;
-                    //.">>".$vendorData1->$table_name."_id"; exit;
-
-                    /*\DB::table($table_name_vendor_history)->insert([
-                        $vendorData1->$table_name."_id" => $vendorData1->$table_name."_id", 
-                        $vendorData1->$table_name."_vendor_id" => $vendorData1->$table_name."_vendor_id",
+                    //echo $table_name.",".$vendorData1->$table_name_id;
+                    
+                    \DB::table($table_name_vendor_history)->insert([
+                        $table_name."_id" => $vendorData1->$table_name."_id", 
+                        $table_name."_vendor_id" => $vendorData1->$table_name."_vendor_id",
                         'vendor_id' => $partner_id, 
                         'test_status' => $test_status,
                         'status_time' => date('Y-m-d H:i:s'),
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s')
-                    ]);*/
+                    ]);
 
                     $status_code = $success = '1';
                     $message = "Status changed successfully";   
