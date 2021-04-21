@@ -700,6 +700,14 @@ class apiPartnerController extends Controller
                                 $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
                                 $details .= "<strong>Type: </strong>".$vendorRow->what_type;
                             }
+                            else if($lead_type == "tractor-refinance")
+                            {
+                                $details = "<strong>Company Name: </strong>".$vendorRow->company_name.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Horse Power: </strong>".$vendorRow->hourse_power.'<br />';
+                                $details = "<strong>Payment Type: </strong>".$vendorRow->payment_type.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comment;
+                            }
 
                             $customer_name = $customer_phone = "";
 
