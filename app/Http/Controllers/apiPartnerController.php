@@ -656,7 +656,28 @@ class apiPartnerController extends Controller
 
                         foreach($vendorData as $vendorRow)
                         {
-                            $leadData[] = array('lead_type' => $categoryName->en, 'id' => $vendorRow->id, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time);
+                            $user_type = $vendorRow->user_type;
+                            $details = "";
+
+                            $customer_name = $customer_phone = "";
+                            if($user_type == "customer")
+                            {
+                                $customer = DB::table('customers')->where('id', $vendorRow->customer_id)->where('status', '=', '1')->first();
+                                if($customer) { 
+                                    $customer_name = $customer->name;
+                                    $customer_phone = $customer->telephone;
+                                }
+                            }
+                            else if($user_type == "partner")
+                            {
+                                $customer = DB::table('vendors')->where('id', $vendorRow->customer_id)->where('is_onboard', '=', '1')->first();
+                                if($customer) { 
+                                    $customer_name = $customer->name;
+                                    $customer_phone = $customer->phone;
+                                }
+                            }
+
+                            $leadData[] = array('id' => $vendorRow->id, 'lead_type' => $categoryName->en, 'details' => $details, 'name' => $customer_name,'phone' => $customer_phone, 'date' => $vendorRow->status_time, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time);
                         }
                     }
                     else
