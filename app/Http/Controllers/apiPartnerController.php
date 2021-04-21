@@ -679,6 +679,20 @@ class apiPartnerController extends Controller
                                 $details .= "<strong>Comment: </strong>".$vendorRow->comment.'<br />';
                                 $details .= "<strong>Uses Type: </strong>".$vendorRow->uses_type;
                             }
+                            else if($lead_type == "tractor-sale")
+                            {
+                                $details = "<strong>Company Name: </strong>".$vendorRow->company_name.'<br />';
+                                $details .= "<strong>Model: </strong>".$vendorRow->model.'<br />';
+                                $details .= "<strong>Year: </strong>".$vendorRow->year_manufacturer.'<br />';
+                                $details .= "<strong>Horse Power: </strong>".$vendorRow->hourse_power.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Hrs: </strong>".$vendorRow->hrs.'<br />';
+                                $details .= "<strong>Price: </strong>".$vendorRow->exp_price.'<br />';
+                                $details .= "<strong>Commission: </strong>".$vendorRow->sale_commission.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comment.'<br />';
+                                $details .= "<strong>Sale Type: </strong>".$vendorRow->sale_type;
+                            }
+
 
                             $customer_name = $customer_phone = "";
 
