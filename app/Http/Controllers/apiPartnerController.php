@@ -668,6 +668,11 @@ class apiPartnerController extends Controller
                                     $customer_name = $customerData->name;
                                     $customer_phone = $customerData->telephone;
                                 }
+                                else if(isset($vendorRow->name))
+                                {
+                                    $customer_name = $vendorRow->name;
+                                    $customer_phone = $vendorRow->mobile;
+                                }
                             }
                             elseif($user_type == "partner")
                             {
@@ -675,6 +680,11 @@ class apiPartnerController extends Controller
                                 if($vendorData) { 
                                     $customer_name = $vendorData->name;
                                     $customer_phone = $vendorData->phone;
+                                }
+                                else if(isset($vendorRow->name))
+                                {
+                                    $customer_name = $vendorRow->name;
+                                    $customer_phone = $vendorRow->mobile;
                                 }
                             }
 
