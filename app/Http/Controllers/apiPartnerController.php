@@ -660,11 +660,11 @@ class apiPartnerController extends Controller
                             $details = "";
 
                             $customer_name = $customer_phone = "";
+                            
                             if($user_type == "customer")
                             {
                                 $customer = DB::table('customers')->where('id', $vendorRow->customer_id)->where('status', '=', '1')->first();
                                 if($customer) { 
-                                    dd($customer);
                                     $customer_name = $customer->name;
                                     $customer_phone = $customer->telephone;
                                 }
@@ -673,7 +673,6 @@ class apiPartnerController extends Controller
                             {
                                 $customer = DB::table('vendors')->where('id', $vendorRow->customer_id)->where('is_onboard', '=', '1')->first();
                                 if($customer) { 
-                                    dd($customer);
                                     $customer_name = $customer->name;
                                     $customer_phone = $customer->phone;
                                 }
