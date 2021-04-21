@@ -29,12 +29,10 @@ class HomeController extends Controller
             {
                 foreach($vendorAssign as $assignData)
                 {
-                    //echo '<pre>'; print_r($assignData); exit;
+                    $table_name = $assignData->table_name;
+                    $table_name_vendor = $assignData->table_name."_vendor";
 
-                    $table_name = $vendorAssign->table_name;
-                    $table_name_vendor = $vendorAssign->table_name."_vendor";
-
-                    echo $table_name; exit;
+                    //echo $table_name; exit;
 
                     $vendorData = \DB::table($table_name)->get();
 
