@@ -660,7 +660,7 @@ class apiPartnerController extends Controller
                             $details = "";
 
                             $customer_name = $customer_phone = "";
-                            
+
                             if($user_type == "customer")
                             {
                                 $customer = DB::table('customers')->where('id', $vendorRow->customer_id)->where('status', '=', '1')->first();
@@ -669,7 +669,7 @@ class apiPartnerController extends Controller
                                     $customer_phone = $customer->telephone;
                                 }
                             }
-                            else if($user_type == "partner")
+                            elseif($user_type == "partner")
                             {
                                 $customer = DB::table('vendors')->where('id', $vendorRow->customer_id)->where('is_onboard', '=', '1')->first();
                                 if($customer) { 
@@ -678,7 +678,9 @@ class apiPartnerController extends Controller
                                 }
                             }
 
-                            $leadData[] = array('id' => $vendorRow->id, 'lead_type' => $categoryName->en, 'details' => $details, 'name' => $customer_name,'phone' => $customer_phone, 'date' => $vendorRow->status_time, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time);
+                            //echo $user_type.">".$customer_name;
+
+                            $leadData[] = array('id' => $vendorRow->id, 'lead_type' => $categoryName->en, 'details' => $details, 'name' => $customer_name,'phone' => $customer_phone, 'date' => $vendorRow->status_time, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time, 'user_type' => $user_type);
                         }
                     }
                     else
