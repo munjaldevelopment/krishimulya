@@ -1308,13 +1308,13 @@ class apiPartnerController extends Controller
             Setting::assignSetting();
 
             $json       =   array();
-            
+
             $sliderArr = array();
             $sliderList = DB::table('lead_status')->where('status', '=', 1)->orderBy('id', 'DESC')->get();
             $statusData = array();
             if($sliderList) {
                 foreach($sliderList as $row) {
-                    $statusData[] = $row->name;
+                    $statusData[]['name'] = $row->name;
                 }
             }
             
