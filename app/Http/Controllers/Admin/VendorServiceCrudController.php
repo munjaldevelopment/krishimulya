@@ -85,6 +85,7 @@ class VendorServiceCrudController extends CrudController
                 'type' => 'color',
             ]);
         $this->crud->addField('name');
+        $this->crud->addField('table_name');
 
         $this->crud->addField([
                 'name' => 'image',
