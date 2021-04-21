@@ -166,7 +166,7 @@ Route::post('forgot-password', 'apiPartnerController@forgotPassword');
 Route::post('update-password', 'apiPartnerController@partnerChangePassword');
 Route::post('resend-partner-sms', 'apiPartnerController@resendSMS');
 Route::get('partner-profile', 'apiPartnerController@partner_profile');
-Route::get('partner-leads', 'apiPartnerController@partnerLeads');
+Route::post('partner-leads', 'apiPartnerController@partnerLeads');
 Route::post('update-partner-profile', 'apiPartnerController@update_profile');
 Route::post('partner-logout', 'apiPartnerController@partner_logout');
 Route::get('partner-token', 'apiPartnerController@getPartnerType');
