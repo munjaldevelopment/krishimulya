@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Backpack\CRUD\app\Models\Traits\SpatieTranslatable\HasTranslations;
 
 class VendorService extends Model
 {
+    use HasTranslations;
     use CrudTrait;
+    use SluggableScopeHelpers;
 
     /*
     |--------------------------------------------------------------------------
@@ -21,6 +25,8 @@ class VendorService extends Model
     protected $guarded = ['id'];
     
     protected $fillable = ['service_code', 'service_color', 'name', 'image', 'status'];
+
+    public $translatable = ['name'];
     // protected $hidden = [];
     // protected $dates = [];
 
