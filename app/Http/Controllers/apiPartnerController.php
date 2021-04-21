@@ -653,7 +653,7 @@ class apiPartnerController extends Controller
 
                     echo $table_name."_id".">>".$vendorData->$table_name."_id"; exit;
 
-                    \DB::table($table_name_vendor_history)->insert([
+                    /*\DB::table($table_name_vendor_history)->insert([
                         $table_name."_id" => $vendorData->$table_name."_id", 
                         $table_name."_vendor_id" => $vendorData->$table_name."_vendor_id",
                         'vendor_id' => $partner_id, 
@@ -661,7 +661,7 @@ class apiPartnerController extends Controller
                         'status_time' => date('Y-m-d H:i:s'),
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s')
-                    ]);
+                    ]);*/
 
                     $status_code = $success = '1';
                     $message = "Status changed successfully";   
