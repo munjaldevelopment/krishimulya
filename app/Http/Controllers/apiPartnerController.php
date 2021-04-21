@@ -720,7 +720,17 @@ class apiPartnerController extends Controller
 
                 foreach ($partnerAssign as $key => $value) {
                     # code...
-                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $value->name, 'stats' => '0');
+                    $table_name = $assignData->table_name;
+                    $table_name_vendor = $assignData->table_name."_vendor";
+
+                    $isExists = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
+                    $stats = 0;
+                    if($isExists)
+                    {
+                        $stats = $isExists->total;
+                    }
+
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $value->name, 'stats' => $stats);
                 }
                 
                 $status_code = $success = '1';
