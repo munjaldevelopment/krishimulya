@@ -2734,6 +2734,7 @@ class apiController extends Controller
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;
             $enquiry_type = $request->enquiry_type;
+            
             $error = "";
             if($enquiry_type == ""){
                 $error = "Please enter enquiry type";
