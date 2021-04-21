@@ -755,6 +755,8 @@ class apiPartnerController extends Controller
             $partner_id = $request->partner_id;
             $language = $request->language;
 
+            echo $language; exit;
+
             $baseUrl = URL::to("/");
            
             $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
@@ -766,7 +768,7 @@ class apiPartnerController extends Controller
                 foreach ($partnerAssign as $key => $value) {
                     # code...
                     $categoryName = json_decode($value->name);
-                    print_r($categoryName); exit;
+                    //print_r($categoryName); exit;
 
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => '0');
                 }
