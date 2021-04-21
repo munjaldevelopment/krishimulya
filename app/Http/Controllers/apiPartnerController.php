@@ -668,7 +668,7 @@ class apiPartnerController extends Controller
                                 $details .= "<strong>Test Type: </strong>".$vendorRow->test_type.'<br />';
                                 $details .= "<strong>Amount: </strong>".$vendorRow->amount.'<br />';
                                 $details .= "<strong>Comment: </strong>".$vendorRow->comments.'<br />';
-                                $details .= "<strong>Status: </strong>".$vendorRow->order_status.'<br />';
+                                $details .= "<strong>Status: </strong>".$vendorRow->order_status;
                             }
                             else if($lead_type == "tractor-purchase")
                             {
