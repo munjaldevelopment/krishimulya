@@ -14,6 +14,7 @@ class CreateSoilTest1Vendor3Table extends Migration
         Schema::create('tractor_rent_enquiry_vendor_history', function ($table) {
             $table->increments('id');
             $table->integer('tractor_rent_enquiry_id')->unsigned();
+            $table->integer('tractor_rent_enquiry_vendor_id')->unsigned();
             $table->integer('vendor_id')->unsigned();
 
             $table->foreign('tractor_rent_enquiry_id', 'tractor_rent_enquiry_fk')

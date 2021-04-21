@@ -14,6 +14,7 @@ class CreateSoilTest1VendorTable extends Migration
         Schema::create('soil_test_order_vendor_history', function ($table) {
             $table->increments('id');
             $table->integer('soil_test_order_id')->unsigned();
+            $table->integer('soil_test_order_vendor_id')->unsigned();
             $table->integer('vendor_id')->unsigned();
 
             $table->foreign('soil_test_order_id', 'soil_test_order_fk')
