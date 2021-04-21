@@ -655,6 +655,8 @@ class apiPartnerController extends Controller
                     $vendorData1 = \DB::table($table_name_vendor)->where('id', $lead_id)->first();
 
                     //echo $table_name.",".
+                    echo $table_name_id.",".$table_name_vendor_id;
+                    
                     dd($vendorData1);
                     
                     \DB::table($table_name_vendor_history)->insert([
