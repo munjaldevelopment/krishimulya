@@ -793,7 +793,7 @@ class apiPartnerController extends Controller
                 $status_code = $success = '1';
                 $message = 'Partner Dashboards';
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id,'wheathericon' => $iconurl, 'assignService' => $assignService);
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'pincode' => $pincode, 'wheatherType' => $wheatherType, 'wheathericon' => $iconurl, 'todaytemp' => "".$todaytemp."°C" , 'todayhumidity' => "".$todayhumidity, 'locationName' => "".$locationName, 'assignService' => $assignService);
 
 
             } else{
