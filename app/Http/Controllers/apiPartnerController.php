@@ -779,8 +779,8 @@ class apiPartnerController extends Controller
                                 }
                                 else if(isset($vendorRow->name))
                                 {
-                                    $customer_name = $vendorRow->name;
-                                    $customer_phone = $vendorRow->mobile;
+                                    $customer_name = $vendorRow->contact_person_name;
+                                    $customer_phone = $vendorRow->contact_person_phone;
                                 }
                             }
 
