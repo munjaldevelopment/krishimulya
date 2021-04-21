@@ -753,6 +753,7 @@ class apiPartnerController extends Controller
             $json = $userData = array();
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
+            $language = $request->language;
            
             $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partner){ 
