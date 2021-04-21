@@ -622,6 +622,46 @@ class apiPartnerController extends Controller
     }
 
     //Partner Profile
+    public function partnerLeadsStatusChange(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $lead_id = $request->lead_id;
+            $lead_type = $request->lead_type;
+            $test_status = $request->test_status;
+
+           
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+            if($partner){ 
+                $vendor_service = DB::table('vendor_services')->where('service_code', $lead_type)->first();
+
+                if($vendor_service)
+                {
+                    $table_name = $vendor_service->table_name;
+                    $table_name_vendor = $vendor_service->table_name."_vendor";
+
+                    $categoryName = json_decode($vendor_service->name);
+
+                    $vendorData = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('id', $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
+
+                    $status_code = $success = '1';
+                    $message = "Status changed successfully";   
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     public function partnerLeads(Request $request)
     {
         try 
@@ -646,7 +686,14 @@ class apiPartnerController extends Controller
 
                     $categoryName = json_decode($vendor_service->name);
 
-                    $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                    if($test_status != "")
+                    {
+                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                    }
+                    else
+                    {
+                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                    }
 
                     $leadData = array();
                     if($vendorData)

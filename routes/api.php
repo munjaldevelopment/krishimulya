@@ -168,6 +168,8 @@ Route::post('resend-partner-sms', 'apiPartnerController@resendSMS');
 Route::get('partner-profile', 'apiPartnerController@partner_profile');
 Route::get('partner-dashboard', 'apiPartnerController@partnerDashboard');
 Route::post('partner-leads', 'apiPartnerController@partnerLeads');
+Route::post('partner-leads-status-change', 'apiPartnerController@partnerLeadsStatusChange');
+
 Route::post('update-partner-profile', 'apiPartnerController@update_profile');
 Route::post('partner-logout', 'apiPartnerController@partner_logout');
 Route::get('partner-token', 'apiPartnerController@getPartnerType');
