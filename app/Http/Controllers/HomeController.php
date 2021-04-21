@@ -32,6 +32,7 @@ class HomeController extends Controller
                 {
                     $table_name = $assignData->table_name;
                     $table_name_vendor = $assignData->table_name."_vendor";
+                    $table_name_vendor_history = $assignData->table_name."_vendor_history";
 
                     //echo $table_name; exit;
 
@@ -47,7 +48,10 @@ class HomeController extends Controller
 
                             if($isExists == 0)
                             {
-                                \DB::table($table_name_vendor)->insert([$table_name."_id" => $id, 'vendor_id' => $vendor_id, 'test_status' => 'Pending', 'status_time' => date('Y-m-d H:i:s'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
+                                $table_id = \DB::table($table_name_vendor)->insertGetId([$table_name."_id" => $id, 'vendor_id' => $vendor_id, 'test_status' => 'Pending', 'status_time' => date('Y-m-d H:i:s'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
+
+
+                                \DB::table($table_name_vendor_history)->insert([$table_name."_id" => $id, $table_name."_vendor_id" => $table_id, 'vendor_id' => $vendor_id, 'test_status' => 'Pending', 'status_time' => date('Y-m-d H:i:s'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
                             }
                         }
                     }
