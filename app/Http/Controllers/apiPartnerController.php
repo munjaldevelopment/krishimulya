@@ -766,6 +766,7 @@ class apiPartnerController extends Controller
                 foreach ($partnerAssign as $key => $value) {
                     # code...
                     $categoryName = json_decode($value->name);
+                    print_r($categoryName); exit;
 
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => '0');
                 }
