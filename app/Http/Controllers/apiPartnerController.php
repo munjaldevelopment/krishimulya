@@ -659,6 +659,16 @@ class apiPartnerController extends Controller
                             $user_type = $vendorRow->user_type;
                             $details = "";
 
+                            if($lead_type == "tractor-purchase")
+                            {
+                                $details = "<strong>Company Name: </strong>".$vendorRow->company_name.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Horse Power: </strong>".$vendorRow->hourse_power.'<br />';
+                                $details .= "<strong>Payment Type: </strong>".$vendorRow->payment_type.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comment.'<br />';
+                                $details .= "<strong>Uses Type: </strong>".$vendorRow->uses_type;
+                            }
+
                             $customer_name = $customer_phone = "";
 
                             if($user_type == "customer")
