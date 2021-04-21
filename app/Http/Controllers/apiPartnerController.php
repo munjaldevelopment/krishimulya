@@ -663,18 +663,18 @@ class apiPartnerController extends Controller
 
                             if($user_type == "customer")
                             {
-                                $customer = DB::table('customers')->where('id', $vendorRow->customer_id)->where('status', '=', '1')->first();
-                                if($customer) { 
-                                    $customer_name = $customer->name;
-                                    $customer_phone = $customer->telephone;
+                                $customerData = DB::table('customers')->where('id', $vendorRow->customer_id)->where('status', '=', '1')->first();
+                                if($customerData) { 
+                                    $customer_name = $customerData->name;
+                                    $customer_phone = $customerData->telephone;
                                 }
                             }
                             elseif($user_type == "partner")
                             {
-                                $customer = DB::table('vendors')->where('id', $vendorRow->customer_id)->where('is_onboard', '=', '1')->first();
-                                if($customer) { 
-                                    $customer_name = $customer->name;
-                                    $customer_phone = $customer->phone;
+                                $vendorData = DB::table('vendors')->where('id', $vendorRow->customer_id)->where('is_onboard', '=', '1')->first();
+                                if($vendorData) { 
+                                    $customer_name = $vendorData->name;
+                                    $customer_phone = $vendorData->phone;
                                 }
                             }
 
