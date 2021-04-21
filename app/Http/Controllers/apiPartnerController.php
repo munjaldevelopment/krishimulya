@@ -2441,4 +2441,51 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function enquiry_tracking(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $enquiry_type = $request->enquiry_type;
+            $lead_id = $request->lead_id;
+            $phone_number = $request->phone_number;
+            
+            $error = "";
+            if($enquiry_type == ""){
+                $error = "Please enter enquiry type";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('enquiry_tracking')->insert(['customer_id' => $customer_id, 'enquiry_type' => $enquiry_type, 'user_type' => 'partner', 'lead_id' => $lead_id, 'phone_number' => $phone_number, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Enquiry Type added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
 }

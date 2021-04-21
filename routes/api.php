@@ -189,6 +189,8 @@ Route::post('agri-type-enquiry-partner', 'apiPartnerController@agriTypeEnquiry')
 
 Route::post('agriland-feedback-partner', 'apiPartnerController@agriland_feedback');
 
+Route::post('enquiry-tracking-partner', 'apiPartnerController@enquiry_tracking');
+
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 //Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
 Route::get('partner-notification', 'apiPartnerController@notification_list');
