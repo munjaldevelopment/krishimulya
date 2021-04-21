@@ -660,7 +660,7 @@ class apiPartnerController extends Controller
                     
                     \DB::table($table_name_vendor_history)->insert([
                         "'".$table_name_id."'" => $vendorData1->$table_name_id, 
-                        "'".$table_name_vendor_id."'" => $vendorData1->$table_name_vendor_id,
+                        //"'".$table_name_vendor_id."'" => $vendorData1->$table_name_vendor_id,
                         'vendor_id' => $partner_id, 
                         'test_status' => $test_status,
                         'status_time' => date('Y-m-d H:i:s'),
