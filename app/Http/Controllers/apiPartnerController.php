@@ -763,7 +763,8 @@ class apiPartnerController extends Controller
 
                 $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
 
-                \App::setLocale($language);
+                \App::setLocale(request('language', 'en'));
+
 
                 foreach ($partnerAssign as $key => $value) {
                     # code...
