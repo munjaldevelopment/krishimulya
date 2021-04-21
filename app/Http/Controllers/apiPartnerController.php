@@ -642,10 +642,17 @@ class apiPartnerController extends Controller
                 {
                     $table_name = $vendor_service->table_name;
                     $table_name_vendor = $vendor_service->table_name."_vendor";
+                    $table_name_vendor_history = $vendor_service->table_name."_vendor_history";
 
                     $categoryName = json_decode($vendor_service->name);
 
-                    $vendorData = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('id', $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
+                    \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('id', $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
+
+                    // Get Value
+                    $vendorData = \DB::table($table_name_vendor)->where('id', $lead_id);
+
+                    \DB::table($table_name_vendor_history)->insert([$table_name."_id" => $vendorData->$table_name."_id", 
+                        $table_name."_vendor_id" => $vendorData->$table_name."_vendor_id", 'vendor_id' => $partner_id, 'test_status' => $test_status, 'status_time' => date('Y-m-d H:i:s'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
 
                     $status_code = $success = '1';
                     $message = "Status changed successfully";   
