@@ -779,8 +779,17 @@ class apiPartnerController extends Controller
                     # code...
                     $categoryName = json_decode($value->name);
                     //print_r($categoryName); exit;
+                    $table_name = $value->table_name;
+                    $table_name_vendor = $value->table_name."_vendor";
 
-                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => '0');
+                    $isExists = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
+                    $stats = 0;
+                    if($isExists)
+                    {
+                        $stats = $isExists->total;
+                    }
+
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => $stats);
                 }
 
                 $pincode = $partner->pincode;
