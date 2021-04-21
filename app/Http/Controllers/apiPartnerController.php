@@ -656,7 +656,7 @@ class apiPartnerController extends Controller
 
                         foreach($vendorData as $vendorRow)
                         {
-                            $leadData[] = array('id' => $vendorRow->id, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time);
+                            $leadData[] = array('lead_type' => $categoryName->en, 'id' => $vendorRow->id, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time);
                         }
                     }
                     else
