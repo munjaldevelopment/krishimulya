@@ -755,7 +755,7 @@ class apiPartnerController extends Controller
             $partner_id = $request->partner_id;
             $language = $request->language;
 
-            echo $language; exit;
+            //echo $language; exit;
 
             $baseUrl = URL::to("/");
            
