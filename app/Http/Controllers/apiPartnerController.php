@@ -644,6 +644,8 @@ class apiPartnerController extends Controller
                     $table_name = $vendor_service->table_name;
                     $table_name_vendor = $vendor_service->table_name."_vendor";
 
+                    $categoryName = json_decode($vendor_service->name);
+
                     $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->where('status_time', ">=", $date_from)->where('status_time', "<=", $date_from)->get();
 
                     $leadData = array();
@@ -656,7 +658,7 @@ class apiPartnerController extends Controller
                     }
 
                     $status_code = $success = '1';
-                    $message = $vendor_service->name.' List';
+                    $message = $categoryName->en.' List';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'leadData' => $leadData);
                 }
