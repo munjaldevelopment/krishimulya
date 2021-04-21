@@ -644,7 +644,7 @@ class apiPartnerController extends Controller
                     $table_name = $vendor_service->table_name;
                     $table_name_vendor = $assignData->table_name."_vendor";
 
-                    $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $vendor_id)->where('status_time', ">=", $date_from)->where('status_time', "<=", $date_from)->get();
+                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $vendor_id)->where('status_time', ">=", $date_from)->where('status_time', "<=", $date_from)->get();
 
                     $leadData = array();
                     if($vendorData)
