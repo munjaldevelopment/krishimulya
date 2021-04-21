@@ -746,6 +746,48 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function partnerDashboard(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+           
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+            if($partner){ 
+                $assignService = array();
+
+                $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
+
+                foreach ($partnerAssign as $key => $value) {
+                    # code...
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $value->name, 'stats' => '0');
+                }
+                
+                $status_code = $success = '1';
+                $message = 'Partner Dashboards';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'assignService' => $assignService);
+
+
+            } else{
+                $status_code = $success = '0';
+                $message = 'Partner not exists or not verified';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 
      //Partner Update
     public function update_profile(Request $request)

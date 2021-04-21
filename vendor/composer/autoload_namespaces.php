@@ -10,6 +10,7 @@ return array(
     'Snowplow\\RefererParser' => array($vendorDir . '/snowplow/referer-parser/php/src'),
     'Sabberworm\\CSS' => array($vendorDir . '/sabberworm/php-css-parser/lib'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
+    'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
     'Bllim\\Datatables' => array($vendorDir . '/pragmarx/datatables/src'),
 );
