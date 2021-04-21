@@ -720,8 +720,8 @@ class apiPartnerController extends Controller
 
                 foreach ($partnerAssign as $key => $value) {
                     # code...
-                    $table_name = $assignData->table_name;
-                    $table_name_vendor = $assignData->table_name."_vendor";
+                    $table_name = $value->table_name;
+                    $table_name_vendor = $value->table_name."_vendor";
 
                     $isExists = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
                     $stats = 0;
