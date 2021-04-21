@@ -630,6 +630,7 @@ class apiPartnerController extends Controller
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
             $lead_type = $request->lead_type;
+            $test_status = $request->test_status;
             $date_from = $request->date_from;
             $date_to = $request->date_to;
 
@@ -640,10 +641,24 @@ class apiPartnerController extends Controller
 
                 if($vendor_service)
                 {
+                    $table_name = $vendor_service->table_name;
+                    $table_name_vendor = $assignData->table_name."_vendor";
+
+                    $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $vendor_id)->where('status_time', ">=", $date_from)->where('status_time', "<=", $date_from)->get();
+
+                    $leadData = array();
+                    if($vendorData)
+                    {
+                        foreach($vendorData as $vendorRow)
+                        {
+                            $leadData[] = array('id' => $vendorRow->id, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time);
+                        }
+                    }
+
                     $status_code = $success = '1';
                     $message = $vendor_service->name.' List';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'leadData' => $leadData);
                 }
                            
             }
