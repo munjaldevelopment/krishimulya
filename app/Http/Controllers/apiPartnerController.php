@@ -700,9 +700,6 @@ class apiPartnerController extends Controller
                     $leadData = array();
                     if($vendorData)
                     {
-                        $status_code = $success = '1';
-                        $message = $categoryName->en.' List';
-
                         foreach($vendorData as $vendorRow)
                         {
                             $user_type = $vendorRow->user_type;
@@ -790,6 +787,17 @@ class apiPartnerController extends Controller
                             //echo $user_type.">".$customer_name;
 
                             $leadData[] = array('id' => $vendorRow->id, 'lead_type' => $categoryName->en, 'details' => $details, 'name' => $customer_name,'phone' => $customer_phone, 'date' => $vendorRow->status_time, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time, 'user_type' => $user_type);
+                        }
+
+                        if($leadData)
+                        {
+                            $status_code = $success = '1';
+                            $message = $categoryName->en.' List';
+                        }
+                        else
+                        {
+                            $status_code = $success = '0';
+                            $message = "No data found in ".$categoryName->en;   
                         }
                     }
                     else
