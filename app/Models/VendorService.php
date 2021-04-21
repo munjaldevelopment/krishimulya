@@ -20,7 +20,7 @@ class VendorService extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
     
-    protected $fillable = ['service_code', 'service_color', 'name', 'status'];
+    protected $fillable = ['service_code', 'service_color', 'name', 'image', 'status'];
     // protected $hidden = [];
     // protected $dates = [];
 

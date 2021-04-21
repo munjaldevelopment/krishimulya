@@ -81,6 +81,12 @@ class VendorServiceCrudController extends CrudController
         $this->crud->addField('name');
 
         $this->crud->addField([
+                'name' => 'image',
+                'label' => 'image',
+                'type' => 'browse',
+            ]);
+
+        $this->crud->addField([
                 'name' => 'status',
                 'label' => 'Status',
                 'type' => 'checkbox',
