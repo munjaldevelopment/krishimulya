@@ -663,7 +663,7 @@ class apiPartnerController extends Controller
         }
         catch(\Exception $e) {
             $status_code = '0';
-            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+            $message = $e->getTraceAsString();//$e->getTraceAsString(); getMessage //
     
             $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
