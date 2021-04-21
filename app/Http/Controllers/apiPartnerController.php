@@ -688,11 +688,19 @@ class apiPartnerController extends Controller
                    $partner_image  =  $baseUrl."/public/uploads/profile.jpg";
                 }
                 
+                $assignService = array();
+
+                $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
+
+                foreach ($partnerAssign as $key => $value) {
+                    # code...
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'name' => $value->name, 'stats' => '0');
+                }
                 
                 $status_code = $success = '1';
                 $message = 'Partner Profile Info';
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id , 'name' => $name, 'email' => $email, 'age' => $age, 'mobile' => $mobile, 'address' => $address, 'city' => $city, 'pincode' => $pincode, 'state' => $state, 'partner_code' => $pcode, 'partner_image' => $partner_image);
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id , 'name' => $name, 'email' => $email, 'age' => $age, 'mobile' => $mobile, 'address' => $address, 'city' => $city, 'pincode' => $pincode, 'state' => $state, 'partner_code' => $pcode, 'partner_image' => $partner_image, 'assignService' => $assignService);
 
 
             } else{
