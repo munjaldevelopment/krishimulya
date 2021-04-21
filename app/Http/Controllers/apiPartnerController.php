@@ -651,6 +651,8 @@ class apiPartnerController extends Controller
                     // Get Value
                     $vendorData = \DB::table($table_name_vendor)->where('id', $lead_id);
 
+                    echo $table_name."_id".">>".$vendorData->$table_name."_id"; exit;
+
                     \DB::table($table_name_vendor_history)->insert([
                         $table_name."_id" => $vendorData->$table_name."_id", 
                         $table_name."_vendor_id" => $vendorData->$table_name."_vendor_id",
