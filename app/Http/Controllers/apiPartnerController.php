@@ -636,6 +636,16 @@ class apiPartnerController extends Controller
            
             $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partner){ 
+                $vendor_service = DB::table('vendor_services')->where('service_code', $lead_type)->first();
+
+                if($vendor_service)
+                {
+                    $status_code = $success = '1';
+                    $message = $vendor_service->name.' List';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+                           
             }
         }
         catch(\Exception $e) {
@@ -789,7 +799,7 @@ class apiPartnerController extends Controller
                         $stats = $isExists->total;
                     }
 
-                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => $stats);
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
                 }
 
                 $pincode = $partner->pincode;
