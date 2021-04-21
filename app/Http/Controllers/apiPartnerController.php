@@ -649,9 +649,9 @@ class apiPartnerController extends Controller
                     \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('id', $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
 
                     // Get Value
-                    //$vendorData = \DB::table($table_name_vendor)->where('id', $lead_id);
+                    $vendorData = \DB::table($table_name_vendor)->where('id', $lead_id)->first();
 
-                    //echo $table_name."_id".">>".$vendorData->$table_name."_id"; exit;
+                    echo $table_name."_id".">>".$vendorData->$table_name."_id"; exit;
 
                     /*\DB::table($table_name_vendor_history)->insert([
                         $table_name."_id" => $vendorData->$table_name."_id", 
