@@ -29,6 +29,8 @@ class HomeController extends Controller
             {
                 foreach($vendorAssign as $assignData)
                 {
+                    echo '<pre>'; print_r($vendorAssign); exit;
+                    
                     $table_name = $vendorAssign->table_name;
                     $table_name_vendor = $vendorAssign->table_name."_vendor";
 
