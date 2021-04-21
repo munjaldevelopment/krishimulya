@@ -50,6 +50,12 @@ class VendorServiceCrudController extends CrudController
         $this->crud->addColumn('name');
 
         $this->crud->addColumn([
+                'name' => 'image',
+                'label' => 'Image',
+                'type' => 'image',
+            ]);
+
+        $this->crud->addColumn([
                 'name' => 'status',
                 'label' => 'Status',
                 'type' => 'check',
