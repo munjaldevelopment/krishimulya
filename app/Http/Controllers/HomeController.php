@@ -41,7 +41,13 @@ class HomeController extends Controller
                         foreach($vendorData as $vendorRow)
                         {
                             $id = $vendorRow->id;
-                            echo $id; exit;
+
+                            $isExists = \DB::table($table_name_vendor)->where($table_name."_id", $id)->where('vendor_id', $vendor_id)->count();
+
+                            if($isExists == 0)
+                            {
+                                \DB::table($table_name_vendor)->insert([$table_name."_id" => $id, 'vendor_id' => $vendor_id, 'test_status' => 'Pending', 'status_time' => date('Y-m-d H:i:s'), 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s')]);
+                            }
                         }
                     }
                 }
