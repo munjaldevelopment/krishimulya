@@ -763,12 +763,11 @@ class apiPartnerController extends Controller
 
                 $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
 
-                \App::setLocale(request('language', 'en'));
-
-
                 foreach ($partnerAssign as $key => $value) {
                     # code...
-                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $value->name, 'stats' => '0');
+                    $categoryName = json_decode($value->name);
+
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => '0');
                 }
                 
                 $status_code = $success = '1';
