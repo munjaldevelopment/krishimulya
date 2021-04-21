@@ -651,14 +651,20 @@ class apiPartnerController extends Controller
                     $leadData = array();
                     if($vendorData)
                     {
+                        $status_code = $success = '1';
+                        $message = $categoryName->en.' List';
+
                         foreach($vendorData as $vendorRow)
                         {
                             $leadData[] = array('id' => $vendorRow->id, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time);
                         }
                     }
-
-                    $status_code = $success = '1';
-                    $message = $categoryName->en.' List';
+                    else
+                    {
+                        $status_code = $success = '0';
+                        $message = "No data found in ".$categoryName->en;   
+                    }
+                    
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'leadData' => $leadData);
                 }
