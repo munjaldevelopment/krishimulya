@@ -969,6 +969,8 @@ class apiPartnerController extends Controller
 
                 $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
 
+                $stats_total  = 0;
+
                 foreach ($partnerAssign as $key => $value) {
                     # code...
                     $categoryName = json_decode($value->name);
@@ -983,8 +985,12 @@ class apiPartnerController extends Controller
                         $stats = $isExists->total;
                     }
 
+                    $stats_total+=$stats;
+
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
                 }
+
+                $assignService[] = array('service_code' => 'All Leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats_total);
 
                 $pincode = $partner->pincode;
 
