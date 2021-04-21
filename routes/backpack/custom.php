@@ -91,4 +91,5 @@ Route::group([
     Route::post('sendNotification', 'UserNotificationController@sendNotificationMessage');
     Route::crud('vendorservice', 'VendorServiceCrudController');
     Route::crud('vendor', 'VendorCrudController');
+    Route::crud('leadstatus', 'LeadStatusCrudController');
 });

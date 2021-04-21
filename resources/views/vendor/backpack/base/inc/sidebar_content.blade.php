@@ -12,6 +12,7 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('page') }}'><i class='nav-icon la la-file-o'></i> <span>Pages</span></a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('app_popup') }}'><i class='nav-icon la la-user'></i> App Popups</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('vendorservice') }}'><i class='nav-icon la la-user'></i> Vendor Service</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('leadstatus') }}'><i class='nav-icon la la-building'></i> Lead Statuses</a></li>
 	</ul>
 </li>
 
@@ -142,4 +143,3 @@
 	  <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>--}}
 	</ul>
 </li> 
-

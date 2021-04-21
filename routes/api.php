@@ -194,6 +194,7 @@ Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
 Route::get('partner-notification', 'apiPartnerController@notification_list');
 
 Route::get('app-popup-partner', 'apiPartnerController@appPopup');
+Route::get('lead-status', 'apiPartnerController@leadStatus');
 
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');
