@@ -644,6 +644,9 @@ class apiPartnerController extends Controller
                     $table_name_vendor = $vendor_service->table_name."_vendor";
                     $table_name_vendor_history = $vendor_service->table_name."_vendor_history";
 
+                    $table_name_id = $vendor_service->table_name."_id";
+                    $table_name_vendor_id = $vendor_service->table_name."_vendor_id";
+
                     $categoryName = json_decode($vendor_service->name);
 
                     \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('id', $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
@@ -651,7 +654,9 @@ class apiPartnerController extends Controller
                     // Get Value
                     $vendorData1 = \DB::table($table_name_vendor)->where('id', $lead_id)->first();
 
-                    echo $table_name.">>".$vendorData1->$table_name."_id"; exit;
+                    echo $table_name.",".$vendorData1->$table_name_id;
+                    exit;
+                    //.">>".$vendorData1->$table_name."_id"; exit;
 
                     /*\DB::table($table_name_vendor_history)->insert([
                         $vendorData1->$table_name."_id" => $vendorData1->$table_name."_id", 
