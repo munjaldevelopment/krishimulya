@@ -23,7 +23,8 @@ class HomeController extends Controller
 
         foreach($vendors as $vendor)
         {
-            $vendorAssign = \DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $vendor->id)->get();
+            $vendor_id = $vendor->id;
+            $vendorAssign = \DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $vendor_id)->get();
 
             if($vendorAssign)
             {
