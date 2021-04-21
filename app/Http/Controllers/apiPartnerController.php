@@ -622,6 +622,32 @@ class apiPartnerController extends Controller
     }
 
     //Partner Profile
+    public function partnerLeads(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $lead_type = $request->lead_type;
+            $date_from = $request->date_from;
+            $date_to = $request->date_to;
+
+           
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+            if($partner){ 
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     public function partner_profile(Request $request)
     {
         try 
