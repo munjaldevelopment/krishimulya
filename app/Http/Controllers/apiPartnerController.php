@@ -772,16 +772,8 @@ class apiPartnerController extends Controller
                             }
                             elseif($user_type == "partner")
                             {
-                                $vendorData = DB::table('vendors')->where('id', $vendorRow->customer_id)->where('is_onboard', '=', '1')->first();
-                                if($vendorData) { 
-                                    $customer_name = $vendorData->name;
-                                    $customer_phone = $vendorData->phone;
-                                }
-                                else if(isset($vendorRow->name))
-                                {
-                                    $customer_name = $vendorRow->contact_person_name;
-                                    $customer_phone = $vendorRow->contact_person_phone;
-                                }
+                                $customer_name = $vendorRow->contact_person_name;
+                                $customer_phone = $vendorRow->contact_person_phone;
                             }
 
                             //echo $user_type.">".$customer_name;
