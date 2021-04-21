@@ -772,11 +772,28 @@ class apiPartnerController extends Controller
 
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => '0');
                 }
+
+                $pincode = $partner->pincode;
+
+                $appurl = 'api.openweathermap.org/data/2.5/weather?zip='.$pincode.',IN&units=metric&appid=acfd0186948c7adf0c9c87a2ebcc004b';
+                $wheatherRespone = $this->httpGet($appurl);
+                
+                $wheather = json_decode($wheatherRespone);
+                //print_r($wheather->main);
+                //print_r($wheather->weather[0]);
+                $mainval =  $wheather->weather[0]->main;
+                $wheatherType =  $wheather->weather[0]->description;
+                $wheathericon =  $wheather->weather[0]->icon;
+                $todaytemp =  $wheather->main->temp;
+                $todayhumidity =  $wheather->main->humidity;
+                $todayhumidity =  $wheather->main->humidity;
+                $locationName =  $wheather->name;
+                $iconurl = "http://openweathermap.org/img/w/" . $wheathericon . ".png";
                 
                 $status_code = $success = '1';
                 $message = 'Partner Dashboards';
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'assignService' => $assignService);
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id,'wheathericon' => $iconurl, 'assignService' => $assignService);
 
 
             } else{
