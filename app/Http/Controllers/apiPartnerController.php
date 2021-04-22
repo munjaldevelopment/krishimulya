@@ -986,12 +986,10 @@ class apiPartnerController extends Controller
                     }
 
                     $isExists1 = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->count();
-                    $stats_pending_total = $isExists1;
-
-                    echo $stats_pending_total.",";
+                    $stats1 = $isExists1;
 
                     $stats_total+=$stats;
-                    $stats_pending_total+=$stats_pending_total;
+                    $stats_pending_total+=$stats1;
 
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
                 }
@@ -1002,8 +1000,7 @@ class apiPartnerController extends Controller
 
 
                 array_reverse($assignService);
-                exit;
-
+                
                 $pincode = $partner->pincode;
 
                 $appurl = 'api.openweathermap.org/data/2.5/weather?zip='.$pincode.',IN&units=metric&appid=acfd0186948c7adf0c9c87a2ebcc004b';
