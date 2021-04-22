@@ -57,29 +57,72 @@ class apiSoilController extends Controller
     {
         Setting::AssignSetting();
 
-        $curl = curl_init();
+        $customers = \DB::table("soil_test_orders")->whereNull('krishitantra_order_id')->get();
 
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => SOILTEST_URL,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => '{"query":"mutation CreateExternalTestMutation($createExternalTestExternalTest: ExternalTestInput!) { createExternalTest(externalTest: $createExternalTestExternalTest) { id computedID status}}","variables":{"createExternalTestExternalTest":{"expiresAt":"2021-04-21T05:12:06.712Z","latitude":15.87453,"longitude":12.456356,"area":12.65466564,"cropType":[""],"soilType":"","soilDensity":0,"surveyNo":"53455","sampleDate":"2021-04-20T05:12:06.712Z","farmers":"607eacd24c0c1c001ae74693","avgYield":0}}}',
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.SOILTEST_TOKEN,
-            'Content-Type: application/json'
-          ),
-        ));
+        foreach ($customers as $key => $row) {
 
-        $response = curl_exec($curl);
+        	$user_type= $row->user_type;
+        	$khasra_no= $row->khasra_no;
+        	$crop_type= $row->crop_type;
+        	$soil_type= $row->soil_type;
+        	$soil_density= $row->soil_density;
+        	$avg_yield= $row->avg_yield;
 
-        curl_close($curl);
 
-        echo '<pre>'; print_r($response); exit;
+        	$expiresAt = date('Y-m-t');
+        	$sampleDate = date('Y-m-d', strtotime($row->created_at));
+        	$sampleDateTime = date('h:i:s', strtotime($row->created_at));
+
+        	$farmer_id = 0;
+
+        	if($user_type == "customer")
+        	{
+        		$customerRow = \DB::table("customers")->where('id', $row->customer_id)->first();
+        		$farmer_id = $customerRow->krishitantra_id;
+        	}
+        	else if($user_type == "partner")
+        	{
+        		$customerRow = \DB::table("vendors")->where('id', $row->customer_id)->first();
+        		$farmer_id = $customerRow->krishitantra_id;
+        	}
+
+
+	        $curl = curl_init();
+
+	        curl_setopt_array($curl, array(
+	          CURLOPT_URL => SOILTEST_URL,
+	          CURLOPT_RETURNTRANSFER => true,
+	          CURLOPT_ENCODING => '',
+	          CURLOPT_MAXREDIRS => 10,
+	          CURLOPT_TIMEOUT => 0,
+	          CURLOPT_FOLLOWLOCATION => true,
+	          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	          CURLOPT_CUSTOMREQUEST => 'POST',
+	          CURLOPT_POSTFIELDS => '{"query":"mutation CreateExternalTestMutation($createExternalTestExternalTest: ExternalTestInput!) { createExternalTest(externalTest: $createExternalTestExternalTest) { id computedID status}}","variables":{"createExternalTestExternalTest":{"expiresAt":"'.$expiresAt.'T23:59:59.712Z","latitude":15.87453,"longitude":12.456356, "area": 12.65466564, "cropType":["'.$crop_type.'"],"soilType":"'.$soil_type.'", "soilDensity":'.$soil_density.', "surveyNo":"'.$khasra_no.'", "sampleDate":"'.$sampleDate.'T'.$sampleDateTime.'Z", "farmers":"'.$farmer_id.'", "avgYield":'.$avg_yield.'}}}',
+	          CURLOPT_HTTPHEADER => array(
+	            'Authorization: Bearer '.SOILTEST_TOKEN,
+	            'Content-Type: application/json'
+	          ),
+	        ));
+
+	        $response = curl_exec($curl);
+
+	        curl_close($curl);
+
+	        $result = json_decode($response, 1);
+
+	        print_r($result); exit;
+
+	        if(isset($result['data']['createFarmer']['id']))
+	        {
+	        	///echo $result['data']['createFarmer']['id'];
+	        	\DB::table("soil_test_orders")->where('id', $row->id)->update(['krishitantra_order_id' => $result['data']['createFarmer']['id'], 'krishitantra_order_status' => $cust_name1]);
+	        }
+	        else
+	        {
+	        	echo $cust_name1.">".$result['errors'][0]['message'].'<br />';
+	        }
+        }
     }
 
     public function soilGetFarmer(Request $request)
