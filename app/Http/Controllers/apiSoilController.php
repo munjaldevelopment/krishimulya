@@ -161,6 +161,51 @@ class apiSoilController extends Controller
 	        	echo $cust_name1.">".$result['errors'][0]['message'].'<br />';
 	        }
 		}
+
+		// vendors
+		$customers = \DB::table("vendors")->whereNull('krishitantra_id')->get();
+
+        foreach ($customers as $key => $row) {
+
+        	$cust_id = $row->id;
+        	$cust_name = $row->name;
+        	$cust_name1 = str_replace(" ", "-", strtolower($row->name));
+        	$address1 = $row->address;
+
+	        $curl = curl_init();
+
+	        curl_setopt_array($curl, array(
+	          CURLOPT_URL => SOILTEST_URL,
+	          CURLOPT_RETURNTRANSFER => true,
+	          CURLOPT_ENCODING => '',
+	          CURLOPT_MAXREDIRS => 10,
+	          CURLOPT_TIMEOUT => 0,
+	          CURLOPT_FOLLOWLOCATION => true,
+	          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	          CURLOPT_CUSTOMREQUEST => 'POST',
+	          CURLOPT_POSTFIELDS => '{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) { createFarmer(farmer: $createFarmerFarmer) { id latitude longitude name address phone username createdAt updatedAt }}","variables":{"createFarmerFarmer":{"name":"'.$cust_name.'","address":"'.$address1.'","phone":"+919999999999","latitude":12.566465,"longitude":34.453666,"username":"TEST-'.$cust_name1.'"}}}',
+	          CURLOPT_HTTPHEADER => array(
+	            'Authorization: Bearer '.SOILTEST_TOKEN,
+	            'Content-Type: application/json'
+	          ),
+	        ));
+
+	        $response = curl_exec($curl);
+
+	        curl_close($curl);
+
+	        $result = json_decode($response, 1);
+
+	        if(isset($result['data']['createFarmer']['id']))
+	        {
+	        	///echo $result['data']['createFarmer']['id'];
+	        	\DB::table("vendors")->where('id', $cust_id)->update(['krishitantra_id' => $result['data']['createFarmer']['id'], 'krishitantra_username' => 'TEST-'.$cust_name1]);
+	        }
+	        else
+	        {
+	        	echo $cust_name1.">".$result['errors'][0]['message'].'<br />';
+	        }
+		}
     }
 
     public function soilMyInfo(Request $request)
