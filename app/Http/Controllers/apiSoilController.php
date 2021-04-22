@@ -148,19 +148,19 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => SOILTEST_URL,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{"query":"query Query {  me {    organization {      id      slug      name    }    id    username    email    phone  }}","variables":{}}',
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.SOILTEST_TOKEN,
-            'Content-Type: application/json'
-          ),
+			CURLOPT_URL => SOILTEST_URL,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => '{"query":"query Query {me {organization {    id slug name} id username email phone}}","variables":{}}',
+			CURLOPT_HTTPHEADER => array(
+			'Authorization: Bearer '.SOILTEST_TOKEN,
+			'Content-Type: application/json'
+			),
         ));
 
         $response = curl_exec($curl);
@@ -177,18 +177,18 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => SOILTEST_URL,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => '{"query":"mutation LoginMutation($loginOrganization: String!,$loginUsername: String!, $loginPassword: String!) {        login(organization: $loginOrganization, username: $loginUsername, password: $loginPassword)}","variables":{"loginOrganization":"'.SOILTEST_ORGANIZATION.'","loginUsername":"'.SOILTEST_USERNAME.'","loginPassword":"'.SOILTEST_PASSWORD.'"}}',
-          CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json'
-          ),
+			CURLOPT_URL => SOILTEST_URL,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => '{"query":"mutation LoginMutation($loginOrganization: String!,$loginUsername: String!, $loginPassword: String!) {login(organization: $loginOrganization, username: $loginUsername, password: $loginPassword)}","variables":{"loginOrganization":"'.SOILTEST_ORGANIZATION.'","loginUsername":"'.SOILTEST_USERNAME.'","loginPassword":"'.SOILTEST_PASSWORD.'"}}',
+			CURLOPT_HTTPHEADER => array(
+			'Content-Type: application/json'
+			),
         ));
 
         $response = curl_exec($curl);
