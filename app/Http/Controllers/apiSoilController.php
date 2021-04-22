@@ -126,7 +126,7 @@ class apiSoilController extends Controller
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => '{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) { createFarmer(farmer: $createFarmerFarmer) { id latitude longitude name address phone username createdAt updatedAt }}","variables":{"createFarmerFarmer":{"name":"True Friend83","address":"TestAddress","phone":"+919999999999","latitude":12.566465,"longitude":34.453666,"username":"truefriend83100"}}}',
+          CURLOPT_POSTFIELDS => '{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) { createFarmer(farmer: $createFarmerFarmer) { id latitude longitude name address phone username createdAt updatedAt }}","variables":{"createFarmerFarmer":{"name":"True Friend83","address":"TestAddress","phone":"+919999999999","latitude":12.566465,"longitude":34.453666,"username":"truefriend831001"}}}',
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.SOILTEST_TOKEN,
             'Content-Type: application/json'
@@ -137,7 +137,14 @@ class apiSoilController extends Controller
 
         curl_close($curl);
 
-        echo '<pre>'; print_r($response); exit;
+        if(isset($response['data']['createFarmer']['id']))
+        {
+        	echo $response['data']['createFarmer']['id'];
+        }
+        else
+        {
+        	echo '<pre>'; print_r($response); exit;	
+        }
     }
 
     public function soilMyInfo(Request $request)
