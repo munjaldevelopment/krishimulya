@@ -44,12 +44,12 @@ class SoilTestOrdersPartnerCrudController extends CrudController
         //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn([
-            'label'     => 'Customer Name',
+            'label'     => 'Partner Name',
             'type'      => 'select',
             'name'      => 'customer_id',
-            'entity'    => 'allCustomers', //function name
+            'entity'    => 'allVendors', //function name
             'attribute' => 'name', //name of fields in models table like districts
-            'model'     => "App\Models\Customer", //name of Models
+            'model'     => "App\Models\Vendor", //name of Models
 
          ]);
 
@@ -129,7 +129,7 @@ class SoilTestOrdersPartnerCrudController extends CrudController
         }
 
          $this->crud->addField([
-                'label'     => 'Customer',
+                'label'     => 'Partner',
                 'type'      => 'select2_from_array',
                 'name'      => 'customer_id',
                 'options'   => $all_customers
