@@ -111,12 +111,12 @@ class apiSoilController extends Controller
 
 	        $result = json_decode($response, 1);
 
-	        print_r($result); exit;
+	        ////print_r($result); exit;
 
-	        if(isset($result['data']['createFarmer']['id']))
+	        if(isset($result['data']['createExternalTest']['id']))
 	        {
 	        	///echo $result['data']['createFarmer']['id'];
-	        	\DB::table("soil_test_orders")->where('id', $row->id)->update(['krishitantra_order_id' => $result['data']['createFarmer']['id'], 'krishitantra_order_status' => $cust_name1]);
+	        	\DB::table("soil_test_orders")->where('id', $row->id)->update(['krishitantra_order_id' => $result['data']['createExternalTest']['id'], 'krishitantra_order_status' => $result['data']['createExternalTest']['status']]);
 	        }
 	        else
 	        {
