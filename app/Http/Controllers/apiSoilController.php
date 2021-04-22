@@ -115,38 +115,50 @@ class apiSoilController extends Controller
     {
         Setting::AssignSetting();
 
-        $curl = curl_init();
+        // Create existing customer as farmer
+        $customers = \DB::table("customers")->get();
 
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => SOILTEST_URL,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => '{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) { createFarmer(farmer: $createFarmerFarmer) { id latitude longitude name address phone username createdAt updatedAt }}","variables":{"createFarmerFarmer":{"name":"True Friend83","address":"TestAddress","phone":"+919999999999","latitude":12.566465,"longitude":34.453666,"username":"truefriend845"}}}',
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.SOILTEST_TOKEN,
-            'Content-Type: application/json'
-          ),
-        ));
+        foreach ($customers as $key => $row) {
 
-        $response = curl_exec($curl);
+        	$cust_id = $row->id;
+        	$cust_name = $row->name;
+        	$cust_name1 = str_replace(" ", "-", strtolower($row->name));
+        	$address1 = $row->address1;
 
-        curl_close($curl);
+	        $curl = curl_init();
 
-        $result = json_decode($response, 1);
+	        curl_setopt_array($curl, array(
+	          CURLOPT_URL => SOILTEST_URL,
+	          CURLOPT_RETURNTRANSFER => true,
+	          CURLOPT_ENCODING => '',
+	          CURLOPT_MAXREDIRS => 10,
+	          CURLOPT_TIMEOUT => 0,
+	          CURLOPT_FOLLOWLOCATION => true,
+	          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	          CURLOPT_CUSTOMREQUEST => 'POST',
+	          CURLOPT_POSTFIELDS => '{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) { createFarmer(farmer: $createFarmerFarmer) { id latitude longitude name address phone username createdAt updatedAt }}","variables":{"createFarmerFarmer":{"name":"'.$cust_name.'","address":"'.$address1.'","phone":"+919999999999","latitude":12.566465,"longitude":34.453666,"username":"TEST-'.$cust_name1.'"}}}',
+	          CURLOPT_HTTPHEADER => array(
+	            'Authorization: Bearer '.SOILTEST_TOKEN,
+	            'Content-Type: application/json'
+	          ),
+	        ));
 
-        if(isset($result['data']['createFarmer']['id']))
-        {
-        	echo $result['data']['createFarmer']['id'];
-        }
-        else
-        {
-        	echo '<pre>'; print_r($result); exit;	
-        }
+	        $response = curl_exec($curl);
+
+	        curl_close($curl);
+
+	        $result = json_decode($response, 1);
+
+	        if(isset($result['data']['createFarmer']['id']))
+	        {
+	        	echo $result['data']['createFarmer']['id'];
+	        	\DB::table("customers")->where('id', $cust_id)->update(['krishitantra_id' => $result['data']['createFarmer']['id']]);
+	        }
+	        else
+	        {
+	        	echo '<pre>'; print_r($result); exit;	
+	        }
+		}
     }
 
     public function soilMyInfo(Request $request)
