@@ -28,7 +28,7 @@ class CropTypeCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\CropType::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/croptype');
-        CRUD::setEntityNameStrings('croptype', 'crop_types');
+        CRUD::setEntityNameStrings('crop type', 'crop types');
     }
 
     /**
