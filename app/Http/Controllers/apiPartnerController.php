@@ -985,21 +985,22 @@ class apiPartnerController extends Controller
                         $stats = $isExists->total;
                     }
 
-                    $isExists = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
-                    $stats = 0;
-                    if($isExists)
+                    $isExists1 = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
+                    $stats_pending_total = 0;
+                    if($isExists1)
                     {
                         $stats_pending_total = $isExists->total;
                     }
 
                     $stats_total+=$stats;
+                    $stats_pending_total+=$stats_pending_total;
 
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
                 }
 
                 $assignService[] = array('service_code' => 'all-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image,'name' => 'All Leads', 'stats' => "".$stats_total);
 
-                $assignService[] = array('service_code' => 'pending-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => 'Pending Leads', 'stats' => "".$stats_total);
+                $assignService[] = array('service_code' => 'pending-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => 'Pending Leads', 'stats' => "".$stats_pending_total);
 
 
                 array_reverse($assignService);
