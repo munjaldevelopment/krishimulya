@@ -13,6 +13,8 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('app_popup') }}'><i class='nav-icon la la-user'></i> App Popups</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('vendorservice') }}'><i class='nav-icon la la-user'></i> Vendor Service</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('leadstatus') }}'><i class='nav-icon la la-building'></i> Lead Statuses</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('croptype') }}'><i class='nav-icon la la-building'></i> Crop Type</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltype') }}'><i class='nav-icon la la-building'></i> Soil Type</a></li>
 	</ul>
 </li>
 

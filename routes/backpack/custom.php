@@ -92,4 +92,6 @@ Route::group([
     Route::crud('vendorservice', 'VendorServiceCrudController');
     Route::crud('vendor', 'VendorCrudController');
     Route::crud('leadstatus', 'LeadStatusCrudController');
+    Route::crud('croptype', 'CropTypeCrudController');
+    Route::crud('soiltype', 'SoilTypeCrudController');
 });
