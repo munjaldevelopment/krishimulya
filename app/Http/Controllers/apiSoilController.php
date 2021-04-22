@@ -151,12 +151,12 @@ class apiSoilController extends Controller
 
 	        if(isset($result['data']['createFarmer']['id']))
 	        {
-	        	echo $result['data']['createFarmer']['id'];
+	        	///echo $result['data']['createFarmer']['id'];
 	        	\DB::table("customers")->where('id', $cust_id)->update(['krishitantra_id' => $result['data']['createFarmer']['id'], 'krishitantra_username' => 'TEST-'.$cust_name1]);
 	        }
 	        else
 	        {
-	        	echo '<pre>'; print_r($result); exit;	
+	        	echo $cust_name1.">".$result['errors'][0]['message']);
 	        }
 		}
     }
