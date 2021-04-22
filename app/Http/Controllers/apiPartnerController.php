@@ -649,10 +649,10 @@ class apiPartnerController extends Controller
 
                     $categoryName = json_decode($vendor_service->name);
 
-                    \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('id', $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
+                    \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where($table_name_id, $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
 
                     // Get Value
-                    $vendorData1 = \DB::table($table_name_vendor)->where('id', $lead_id)->first();
+                    $vendorData1 = \DB::table($table_name_vendor)->where($table_name_id, $lead_id)->first();
 
                     \DB::table($table_name_vendor_history)->insert([
                         $table_name_id => $vendorData1->$table_name_id, 
