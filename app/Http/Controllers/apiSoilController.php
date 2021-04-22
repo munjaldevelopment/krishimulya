@@ -116,7 +116,7 @@ class apiSoilController extends Controller
         Setting::AssignSetting();
 
         // Create existing customer as farmer
-        $customers = \DB::table("customers")->get();
+        $customers = \DB::table("customers")->whereNull('krishitantra_id')->get();
 
         foreach ($customers as $key => $row) {
 
