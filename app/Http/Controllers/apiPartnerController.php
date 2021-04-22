@@ -994,12 +994,11 @@ class apiPartnerController extends Controller
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
                 }
 
-                $assignService[] = array('service_code' => 'all-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image,'name' => 'All Leads', 'stats' => "".$stats_total);
+                //$assignService[] = array('service_code' => 'all-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image,'name' => 'All Leads', 'stats' => "".$stats_total);
 
-                $assignService[] = array('service_code' => 'pending-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => 'Pending Leads', 'stats' => "".$stats_pending_total);
+                //$assignService[] = array('service_code' => 'pending-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => 'Pending Leads', 'stats' => "".$stats_pending_total);
 
-
-                array_reverse($assignService);
+                //array_reverse($assignService);
                 
                 $pincode = $partner->pincode;
 
