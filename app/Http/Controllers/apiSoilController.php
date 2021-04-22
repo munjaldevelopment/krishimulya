@@ -97,7 +97,7 @@ class apiSoilController extends Controller
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{"query":"query Query($getUsersOrganization: ID!, $getUsersPhone: PhoneNumber) {    getUsers(organization: $getUsersOrganization, phone: $getUsersPhone) {        id        latitude        longitude        name        address        phone        email        username        createdAt        updatedAt    }}","variables":{"getUsersOrganization":"6038ba9130a8cd001200110d","getUsersPhone":"+919999999999"}}',
+          CURLOPT_POSTFIELDS => '{"query":"query Query($getUsersOrganization: ID!, $getUsersUsername: String) { getUsers(organization: $getUsersOrganization, username: $getUsersUsername)  {     id     latitude     longitude     name     address     phone     email     username     createdAt     updatedAt }}","variables":{"getUsersOrganization":"6038ba9130a8cd001200110d","getUsersUsername":"TEST-abhishek-sharma"}}',
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.SOILTEST_TOKEN,
             'Content-Type: application/json'
@@ -108,7 +108,9 @@ class apiSoilController extends Controller
 
         curl_close($curl);
 
-        echo '<pre>'; print_r($response); exit;
+        $result = json_decode($response, 1);
+
+        echo '<pre>'; print_r($result); exit;
     }
 
     public function soilCreateFarmer(Request $request)
