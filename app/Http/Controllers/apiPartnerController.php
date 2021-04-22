@@ -969,7 +969,7 @@ class apiPartnerController extends Controller
 
                 $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
 
-                $stats_total  = 0;
+                $stats_total  = $stats_pending_total  = 0;
 
                 foreach ($partnerAssign as $key => $value) {
                     # code...
@@ -983,6 +983,13 @@ class apiPartnerController extends Controller
                     if($isExists)
                     {
                         $stats = $isExists->total;
+                    }
+
+                    $isExists = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
+                    $stats = 0;
+                    if($isExists)
+                    {
+                        $stats_pending_total = $isExists->total;
                     }
 
                     $stats_total+=$stats;
