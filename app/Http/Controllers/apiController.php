@@ -2734,7 +2734,9 @@ class apiController extends Controller
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;
             $enquiry_type = $request->enquiry_type;
-            
+            $lead_id = $request->lead_id;
+            $phone_number = $request->phone_number;
+
             $error = "";
             if($enquiry_type == ""){
                 $error = "Please enter enquiry type";
@@ -2745,7 +2747,7 @@ class apiController extends Controller
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('enquiry_tracking')->insert(['customer_id' => $customer_id, 'enquiry_type' => $enquiry_type, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('enquiry_tracking')->insert(['customer_id' => $customer_id, 'enquiry_type' => $enquiry_type, 'lead_id' => $lead_id, 'phone_number' => $phone_number, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Enquiry Type added successfully';

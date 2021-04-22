@@ -990,7 +990,9 @@ class apiPartnerController extends Controller
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
                 }
 
-                $assignService[] = array('service_code' => 'All Leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats_total);
+                $assignService[] = array('service_code' => 'All Leads', 'service_color' => $value->service_color, 'image' => '', 'stats' => "".$stats_total);
+
+                $assignService[] = array('service_code' => 'Pending Leads', 'service_color' => $value->service_color, 'image' => '', 'stats' => "".$stats_total);
 
                 $pincode = $partner->pincode;
 
@@ -2454,7 +2456,7 @@ class apiPartnerController extends Controller
             $json = $userData = array();
             
             $date   = date('Y-m-d H:i:s');
-            $customer_id = $request->customer_id;
+            $partner_id = $request->partner_id;
             $enquiry_type = $request->enquiry_type;
             $lead_id = $request->lead_id;
             $phone_number = $request->phone_number;
@@ -2462,26 +2464,26 @@ class apiPartnerController extends Controller
             $error = "";
             if($enquiry_type == ""){
                 $error = "Please enter enquiry type";
-                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
             }
             
             if($error == ""){
-                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('enquiry_tracking')->insert(['customer_id' => $customer_id, 'enquiry_type' => $enquiry_type, 'user_type' => 'partner', 'lead_id' => $lead_id, 'phone_number' => $phone_number, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('enquiry_tracking')->insert(['customer_id' => $partner_id, 'enquiry_type' => $enquiry_type, 'user_type' => 'partner', 'lead_id' => $lead_id, 'phone_number' => $phone_number, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Enquiry Type added successfully';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
 
 
                 } else{
                     $status_code = $success = '0';
                     $message = 'Customer not valid';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
                 }
             }
         }
@@ -2489,7 +2491,7 @@ class apiPartnerController extends Controller
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
         
         return response()->json($json, 200);
