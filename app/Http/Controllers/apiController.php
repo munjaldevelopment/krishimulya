@@ -3034,7 +3034,8 @@ class apiController extends Controller
                             }else{
                                 $khasra_no = "";
                             }
-                            $odr_List[] = array('id' => "".$odrlist->id, 'order_no' => $odrlist->order_no, 'name' => $odrlist->name, 'mobile' => $odrlist->mobile, 'testypeName' => $testype_name,'amount' => "".$odrlist->amount, 'land_size' => $odrlist->land_size, 'location' => $odrlist->location, 'khasra_no' => $khasra_no, 'report_file' => $report_file, 'date' => date('d-m-Y H:i:s', strtotime($odrlist->created_at)),'order_status' => $odrlist->order_status); 
+
+                            $odr_List[] = array('id' => "".$odrlist->id, 'order_no' => $odrlist->order_no, 'name' => $odrlist->name, 'mobile' => $odrlist->mobile, 'testypeName' => $testype_name,'amount' => "".$odrlist->amount, 'land_size' => $odrlist->land_size, 'location' => $odrlist->location, 'khasra_no' => $khasra_no, 'report_file' => $report_file, 'date' => date('d-m-Y H:i:s', strtotime($odrlist->created_at)),'order_status' => $odrlist->order_status, 'crop_type' => $odrlist->crop_type, 'soil_type' => $odrlist->soil_type, 'soil_density' => $odrlist->soil_density, 'avg_yield' => $odrlist->avg_yield); 
                            
                         } 
 
