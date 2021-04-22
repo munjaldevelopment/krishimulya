@@ -3009,7 +3009,7 @@ class apiController extends Controller
                     $soilodrExists = DB::table('soil_test_orders')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
 
                     if($soilodrExists >0){
-                        $soilodrList = DB::table('soil_test_orders')->select('id','order_no','name', 'mobile', 'amount','land_size','location','khasra_no','test_type','report_file','order_status','created_at')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->get();
+                        $soilodrList = DB::table('soil_test_orders')->select('id','order_no','name', 'mobile', 'amount','land_size','location','khasra_no','test_type','report_file','order_status','crop_type','soil_type', 'soil_density', 'avg_yield', 'created_at')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->get();
 
                         $odr_List = array();
                         $testype_name = "";
