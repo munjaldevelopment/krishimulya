@@ -68,7 +68,7 @@ class apiSoilController extends Controller
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{"query":"mutation CreateExternalTestMutation($createExternalTestExternalTest: ExternalTestInput!) {    createExternalTest(externalTest: $createExternalTestExternalTest) {        id        computedID        status    }}","variables":{"createExternalTestExternalTest":{"expiresAt":"2021-04-21T05:12:06.712Z","latitude":15.87453,"longitude":12.456356,"area":12.65466564,"cropType":["Paddy"],"soilType":"Gray","soilDensity":1.234,"surveyNo":"53455","sampleDate":"2021-04-20T05:12:06.712Z","farmers":"607eacd24c0c1c001ae74693","avgYield":32.5435453}}}',
+          CURLOPT_POSTFIELDS => '{"query":"mutation CreateExternalTestMutation($createExternalTestExternalTest: ExternalTestInput!) { createExternalTest(externalTest: $createExternalTestExternalTest) { id computedID status}}","variables":{"createExternalTestExternalTest":{"expiresAt":"2021-04-21T05:12:06.712Z","latitude":15.87453,"longitude":12.456356,"area":12.65466564,"cropType":[""],"soilType":"","soilDensity":0,"surveyNo":"53455","sampleDate":"2021-04-20T05:12:06.712Z","farmers":"607eacd24c0c1c001ae74693","avgYield":0}}}',
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.SOILTEST_TOKEN,
             'Content-Type: application/json'
