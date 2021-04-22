@@ -92,6 +92,10 @@ Route::get('land-type', 'apiController@land_type');
 Route::get('land-size', 'apiController@all_land_size');
 Route::get('rent-time', 'apiController@all_rent_time');
 
+
+Route::get('crop-type', 'apiController@cropType');
+Route::get('soil-type', 'apiController@soilType');
+
 Route::post('agriland-rent-enquiry', 'apiController@agri_land_rent_enquiry');
 Route::post('agriland-rent-result', 'apiController@agrilandRentResults'); // Search
 

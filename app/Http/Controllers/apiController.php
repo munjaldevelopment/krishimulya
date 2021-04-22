@@ -2105,6 +2105,80 @@ class apiController extends Controller
     }
 
      //START show feed list 
+    public function cropType(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $landTypeList1 = DB::table('crop_types')->select('name')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $landTypeList[] = array('name' => 'All');
+
+            if($landTypeList1)
+            {
+                foreach ($landTypeList1 as $key => $value) {
+                    # code...
+                    $landTypeList[] = array('name' => $value->name);
+                }
+            }
+
+           /* $landTypeList[] = array('name' => "agriculture");
+            $landTypeList[] = array('name' => "non-agriculture");
+            */
+            $status_code = '1';
+            $message = 'Crop Type list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'cropTypeList' => $landTypeList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function soilType(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $landTypeList1 = DB::table('soil_types')->select('name')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $landTypeList[] = array('name' => 'All');
+
+            if($landTypeList1)
+            {
+                foreach ($landTypeList1 as $key => $value) {
+                    # code...
+                    $landTypeList[] = array('name' => $value->name);
+                }
+            }
+
+           /* $landTypeList[] = array('name' => "agriculture");
+            $landTypeList[] = array('name' => "non-agriculture");
+            */
+            $status_code = '1';
+            $message = 'Soil Type list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'soilTypeList' => $landTypeList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
     public function land_type(Request $request)
     {
         try 
