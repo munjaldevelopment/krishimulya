@@ -188,6 +188,31 @@ class SoilTestOrdersPartnerCrudController extends CrudController
                 'placeholder' => 'Amount',
             ]); 
 
+        $this->crud->addField([
+                'name' => 'crop_type',
+                'label' => 'Crop Type',
+                'type' => 'text',
+                'placeholder' => 'Crop Type',
+            ]); 
+        $this->crud->addField([
+                'name' => 'soil_type',
+                'label' => 'soil_type',
+                'type' => 'text',
+                'placeholder' => 'Soil Type',
+            ]); 
+        $this->crud->addField([
+                'name' => 'soil_density',
+                'label' => 'Soil Density',
+                'type' => 'text',
+                'placeholder' => 'Soil Density',
+            ]); 
+        $this->crud->addField([
+                'name' => 'avg_yield',
+                'label' => 'Avg. Yield',
+                'type' => 'text',
+                'placeholder' => 'Avg. Yield',
+            ]); 
+
           $this->crud->addField([
             'name' => 'order_status',
             'label' => 'Order Status',
