@@ -2911,6 +2911,13 @@ class apiController extends Controller
             $khasra_no = $request->khasra_no;
             $test_type = $request->test_type;
             $amount = $request->amount;
+
+            $crop_type = $request->crop_type;
+            $soil_type = $request->soil_type;
+            $soil_density = $request->soil_density;
+            $avg_yield = $request->avg_yield;
+
+
             //$comments = $request->comment;
             //$exp_price = $request->exp_price;
             $order_status = 'pending';
@@ -2947,7 +2954,10 @@ class apiController extends Controller
                     $order_no = str_pad($orderno, 3, "0", STR_PAD_LEFT);
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id,'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+
+                    //
+
+                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id,'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'crop_type' => $crop_type, 'soil_type' => $soil_type, 'soil_density' => $soil_density, 'avg_yield' => $avg_yield, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
                    //DB::table('soil_test_orders')->where('id', '=', $orderid)->update(['order_no' => $order_no]);
                    
                    /* FCM Notification */
