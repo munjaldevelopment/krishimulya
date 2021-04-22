@@ -692,10 +692,10 @@ class apiPartnerController extends Controller
             $partner_id = $request->partner_id;
             $lead_type = $request->lead_type;
             $test_status = $request->test_status;
-            $date_from = $request->date_from;
-            $date_to = $request->date_to;
 
-           
+            $date_from = date("Y-m-d",strtotime($request->date_from));
+            $date_to = date("Y-m-d",strtotime($request->date_to));
+            
             $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partner){ 
                 $vendor_service = DB::table('vendor_services')->where('service_code', $lead_type)->first();
