@@ -705,7 +705,7 @@ class apiPartnerController extends Controller
 
                     $categoryName = json_decode($vendor_service->name);
 
-                    if($test_status != "")
+                    if($test_status != "All")
                     {
                         $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
                     }
@@ -1378,7 +1378,7 @@ class apiPartnerController extends Controller
             $statusData = array();
             if($sliderList) {
                 $statusData[]['name'] = "All";
-                
+
                 foreach($sliderList as $row) {
                     $statusData[]['name'] = $row->name;
                 }
