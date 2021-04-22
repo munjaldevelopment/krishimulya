@@ -995,7 +995,7 @@ class apiPartnerController extends Controller
                 $assignService[] = array('service_code' => 'pending-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'stats' => "".$stats_total);
 
 
-                arsort($assignService);
+                //arsort($assignService);
 
                 $pincode = $partner->pincode;
 
