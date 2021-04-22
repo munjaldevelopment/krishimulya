@@ -988,6 +988,8 @@ class apiPartnerController extends Controller
                     $isExists1 = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->count();
                     $stats_pending_total = $isExists1;
 
+                    echo $stats_pending_total.",";
+
                     $stats_total+=$stats;
                     $stats_pending_total+=$stats_pending_total;
 
@@ -1000,6 +1002,7 @@ class apiPartnerController extends Controller
 
 
                 array_reverse($assignService);
+                exit;
 
                 $pincode = $partner->pincode;
 
