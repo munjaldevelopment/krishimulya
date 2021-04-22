@@ -985,12 +985,8 @@ class apiPartnerController extends Controller
                         $stats = $isExists->total;
                     }
 
-                    $isExists1 = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
-                    $stats_pending_total = 0;
-                    if($isExists1)
-                    {
-                        $stats_pending_total = $isExists1->total;
-                    }
+                    $isExists1 = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->count();
+                    $stats_pending_total = $isExists1;
 
                     $stats_total+=$stats;
                     $stats_pending_total+=$stats_pending_total;
