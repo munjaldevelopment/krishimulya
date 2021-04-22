@@ -21,7 +21,7 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_URL => SOILTEST_URL,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -60,7 +60,7 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_URL => SOILTEST_URL,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -89,7 +89,7 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_URL => SOILTEST_URL,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -118,7 +118,7 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_URL => SOILTEST_URL,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -148,7 +148,7 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_URL => SOILTEST_URL,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -177,7 +177,7 @@ class apiSoilController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://soil-api-staging.krishitantra.com/graphql',
+          CURLOPT_URL => SOILTEST_URL,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -185,7 +185,7 @@ class apiSoilController extends Controller
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{"query":"mutation LoginMutation($loginOrganization: String!, $loginUsername: String!, $loginPassword: String!) {login(organization: $loginOrganization, username: $loginUsername, password: $loginPassword)}","variables":{"loginOrganization":"krishimulya","loginUsername":"krishimulya","loginPassword":"krishimulya"}}',
+          CURLOPT_POSTFIELDS => '{"query":"mutation LoginMutation($loginOrganization: String!,$loginUsername: String!, $loginPassword: String!) {        login(organization: $loginOrganization, username: $loginUsername, password: $loginPassword)}","variables":{"loginOrganization":"'.SOILTEST_ORGANIZATION.'","loginUsername":"'.SOILTEST_USERNAME.'","loginPassword":"'.SOILTEST_PASSWORD.'"}}',
           CURLOPT_HTTPHEADER => array(
             'Content-Type: application/json'
           ),
@@ -196,6 +196,9 @@ class apiSoilController extends Controller
         curl_close($curl);
 
         $result = json_decode($response, 1);
+
+        //dd($result);
+
         $token = $result['data']['login'];
 
         DB::table("settings")->where('id', '8')->update(['value' => $token]);
