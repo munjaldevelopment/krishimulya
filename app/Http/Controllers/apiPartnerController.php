@@ -1365,6 +1365,40 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function leadStatusAll(Request $request)
+    {
+        try 
+        {
+            Setting::assignSetting();
+
+            $json       =   array();
+
+            $sliderArr = array();
+            $sliderList = DB::table('lead_status')->where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $statusData = array();
+            if($sliderList) {
+                $statusData[]['name'] = "All";
+                
+                foreach($sliderList as $row) {
+                    $statusData[]['name'] = $row->name;
+                }
+            }
+            
+            $status_code = '1';
+            $message = 'Status list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'statusData' => $statusData);
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
     // Services
     // Done
     public function agriTypeEnquiry(Request $request)
