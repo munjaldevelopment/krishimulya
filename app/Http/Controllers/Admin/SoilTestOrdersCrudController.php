@@ -53,22 +53,25 @@ class SoilTestOrdersCrudController extends CrudController
 
          ]);
 
-         $this->crud->addColumn('name');
-         $this->crud->addColumn('mobile');
+        //$this->crud->addColumn('name');
+        $this->crud->addColumn('mobile');
          
-         $this->crud->addColumn('order_no');
+        $this->crud->addColumn('order_no');
+        $this->crud->addColumn('land_size');
+        $this->crud->addColumn('khasra_no');
+        $this->crud->addColumn('amount');
 
-         $this->crud->addColumn([
+        /*$this->crud->addColumn([
             'name' => 'kt_report_id',
             'label' => 'Krishitantra Report ID',
             'type' => 'text',
             'hint' => '',                                                                           
-        ]);
+        ]);*/
          //$this->crud->addColumn('land_size');
          //$this->crud->addColumn('location');
-         $this->crud->addColumn('test_type');
-         $this->crud->addColumn('amount');
-         $this->crud->addColumn('order_status');
+        //$this->crud->addColumn('test_type');
+        //$this->crud->addColumn('amount');
+        //$this->crud->addColumn('order_status');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
