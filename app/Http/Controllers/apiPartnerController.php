@@ -989,7 +989,7 @@ class apiPartnerController extends Controller
                     $stats_pending_total = 0;
                     if($isExists1)
                     {
-                        $stats_pending_total = $isExists->total;
+                        $stats_pending_total = $isExists1->total;
                     }
 
                     $stats_total+=$stats;
