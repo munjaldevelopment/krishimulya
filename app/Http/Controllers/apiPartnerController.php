@@ -1237,41 +1237,40 @@ class apiPartnerController extends Controller
             $json       =   array();
             $partner_id = $request->partner_id;
             $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
-                if($partner){ 
-                    $soilnotificationExists = DB::table('notifications')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->count();
-                    $notify_List = array();
-                    if($soilnotificationExists >0){
-                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->get();
+            if($partner){ 
+                $soilnotificationExists = DB::table('notifications')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->count();
+                $notify_List = array();
+                if($soilnotificationExists >0){
+                    $soilNotifyList = DB::table('notifications')->select('id','lead_id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->get();
 
-                        
-                        foreach($soilNotifyList as $notifylist)
-                        {
-                            $notification_type = "";
-                            if($notifylist->notification_type == 'soil_order'){
+                    
+                    foreach($soilNotifyList as $notifylist)
+                    {
+                        $notification_type = "";
+                        if($notifylist->notification_type == 'soil_order'){
 
-                                $notification_type = 'Soil Order';
-                            }
+                            $notification_type = 'Soil Order';
+                        }
 
-                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
-                           
-                        } 
+                        $notify_List[] = array('id' => "".$notifylist->id, 'lead_id' => $notifylist->lead_id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
+                       
+                    } 
 
-                        //print_r($odr_List);
-                        //exit;
-                        $status_code = '1';
-                        $message = 'Notification List';
-                        $json = array('status_code' => $status_code,  'message' => $message, 'notify_List' => $notify_List);
-                    }else{
-                         $status_code = '0';
-                        $message = 'No notification found.';
-                        $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => $partner_id);
-                    }
+                    //print_r($odr_List);
+                    //exit;
+                    $status_code = '1';
+                    $message = 'Notification List';
+                    $json = array('status_code' => $status_code,  'message' => $message, 'notify_List' => $notify_List);
                 }else{
-                    $status_code = $success = '0';
-                    $message = 'Partner not valid';
-                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
-
+                     $status_code = '0';
+                    $message = 'No notification found.';
+                    $json = array('status_code' => $status_code,  'message' => $message, 'partner_id' => $partner_id);
                 }
+            }else{
+                $status_code = $success = '0';
+                $message = 'Partner not valid';
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+            }
         }
         catch(\Exception $e) {
             $status_code = '0';
