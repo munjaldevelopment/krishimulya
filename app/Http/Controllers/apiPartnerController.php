@@ -709,7 +709,14 @@ class apiPartnerController extends Controller
 
                     if($test_status == "" || $test_status == "All")
                     {
-                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                        if($lead_type == "soil-test")
+                        {
+                            $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->where('user_type', "partner")->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                        }
+                        else
+                        {
+                            $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                        }
                     }
                     else
                     {
