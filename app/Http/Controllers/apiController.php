@@ -2912,10 +2912,10 @@ class apiController extends Controller
             $test_type = $request->test_type;
             $amount = $request->amount;
 
-            $crop_type = $request->crop_type;
+            /*$crop_type = $request->crop_type;
             $soil_type = $request->soil_type;
             $soil_density = $request->soil_density;
-            $avg_yield = $request->avg_yield;
+            $avg_yield = $request->avg_yield;*/
 
 
             //$comments = $request->comment;
@@ -2957,8 +2957,7 @@ class apiController extends Controller
 
                     //
 
-                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id,'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'crop_type' => $crop_type, 'soil_type' => $soil_type, 'soil_density' => $soil_density, 'avg_yield' => $avg_yield, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
-                   //DB::table('soil_test_orders')->where('id', '=', $orderid)->update(['order_no' => $order_no]);
+                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id,'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]); //'crop_type' => $crop_type, 'soil_type' => $soil_type, 'soil_density' => $soil_density, 'avg_yield' => $avg_yield,
                    
                    /* FCM Notification */
                    $customerToken = $customer->fcmToken; 
