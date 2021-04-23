@@ -669,7 +669,7 @@ class apiPartnerController extends Controller
                     $status_code = $success = '1';
                     $message = "Status changed successfully";   
 
-                    $json = array('status_code' => $status_code, 'message' => $message);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'lead_id' => 4lead_id);
                 }
             }
         }
