@@ -183,6 +183,8 @@ return [
         Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
         LaravelFCM\FCMServiceProvider::class,
 
+
+
     ],
 
     /*

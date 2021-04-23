@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\SoilTestOrdersRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
+use App\Models\Setting;
 
 /**
  * Class SoilTestOrdersCrudController
@@ -31,6 +33,8 @@ class SoilTestOrdersCrudController extends CrudController
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
 
         $this->crud->addClause("where", "user_type", "=", "customer");
+
+        $this->crud->addButtonFromView('line', 'download_pdf', 'download_pdf', 'end');
     }
 
     /**
@@ -155,12 +159,12 @@ class SoilTestOrdersCrudController extends CrudController
                 'placeholder' => 'Order No.',
             ]); 
 
-          $this->crud->addField([
+        /*$this->crud->addField([
             'name' => 'kt_report_id',
             'label' => 'Krishitantra Report ID',
             'type' => 'text',
             'hint' => '',
-        ]);
+        ]);*/
 
          $this->crud->addField([
                 'label'     => 'Size',
@@ -250,5 +254,61 @@ class SoilTestOrdersCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function downloadSoilTest(Request $request)
+    {
+        $soil_test_id = $request->soil_test_id;
+        $soilTest = \DB::table('soil_test_orders')->find($soil_test_id);
+        dd($soilTest);
+    }
+
+    public function downloadSoilTestPartner(Request $request)
+    {
+        $soil_test_id = $request->soil_test_id;
+        $soilTest = \DB::table('soil_test_orders')->find($soil_test_id);
+
+        $krishitantra_order_id = $soilTest->krishitantra_order_id;
+
+        //dd($krishitantra_order_id);
+
+        Setting::AssignSetting();
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => SOILTEST_URL,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>'{"query":"query Query($getExternalTestsByFarmerFarmer: ID!) {getExternalTestsByFarmer(farmer: $getExternalTestsByFarmerFarmer) {        id        test {            html            results        }        createdAt        updatedAt        status        expiresAt        latitude        area        cropType        soilType        soilDensity        surveyNo        sampleDate        longitude    }}","variables":{"getExternalTestsByFarmerFarmer":"'.$krishitantra_order_id.'"}}',
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.SOILTEST_TOKEN,
+            'Content-Type: application/json'
+          ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $result = json_decode($response, 1);
+
+        if($result)
+        {
+            $soilResults = $result['data']['getExternalTestsByFarmer'];
+
+            foreach($soilResults as $soil_result)
+            {
+                if($soil_result['status'] == "Completed")
+                {
+                    echo $soil_result['test']['html']; exit;
+                }
+            }
+        }
     }
 }

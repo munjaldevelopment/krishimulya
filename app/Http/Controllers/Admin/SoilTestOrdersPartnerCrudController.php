@@ -31,6 +31,8 @@ class SoilTestOrdersPartnerCrudController extends CrudController
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
 
         $this->crud->addClause("where", "user_type", "=", "partner");
+
+        $this->crud->addButtonFromView('line', 'download_partner_pdf', 'download_partner_pdf', 'end');
     }
 
     /**
@@ -143,12 +145,12 @@ class SoilTestOrdersPartnerCrudController extends CrudController
                 'placeholder' => 'Order No.',
             ]); 
 
-          $this->crud->addField([
+        /*$this->crud->addField([
             'name' => 'kt_report_id',
             'label' => 'Krishitantra Report ID',
             'type' => 'text',
             'hint' => '',
-        ]);
+        ]);*/
 
          $this->crud->addField([
                 'label'     => 'Size',
