@@ -1971,11 +1971,11 @@ class apiController extends Controller
                         $labourList = $labourList->where('other_city','LIKE',$other_city);    
                     }
 
-                    if($purpose){
+                    if($purpose != "All"){
                         $labourList = $labourList->where('purpose','LIKE',$purpose);    
                     }
 
-                    if($need){
+                    if($need != "All"){
                         $labourList = $labourList->where('need','LIKE',$need);    
                     }
 
