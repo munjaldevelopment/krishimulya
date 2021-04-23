@@ -2384,7 +2384,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('user_type', '=', 'customer')->where('isactive', '=', 1)->where('customer_id', '=', $customer_id)->whereNull('deleted_at');
+                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('user_type', '=', 'customer')->where('isactive', '=', 1)->whereNull('deleted_at'); //->where('customer_id', '=', $customer_id)
 
                     if($land_type){
                         $rentListquery = $rentListquery->where('land_type',$land_type);    
