@@ -2394,7 +2394,7 @@ class apiController extends Controller
                         $rentListquery = $rentListquery->where('location',$location);    
                     }
 
-                    if($other_city){
+                    if($other_city != "All"){
                         $rentListquery = $rentListquery->where('other_city',$other_city);    
                     }
 
@@ -2402,7 +2402,7 @@ class apiController extends Controller
                         $rentListquery = $rentListquery->where('size_in_acore',$size_in_acre);    
                     }
 
-                    if($rent_time){
+                    if($rent_time != "All"){
                         $rentListquery = $rentListquery->where('how_much_time','LIKE',$rent_time);    
                     }
 
