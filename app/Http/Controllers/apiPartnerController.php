@@ -712,7 +712,7 @@ class apiPartnerController extends Controller
                     {
                         if($lead_id != "")
                         {
-                            $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->where('user_type', "customer")->where($table_name_vendor.".id", $lead_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->orderBy($table_name_vendor.'.updated_at', 'DESC')->get();
+                            $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->where('user_type', "customer")->where($table_name.".id", $lead_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->orderBy($table_name_vendor.'.updated_at', 'DESC')->get();
                         }
                         else
                         {
@@ -723,7 +723,7 @@ class apiPartnerController extends Controller
                     {
                         if($lead_id != "")
                         {
-                            $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->where('user_type', "customer")->where($table_name_vendor.".id", $lead_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->orderBy($table_name_vendor.'.updated_at', 'DESC')->get();
+                            $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->where('user_type', "customer")->where($table_name.".id", $lead_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->orderBy($table_name_vendor.'.updated_at', 'DESC')->get();
                         }
                         else
                         {
