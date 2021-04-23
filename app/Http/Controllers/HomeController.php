@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use Illuminate\Console\Command;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+use DB;
 
 class HomeController extends Controller
 {
@@ -15,6 +21,49 @@ class HomeController extends Controller
     public function index()
     {
         
+    }
+
+    public function sendNotification()
+    {
+        $customerNotify = DB::table('notifications')->where('is_sent', 0)->skip(0)->take(100)->get();
+        if($customerNotify)
+        {
+            foreach($customerNotify as $row)
+            {
+                $title = $row->notification_title;
+                $message = $row->notification_content;
+                $customer_id = $row->customer_id;
+
+                $optionBuilder = new OptionsBuilder();
+                $optionBuilder->setTimeToLive(60*20);
+
+                $image = "http://krishi.microcrm.in/uploads/logo/512-png-short.png";
+                        
+                $notificationBuilder = new PayloadNotificationBuilder($title);
+                $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
+                
+                $dataBuilder = new PayloadDataBuilder();
+                $dataBuilder->addData(['title' => $title, 'content' => $message]);
+                
+                $option = $optionBuilder->build();
+
+                $notification = $notificationBuilder->build();
+                $data = $dataBuilder->build();
+
+                $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
+
+                $tokenData = array($userDeviceRow->fcmToken);
+                                    
+                $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
+                                    
+                $success = $downstreamResponse->numberSuccess();
+                $fail = $downstreamResponse->numberFailure();
+                $total = $downstreamResponse->numberModification();
+
+                $date   = date('Y-m-d H:i:s');
+                DB::table('notifications')->where('id', '=', $row->id)->update(['is_sent' => '1', 'updated_at' => $date]);
+            }
+        }
     }
 
     public function assignVendor()
