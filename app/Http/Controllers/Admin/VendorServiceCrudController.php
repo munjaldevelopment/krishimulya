@@ -50,6 +50,12 @@ class VendorServiceCrudController extends CrudController
         $this->crud->addColumn('name');
 
         $this->crud->addColumn([
+                'name' => 'image',
+                'label' => 'Image',
+                'type' => 'image',
+            ]);
+
+        $this->crud->addColumn([
                 'name' => 'status',
                 'label' => 'Status',
                 'type' => 'check',
@@ -79,6 +85,13 @@ class VendorServiceCrudController extends CrudController
                 'type' => 'color',
             ]);
         $this->crud->addField('name');
+        $this->crud->addField('table_name');
+
+        $this->crud->addField([
+                'name' => 'image',
+                'label' => 'image',
+                'type' => 'browse',
+            ]);
 
         $this->crud->addField([
                 'name' => 'status',

@@ -91,4 +91,13 @@ Route::group([
     Route::post('sendNotification', 'UserNotificationController@sendNotificationMessage');
     Route::crud('vendorservice', 'VendorServiceCrudController');
     Route::crud('vendor', 'VendorCrudController');
+    Route::crud('leadstatus', 'LeadStatusCrudController');
+    Route::crud('croptype', 'CropTypeCrudController');
+    Route::crud('soiltype', 'SoilTypeCrudController');
+
+
+    // Get
+    Route::get('download_soil_test', 'SoilTestOrdersCrudController@downloadSoilTest');
+    Route::get('download_soil_test_partner', 'SoilTestOrdersCrudController@downloadSoilTestPartner');
+
 });

@@ -1971,11 +1971,11 @@ class apiController extends Controller
                         $labourList = $labourList->where('other_city','LIKE',$other_city);    
                     }
 
-                    if($purpose){
+                    if($purpose != "All"){
                         $labourList = $labourList->where('purpose','LIKE',$purpose);    
                     }
 
-                    if($need){
+                    if($need != "All"){
                         $labourList = $labourList->where('need','LIKE',$need);    
                     }
 
@@ -2105,6 +2105,80 @@ class apiController extends Controller
     }
 
      //START show feed list 
+    public function cropType(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $landTypeList1 = DB::table('crop_types')->select('name')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $landTypeList[] = array('name' => 'All');
+
+            if($landTypeList1)
+            {
+                foreach ($landTypeList1 as $key => $value) {
+                    # code...
+                    $landTypeList[] = array('name' => $value->name);
+                }
+            }
+
+           /* $landTypeList[] = array('name' => "agriculture");
+            $landTypeList[] = array('name' => "non-agriculture");
+            */
+            $status_code = '1';
+            $message = 'Crop Type list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'cropTypeList' => $landTypeList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function soilType(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $landTypeList1 = DB::table('soil_types')->select('name')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $landTypeList[] = array('name' => 'All');
+
+            if($landTypeList1)
+            {
+                foreach ($landTypeList1 as $key => $value) {
+                    # code...
+                    $landTypeList[] = array('name' => $value->name);
+                }
+            }
+
+           /* $landTypeList[] = array('name' => "agriculture");
+            $landTypeList[] = array('name' => "non-agriculture");
+            */
+            $status_code = '1';
+            $message = 'Soil Type list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'soilTypeList' => $landTypeList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
     public function land_type(Request $request)
     {
         try 
@@ -2310,7 +2384,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){
-                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('user_type', '=', 'customer')->where('isactive', '=', 1)->where('customer_id', '=', $customer_id)->whereNull('deleted_at');
+                    $rentListquery = DB::table('agriland_rent_enquiry')->select('id','customer_id','land_type','size_in_acore','how_much_time','comment', 'location','other_city')->where('user_type', '=', 'customer')->where('isactive', '=', 1)->whereNull('deleted_at'); //->where('customer_id', '=', $customer_id)
 
                     if($land_type){
                         $rentListquery = $rentListquery->where('land_type',$land_type);    
@@ -2320,7 +2394,7 @@ class apiController extends Controller
                         $rentListquery = $rentListquery->where('location',$location);    
                     }
 
-                    if($other_city){
+                    if($other_city != "All"){
                         $rentListquery = $rentListquery->where('other_city',$other_city);    
                     }
 
@@ -2328,7 +2402,7 @@ class apiController extends Controller
                         $rentListquery = $rentListquery->where('size_in_acore',$size_in_acre);    
                     }
 
-                    if($rent_time){
+                    if($rent_time != "All"){
                         $rentListquery = $rentListquery->where('how_much_time','LIKE',$rent_time);    
                     }
 
@@ -2341,8 +2415,14 @@ class apiController extends Controller
                         {
                             
                             $rscustomer = DB::table('customers')->where('id', $rlist->customer_id)->first();
-                            $customer_name = $rscustomer->name;
-                            $customer_telphone = $rscustomer->telephone;
+
+                            $customer_name = $customer_telphone = "";
+                            if($rscustomer)
+                            {
+                                $customer_name = $rscustomer->name;
+                                $customer_telphone = $rscustomer->telephone;
+                            }
+                            
                             $pimage = '';
                             $othercity = ($rlist->other_city != '') ? $rlist->other_city : "";
                             $r_List[] = ['id' => (string)$rlist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'land_type' =>$rlist->land_type, 'location' => $rlist->location, 'other_city' => $othercity, 'size_in_acre' => $rlist->size_in_acore, 'rent_time' => $rlist->how_much_time, 'comment' => $rlist->comment]; 
@@ -2609,6 +2689,7 @@ class apiController extends Controller
                     $feed_catname = $feedcat->name;
 					$feedList[] = ['id' => (int)$showFeed->id, 'heading' =>$feed_catname, 'title' =>$showFeed->title, 'content' => strip_tags($showFeed->content), 'date' => date("d-m-Y",strtotime($showFeed->date)), 'feedimage' => $feedimage]; //'planning_isprogress' => $planning_isprogress, 
                 }
+                
                 $appurl = 'api.openweathermap.org/data/2.5/weather?zip='.$pincode.',IN&units=metric&appid=acfd0186948c7adf0c9c87a2ebcc004b';
                 $wheatherRespone = $this->httpGet($appurl);
                 
@@ -2733,6 +2814,9 @@ class apiController extends Controller
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id;
             $enquiry_type = $request->enquiry_type;
+            $lead_id = $request->lead_id;
+            $phone_number = $request->phone_number;
+
             $error = "";
             if($enquiry_type == ""){
                 $error = "Please enter enquiry type";
@@ -2743,7 +2827,7 @@ class apiController extends Controller
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
                     
-                    DB::table('enquiry_tracking')->insert(['customer_id' => $customer_id, 'enquiry_type' => $enquiry_type, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('enquiry_tracking')->insert(['customer_id' => $customer_id, 'enquiry_type' => $enquiry_type, 'lead_id' => $lead_id, 'phone_number' => $phone_number, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Enquiry Type added successfully';
@@ -2833,6 +2917,13 @@ class apiController extends Controller
             $khasra_no = $request->khasra_no;
             $test_type = $request->test_type;
             $amount = $request->amount;
+
+            /*$crop_type = $request->crop_type;
+            $soil_type = $request->soil_type;
+            $soil_density = $request->soil_density;
+            $avg_yield = $request->avg_yield;*/
+
+
             //$comments = $request->comment;
             //$exp_price = $request->exp_price;
             $order_status = 'pending';
@@ -2869,8 +2960,10 @@ class apiController extends Controller
                     $order_no = str_pad($orderno, 3, "0", STR_PAD_LEFT);
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id,'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
-                   //DB::table('soil_test_orders')->where('id', '=', $orderid)->update(['order_no' => $order_no]);
+
+                    //
+
+                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $customer_id,'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]); //'crop_type' => $crop_type, 'soil_type' => $soil_type, 'soil_density' => $soil_density, 'avg_yield' => $avg_yield,
                    
                    /* FCM Notification */
                    $customerToken = $customer->fcmToken; 
@@ -2921,7 +3014,7 @@ class apiController extends Controller
                     $soilodrExists = DB::table('soil_test_orders')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
 
                     if($soilodrExists >0){
-                        $soilodrList = DB::table('soil_test_orders')->select('id','order_no','name', 'mobile', 'amount','land_size','location','khasra_no','test_type','report_file','order_status','created_at')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->get();
+                        $soilodrList = DB::table('soil_test_orders')->select('id','order_no','name', 'mobile', 'amount','land_size','location','khasra_no','test_type','report_file','order_status','crop_type','soil_type', 'soil_density', 'avg_yield', 'created_at')->where('customer_id', $customer_id)->orderBy('id', 'DESC')->get();
 
                         $odr_List = array();
                         $testype_name = "";
@@ -2946,7 +3039,8 @@ class apiController extends Controller
                             }else{
                                 $khasra_no = "";
                             }
-                            $odr_List[] = array('id' => "".$odrlist->id, 'order_no' => $odrlist->order_no, 'name' => $odrlist->name, 'mobile' => $odrlist->mobile, 'testypeName' => $testype_name,'amount' => "".$odrlist->amount, 'land_size' => $odrlist->land_size, 'location' => $odrlist->location, 'khasra_no' => $khasra_no, 'report_file' => $report_file, 'date' => date('d-m-Y H:i:s', strtotime($odrlist->created_at)),'order_status' => $odrlist->order_status); 
+
+                            $odr_List[] = array('id' => "".$odrlist->id, 'order_no' => $odrlist->order_no, 'name' => $odrlist->name, 'mobile' => $odrlist->mobile, 'testypeName' => $testype_name,'amount' => "".$odrlist->amount, 'land_size' => $odrlist->land_size, 'location' => $odrlist->location, 'khasra_no' => $khasra_no, 'report_file' => $report_file, 'date' => date('d-m-Y H:i:s', strtotime($odrlist->created_at)),'order_status' => $odrlist->order_status, 'crop_type' => $odrlist->crop_type, 'soil_type' => $odrlist->soil_type, 'soil_density' => $odrlist->soil_density, 'avg_yield' => $odrlist->avg_yield); 
                            
                         } 
 

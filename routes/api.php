@@ -92,6 +92,10 @@ Route::get('land-type', 'apiController@land_type');
 Route::get('land-size', 'apiController@all_land_size');
 Route::get('rent-time', 'apiController@all_rent_time');
 
+
+Route::get('crop-type', 'apiController@cropType');
+Route::get('soil-type', 'apiController@soilType');
+
 Route::post('agriland-rent-enquiry', 'apiController@agri_land_rent_enquiry');
 Route::post('agriland-rent-result', 'apiController@agrilandRentResults'); // Search
 
@@ -166,6 +170,10 @@ Route::post('forgot-password', 'apiPartnerController@forgotPassword');
 Route::post('update-password', 'apiPartnerController@partnerChangePassword');
 Route::post('resend-partner-sms', 'apiPartnerController@resendSMS');
 Route::get('partner-profile', 'apiPartnerController@partner_profile');
+Route::get('partner-dashboard', 'apiPartnerController@partnerDashboard');
+Route::post('partner-leads', 'apiPartnerController@partnerLeads');
+Route::post('partner-leads-status-change', 'apiPartnerController@partnerLeadsStatusChange');
+
 Route::post('update-partner-profile', 'apiPartnerController@update_profile');
 Route::post('partner-logout', 'apiPartnerController@partner_logout');
 Route::get('partner-token', 'apiPartnerController@getPartnerType');
@@ -185,11 +193,15 @@ Route::post('agri-type-enquiry-partner', 'apiPartnerController@agriTypeEnquiry')
 
 Route::post('agriland-feedback-partner', 'apiPartnerController@agriland_feedback');
 
+Route::post('enquiry-tracking-partner', 'apiPartnerController@enquiry_tracking');
+
 Route::post('verify-mobile', 'apiPartnerController@verifyOrderMobile');
-Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
+//Route::get('partner-dashboard', 'apiPartnerController@partner_dashboard');
 Route::get('partner-notification', 'apiPartnerController@notification_list');
 
 Route::get('app-popup-partner', 'apiPartnerController@appPopup');
+Route::get('lead-status', 'apiPartnerController@leadStatus');
+Route::get('lead-status-all', 'apiPartnerController@leadStatusAll');
 
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');

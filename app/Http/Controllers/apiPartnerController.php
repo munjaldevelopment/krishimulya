@@ -622,6 +622,228 @@ class apiPartnerController extends Controller
     }
 
     //Partner Profile
+    public function partnerLeadsStatusChange(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $lead_id = $request->lead_id;
+            $lead_type = $request->lead_type;
+            $test_status = $request->test_status;
+
+           
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+            if($partner){ 
+                $vendor_service = DB::table('vendor_services')->where('service_code', $lead_type)->first();
+
+                if($vendor_service)
+                {
+                    $table_name = $vendor_service->table_name;
+                    $table_name_vendor = $vendor_service->table_name."_vendor";
+                    $table_name_vendor_history = $vendor_service->table_name."_vendor_history";
+
+                    $table_name_id = $vendor_service->table_name."_id";
+                    $table_name_vendor_id = $vendor_service->table_name."_vendor_id";
+
+                    $categoryName = json_decode($vendor_service->name);
+
+                    \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where($table_name_id, $lead_id)->update(['test_status' => $test_status, 'updated_at' => date('Y-m-d H:i:s')]);
+
+                    // Get Value
+
+                    $vendorData1 = \DB::table($table_name_vendor)->where($table_name_id, $lead_id)->first();
+                    //dd($vendorData1);
+
+                    \DB::table($table_name_vendor_history)->insert([
+                        $table_name_id => $vendorData1->$table_name_id, 
+                        $table_name_vendor_id => $vendorData1->id,
+                        'vendor_id' => $partner_id, 
+                        'test_status' => $test_status,
+                        'status_time' => date('Y-m-d H:i:s'),
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    $status_code = $success = '1';
+                    $message = "Status changed successfully";   
+
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function partnerLeads(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $lead_type = $request->lead_type;
+            $test_status = $request->test_status;
+
+            $date_from = date("Y-m-d",strtotime($request->date_from));
+            $date_to = date("Y-m-d",strtotime($request->date_to));
+            
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+            if($partner){ 
+                $vendor_service = DB::table('vendor_services')->where('service_code', $lead_type)->first();
+
+                if($vendor_service)
+                {
+                    $table_name = $vendor_service->table_name;
+                    $table_name_vendor = $vendor_service->table_name."_vendor";
+
+                    $categoryName = json_decode($vendor_service->name);
+
+                    if($test_status == "" || $test_status == "All")
+                    {
+                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                    }
+                    else
+                    {
+                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                    }
+
+                    $leadData = array();
+                    if($vendorData)
+                    {
+                        foreach($vendorData as $vendorRow)
+                        {
+                            $user_type = $vendorRow->user_type;
+                            $details = "";
+
+                            if($lead_type == "soil-test")
+                            {
+                                $details = "<strong>Order #: </strong>".$vendorRow->order_no.'<br />';
+                                $details .= "<strong>Land Size: </strong>".$vendorRow->land_size.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Khasra No: </strong>".$vendorRow->khasra_no.'<br />';
+                                $details .= "<strong>Test Type: </strong>".$vendorRow->test_type.'<br />';
+                                $details .= "<strong>Amount: </strong>".$vendorRow->amount.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comments.'<br />';
+                                $details .= "<strong>Status: </strong>".$vendorRow->order_status;
+                            }
+                            else if($lead_type == "tractor-purchase")
+                            {
+                                $details = "<strong>Company Name: </strong>".$vendorRow->company_name.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Horse Power: </strong>".$vendorRow->hourse_power.'<br />';
+                                $details .= "<strong>Payment Type: </strong>".$vendorRow->payment_type.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comment.'<br />';
+                                $details .= "<strong>Uses Type: </strong>".$vendorRow->uses_type;
+                            }
+                            else if($lead_type == "tractor-sale")
+                            {
+                                $details = "<strong>Company Name: </strong>".$vendorRow->company_name.'<br />';
+                                $details .= "<strong>Model: </strong>".$vendorRow->model.'<br />';
+                                $details .= "<strong>Year: </strong>".$vendorRow->year_manufacturer.'<br />';
+                                $details .= "<strong>Horse Power: </strong>".$vendorRow->hourse_power.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Hrs: </strong>".$vendorRow->hrs.'<br />';
+                                $details .= "<strong>Price: </strong>".$vendorRow->exp_price.'<br />';
+                                $details .= "<strong>Commission: </strong>".$vendorRow->sale_commission.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comment.'<br />';
+                                $details .= "<strong>Sale Type: </strong>".$vendorRow->sale_type;
+                            }
+                            else if($lead_type == "tractor-rental")
+                            {
+                                $details = "<strong>Available Date: </strong>".$vendorRow->available_date.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comment.'<br />';
+                                $details .= "<strong>Model: </strong>".$vendorRow->model.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Type: </strong>".$vendorRow->what_type;
+                            }
+                            else if($lead_type == "tractor-refinance")
+                            {
+                                $details = "<strong>Company Name: </strong>".$vendorRow->company_name.'<br />';
+                                $details .= "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Horse Power: </strong>".$vendorRow->hourse_power.'<br />';
+                                $details = "<strong>Payment Type: </strong>".$vendorRow->payment_type.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comment;
+                            }
+
+                            $customer_name = $customer_phone = "";
+
+                            if($user_type == "customer")
+                            {
+                                $customerData = DB::table('customers')->where('id', $vendorRow->customer_id)->where('status', '=', '1')->first();
+                                if($customerData) { 
+                                    $customer_name = $customerData->name;
+                                    $customer_phone = $customerData->telephone;
+                                }
+                                else if(isset($vendorRow->name))
+                                {
+                                    $customer_name = $vendorRow->name;
+                                    $customer_phone = $vendorRow->mobile;
+                                }
+                            }
+                            elseif($user_type == "partner")
+                            {
+                                if($vendorRow->contact_person_name != NULL)
+                                {
+                                    $customer_name = $vendorRow->contact_person_name;
+                                    $customer_phone = $vendorRow->contact_person_phone;
+                                }
+                                else
+                                {
+                                    $customerData = DB::table('vendors')->where('id', $vendorRow->customer_id)->where('is_onboard', '=', '1')->first();
+                                    if($customerData) { 
+                                        $customer_name = $customerData->name;
+                                        $customer_phone = $customerData->phone;
+                                    }
+                                }
+                            }
+
+                            //echo $user_type.">".$customer_name;
+
+                            $leadData[] = array('id' => $vendorRow->id, 'lead_type' => $categoryName->en, 'details' => $details, 'name' => $customer_name,'phone' => $customer_phone, 'date' => $vendorRow->status_time, 'test_status' => $vendorRow->test_status, 'status_time' => $vendorRow->status_time, 'user_type' => $user_type);
+                        }
+
+                        if($leadData)
+                        {
+                            $status_code = $success = '1';
+                            $message = $categoryName->en.' List';
+                        }
+                        else
+                        {
+                            $status_code = $success = '0';
+                            $message = "No data found in ".$categoryName->en;   
+                        }
+                    }
+                    else
+                    {
+                        $status_code = $success = '0';
+                        $message = "No data found in ".$categoryName->en;   
+                    }
+                    
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'leadData' => $leadData);
+                }
+                           
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     public function partner_profile(Request $request)
     {
         try 
@@ -688,11 +910,119 @@ class apiPartnerController extends Controller
                    $partner_image  =  $baseUrl."/public/uploads/profile.jpg";
                 }
                 
+                $assignService = array();
+
+                $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
+
+                foreach ($partnerAssign as $key => $value) {
+                    # code...
+                    $table_name = $value->table_name;
+                    $table_name_vendor = $value->table_name."_vendor";
+
+                    $isExists = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
+                    $stats = 0;
+                    if($isExists)
+                    {
+                        $stats = $isExists->total;
+                    }
+
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $value->name, 'stats' => $stats);
+                }
                 
                 $status_code = $success = '1';
                 $message = 'Partner Profile Info';
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id , 'name' => $name, 'email' => $email, 'age' => $age, 'mobile' => $mobile, 'address' => $address, 'city' => $city, 'pincode' => $pincode, 'state' => $state, 'partner_code' => $pcode, 'partner_image' => $partner_image);
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id , 'name' => $name, 'email' => $email, 'age' => $age, 'mobile' => $mobile, 'address' => $address, 'city' => $city, 'pincode' => $pincode, 'state' => $state, 'partner_code' => $pcode, 'partner_image' => $partner_image, 'assignService' => $assignService);
+
+
+            } else{
+                $status_code = $success = '0';
+                $message = 'Partner not exists or not verified';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function partnerDashboard(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $language = $request->language;
+
+            //echo $language; exit;
+
+            $baseUrl = URL::to("/");
+           
+            $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+            if($partner){ 
+                $assignService = array();
+
+                $partnerAssign = DB::table('vendor_vendor_assign')->leftJoin('vendor_services', 'vendor_vendor_assign.vendor_service_id', '=', 'vendor_services.id')->where('vendor_id', $partner_id)->get();
+
+                $stats_total  = $stats_pending_total  = 0;
+
+                foreach ($partnerAssign as $key => $value) {
+                    # code...
+                    $categoryName = json_decode($value->name);
+                    //print_r($categoryName); exit;
+                    $table_name = $value->table_name;
+                    $table_name_vendor = $value->table_name."_vendor";
+
+                    $isExists = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->selectRaw('COUNT(id) as total')->groupBy('vendor_id')->first();
+                    $stats = 0;
+                    if($isExists)
+                    {
+                        $stats = $isExists->total;
+                    }
+
+                    $isExists1 = \DB::table($table_name_vendor)->where('vendor_id', $partner_id)->where('test_status', 'Pending')->selectRaw('COUNT(id) as total')->count();
+                    $stats1 = $isExists1;
+
+                    $stats_total+=$stats;
+                    $stats_pending_total+=$stats1;
+
+                    $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
+                }
+
+                //$assignService[] = array('service_code' => 'all-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image,'name' => 'All Leads', 'stats' => "".$stats_total);
+
+                //$assignService[] = array('service_code' => 'pending-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => 'Pending Leads', 'stats' => "".$stats_pending_total);
+
+                //array_reverse($assignService);
+                
+                $pincode = $partner->pincode;
+
+                $appurl = 'api.openweathermap.org/data/2.5/weather?zip='.$pincode.',IN&units=metric&appid=acfd0186948c7adf0c9c87a2ebcc004b';
+                $wheatherRespone = $this->httpGet($appurl);
+                
+                $wheather = json_decode($wheatherRespone);
+                //print_r($wheather->main);
+                //print_r($wheather->weather[0]);
+                $mainval =  $wheather->weather[0]->main;
+                $wheatherType =  $wheather->weather[0]->description;
+                $wheathericon =  $wheather->weather[0]->icon;
+                $todaytemp =  $wheather->main->temp;
+                $todayhumidity =  $wheather->main->humidity;
+                $todayhumidity =  $wheather->main->humidity;
+                $locationName =  $wheather->name;
+                $iconurl = "http://openweathermap.org/img/w/" . $wheathericon . ".png";
+                
+                $status_code = $success = '1';
+                $message = 'Partner Dashboards';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'pincode' => $pincode, 'wheatherType' => $wheatherType, 'wheathericon' => $iconurl, 'todaytemp' => "".$todaytemp."°C" , 'todayhumidity' => "".$todayhumidity, 'locationName' => "".$locationName, 'assignService' => $assignService);
 
 
             } else{
@@ -1004,6 +1334,72 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function leadStatus(Request $request)
+    {
+        try 
+        {
+            Setting::assignSetting();
+
+            $json       =   array();
+
+            $sliderArr = array();
+            $sliderList = DB::table('lead_status')->where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $statusData = array();
+            if($sliderList) {
+                foreach($sliderList as $row) {
+                    $statusData[]['name'] = $row->name;
+                }
+            }
+            
+            $status_code = '1';
+            $message = 'Status list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'statusData' => $statusData);
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function leadStatusAll(Request $request)
+    {
+        try 
+        {
+            Setting::assignSetting();
+
+            $json       =   array();
+
+            $sliderArr = array();
+            $sliderList = DB::table('lead_status')->where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $statusData = array();
+            if($sliderList) {
+                $statusData[]['name'] = "All";
+
+                foreach($sliderList as $row) {
+                    $statusData[]['name'] = $row->name;
+                }
+            }
+            
+            $status_code = '1';
+            $message = 'Status list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'statusData' => $statusData);
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
     // Services
     // Done
     public function agriTypeEnquiry(Request $request)
@@ -1030,10 +1426,10 @@ class apiPartnerController extends Controller
             }
             
             if($error == ""){
-                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
                     $name = $customer->name;
-                    $mobile = $customer->telephone;
+                    $mobile = $customer->phone;
                     DB::table('agri_type_enquiry')->insert(['customer_id' => $partner_id, 'agri_type' => $agritype, 'city' => $city, 'comment' => $comment, 'isactive' => $isactive,  'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
@@ -2014,6 +2410,11 @@ class apiPartnerController extends Controller
             $test_type = $request->test_type;
             $amount = $request->amount;
 
+            /*$crop_type = $request->crop_type;
+            $soil_type = $request->soil_type;
+            $soil_density = $request->soil_density;
+            $avg_yield = $request->avg_yield;*/
+
             $is_contact = $request->is_contact;
             $contact_person_name = $request->contact_person_name;
             $contact_person_phone = $request->contact_person_phone;
@@ -2055,8 +2456,7 @@ class apiPartnerController extends Controller
                     $order_no = str_pad($orderno, 3, "0", STR_PAD_LEFT);
                     $name = $customer->name;
                     $mobile = $customer->phone;
-                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $partner_id, 'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
-                   //DB::table('soil_test_orders')->where('id', '=', $orderid)->update(['order_no' => $order_no]);
+                   $orderid = DB::table('soil_test_orders')->insertGetId(['customer_id' => $partner_id, 'order_no' => $order_no, 'name' => $name, 'mobile' => $mobile, 'land_size' => $land_size, 'location' => $location, 'khasra_no' => $khasra_no, 'test_type' => $test_type, 'amount' => $amount, 'order_status' => $order_status, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]); //'crop_type' => $crop_type, 'soil_type' => $soil_type, 'soil_density' => $soil_density, 'avg_yield' => $avg_yield, 
                    
                    /* FCM Notification */
                    $customerToken = $customer->fcmToken; 
@@ -2095,4 +2495,51 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function enquiry_tracking(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $enquiry_type = $request->enquiry_type;
+            $lead_id = $request->lead_id;
+            $phone_number = $request->phone_number;
+            
+            $error = "";
+            if($enquiry_type == ""){
+                $error = "Please enter enquiry type";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    
+                    DB::table('enquiry_tracking')->insert(['customer_id' => $partner_id, 'enquiry_type' => $enquiry_type, 'user_type' => 'partner', 'lead_id' => $lead_id, 'phone_number' => $phone_number, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Enquiry Type added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
 }
