@@ -327,7 +327,7 @@ class SoilTestOrdersCrudController extends CrudController
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{"query":"query Query($getExternalTestsByFarmerFarmer: ID!) {getExternalTestsByFarmer(farmer: $getExternalTestsByFarmerFarmer) {        id        test {            html            results        }        createdAt        updatedAt        status        expiresAt        latitude        area        cropType        soilType        soilDensity        surveyNo        sampleDate        longitude    }}","variables":{"getExternalTestsByFarmerFarmer":"'.$krishitantra_order_id.'"}}',
+          CURLOPT_POSTFIELDS =>'{"query":"query Query($getExternalTestsByFarmerFarmer: ID!) {getExternalTestsByFarmer(farmer: $getExternalTestsByFarmerFarmer) { id test {html results} createdAt updatedAt status expiresAt latitude  area cropType soilType soilDensity  surveyNo sampleDate longitude    }}","variables":{"getExternalTestsByFarmerFarmer":"'.$krishitantra_order_id.'"}}',
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.SOILTEST_TOKEN,
             'Content-Type: application/json'

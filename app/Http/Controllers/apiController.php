@@ -2415,8 +2415,14 @@ class apiController extends Controller
                         {
                             
                             $rscustomer = DB::table('customers')->where('id', $rlist->customer_id)->first();
-                            $customer_name = $rscustomer->name;
-                            $customer_telphone = $rscustomer->telephone;
+
+                            $customer_name = $customer_telphone = "";
+                            if($rscustomer)
+                            {
+                                $customer_name = $rscustomer->name;
+                                $customer_telphone = $rscustomer->telephone;
+                            }
+                            
                             $pimage = '';
                             $othercity = ($rlist->other_city != '') ? $rlist->other_city : "";
                             $r_List[] = ['id' => (string)$rlist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'land_type' =>$rlist->land_type, 'location' => $rlist->location, 'other_city' => $othercity, 'size_in_acre' => $rlist->size_in_acore, 'rent_time' => $rlist->how_much_time, 'comment' => $rlist->comment]; 
