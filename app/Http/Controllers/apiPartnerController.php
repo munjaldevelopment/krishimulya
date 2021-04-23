@@ -1247,12 +1247,12 @@ class apiPartnerController extends Controller
                     foreach($soilNotifyList as $notifylist)
                     {
                         $notification_type = str_replace("_", "-", $notifylist->notification_type);
-                        if($notifylist->notification_type == 'soil_order'){
+                        if($notification_type == 'soil-order'){
 
-                            //$notification_type = 'Soil Order';
+                            $notification_type_code = 'Soil Order';
                         }
 
-                        $notify_List[] = array('id' => "".$notifylist->id, 'lead_id' => $notifylist->lead_id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
+                        $notify_List[] = array('id' => "".$notifylist->id, 'lead_id' => $notifylist->lead_id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_code' => $notification_type_code,  'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
                        
                     } 
 
