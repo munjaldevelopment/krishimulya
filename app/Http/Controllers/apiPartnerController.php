@@ -26,10 +26,10 @@ class apiPartnerController extends Controller
         return $head;
     }
 
-    public function sendNotification($customer_id, $title, $message, $image = '')
+    public function sendNotification($customer_id, $lead_id, $title, $message, $image = '')
     {
         $date = date('Y-m-d H:i:s');
-        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
         //echo $success.",".$fail.",".$total; exit;
     }
 
@@ -1542,7 +1542,7 @@ class apiPartnerController extends Controller
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
                 if($customer){ 
                     
-                    DB::table('agriland_rent_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'updated_at' => $date]);
+                    $agriland_rent_enquiry_id = DB::table('agriland_rent_enquiry')->insertGetId(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -1550,7 +1550,7 @@ class apiPartnerController extends Controller
                     {
                         $title = "Agriland Rent Enquiry";
                         $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $agriland_rent_enquiry_id, $title, $message1, '');
                     }
 
                     $status_code = $success = '1';
@@ -1639,7 +1639,7 @@ class apiPartnerController extends Controller
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '1')->first();
                 if($customer){ 
                     
-                    DB::table('agriland_sale_enquiry')->insert(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                    $agriland_sale_enquiry_id = DB::table('agriland_sale_enquiry')->insertGetId(['customer_id' => $partner_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -1647,7 +1647,7 @@ class apiPartnerController extends Controller
                     {
                         $title = "Agriland Sale Enquiry";
                         $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $agriland_sale_enquiry_id, $title, $message1, '');
                     }
 
                     $status_code = $success = '1';
@@ -2008,7 +2008,7 @@ class apiPartnerController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->phone;
-                    DB::table('tractor_purchase_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                    $tractor_purchase_enquiry_id = DB::table('tractor_purchase_enquiry')->insertGetId(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -2016,7 +2016,7 @@ class apiPartnerController extends Controller
                     {
                         $title = "Tractor purchase";
                         $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_purchase_enquiry_id, $title, $message1, '');
                     }
 
                     $status_code = $success = '1';
@@ -2100,7 +2100,7 @@ class apiPartnerController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->phone;
-                    DB::table('tractor_refinance_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+                    $tractor_purchase_enquiry_id = DB::table('tractor_refinance_enquiry')->insertGetId(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -2108,7 +2108,7 @@ class apiPartnerController extends Controller
                     {
                         $title = "Tractor Refinance";
                         $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_purchase_enquiry_id, $title, $message1, '');
                     }
 
                     $status_code = $success = '1';
@@ -2193,7 +2193,7 @@ class apiPartnerController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->phone;
-                    DB::table('tractor_rent_enquiry')->insert(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
+                    $tractor_purchase_enquiry_id = DB::table('tractor_rent_enquiry')->insertGetId(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -2201,7 +2201,7 @@ class apiPartnerController extends Controller
                     {
                         $title = "Tractor Rent";
                         $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_purchase_enquiry_id, $title, $message1, '');
                     }
 
                     $status_code = $success = '1';
@@ -2338,7 +2338,7 @@ class apiPartnerController extends Controller
                     {
                         $title = "Tractor Sale";
                         $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '');
                     }
 
                     $status_code = $success = '1';
