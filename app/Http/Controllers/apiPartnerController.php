@@ -709,11 +709,11 @@ class apiPartnerController extends Controller
 
                     if($test_status == "" || $test_status == "All")
                     {
-                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->where('user_type', "customer")->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('vendor_id', $partner_id)->where('user_type', "customer")->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->orderBy($table_name_vendor.'.updated_at', 'DESC')->get();
                     }
                     else
                     {
-                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->get();
+                        $vendorData = \DB::table($table_name_vendor)->leftJoin($table_name, $table_name_vendor.'.'.$table_name."_id", '=', $table_name.'.id')->where('test_status', $test_status)->where('vendor_id', $partner_id)->whereDate('status_time', ">=", $date_from)->whereDate('status_time', "<=", $date_to)->orderBy($table_name_vendor.'.updated_at', 'DESC')->get();
                     }
 
                     $leadData = array();
