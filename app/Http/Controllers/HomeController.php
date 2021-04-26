@@ -63,7 +63,7 @@ class HomeController extends Controller
                     $fail = $downstreamResponse->numberFailure();
                     $total = $downstreamResponse->numberModification();
                 }
-                else
+                else if($user_type == "partner")
                 {
                     $userDeviceRow = DB::table('vendors')->where('id','=', $customer_id)->first();
 
@@ -74,6 +74,8 @@ class HomeController extends Controller
                     $success = $downstreamResponse->numberSuccess();
                     $fail = $downstreamResponse->numberFailure();
                     $total = $downstreamResponse->numberModification();
+
+                    echo $success.",".$fail.",".$total.'<br />';
                 }
 
                 $date   = date('Y-m-d H:i:s');
