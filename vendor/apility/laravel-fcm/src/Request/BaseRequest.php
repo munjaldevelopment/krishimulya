@@ -46,9 +46,9 @@ abstract class BaseRequest
     protected function buildRequestHeaderPartner()
     {
         return [
-            'Authorization' => 'key='.$this->config['server_key_partner'],
+            'Authorization' => 'key='.$this->config['server_key_client'],
             'Content-Type' => 'application/json',
-            'project_id' => $this->config['sender_id_partner'],
+            'project_id' => $this->config['sender_id_client'],
         ];
     }
 
