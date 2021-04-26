@@ -1238,10 +1238,10 @@ class apiPartnerController extends Controller
             $partner_id = $request->partner_id;
             $partner = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
             if($partner){ 
-                $soilnotificationExists = DB::table('notifications')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->count();
+                $soilnotificationExists = DB::table('notifications')->where('customer_id', $partner_id)->where('user_type', 'partner')->where('isactive', '1')->orderBy('id', 'DESC')->count();
                 $notify_List = array();
                 if($soilnotificationExists >0){
-                    $soilNotifyList = DB::table('notifications')->select('id','lead_id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->get();
+                    $soilNotifyList = DB::table('notifications')->select('id','lead_id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $partner_id)->where('user_type', 'partner')->where('isactive', '1')->orderBy('id', 'DESC')->get();
 
                     
                     foreach($soilNotifyList as $notifylist)
