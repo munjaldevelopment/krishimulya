@@ -47,6 +47,7 @@ class HomeController extends Controller
                 $dataBuilder->addData(['title' => $title, 'content' => $message]);
                 
                 $option = $optionBuilder->build();
+                dd($option);
 
                 $notification = $notificationBuilder->build();
                 $data = $dataBuilder->build();
