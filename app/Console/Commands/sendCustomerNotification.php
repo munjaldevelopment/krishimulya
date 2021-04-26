@@ -80,13 +80,13 @@ class SendCustomerNotification extends Command
                     $fail = $downstreamResponse->numberFailure();
                     $total = $downstreamResponse->numberModification();
                 }
-                else
+                else if($user_type == "partner")
                 {
                     $userDeviceRow = DB::table('vendors')->where('id','=', $customer_id)->first();
 
                     $tokenData = array($userDeviceRow->fcmToken);
                                         
-                    $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
+                    $downstreamResponse = FCM::sendToPartner($tokenData, $option, $notification, $data);
                                         
                     $success = $downstreamResponse->numberSuccess();
                     $fail = $downstreamResponse->numberFailure();

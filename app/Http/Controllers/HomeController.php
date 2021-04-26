@@ -77,8 +77,8 @@ class HomeController extends Controller
                     $fail = $downstreamResponse->numberFailure();
                     $total = $downstreamResponse->numberModification();
 
-                    echo $success.",".$fail.",".$total.'<br />';
-                    dd($downstreamResponse);
+                    //echo $success.",".$fail.",".$total.'<br />';
+                    //dd($downstreamResponse);
                 }
 
                 $date   = date('Y-m-d H:i:s');
