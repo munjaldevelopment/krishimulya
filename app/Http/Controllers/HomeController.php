@@ -78,7 +78,7 @@ class HomeController extends Controller
                     $fail = $downstreamResponse->numberFailure();
                     $total = $downstreamResponse->numberModification();
 
-                    //echo $success.",".$fail.",".$total.'<br />';
+                    echo $success.",".$fail.",".$total.'<br />';
                     //dd($downstreamResponse);
                 }
 
