@@ -76,6 +76,7 @@ class HomeController extends Controller
                     $total = $downstreamResponse->numberModification();
 
                     echo $success.",".$fail.",".$total.'<br />';
+                    dd($downstreamResponse);
                 }
 
                 $date   = date('Y-m-d H:i:s');
