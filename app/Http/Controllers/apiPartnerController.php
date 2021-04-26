@@ -804,7 +804,7 @@ class apiPartnerController extends Controller
                             else if($lead_type == "agriland-rent")
                             {
                                 $details = "<strong>Location: </strong>".$vendorRow->location.'<br />';
-                                $details .= "<strong>Size: </strong>".$vendorRow->size_in_acre.'<br />';
+                                $details .= "<strong>Size: </strong>".$vendorRow->size_in_acore.'<br />';
                                 $details .= "<strong>Type: </strong>".$vendorRow->land_type.'<br />';
                                 $details .= "<strong>How Much: </strong>".$vendorRow->how_much_time.'<br />';
                                 $details .= "<strong>Comment: </strong>".$vendorRow->comment;
