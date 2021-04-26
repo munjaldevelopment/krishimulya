@@ -51,7 +51,7 @@ class HomeController extends Controller
 
                 $notification = $notificationBuilder->build();
                 $data = $dataBuilder->build();
-                dd($notification);
+                dd($data);
 
                 if($user_type == "customer")
                 {
