@@ -809,6 +809,13 @@ class apiPartnerController extends Controller
                                 $details .= "<strong>How Much: </strong>".$vendorRow->how_much_time.'<br />';
                                 $details .= "<strong>Comment: </strong>".$vendorRow->comment;
                             }
+                            else if($lead_type == "labour")
+                            {
+                                $details = "<strong>Location: </strong>".$vendorRow->location.'<br />';
+                                $details .= "<strong>Purpose: </strong>".$vendorRow->purpose.'<br />';
+                                $details .= "<strong>Need: </strong>".$vendorRow->need.'<br />';
+                                $details .= "<strong>Comment: </strong>".$vendorRow->comments;
+                            }
                             
                             
 
