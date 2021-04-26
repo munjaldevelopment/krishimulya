@@ -32,6 +32,7 @@ class HomeController extends Controller
             {
                 $title = $row->notification_title;
                 $message = $row->notification_content;
+                $notification_type = $row->notification_type;
                 $customer_id = $row->customer_id;
                 $user_type = $row->user_type;
 
@@ -44,7 +45,7 @@ class HomeController extends Controller
                 $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
                 
                 $dataBuilder = new PayloadDataBuilder();
-                $dataBuilder->addData(['title' => $title, 'content' => $message]);
+                $dataBuilder->addData(['title' => $title, 'content' => $message, 'notify_type' => $notification_type]);
                 
                 $option = $optionBuilder->build();
 
