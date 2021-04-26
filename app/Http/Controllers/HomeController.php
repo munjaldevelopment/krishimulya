@@ -71,7 +71,7 @@ class HomeController extends Controller
 
                     $tokenData = array($userDeviceRow->fcmToken);
                                         
-                    $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
+                    $downstreamResponse = FCM::sendToPartner($tokenData, $option, $notification, $data);
                                         
                     $success = $downstreamResponse->numberSuccess();
                     $fail = $downstreamResponse->numberFailure();
