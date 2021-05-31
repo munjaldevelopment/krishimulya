@@ -1552,7 +1552,7 @@ class apiController extends Controller
                                     $file->move($destinationPath, $tactorimage);
 
                                     $tractor_sell_enquiry_image_id = DB::table('tractor_sell_enquiry_images')->insertGetId(['tractor_sell_enquiry_id' => $tractor_sell_enquiry_id, 'image_name' => $tactorimage, 'created_at' => $date, 'updated_at' => $date]);
-                                    $tractor_imagearr[$s]['tractor_sale_image']  =  $baseUrl."/public/uploads/tractor_image/".$tactorimage;
+                                    //$tractor_imagearr[$s]['tractor_sale_image']  =  $baseUrl."/public/uploads/tractor_image/".$tactorimage;
                                     $s++;
                                 }
                             }
