@@ -1464,7 +1464,7 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                  if($tractor_image != ''){
+                  /*if($tractor_image != ''){
                         $image_parts = explode(";base64,", $tractor_image);
                         $image_type_aux = explode("image/", $image_parts[0]);
                         $image_type = $image_type_aux[1];
@@ -1475,13 +1475,29 @@ class apiController extends Controller
                         $data = base64_decode($image_parts[1]);
                         // $data = $image_parts[1];
                         file_put_contents($destinationPath, $data);
-                    } 
+                    } */
 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-
+                    $tractorimage = '';
                     $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
+                    /* Uploade Tractor images */
+                    if($tractor_image){
+                        if ($request->hasfile('tractor_image')) {
+                            foreach ($request->file('tractor_image') as $file) {
+                                $name = $file->getClientOriginalName();
+                                //echo '<br>';
+                                $tactorimage = rand(10000, 99999).'-'.time().'.'.$file->getClientOriginalExtension();
+                                //echo '<br>';
+                                $destinationPath = public_path('/uploads/tractor_image/');
+                                
+                                $file->move($destinationPath, $tactorimage);
+
+                                $tractor_sell_enquiry_image_id = DB::table('tractor_sell_enquiry_images')->insertGetId(['tractor_sell_enquiry_id' => $tractor_sell_enquiry_id, 'image_name' => $tactorimage, 'created_at' => $date, 'updated_at' => $date]);
+                            }
+                        }
+                    }  
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
