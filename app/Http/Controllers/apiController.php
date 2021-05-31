@@ -1824,10 +1824,17 @@ class apiController extends Controller
 
                             $baseUrl = URL::to("/");
                             $tractor_image  = "";
-                            if($plist->image){
+                            /*if($plist->image){
                                 $tractor_image  =  $baseUrl."/public/uploads/tractor_image/".$plist->image;
                             
+                            }*/
+                            $tractor_sell_enquiry_id = $plist->id;
+                            $tractorimageinfo = DB::table('tractor_sell_enquiry_images')->where('tractor_sell_enquiry_id', $tractor_sell_enquiry_id)->first();
+                            if($tractorimageinfo){
+                                $tractor_image  =  $baseUrl."/public/uploads/tractor_image/".$tractorimageinfo->image_name;
+                            
                             }
+
                             $other_company = ($plist->other_company != '') ? $plist->other_company : "";
                             $othercity = ($plist->other_city != '') ? $plist->other_city : "";
                             $purchaseList[] = ['id' => (string)$plist->id, 'customer_name' =>$customer_name, 'customer_telphone' =>$customer_telphone, 'company_name' =>$plist->company_name, 'other_company' =>$other_company, 'what_need' =>$plist->sale_type, 'location' =>$plist->location, 'other_city' =>$othercity, 'model' => $plist->model, 'hourse_power' => $plist->hourse_power, 'hrs' => $plist->hrs, 'exp_price' => $plist->exp_price, 'payment_type' => $plist->payment_type, 'image' => $tractor_image]; 
@@ -1859,6 +1866,47 @@ class apiController extends Controller
             $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
         }
         
+        return response()->json($json, 200);
+    }
+
+    public function all_tractor_sale_enquiry_images(Request $request)
+    {
+        try 
+        {   
+            
+            $json       =   array();
+            $baseUrl = URL::to("/");
+            $tractor_sell_enquiry_id = $request->tractor_sell_enquiry_id;
+            if($tractor_sell_enquiry_id != ''){
+                $tractorimageinfo = DB::table('tractor_sell_enquiry_images')->where('tractor_sell_enquiry_id', $tractor_sell_enquiry_id)->get();
+                if($tractorimageinfo){
+                    $tractorimages = array();
+                    $s=0;
+                    foreach($tractorimageinfo as $row)
+                    {
+                        $tractorimages[$s]['tractor_image']  =  $baseUrl."/public/uploads/tractor_image/".$row->image_name;
+                        $s++;
+                    }
+                
+                };
+
+                $status_code = '1';
+                $message = 'Tractor Image list';
+                $json = array('status_code' => $status_code,  'message' => $message, 'tractorimages' => $tractorimages);
+            }else{
+                $status_code = $success = '0';
+                $message = 'Images not found';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'tractor_sell_enquiry_id' => $tractor_sell_enquiry_id);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
         return response()->json($json, 200);
     }
 

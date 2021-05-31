@@ -81,6 +81,8 @@ Route::post('tractor-refinance-enquiry', 'apiController@tractorRefinanceEnquiry'
 Route::post('tractor-purchase-enquiry', 'apiController@tractorPurchaseEnquiry');
 Route::post('purchase-old-result', 'apiController@purchaseOldResult'); // Search
 
+Route::post('all-tractor-images', 'apiController@all_tractor_sale_enquiry_images'); 
+
 Route::get('labour-need', 'apiController@all_labour_need');
 Route::get('labour-purpose', 'apiController@all_purpose');
 Route::post('labour-enquiry', 'apiController@labourEnquiry');
