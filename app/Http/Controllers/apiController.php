@@ -3993,6 +3993,7 @@ class apiController extends Controller
         try 
         {
             $json = $tractorSaleData = array();
+            $baseUrl = URL::to("/");
             $date   = date('Y-m-d H:i:s');
             $customer_id = $request->customer_id; $tractor_sale_id = $request->tractor_sale_id;
 
