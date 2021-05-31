@@ -1893,7 +1893,7 @@ class apiController extends Controller
                         $s++;
                     }
                 
-                };
+                }
 
                 $status_code = '1';
                 $message = 'Tractor Image list';
@@ -4003,10 +4003,22 @@ class apiController extends Controller
                 {
                     $tractorSellEnquiry = DB::table('tractor_sell_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $tractor_sale_id)->where('isactive', '1')->first();
 
+                    $tractorimageinfo = DB::table('tractor_sell_enquiry_images')->where('tractor_sell_enquiry_id', $tractorSellEnquiry->id)->get();
+                    if($tractorimageinfo){
+                        $tractorimages = array();
+                        $s=0;
+                        foreach($tractorimageinfo as $row)
+                        {
+                            $tractorimages[$s]['tractor_image']  =  $baseUrl."/public/uploads/tractor_image/".$row->image_name;
+                            $s++;
+                        }
+                    
+                    }
+
                     $status_code = '1';
                     $message = 'Tractor Sale history';
 
-                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'comment' => $tractorSellEnquiry->comment, 'model' => $tractorSellEnquiry->model, 'year_manufacturer' => $tractorSellEnquiry->year_manufacturer, 'hourse_power' => $tractorSellEnquiry->hourse_power, 'hrs' => $tractorSellEnquiry->hrs, 'exp_price' => $tractorSellEnquiry->exp_price, 'image' => asset('/uploads/tractor_image/')."/".$tractorSellEnquiry->image, 'sale_type' => $tractorSellEnquiry->sale_type, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'is_contact' => $tractorSellEnquiry->is_contact, 'is_edit' => "".$tractorSellEnquiry->is_edit, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'payment_type' => $tractorSellEnquiry->payment_type);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$tractorSellEnquiry->id, 'name' => $tractorSellEnquiry->name, 'mobile' => $tractorSellEnquiry->mobile, 'company_name' => $tractorSellEnquiry->company_name, 'other_company' => ($tractorSellEnquiry->other_company == NULL ? "" : $tractorSellEnquiry->other_company), 'comment' => $tractorSellEnquiry->comment, 'model' => $tractorSellEnquiry->model, 'year_manufacturer' => $tractorSellEnquiry->year_manufacturer, 'hourse_power' => $tractorSellEnquiry->hourse_power, 'hrs' => $tractorSellEnquiry->hrs, 'exp_price' => $tractorSellEnquiry->exp_price, 'tractorimages' => $tractorimages, 'image' => asset('/uploads/tractor_image/')."/".$tractorSellEnquiry->image, 'sale_type' => $tractorSellEnquiry->sale_type, 'location' => $tractorSellEnquiry->location, 'other_city' => ($tractorSellEnquiry->other_city == NULL ? "" : $tractorSellEnquiry->other_city), 'is_contact' => $tractorSellEnquiry->is_contact, 'is_edit' => "".$tractorSellEnquiry->is_edit, 'contact_person_name' => ($tractorSellEnquiry->contact_person_name == NULL ? "" : $tractorSellEnquiry->contact_person_name), 'contact_person_phone' => ($tractorSellEnquiry->contact_person_phone == NULL ? "" : $tractorSellEnquiry->contact_person_phone), 'contact_person_otp' => ($tractorSellEnquiry->contact_person_otp == NULL ? "" : $tractorSellEnquiry->contact_person_otp), 'payment_type' => $tractorSellEnquiry->payment_type);
                 }
                 else
                 {
