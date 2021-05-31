@@ -1482,22 +1482,7 @@ class apiController extends Controller
                     $tractorimage = '';
                     $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
-                    /* Uploade Tractor images */
-                    if($tractor_image){
-                        if ($request->hasfile('tractor_image')) {
-                            foreach ($request->file('tractor_image') as $file) {
-                                $name = $file->getClientOriginalName();
-                                //echo '<br>';
-                                $tactorimage = rand(10000, 99999).'-'.time().'.'.$file->getClientOriginalExtension();
-                                //echo '<br>';
-                                $destinationPath = public_path('/uploads/tractor_image/');
-                                
-                                $file->move($destinationPath, $tactorimage);
-
-                                $tractor_sell_enquiry_image_id = DB::table('tractor_sell_enquiry_images')->insertGetId(['tractor_sell_enquiry_id' => $tractor_sell_enquiry_id, 'image_name' => $tactorimage, 'created_at' => $date, 'updated_at' => $date]);
-                            }
-                        }
-                    }  
+                    
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     foreach($customers as $cust)
@@ -1511,6 +1496,77 @@ class apiController extends Controller
                     $message = 'Tractor sale enquiry added successfully';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'tractor_sell_enquiry_id' => $tractor_sell_enquiry_id);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function tractorSaleMultimage(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $baseUrl = URL::to("/");
+            $customer_id = $request->customer_id;
+            $tractor_sell_enquiry_id = $request->tractor_sell_enquiry_id;
+            $tractor_image = $request->tractor_image;
+            
+            $isactive = 1;
+            $error = "";
+            if($tractor_sell_enquiry_id == ""){
+                $error = "Please enter tractor sale enquiry id";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                if($customer){
+                    $tractor_sell_enquiry = DB::table('tractor_sell_enquiry')->where('id', $tractor_sell_enquiry_id)->where('customer_id', $customer_id)->first();
+                    if($tractor_sell_enquiry){
+                        /* Uploade Tractor images */
+                        $tractor_imagearr = array();
+                        if($tractor_image){
+                            if ($request->hasfile('tractor_image')) {
+                                $s=0;
+                                foreach ($request->file('tractor_image') as $file) {
+                                    $name = $file->getClientOriginalName();
+                                    //echo '<br>';
+                                    $tactorimage = rand(10000, 99999).'-'.time().'.'.$file->getClientOriginalExtension();
+                                    //echo '<br>';
+                                    $destinationPath = public_path('/uploads/tractor_image/');
+                                    
+                                    $file->move($destinationPath, $tactorimage);
+
+                                    $tractor_sell_enquiry_image_id = DB::table('tractor_sell_enquiry_images')->insertGetId(['tractor_sell_enquiry_id' => $tractor_sell_enquiry_id, 'image_name' => $tactorimage, 'created_at' => $date, 'updated_at' => $date]);
+                                    $tractor_imagearr[$s]['tractor_sale_image']  =  $baseUrl."/public/uploads/tractor_image/".$tactorimage;
+                                    $s++;
+                                }
+                            }
+                        }  
+                        $status_code = $success = '1';
+                        $message = 'Tractor sale enquiry Images added successfully';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'tractor_sell_enquiry_id' => $tractor_sell_enquiry_id,'tractor_image_list' => $tractor_imagearr);
+                }else{
+                     $status_code = $success = '0';
+                    $message = 'Tractor Sale Enquiry id not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);   
+                }
                 } else{
                     $status_code = $success = '0';
                     $message = 'Customer not valid';

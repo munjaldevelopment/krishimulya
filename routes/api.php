@@ -73,6 +73,7 @@ Route::post('verify-customer-mobile', 'apiController@verifyOrderMobile');
 
 Route::get('year-manufacturer', 'apiController@year_manufacturer');
 Route::post('tractor-sale-enquiry', 'apiController@tractorSaleEnquiry');
+Route::post('tractor-sale-enquiry-multi-images', 'apiController@tractorSaleMultimage');
 Route::post('tractor-sale-enquiry-verify', 'apiController@tractorSaleEnquiryVerify');
 
 Route::post('tractor-refinance-enquiry', 'apiController@tractorRefinanceEnquiry');
