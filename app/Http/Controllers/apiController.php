@@ -1747,6 +1747,11 @@ class apiController extends Controller
                 $error = "Please select what need to search";
                 $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
             }
+
+            if($payment_type == ""){
+                $error = "Please select payment type to search";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
             
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
