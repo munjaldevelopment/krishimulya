@@ -669,7 +669,7 @@ class apiPartnerController extends Controller
                     $status_code = $success = '1';
                     $message = "Status changed successfully";   
 
-                    $json = array('status_code' => $status_code, 'message' => $message, 'lead_id' => 4lead_id);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'lead_id' => $lead_id);
                 }
             }
         }
@@ -2258,7 +2258,7 @@ class apiPartnerController extends Controller
             $contact_person_otp = $request->contact_person_otp;
 
             $tractor_image = $request->tractor_image;
-
+            
             $isactive = 1;
             $error = "";
             if($location == "" || $location == "All"){
@@ -2315,10 +2315,11 @@ class apiPartnerController extends Controller
             if($error == ""){
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
-                    $name = $customer->name;
+                   $name = $customer->name;
+                   
                     $mobile = $customer->phone;
 
-                  	if($tractor_image != ''){
+                  	/*if($tractor_image != ''){
                         $image_parts = explode(";base64,", $tractor_image);
                         $image_type_aux = explode("image/", $image_parts[0]);
                         $image_type = $image_type_aux[1];
@@ -2329,9 +2330,28 @@ class apiPartnerController extends Controller
                         $data = base64_decode($image_parts[1]);
                         // $data = $image_parts[1];
                         file_put_contents($destinationPath, $data);
-                    } 
-
+                    } */
+                     $tractorimage ='';
                     $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $partner_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'user_type' => 'partner', 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    /* Uploade Tractor images */
+                    if($tractor_image){
+                        if ($request->hasfile('tractor_image')) {
+                            foreach ($request->file('tractor_image') as $file) {
+                                $name = $file->getClientOriginalName();
+                                //echo '<br>';
+                                $tactorimage = rand(10000, 99999).'-'.time().'.'.$file->getClientOriginalExtension();
+                                //echo '<br>';
+                                $destinationPath = public_path('/uploads/tractor_image/');
+                                
+                                $file->move($destinationPath, $tactorimage);
+
+                                $tractor_sell_enquiry_image_id = DB::table('tractor_sell_enquiry_images')->insertGetId(['tractor_sell_enquiry_id' => $tractor_sell_enquiry_id, 'image_name' => $tactorimage, 'created_at' => $date, 'updated_at' => $date]);
+                            }
+                        }
+                    }   
+
+                
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
