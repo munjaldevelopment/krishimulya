@@ -153,6 +153,7 @@ Route::post('agriland-sale-enquiry-detail', 'apiController@agriSaleEnquiryDetail
 
 // Update
 Route::post('tractor-sale-detail-save', 'apiController@tractorSaleDetailSave');
+Route::post('tractor-sale-update-multi-image', 'apiController@tractorSaleUpdateMultimage');
 Route::post('tractor-purchase-detail-save', 'apiController@tractorPurchaseDetailSave');
 Route::post('tractor-rent-detail-save', 'apiController@tractorRentDetailSave');
 Route::post('tractor-refinance-detail-save', 'apiController@tractorRefinanceDetailSave');
