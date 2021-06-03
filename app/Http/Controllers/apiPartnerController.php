@@ -2447,7 +2447,7 @@ class apiPartnerController extends Controller
             $error = "";
             if($tractor_sell_enquiry_id == ""){
                 $error = "Please enter tractor sale enquiry id";
-                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $customer_id);
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
             }
             
             if($error == ""){
