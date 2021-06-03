@@ -210,7 +210,7 @@ Route::get('lead-status-all', 'apiPartnerController@leadStatusAll');
 
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');
-Route::get('partner-tractor-sale-enquiry-images', 'apiPartnerController@all_tractor_sale_enquiry_images');
+Route::post('partner-tractor-sale-enquiry-images', 'apiPartnerController@all_tractor_sale_enquiry_images');
 
 
 /// soil testing
