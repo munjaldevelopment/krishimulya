@@ -31,7 +31,7 @@
 
                     <h1 class="py-2">{{ $sliderList->title }}</h1>
 
-                    <h3 class="py-2">{{ $sliderList->short_description }}</h3>
+                    <!-- <h3 class="py-2">{{ $sliderList->short_description }}</h3> -->
 
                     <div class="py-1">
                         {!! $sliderList->description !!}
