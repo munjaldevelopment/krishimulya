@@ -56,6 +56,11 @@ class AgrilandRentEnquiryCrudController extends CrudController
          $this->crud->addColumn('size_in_acore');
           $this->crud->addColumn('how_much_time');  
          $this->crud->addColumn('land_type');
+         $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
         
         /**
          * Columns can be defined using the fluent syntax or array syntax:

@@ -58,6 +58,11 @@ class AgrilandsaleEnquiryPartnerCrudController extends CrudController
         //  $this->crud->addColumn('exp_price');  
          $this->crud->addColumn('land_type');
         
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

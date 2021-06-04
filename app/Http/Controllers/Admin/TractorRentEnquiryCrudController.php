@@ -62,7 +62,12 @@ class TractorRentEnquiryCrudController extends CrudController
          $this->crud->addColumn('location');
          $this->crud->addColumn('available_date');
          $this->crud->addColumn('what_type');
-
+         $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
+         
          $this->crud->addFilter([ // select2 filter
                 'name' => 'what_type',
                 'type' => 'select2',

@@ -56,7 +56,11 @@ class AgriToolEnquiryCrudController extends CrudController
         $this->crud->addColumn('agri_tool');
 
         $this->crud->addColumn('city');
-
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
         $this->crud->addColumn('comment');
         
         $this->crud->addColumn([

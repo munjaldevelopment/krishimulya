@@ -58,7 +58,11 @@ class TractorRefinanceEnquiryPartnerCrudController extends CrudController
          $this->crud->addColumn('location');
          $this->crud->addColumn('hourse_power'); 
          $this->crud->addColumn('payment_type'); 
-
+         $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
          $this->crud->addFilter([ // select2 filter
                 'name' => 'uses_type',
                 'type' => 'select2',

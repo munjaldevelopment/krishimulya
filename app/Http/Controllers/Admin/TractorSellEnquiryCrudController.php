@@ -66,7 +66,11 @@ class TractorSellEnquiryCrudController extends CrudController
          $this->crud->addColumn('location');
          $this->crud->addColumn('sale_type'); 
          $this->crud->addColumn('year_manufacturer'); 
-
+         $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
          $this->crud->addFilter([ // select2 filter
                 'name' => 'sale_type',
                 'type' => 'select2',

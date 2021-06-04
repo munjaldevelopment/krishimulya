@@ -95,6 +95,12 @@ class CustomerCrudController extends CrudController
                 ]);
 
         $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
+
+        $this->crud->addColumn([
             'name' => 'status',
             'label' => 'Is Active',
             'type' => 'boolean',
