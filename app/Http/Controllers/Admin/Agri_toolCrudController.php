@@ -42,6 +42,7 @@ class Agri_toolCrudController extends CrudController
         //CRUD::setFromDb(); // columns
 
          $this->crud->addColumn('title');
+         
         $this->crud->addColumn([
                 'name' => 'isactive',
                 'label' => 'Is Active',

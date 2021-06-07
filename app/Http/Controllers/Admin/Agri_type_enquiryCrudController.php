@@ -56,8 +56,16 @@ class Agri_type_enquiryCrudController extends CrudController
 
         $this->crud->addColumn('city');
 
-        $this->crud->addColumn('comment');
         
+
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
+        
+        $this->crud->addColumn('comment');
+
         $this->crud->addColumn([
             'name' => 'isactive',
             'label' => 'Is Active',

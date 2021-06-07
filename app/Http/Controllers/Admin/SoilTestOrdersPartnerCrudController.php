@@ -61,6 +61,11 @@ class SoilTestOrdersPartnerCrudController extends CrudController
         $this->crud->addColumn('order_no');
         $this->crud->addColumn('land_size');
         $this->crud->addColumn('khasra_no');
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
         $this->crud->addColumn('amount');
 
         /**

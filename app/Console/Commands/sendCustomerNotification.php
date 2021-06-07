@@ -50,6 +50,7 @@ class SendCustomerNotification extends Command
                 $title = $row->notification_title;
                 $message = $row->notification_content;
                 $customer_id = $row->customer_id;
+                $user_type = $row->user_type;
 
                 $optionBuilder = new OptionsBuilder();
                 $optionBuilder->setTimeToLive(60*20);
@@ -67,15 +68,30 @@ class SendCustomerNotification extends Command
                 $notification = $notificationBuilder->build();
                 $data = $dataBuilder->build();
 
-                $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
+                if($user_type == "customer")
+                {
+                    $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
 
-                $tokenData = array($userDeviceRow->fcmToken);
-                                    
-                $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
-                                    
-                $success = $downstreamResponse->numberSuccess();
-                $fail = $downstreamResponse->numberFailure();
-                $total = $downstreamResponse->numberModification();
+                    $tokenData = array($userDeviceRow->fcmToken);
+                                        
+                    $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
+                                        
+                    $success = $downstreamResponse->numberSuccess();
+                    $fail = $downstreamResponse->numberFailure();
+                    $total = $downstreamResponse->numberModification();
+                }
+                else if($user_type == "partner")
+                {
+                    $userDeviceRow = DB::table('vendors')->where('id','=', $customer_id)->first();
+
+                    $tokenData = array($userDeviceRow->fcmToken);
+                                        
+                    $downstreamResponse = FCM::sendToPartner($tokenData, $option, $notification, $data);
+                                        
+                    $success = $downstreamResponse->numberSuccess();
+                    $fail = $downstreamResponse->numberFailure();
+                    $total = $downstreamResponse->numberModification();
+                }
 
                 $date   = date('Y-m-d H:i:s');
                 DB::table('notifications')->where('id', '=', $row->id)->update(['is_sent' => '1', 'updated_at' => $date]);

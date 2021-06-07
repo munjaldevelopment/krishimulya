@@ -218,6 +218,7 @@ class FeedsCrudController extends CrudController
         $this->crud->unsetValidation(); // validation has already been run
 
         $result = $this->traitFeedStore();
+        $id = $this->crud->entry->id;
 
         $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -225,7 +226,7 @@ class FeedsCrudController extends CrudController
         {
             $title = $this->crud->getRequest()->title;
             $message1 = strip_tags($this->crud->getRequest()->content);
-            $this->sendNotification($cust->id, $title, $message1, '');
+            $this->sendNotification($cust->id, $id, $title, $message1, '');
         }
 
         return $result;
@@ -240,6 +241,7 @@ class FeedsCrudController extends CrudController
         $this->crud->unsetValidation(); // validation has already been run
 
         $result = $this->traitFeedUpdate();
+        $id = $this->crud->getRequest()->id;
 
         $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -247,15 +249,15 @@ class FeedsCrudController extends CrudController
         {
             $title = $this->crud->getRequest()->title;
             $message1 = strip_tags($this->crud->getRequest()->content);
-            $this->sendNotification($cust->id, $title, $message1, '');
+            $this->sendNotification($cust->id, $id, $title, $message1, '');
         }
 
         return $result;
     }
 
-    public function sendNotification($customer_id, $title, $message, $image = '')
+            public function sendNotification($customer_id, $lead_id, $title, $message, $image = '')
     {
         $date = date('Y-m-d H:i:s');
-        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id,'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
     }
 }

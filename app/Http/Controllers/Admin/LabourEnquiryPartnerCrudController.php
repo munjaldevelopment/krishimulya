@@ -63,7 +63,11 @@ class LabourEnquiryPartnerCrudController extends CrudController
          $this->crud->addColumn('purpose');
          $this->crud->addColumn('labour_no');
 
-         
+         $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
 
          $this->crud->addFilter([ // select2 filter
                 'name' => 'customer_id',

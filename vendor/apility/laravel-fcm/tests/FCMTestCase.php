@@ -17,6 +17,9 @@ abstract class FCMTestCase extends TestCase
         $app['config']['fcm.http.server_key'] = 'key=myKey';
         $app['config']['fcm.http.sender_id'] = 'SENDER_ID';
 
+        //$app['config']['fcm.http.server_key_client'] = 'key=myKey';
+        ///$app['config']['fcm.http.sender_id_client'] = 'SENDER_ID';
+
         return $app;
     }
 }

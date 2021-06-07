@@ -34,6 +34,8 @@ Route::get('/farmer_area_report', 'SoilTestController@farmerAreaReport');
 
 Route::get('/assignVendor', 'HomeController@assignVendor');
 
+Route::get('/sendNotification', 'HomeController@sendNotification');
+
 
 Route::get('/app-popup', function () {
 	$sliderList = DB::table('app_popups')->where('status', '=', 1)->orderBy('id', 'DESC')->first();

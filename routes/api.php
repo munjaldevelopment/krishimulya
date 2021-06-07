@@ -73,12 +73,15 @@ Route::post('verify-customer-mobile', 'apiController@verifyOrderMobile');
 
 Route::get('year-manufacturer', 'apiController@year_manufacturer');
 Route::post('tractor-sale-enquiry', 'apiController@tractorSaleEnquiry');
+Route::post('tractor-sale-enquiry-multi-images', 'apiController@tractorSaleMultimage');
 Route::post('tractor-sale-enquiry-verify', 'apiController@tractorSaleEnquiryVerify');
 
 Route::post('tractor-refinance-enquiry', 'apiController@tractorRefinanceEnquiry');
 
 Route::post('tractor-purchase-enquiry', 'apiController@tractorPurchaseEnquiry');
 Route::post('purchase-old-result', 'apiController@purchaseOldResult'); // Search
+
+Route::post('all-tractor-images', 'apiController@all_tractor_sale_enquiry_images'); 
 
 Route::get('labour-need', 'apiController@all_labour_need');
 Route::get('labour-purpose', 'apiController@all_purpose');
@@ -150,6 +153,7 @@ Route::post('agriland-sale-enquiry-detail', 'apiController@agriSaleEnquiryDetail
 
 // Update
 Route::post('tractor-sale-detail-save', 'apiController@tractorSaleDetailSave');
+Route::post('tractor-sale-update-multi-image', 'apiController@tractorSaleUpdateMultimage');
 Route::post('tractor-purchase-detail-save', 'apiController@tractorPurchaseDetailSave');
 Route::post('tractor-rent-detail-save', 'apiController@tractorRentDetailSave');
 Route::post('tractor-refinance-detail-save', 'apiController@tractorRefinanceDetailSave');
@@ -188,6 +192,7 @@ Route::post('tractor-purchase-enquiry-partner', 'apiPartnerController@tractorPur
 Route::post('tractor-refinance-enquiry-partner', 'apiPartnerController@tractorRefinanceEnquiry');
 Route::post('tractor-rent-enquiry-partner', 'apiPartnerController@tractorRentEnquiry');
 Route::post('tractor-sale-enquiry-partner', 'apiPartnerController@tractorSaleEnquiry');
+Route::post('tractor-sale-enquiry-multi-images-partner', 'apiPartnerController@tractorSaleMultimage');
 Route::post('soiltest-order-partner', 'apiPartnerController@soilTestEnquiry');
 Route::post('agri-type-enquiry-partner', 'apiPartnerController@agriTypeEnquiry');
 
@@ -205,6 +210,7 @@ Route::get('lead-status-all', 'apiPartnerController@leadStatusAll');
 
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');
+Route::post('partner-tractor-sale-enquiry-images', 'apiPartnerController@all_tractor_sale_enquiry_images');
 
 
 /// soil testing

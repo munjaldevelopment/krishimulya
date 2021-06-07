@@ -47,7 +47,7 @@ class UserNotificationController extends CrudController
         {
             $title = $request->notification_title;
             $message1 = $request->notification_message;
-            Notification::sendNotification($cust->id, $title, $message1, '');
+            Notification::sendNotification($cust->id, '', $title, $message1, '');
         }
 
         $success = 'Notification sent successfully.';

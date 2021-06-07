@@ -60,6 +60,34 @@ class FCMSender extends HTTPSender
         return $response;
     }
 
+    public function sendToPartner($to, Options $options = null, PayloadNotification $notification = null, PayloadData $data = null)
+    {
+        $response = null;
+
+        if (is_array($to) && !empty($to)) {
+            $partialTokens = array_chunk($to, self::MAX_TOKEN_PER_REQUEST, false);
+            foreach ($partialTokens as $tokens) {
+                $request = new Request($tokens, $options, $notification, $data);
+
+                $responseGuzzle = $this->postPartner($request);
+
+                $responsePartial = new DownstreamResponse($responseGuzzle, $tokens);
+                if (!$response) {
+                    $response = $responsePartial;
+                } else {
+                    $response->merge($responsePartial);
+                }
+            }
+        } else {
+            $request = new Request($to, $options, $notification, $data);
+            $responseGuzzle = $this->postPartner($request);
+
+            $response = new DownstreamResponse($responseGuzzle, $to);
+        }
+
+        return $response;
+    }
+
     /**
      * Send a message to a group of devices identified with them notification key.
      *
@@ -109,6 +137,17 @@ class FCMSender extends HTTPSender
     {
         try {
             $responseGuzzle = $this->client->request('post', $this->url, $request->build());
+        } catch (ClientException $e) {
+            $responseGuzzle = $e->getResponse();
+        }
+
+        return $responseGuzzle;
+    }
+
+    protected function postPartner($request)
+    {
+        try {
+            $responseGuzzle = $this->client->request('post', $this->url, $request->buildPartner());
         } catch (ClientException $e) {
             $responseGuzzle = $e->getResponse();
         }

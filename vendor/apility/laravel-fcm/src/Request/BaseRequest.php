@@ -43,6 +43,15 @@ abstract class BaseRequest
         ];
     }
 
+    protected function buildRequestHeaderPartner()
+    {
+        return [
+            'Authorization' => 'key='.$this->config['server_key_client'],
+            'Content-Type' => 'application/json',
+            'project_id' => $this->config['sender_id_client'],
+        ];
+    }
+
     /**
      * Build the body of the request.
      *
@@ -59,6 +68,14 @@ abstract class BaseRequest
     {
         return [
             'headers' => $this->buildRequestHeader(),
+            'json' => $this->buildBody(),
+        ];
+    }
+
+    public function buildPartner()
+    {
+        return [
+            'headers' => $this->buildRequestHeaderPartner(),
             'json' => $this->buildBody(),
         ];
     }
