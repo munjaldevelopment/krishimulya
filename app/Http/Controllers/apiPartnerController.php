@@ -2065,7 +2065,9 @@ class apiPartnerController extends Controller
                     {
                         $title = "Tractor purchase";
                         $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        if($payment_type == 'Cash (नकद भुगतान)'){
+                            $this->sendNotification($cust->id, $title, $message1, '');
+                        }
                     }
 
                     $status_code = $success = '1';
@@ -2157,7 +2159,7 @@ class apiPartnerController extends Controller
                     {
                         $title = "Tractor Refinance";
                         $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $title, $message1, '');
+                        //$this->sendNotification($cust->id, $title, $message1, '');
                     }
 
                     $status_code = $success = '1';

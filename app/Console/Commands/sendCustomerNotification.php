@@ -48,53 +48,55 @@ class SendCustomerNotification extends Command
             foreach($customerNotify as $row)
             {
                 $title = $row->notification_title;
-                $message = $row->notification_content;
-                $customer_id = $row->customer_id;
-                $user_type = $row->user_type;
+                if($title != 'Tractor Refinance'){
+                    $message = $row->notification_content;
+                    $customer_id = $row->customer_id;
+                    $user_type = $row->user_type;
 
-                $optionBuilder = new OptionsBuilder();
-                $optionBuilder->setTimeToLive(60*20);
+                    $optionBuilder = new OptionsBuilder();
+                    $optionBuilder->setTimeToLive(60*20);
 
-                $image = "http://krishi.microcrm.in/uploads/logo/512-png-short.png";
-                        
-                $notificationBuilder = new PayloadNotificationBuilder($title);
-                $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
-                
-                $dataBuilder = new PayloadDataBuilder();
-                $dataBuilder->addData(['title' => $title, 'content' => $message]);
-                
-                $option = $optionBuilder->build();
+                    $image = "http://krishi.microcrm.in/uploads/logo/512-png-short.png";
+                            
+                    $notificationBuilder = new PayloadNotificationBuilder($title);
+                    $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
+                    
+                    $dataBuilder = new PayloadDataBuilder();
+                    $dataBuilder->addData(['title' => $title, 'content' => $message]);
+                    
+                    $option = $optionBuilder->build();
 
-                $notification = $notificationBuilder->build();
-                $data = $dataBuilder->build();
+                    $notification = $notificationBuilder->build();
+                    $data = $dataBuilder->build();
 
-                if($user_type == "customer")
-                {
-                    $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
+                    if($user_type == "customer")
+                    {
+                        $userDeviceRow = DB::table('customers')->where('id','=', $customer_id)->first();
 
-                    $tokenData = array($userDeviceRow->fcmToken);
-                                        
-                    $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
-                                        
-                    $success = $downstreamResponse->numberSuccess();
-                    $fail = $downstreamResponse->numberFailure();
-                    $total = $downstreamResponse->numberModification();
+                        $tokenData = array($userDeviceRow->fcmToken);
+                                            
+                        $downstreamResponse = FCM::sendTo($tokenData, $option, $notification, $data);
+                                            
+                        $success = $downstreamResponse->numberSuccess();
+                        $fail = $downstreamResponse->numberFailure();
+                        $total = $downstreamResponse->numberModification();
+                    }
+                    else if($user_type == "partner")
+                    {
+                        $userDeviceRow = DB::table('vendors')->where('id','=', $customer_id)->first();
+
+                        $tokenData = array($userDeviceRow->fcmToken);
+                                            
+                        $downstreamResponse = FCM::sendToPartner($tokenData, $option, $notification, $data);
+                                            
+                        $success = $downstreamResponse->numberSuccess();
+                        $fail = $downstreamResponse->numberFailure();
+                        $total = $downstreamResponse->numberModification();
+                    }
+
+                    $date   = date('Y-m-d H:i:s');
+                    DB::table('notifications')->where('id', '=', $row->id)->update(['is_sent' => '1', 'updated_at' => $date]);
                 }
-                else if($user_type == "partner")
-                {
-                    $userDeviceRow = DB::table('vendors')->where('id','=', $customer_id)->first();
-
-                    $tokenData = array($userDeviceRow->fcmToken);
-                                        
-                    $downstreamResponse = FCM::sendToPartner($tokenData, $option, $notification, $data);
-                                        
-                    $success = $downstreamResponse->numberSuccess();
-                    $fail = $downstreamResponse->numberFailure();
-                    $total = $downstreamResponse->numberModification();
-                }
-
-                $date   = date('Y-m-d H:i:s');
-                DB::table('notifications')->where('id', '=', $row->id)->update(['is_sent' => '1', 'updated_at' => $date]);
             }
         }
     }
