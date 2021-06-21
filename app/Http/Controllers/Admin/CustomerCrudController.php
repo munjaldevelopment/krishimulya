@@ -85,6 +85,13 @@ class CustomerCrudController extends CrudController
         ]);
 
         $this->crud->addColumn([
+            'name' => 'pincode',
+            'label' => 'Pincode',
+            'type' => 'text',
+            'hint' => '',                                                                           
+        ]);
+
+        $this->crud->addColumn([
                 'label'     => 'State',
                 'type'      => 'select',
                 'name'      => 'state',
