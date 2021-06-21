@@ -223,6 +223,13 @@ class CustomerCrudController extends CrudController
             'hint' => '',
         ]);
 
+        $this->crud->addField([
+            'name' => 'pincode',
+            'label' => 'Pincode',
+            'type' => 'text',
+            'hint' => '',
+        ]);
+
         
         $all_states = array();
         
