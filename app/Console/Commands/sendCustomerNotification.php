@@ -52,6 +52,8 @@ class SendCustomerNotification extends Command
                     $message = $row->notification_content;
                     $customer_id = $row->customer_id;
                     $user_type = $row->user_type;
+                    $mobile = $row->mobile;
+                    $lead_id = $row->lead_id;
 
                     $optionBuilder = new OptionsBuilder();
                     $optionBuilder->setTimeToLive(60*20);
@@ -62,7 +64,7 @@ class SendCustomerNotification extends Command
                     $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
                     
                     $dataBuilder = new PayloadDataBuilder();
-                    $dataBuilder->addData(['title' => $title, 'content' => $message]);
+                    $dataBuilder->addData(['title' => $title, 'content' => $message, 'lead_id' => $lead_id, 'mobile' => $mobile]);
                     
                     $option = $optionBuilder->build();
 
