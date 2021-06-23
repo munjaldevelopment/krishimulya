@@ -94,24 +94,28 @@ class apiController extends Controller
                 $userData = array();
                 
                 $date   = date('Y-m-d H:i:s');
-                $customer = DB::table('customers')->where('telephone', $mobile)->where('status', '1')->first();
+                $customer = DB::table('customers')->where('telephone', $mobile)->first();
                 if($customer) 
                 {
                     $customerid = $customer->id;
                     $deviceid = $customer->device_id;
+                    $customerstatus = $customer->status;
+                    if($customerstatus != '1'){
+                        $error = "Your account is not active, Please contact to support";
+                        $json = array('status_code' => '0', 'message' => $error);
+                    }else{
+                        DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
+                        if($refer_code != "")
+                        {
+                            $usertype = explode('refer',$refer_code);
+                            if($usertype[0]=='krvp'){
+                                $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+                            } else {
+                                $referCustomerid = str_replace('krvrefer', '', $refer_code); 
+                                $referal_customer_id = $referCustomerid;
+                            }
 
-                    DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
-                    if($refer_code != "")
-                    {
-                        $usertype = explode('refer',$refer_code);
-                        if($usertype[0]=='krvp'){
-                            $referal_customer_id = str_replace('krvprefer', '', $refer_code);
-                        } else {
-                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
-                            $referal_customer_id = $referCustomerid;
-                        }
-
-                        if($referal_customer_id != "")
+                            if($referal_customer_id != "")
                         {
                             DB::table('customers')->where('id', '=', $customerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
                         }
@@ -123,6 +127,7 @@ class apiController extends Controller
                     $status_code = '1';
                     $message = 'Customer login successfully';
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'temp_customer_id' => '', 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
+                 }   
                 }else{
                 	/* If device id already register with another mobile */
                     $otp = rand(111111, 999999);
@@ -282,48 +287,57 @@ class apiController extends Controller
 
             $customer = DB::table('customers_temp')->where('id', $customer_id)->where('status', '1')->first();
             if($customer){
+                $mobile = $customer->telephone;
                 $otp = rand(111111, 999999);
-                
-                // Add entry in customer table
-                $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
-
-                $customerCodeData = $this->getPincodeInfo($pincode);
-
-                //$customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
-
-                $newCustomerID = "00001";
-                if($customerid > 9 && $customerid <= 99)
+                $customerExist = DB::table('customers')->where('telephone', $mobile)->first();
+                if($customerExist) 
                 {
-                    $newCustomerID = "000".$customerid;
-                }
-                else if($customerid > 99 && $customerid <= 999)
-                {
-                    $newCustomerID = "00".$customerid;
-                }
-                else if($customerid > 999 && $customerid <= 9999)
-                {
-                    $newCustomerID = "0".$customerid;
-                }
-                else
-                {
-                    $newCustomerID = $customerid;
-                }
+                    $status_code = $success = '0';
+                    $message = 'Customer mobile already exists in our system, Please use another';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                    }else{
+                    // Add entry in customer table
+                    $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
 
-                if($customerCodeData)
-                {
-                    $crn = $customerCodeData['customer_code'].$newCustomerID;
-                    $customer_city = $customerCodeData['customer_city'];
-                    $customer_state = $customerCodeData['customer_state'];
+                    $customerCodeData = $this->getPincodeInfo($pincode);
 
-                    DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+                    //$customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
 
-                    DB::table('customers_temp')->where('id', '=', $customer_id)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
-                }
-                
-                $status_code = $success = '1';
-                $message = 'Customer info added successfully';
-                
-                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'pincode' => $pincode);
+                    $newCustomerID = "00001";
+                    if($customerid > 9 && $customerid <= 99)
+                    {
+                        $newCustomerID = "000".$customerid;
+                    }
+                    else if($customerid > 99 && $customerid <= 999)
+                    {
+                        $newCustomerID = "00".$customerid;
+                    }
+                    else if($customerid > 999 && $customerid <= 9999)
+                    {
+                        $newCustomerID = "0".$customerid;
+                    }
+                    else
+                    {
+                        $newCustomerID = $customerid;
+                    }
+
+                    if($customerCodeData)
+                    {
+                        $crn = $customerCodeData['customer_code'].$newCustomerID;
+                        $customer_city = $customerCodeData['customer_city'];
+                        $customer_state = $customerCodeData['customer_state'];
+
+                        DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+
+                        DB::table('customers_temp')->where('id', '=', $customer_id)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+                    }
+                    
+                    $status_code = $success = '1';
+                    $message = 'Customer info added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'pincode' => $pincode);
+                  }  
             } else{
                 $status_code = $success = '0';
                 $message = 'Customer not exists or not verified';
