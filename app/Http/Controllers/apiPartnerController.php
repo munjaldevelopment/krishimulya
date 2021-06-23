@@ -1289,7 +1289,7 @@ class apiPartnerController extends Controller
                     $soilnotificationExists = DB::table('notifications')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
                     if($soilnotificationExists >0){
-                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->get();
+                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','lead_id','mobile','created_at')->where('customer_id', $partner_id)->where('user_type', 'partner')->orderBy('id', 'DESC')->get();
 
                         
                         foreach($soilNotifyList as $notifylist)
