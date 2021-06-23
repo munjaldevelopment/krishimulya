@@ -100,4 +100,6 @@ Route::group([
     Route::get('download_soil_test', 'SoilTestOrdersCrudController@downloadSoilTest');
     Route::get('download_soil_test_partner', 'SoilTestOrdersCrudController@downloadSoilTestPartner');
 
+    Route::crud('cropmaterials', 'CropMaterialsCrudController');
+    Route::crud('cropmaterialsenquiry', 'CropMaterialsEnquiryCrudController');
 });

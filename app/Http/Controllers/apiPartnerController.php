@@ -2717,4 +2717,111 @@ class apiPartnerController extends Controller
         
         return response()->json($json, 200);
     }
+
+    public function cropMaterial(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $cropMaterialList1 = DB::table('crop_materials')->select('name')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+
+            //$cropMaterialList[] = array('name' => 'All');
+            $cropMaterialList[] = array();
+
+            if($cropMaterialList1)
+            {
+                foreach ($cropMaterialList1 as $key => $value) {
+                    # code...
+                    $cropMaterialList[] = array('name' => $value->name);
+                }
+            }
+
+           
+            $status_code = '1';
+            $message = 'Crop Material list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'cropMaterialList' => $cropMaterialList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function cropmaterialEnquiry(Request $request)
+    {
+        try 
+        {
+
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $crop_material = $request->crop_material;
+            $comment = $request->comment;
+            $crop_image = $request->crop_image;
+            $isactive = 0;
+            $error = "";
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                   $name = $customer->name;
+                   
+                    $mobile = $customer->phone; 
+                    if($contact_person_phone != ''){
+                        $mobile = $contact_person_phone;
+                    }
+                    $cropimage = '';
+                    if($crop_image != ''){
+                        $image_parts = explode(";base64,", $crop_image);
+                        $image_type_aux = explode("image/", $image_parts[0]);
+                        $image_type = $image_type_aux[1];
+
+                        $cropimage = rand(10000, 99999).'-'.time().'.'.$image_type;
+                        $destinationPath = public_path('/uploads/crop_material_image/').$tractorimage;
+
+                        $data = base64_decode($image_parts[1]);
+                        // $data = $image_parts[1];
+                        file_put_contents($destinationPath, $data);
+                    } 
+                    
+                    $crop_material_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $partner_id, 'crop_material' => $crop_material, 'comment' => $comment, 'cropimage' => $cropimage, 'isactive' => $isactive, 'user_type' => 'partner', 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+
+                    
+                    $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
+
+                    /*foreach($customers as $cust)
+                    {
+                        $title = "Tractor Sale";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
+                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '', $mobile);
+                    }*/
+
+                    $status_code = $success = '1';
+                    $message = 'Crop Material enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'crop_material_enquiry_id' => $crop_material_enquiry_id);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
 }
