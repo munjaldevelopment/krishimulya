@@ -36,7 +36,7 @@ class apiController extends Controller
     public function sendNotification($customer_id, $lead_id, $title, $message, $image = '', $mobile = '')
     {
         $date = date('Y-m-d H:i:s');
-        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'mobile' => $mobile, 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'mobile' => $mobile, 'image' => $image, 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
         //echo $success.",".$fail.",".$total; exit;
     }
 

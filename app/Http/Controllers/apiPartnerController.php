@@ -2801,9 +2801,10 @@ class apiPartnerController extends Controller
                         $data = base64_decode($image_parts[1]);
                         // $data = $image_parts[1];
                         file_put_contents($destinationPath, $data);
+                        $imagename = "uploads/crop_material_image/".$cropimage;
                     } 
                     
-                    $crop_material_enquiry_id = DB::table('crop_materials_enquiry')->insertGetId(['customer_id' => $partner_id, 'crop_material' => $crop_material, 'description' => $comment, 'image' => $cropimage, 'status' => $isactive, 'user_type' => 'partner', 'created_at' => $date, 'updated_at' => $date]);
+                    $crop_material_enquiry_id = DB::table('crop_materials_enquiry')->insertGetId(['customer_id' => $partner_id, 'crop_material' => $crop_material, 'description' => $comment, 'image' => $imagename, 'status' => $isactive, 'user_type' => 'partner', 'created_at' => $date, 'updated_at' => $date]);
 
                     if($cropimage){
                         $cropimageURL  =  $baseUrl."/public/uploads/crop_material_image/".$cropimage;

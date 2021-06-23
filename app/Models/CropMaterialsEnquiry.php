@@ -15,7 +15,7 @@ class CropMaterialsEnquiry extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'crop_materials_enquiries';
+    protected $table = 'crop_materials_enquiry';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -28,7 +28,10 @@ class CropMaterialsEnquiry extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
+    public function allVendors()
+    {
+        return $this->belongsTo('App\Models\Vendor', 'customer_id');
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
