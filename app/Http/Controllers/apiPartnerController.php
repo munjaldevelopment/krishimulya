@@ -1307,7 +1307,13 @@ class apiPartnerController extends Controller
                                $imageURL  =  "";
                             }
 
-                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_type' => $notification_type, 'mobile' => $notifylist->mobile, 'image' => $imageURL, 'lead_id' => $notifylist->lead_id, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
+                            if($notifylist->mobile){
+                                $mobile = $notifylist->mobile;
+                            }else{
+                                $mobile = '';
+                            }
+
+                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".$notifylist->notification_content, 'notification_type' => $notification_type, 'mobile' => $mobile, 'image' => $imageURL, 'lead_id' => $notifylist->lead_id, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
                            
                         } 
 
