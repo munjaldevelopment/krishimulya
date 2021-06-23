@@ -2735,7 +2735,7 @@ class apiPartnerController extends Controller
             {
                 foreach ($cropMaterialList1 as $key => $value) {
                     # code...
-                    $cropMaterialList = array('name' => $value->name);
+                    $cropMaterialList['name'] = $value->name;
                 }
             }
 
