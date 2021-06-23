@@ -1300,8 +1300,8 @@ class apiPartnerController extends Controller
                                 $notification_type = 'Soil Order';
                             }
 
-                            if($notifylist->cropimage){
-                                $imageURL  =  $notifylist->cropimage;
+                            if($notifylist->image){
+                                $imageURL  =  $notifylist->image;
                             
                             }else{
                                $imageURL  =  "";
