@@ -2732,10 +2732,12 @@ class apiPartnerController extends Controller
             $cropMaterialList = array();
 
             if($cropMaterialList1)
-            {
+            {   
+                $i=0;
                 foreach ($cropMaterialList1 as $key => $value) {
                     # code...
-                    $cropMaterialList['name'] = $value->name;
+                    $cropMaterialList[$i]['name'] = $value->name;
+                    $i++;
                 }
             }
 
