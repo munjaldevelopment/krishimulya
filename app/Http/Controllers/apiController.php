@@ -3394,7 +3394,7 @@ class apiController extends Controller
                     $soilnotificationExists = DB::table('notifications')->where('customer_id', $customer_id)->where('user_type', 'customer')->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
                     if($soilnotificationExists >0){
-                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
+                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','lead_id','mobile','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
 
                         
                         foreach($soilNotifyList as $notifylist)
