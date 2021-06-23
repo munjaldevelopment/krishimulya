@@ -2729,13 +2729,13 @@ class apiPartnerController extends Controller
             $cropMaterialList1 = DB::table('crop_materials')->select('name')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
 
             //$cropMaterialList[] = array('name' => 'All');
-            $cropMaterialList[] = array();
+            $cropMaterialList = array();
 
             if($cropMaterialList1)
             {
                 foreach ($cropMaterialList1 as $key => $value) {
                     # code...
-                    $cropMaterialList[] = array('name' => $value->name);
+                    $cropMaterialList = array('name' => $value->name);
                 }
             }
 
