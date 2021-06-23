@@ -3408,8 +3408,8 @@ class apiController extends Controller
                                 $notification_type = 'Agri Land';
                             }
 
-                            if($notifylist->cropimage){
-                                $imageURL  =  $notifylist->cropimage;
+                            if($notifylist->image){
+                                $imageURL  =  $notifylist->image;
                             
                             }else{
                                $imageURL  =  "";
