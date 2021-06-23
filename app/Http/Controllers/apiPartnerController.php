@@ -2803,12 +2803,15 @@ class apiPartnerController extends Controller
                     }
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
-                    foreach($customers as $cust)
+                    $title = "Crop Material";
+                    $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$description;
+                    $this->sendNotification('17', $crop_material_enquiry_id, $title, $message1, $cropimageURL, $mobile);
+                    /*foreach($customers as $cust)
                     {
                         $title = "Crop Material";
                         $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$description;
                         $this->sendNotification($cust->id, $crop_material_enquiry_id, $title, $message1, $cropimageURL, $mobile);
-                    }
+                    }*/
 
                     $status_code = $success = '1';
                     $message = 'Crop Material enquiry added successfully';
