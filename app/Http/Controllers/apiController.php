@@ -3408,7 +3408,7 @@ class apiController extends Controller
                                 $notification_type = 'Agri Land';
                             }
 
-                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".html_entity_decode(htmlspecialchars_decode($notifylist->notification_content,ENT_QUOTES)), 'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
+                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".html_entity_decode(htmlspecialchars_decode($notifylist->notification_content,ENT_QUOTES)), 'notification_type' => $notification_type, 'mobile' => $notifylist->mobile,  'lead_id' => $notifylist->lead_id, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
                            
                         } 
 
