@@ -3394,7 +3394,7 @@ class apiController extends Controller
                     $soilnotificationExists = DB::table('notifications')->where('customer_id', $customer_id)->where('user_type', 'customer')->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
                     if($soilnotificationExists >0){
-                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','lead_id','mobile','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
+                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','lead_id','mobile','image','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
 
                         
                         foreach($soilNotifyList as $notifylist)
@@ -3408,7 +3408,13 @@ class apiController extends Controller
                                 $notification_type = 'Agri Land';
                             }
 
-                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".html_entity_decode(htmlspecialchars_decode($notifylist->notification_content,ENT_QUOTES)), 'notification_type' => $notification_type, 'mobile' => $notifylist->mobile,  'lead_id' => $notifylist->lead_id, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
+                            if($notifylist->cropimage){
+                                $imageURL  =  $notifylist->cropimage;
+                            
+                            }else{
+                               $imageURL  =  "";
+                            }
+                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".html_entity_decode(htmlspecialchars_decode($notifylist->notification_content,ENT_QUOTES)), 'notification_type' => $notification_type, 'mobile' => $notifylist->mobile, 'image' => $imageURL, 'lead_id' => $notifylist->lead_id, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
                            
                         } 
 
