@@ -2760,7 +2760,7 @@ class apiPartnerController extends Controller
     {
         try 
         {
-
+            $baseUrl = URL::to("/");
             $json = $userData = array();
             $date   = date('Y-m-d H:i:s');
             $partner_id = $request->partner_id;
@@ -2774,11 +2774,8 @@ class apiPartnerController extends Controller
                 $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
                 if($customer){ 
                    $name = $customer->name;
+                   $mobile = $customer->phone; 
                    
-                    $mobile = $customer->phone; 
-                    if($contact_person_phone != ''){
-                        $mobile = $contact_person_phone;
-                    }
                     $cropimage = '';
                     if($crop_image != ''){
                         $image_parts = explode(";base64,", $crop_image);
@@ -2786,14 +2783,14 @@ class apiPartnerController extends Controller
                         $image_type = $image_type_aux[1];
 
                         $cropimage = rand(10000, 99999).'-'.time().'.'.$image_type;
-                        $destinationPath = public_path('/uploads/crop_material_image/').$tractorimage;
+                        $destinationPath = public_path('/uploads/crop_material_image/').$cropimage;
 
                         $data = base64_decode($image_parts[1]);
                         // $data = $image_parts[1];
                         file_put_contents($destinationPath, $data);
                     } 
                     
-                    $crop_material_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $partner_id, 'crop_material' => $crop_material, 'description' => $comment, 'image' => $cropimage, 'status' => $isactive, 'user_type' => 'partner', 'created_at' => $date, 'updated_at' => $date]);
+                    $crop_material_enquiry_id = DB::table('crop_materials_enquiry')->insertGetId(['customer_id' => $partner_id, 'crop_material' => $crop_material, 'description' => $comment, 'image' => $cropimage, 'status' => $isactive, 'user_type' => 'partner', 'created_at' => $date, 'updated_at' => $date]);
 
                     if($cropimage){
                         $cropimageURL  =  $baseUrl."/public/uploads/crop_material_image/".$cropimage;
@@ -2804,7 +2801,7 @@ class apiPartnerController extends Controller
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
                     $title = "Crop Material";
-                    $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$description;
+                    $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$comment;
                     $this->sendNotification('17', $crop_material_enquiry_id, $title, $message1, $cropimageURL, $mobile);
                     /*foreach($customers as $cust)
                     {
