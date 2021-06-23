@@ -29,7 +29,7 @@ class apiPartnerController extends Controller
     public function sendNotification($customer_id, $lead_id, $title, $message, $image = '', $mobile = '')
     {
         $date = date('Y-m-d H:i:s');
-        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'partner', 'mobile' => $mobile, 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'partner', 'mobile' => $mobile, 'image' => $image,  'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
         //echo $success.",".$fail.",".$total; exit;
     }
 
@@ -2791,17 +2791,22 @@ class apiPartnerController extends Controller
                         file_put_contents($destinationPath, $data);
                     } 
                     
-                    $crop_material_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $partner_id, 'crop_material' => $crop_material, 'comment' => $comment, 'cropimage' => $cropimage, 'isactive' => $isactive, 'user_type' => 'partner', 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+                    $crop_material_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $partner_id, 'crop_material' => $crop_material, 'description' => $comment, 'image' => $cropimage, 'status' => $isactive, 'user_type' => 'partner', 'created_at' => $date, 'updated_at' => $date]);
 
+                    if($cropimage){
+                        $cropimageURL  =  $baseUrl."/public/uploads/crop_material_image/".$cropimage;
                     
+                    }else{
+                       $cropimageURL  =  "";
+                    }
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
-                    /*foreach($customers as $cust)
+                    foreach($customers as $cust)
                     {
-                        $title = "Tractor Sale";
-                        $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
-                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '', $mobile);
-                    }*/
+                        $title = "Crop Material";
+                        $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$description;
+                        $this->sendNotification($cust->id, $crop_material_enquiry_id, $title, $message1, $cropimageURL, $mobile);
+                    }
 
                     $status_code = $success = '1';
                     $message = 'Crop Material enquiry added successfully';
