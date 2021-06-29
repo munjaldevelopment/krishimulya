@@ -4802,4 +4802,60 @@ class apiController extends Controller
     
         return response()->json($json, 200);
     }
+
+    public function update_contact_info_enquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $tblname = $request->tblname;
+            
+            $error = "";
+            if($customer_id == "" || $tblname == "All"){
+                $error = "Please enter valid data";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($error == ""){
+
+                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                if($customer){ 
+                    $enquirydetail = DB::table($tblname)->get();
+                    foreach($enquirydetail as $enquirycust)
+                    {
+                        $customer1 = DB::table('customers')->where('id', $enquirycust->customer_id)->first();
+                        if($customer1){
+                            $name = $customer1->name;
+                            $mobile = $customer1->telephone;
+
+                            $update_enquiry_id = DB::table($tblname)->where('customer_id', '=', $enquirycust->customer_id)->where('user_type', '=', 'customer')->update(['contact_person_name' => $name, 'contact_person_phone' => $mobile, 'updated_at' => $date]);
+                        }
+                    }
+                    
+                    $status_code = $success = '1';
+                    $message = 'Customer contact info updated successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
 }

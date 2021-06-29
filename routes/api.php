@@ -223,3 +223,5 @@ Route::get('soil-get-farmer', 'apiSoilController@soilGetFarmer');
 Route::get('soil-create-test', 'apiSoilController@soilCreateTest');
 Route::get('soil-get-test', 'apiSoilController@soilGetTest');
 
+
+Route::post('update-enquiry-contact', 'apiController@update_contact_info_enquiry');
