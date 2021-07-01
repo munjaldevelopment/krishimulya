@@ -56,12 +56,12 @@ class CustomerCrudController extends CrudController
             'hint' => '',
         ]);
 
-         $this->crud->addColumn([
+         /*$this->crud->addColumn([
             'name' => 'age',
             'label' => 'Birth of Date',
             'type' => 'date',
             'hint' => '',                                                                           
-        ]);
+        ]);*/
 
         $this->crud->addColumn([
             'name' => 'telephone',
@@ -76,6 +76,12 @@ class CustomerCrudController extends CrudController
             'type' => 'text',
             'hint' => '',                                                                           
         ]);*/
+
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
 
         $this->crud->addColumn([
             'name' => 'city',
@@ -101,11 +107,7 @@ class CustomerCrudController extends CrudController
 
                 ]);
 
-        $this->crud->addColumn([
-            'name' => 'created_at',
-            'label' => 'Date',
-            'type' => 'datetime',
-        ]);
+        
 
         $this->crud->addColumn([
             'name' => 'status',
