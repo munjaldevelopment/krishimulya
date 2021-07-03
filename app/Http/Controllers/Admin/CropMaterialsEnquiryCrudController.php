@@ -215,11 +215,11 @@ class CropMaterialsEnquiryCrudController extends CrudController
                 $name = $vendors->name;
                 $mobile = $vendors->phone; 
                 
-                $title = "Crop Material";
+                /*$title = "Crop Material";
                 $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$description;
-                $this->sendNotification('266', $id, $title, $message1, $cropimageURL, $mobile);
+                $this->sendNotification('266', $id, $title, $message1, $cropimageURL, $mobile);*/
 
-                /*
+                
                 $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
                 if($customers){     
                     foreach($customers as $cust)
@@ -228,7 +228,7 @@ class CropMaterialsEnquiryCrudController extends CrudController
                         $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$comment;
                         $this->sendNotification($cust->id, $crop_material_enquiry_id, $title, $message1, $cropimageURL, $mobile);
                     }
-                }*/
+                }
              }      
         }
         
