@@ -225,8 +225,8 @@ class CropMaterialsEnquiryCrudController extends CrudController
                     foreach($customers as $cust)
                     {
                         $title = "Crop Material";
-                        $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$comment;
-                        $this->sendNotification($cust->id, $crop_material_enquiry_id, $title, $message1, $cropimageURL, $mobile);
+                        $message1 = "Name: ".$name.", Phone:".$mobile.",Crop Material: ".$crop_material.",  Description:".$description;
+                        $this->sendNotification($cust->id, $id, $title, $message1, $cropimageURL, $mobile);
                     }
                 }
              }      
