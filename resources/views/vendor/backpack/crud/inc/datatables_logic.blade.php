@@ -212,7 +212,7 @@
             "<'row mt-2 mb-2 '<'col-sm-9'i><'col-sm-0 col-md-3 pull-right'B>>" +
             "<'row hidden'<'col-sm-6'i><'col-sm-6 d-print-none'f>>" +
             "<'row'<'col-sm-12'tr>>" +
-            "<'row mt-2 d-print-none '<'col-sm-12 col-md-4'l><'col-sm-12 col-md-4 'p>>",
+            "<'row mt-2 d-print-none '<'col-sm-12 col-md-4'l><'col-sm-0 col-md-4 pull-right'B><'col-sm-12 col-md-4 'p>>",
       }
   }
   </script>
