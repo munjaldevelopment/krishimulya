@@ -27,7 +27,7 @@ class CropMaterialsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\CropMaterials::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/cropmaterials');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/cropmaterials');
         CRUD::setEntityNameStrings('Crop Material', 'Crop Materials');
     }
 

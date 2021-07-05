@@ -27,7 +27,7 @@ class Agri_toolCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Agri_tool::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_tool');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_tool');
         CRUD::setEntityNameStrings('Agri Tool', 'Agri Tool');
     }
 

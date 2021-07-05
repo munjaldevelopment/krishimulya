@@ -27,7 +27,7 @@ class InsuranceTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\InsuranceType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/insurancetype');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/insurancetype');
         CRUD::setEntityNameStrings('Insurance Type', 'Insurance Types');
     }
 

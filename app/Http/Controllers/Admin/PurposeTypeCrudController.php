@@ -27,7 +27,7 @@ class PurposeTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\PurposeType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/purposetype');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/purposetype');
         CRUD::setEntityNameStrings('Purpose Type', 'Purpose Types');
     }
 

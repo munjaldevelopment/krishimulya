@@ -27,7 +27,7 @@ class PartnersCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Partners::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/partners');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/partners');
         CRUD::setEntityNameStrings('Partner', 'Partners');
     }
 

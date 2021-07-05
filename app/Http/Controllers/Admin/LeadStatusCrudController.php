@@ -27,7 +27,7 @@ class LeadStatusCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\LeadStatus::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/leadstatus');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/leadstatus');
         CRUD::setEntityNameStrings('lead status', 'lead statuses');
     }
 

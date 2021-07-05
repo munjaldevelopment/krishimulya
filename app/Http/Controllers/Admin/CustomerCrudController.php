@@ -27,7 +27,7 @@ class CustomerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Customer::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/customer');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/customer');
         CRUD::setEntityNameStrings('customer', 'customers');
 
         $this->crud->enableExportButtons();

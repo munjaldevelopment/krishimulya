@@ -27,7 +27,7 @@ class TractorRefinanceEnquiryPartnerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\TractorRefinanceEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_refinance_enquiry_partner');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_refinance_enquiry_partner');
         CRUD::setEntityNameStrings('Tractor Refinance Enquiry', 'Tractor Refinance Enquiry');
 
         $this->crud->enableExportButtons();

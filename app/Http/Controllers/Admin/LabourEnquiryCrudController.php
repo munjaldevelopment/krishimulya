@@ -27,7 +27,7 @@ class LabourEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\LabourEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/labour_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/labour_enquiry');
         CRUD::setEntityNameStrings('Labour Enquiry', 'Labour Enquiry');
         $this->crud->enableExportButtons();
 

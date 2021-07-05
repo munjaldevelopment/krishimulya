@@ -28,7 +28,7 @@ class FeedsCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Feeds::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/feeds');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/feeds');
         CRUD::setEntityNameStrings('feeds', 'feeds');
 
          $this->crud->enableExportButtons();

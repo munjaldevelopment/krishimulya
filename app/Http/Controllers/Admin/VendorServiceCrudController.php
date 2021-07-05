@@ -27,7 +27,7 @@ class VendorServiceCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\VendorService::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/vendorservice');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/vendorservice');
         CRUD::setEntityNameStrings('Vendor Service', 'Vendor Services');
     }
 

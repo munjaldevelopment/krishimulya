@@ -27,7 +27,7 @@ class SevaKendraCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\SevaKendra::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/sevakendra');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/sevakendra');
         CRUD::setEntityNameStrings('Seva Kendra', 'Seva Kendra');
     }
 

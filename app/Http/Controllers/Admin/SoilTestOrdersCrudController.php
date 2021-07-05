@@ -29,7 +29,7 @@ class SoilTestOrdersCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\SoilTestOrders::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders');
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
 
         $this->crud->addClause("where", "user_type", "=", "customer");

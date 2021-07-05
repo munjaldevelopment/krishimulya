@@ -27,7 +27,7 @@ class TractorSellEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\TractorSellEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_sell_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_sell_enquiry');
         CRUD::setEntityNameStrings('Tractor Sale Enquiry', 'Tractor Sale Enquiry');
 
         $this->crud->enableExportButtons();

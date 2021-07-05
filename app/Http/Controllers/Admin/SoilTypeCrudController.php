@@ -27,7 +27,7 @@ class SoilTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\SoilType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltype');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltype');
         CRUD::setEntityNameStrings('soil type', 'soil types');
     }
 

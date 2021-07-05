@@ -27,7 +27,7 @@ class CropTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\CropType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/croptype');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/croptype');
         CRUD::setEntityNameStrings('crop type', 'crop types');
     }
 

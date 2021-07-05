@@ -27,7 +27,7 @@ class AgrilandsaleEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\AgrilandsaleEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandsaleenquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandsaleenquiry');
         CRUD::setEntityNameStrings('Agri Land Sale Enquiry', 'Agri Land Sale Enquiry');
 
         $this->crud->addClause("where", "user_type", "=", "customer");

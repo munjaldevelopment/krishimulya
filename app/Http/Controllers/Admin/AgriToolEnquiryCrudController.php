@@ -27,7 +27,7 @@ class AgriToolEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Agri_tool_enquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_tool_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_tool_enquiry');
         CRUD::setEntityNameStrings('Agri Tool Enquiry', 'Agri Tool Enquiry');
 
         $this->crud->addClause("where", "user_type", "=", "customer");

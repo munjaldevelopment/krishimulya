@@ -28,7 +28,7 @@ class CropMaterialsEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\CropMaterialsEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/cropmaterialsenquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/cropmaterialsenquiry');
         CRUD::setEntityNameStrings('Crop Materials Enquiry', 'Crop Material Enquiries');
 
         $this->crud->addClause("where", "user_type", "=", "partner");

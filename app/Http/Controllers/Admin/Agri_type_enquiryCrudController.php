@@ -27,7 +27,7 @@ class Agri_type_enquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Agri_type_enquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_type_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_type_enquiry');
         CRUD::setEntityNameStrings('Agri Type Enquiry', 'Agri Type Enquiry');
     }
 

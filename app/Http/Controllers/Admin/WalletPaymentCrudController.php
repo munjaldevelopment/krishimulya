@@ -27,7 +27,7 @@ class WalletPaymentCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\WalletPayment::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/walletpayment');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/walletpayment');
         CRUD::setEntityNameStrings('Wallet Payment', 'Wallet Payments');
     }
 

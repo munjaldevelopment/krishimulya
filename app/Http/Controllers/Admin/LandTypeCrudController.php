@@ -27,7 +27,7 @@ class LandTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\LandType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/landtype');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/landtype');
         CRUD::setEntityNameStrings('Land Type', 'Land Type');
     }
 
