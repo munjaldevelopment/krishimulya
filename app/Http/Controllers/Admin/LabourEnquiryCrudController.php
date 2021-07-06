@@ -61,12 +61,14 @@ class LabourEnquiryCrudController extends CrudController
          ]);  
          $this->crud->addColumn('location');
          $this->crud->addColumn('purpose');
+         $this->crud->addColumn('need');
          $this->crud->addColumn('labour_no');
          $this->crud->addColumn([
             'name' => 'created_at',
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+
          $this->crud->addColumn('contact_person_name');
         $this->crud->addColumn('contact_person_phone');
 

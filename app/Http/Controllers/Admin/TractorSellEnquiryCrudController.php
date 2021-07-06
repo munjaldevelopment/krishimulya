@@ -61,6 +61,7 @@ class TractorSellEnquiryCrudController extends CrudController
 
          ]);
          $this->crud->addColumn('company_name');
+         $this->crud->addColumn('model');
          $this->crud->addColumn('hourse_power');
          $this->crud->addColumn('exp_price'); 
          $this->crud->addColumn('location');
@@ -71,6 +72,9 @@ class TractorSellEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+         $this->crud->addColumn('location');
+         $this->crud->addColumn('hrs');
+         $this->crud->addColumn('exp_price');
          $this->crud->addColumn('contact_person_name');
         $this->crud->addColumn('contact_person_phone');
          $this->crud->addFilter([ // select2 filter

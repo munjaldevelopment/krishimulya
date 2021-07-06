@@ -63,6 +63,7 @@ class AgrilandsaleEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+         $this->crud->addColumn('exp_price'); 
          $this->crud->addColumn('contact_person_name');
         $this->crud->addColumn('contact_person_phone');
         /**

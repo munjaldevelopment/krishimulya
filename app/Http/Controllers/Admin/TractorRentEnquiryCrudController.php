@@ -59,6 +59,7 @@ class TractorRentEnquiryCrudController extends CrudController
             'model'     => "App\Models\Customer", //name of Models
 
          ]);  
+         
          $this->crud->addColumn('location');
          $this->crud->addColumn('available_date');
          $this->crud->addColumn('what_type');
@@ -67,7 +68,8 @@ class TractorRentEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
-         $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('model');
+        $this->crud->addColumn('contact_person_name');
         $this->crud->addColumn('contact_person_phone');
          
          $this->crud->addFilter([ // select2 filter
