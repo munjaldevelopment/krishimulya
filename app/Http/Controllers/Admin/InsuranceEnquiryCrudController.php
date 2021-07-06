@@ -69,6 +69,8 @@ class InsuranceEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+        $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

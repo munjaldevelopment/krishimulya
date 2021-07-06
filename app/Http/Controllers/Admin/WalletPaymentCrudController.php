@@ -52,6 +52,8 @@ class WalletPaymentCrudController extends CrudController
 
          $this->crud->addColumn('amount');
         // $this->crud->addColumn('comment');
+        
+        
 
          $this->crud->addColumn('payment_status');
         /**

@@ -69,7 +69,8 @@ class SoilTestOrdersCrudController extends CrudController
             'type' => 'datetime',
         ]);
         $this->crud->addColumn('amount');
-
+        $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
         /*$this->crud->addColumn([
             'name' => 'kt_report_id',
             'label' => 'Krishitantra Report ID',

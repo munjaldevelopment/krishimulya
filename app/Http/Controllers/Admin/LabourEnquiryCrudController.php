@@ -67,7 +67,8 @@ class LabourEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
-         
+         $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
 
          $this->crud->addFilter([ // select2 filter
                 'name' => 'customer_id',

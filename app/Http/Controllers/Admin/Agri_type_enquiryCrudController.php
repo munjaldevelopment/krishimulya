@@ -65,6 +65,9 @@ class Agri_type_enquiryCrudController extends CrudController
         ]);
         
         $this->crud->addColumn('comment');
+        $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
+        
 
         $this->crud->addColumn([
             'name' => 'isactive',

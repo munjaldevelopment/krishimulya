@@ -54,6 +54,8 @@ class FeedbackCrudController extends CrudController
          ]);  
 
          $this->crud->addColumn('comment');
+        
+        
          $this->crud->addColumn([
             'name' => 'created_at',
             'label' => 'Date',
