@@ -68,6 +68,7 @@ class LabourEnquiryPartnerCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+         
 
          $this->crud->addFilter([ // select2 filter
                 'name' => 'customer_id',

@@ -63,6 +63,8 @@ class AgriToolEnquiryPartnerCrudController extends CrudController
         ]);
         $this->crud->addColumn('comment');
         
+        
+        
         $this->crud->addColumn([
             'name' => 'isactive',
             'label' => 'Is Active',

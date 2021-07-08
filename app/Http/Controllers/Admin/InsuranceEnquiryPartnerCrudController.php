@@ -69,6 +69,7 @@ class InsuranceEnquiryPartnerCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+         
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
