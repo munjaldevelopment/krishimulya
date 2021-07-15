@@ -292,8 +292,8 @@ class apiController extends Controller
                 $customerExist = DB::table('customers')->where('telephone', $mobile)->where('status', 1)->count();
                 if($customerExist > 0)
                 {
-                    $status_code = $success = '0';
-                    $message = 'Customer mobile already exists. Please try again ';//.$customer_id;
+                    $status_code = $success = '1';
+                    $message = '';//Customer mobile already exists. Please try again ';//.$customer_id;
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
                 }else{
