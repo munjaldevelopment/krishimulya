@@ -289,11 +289,11 @@ class apiController extends Controller
             if($customer){
                 $mobile = $customer->telephone;
                 $otp = rand(111111, 999999);
-                $customerExist = DB::table('customers')->where('telephone', $mobile)->first();
-                if($customerExist) 
+                $customerExist = DB::table('customers')->where('telephone', $mobile)->where('status', 1)->count();
+                if($customerExist > 0)
                 {
                     $status_code = $success = '0';
-                    $message = 'Customer mobile already exists, Please use another';
+                    $message = 'Customer mobile already exists in our system, Please use another mobile number.';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
                 }else{
