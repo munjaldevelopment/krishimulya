@@ -293,7 +293,7 @@ class apiController extends Controller
                 if($customerExist > 0)
                 {
                     $status_code = $success = '0';
-                    $message = 'Customer mobile already exists with '.$customer_id;
+                    $message = 'Customer mobile already exists. Please try again ';//.$customer_id;
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
                 }else{
