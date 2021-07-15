@@ -293,10 +293,10 @@ class apiController extends Controller
                 if($customerExist) 
                 {
                     $status_code = $success = '0';
-                    $message = 'Customer mobile already exists in our system, Please use another';
+                    $message = 'Customer mobile already exists, Please use another';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
-                    }else{
+                }else{
                     // Add entry in customer table
                     $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
 
