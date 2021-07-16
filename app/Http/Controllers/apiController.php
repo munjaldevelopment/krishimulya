@@ -289,7 +289,7 @@ class apiController extends Controller
             if($customer){
                 $mobile = $customer->telephone;
                 $otp = rand(111111, 999999);
-                $customerExist = DB::table('customers')->where('telephone', $mobile)->where('status', 1)->whereDate('created_at', '!=', date('Y-m-d'))->count();
+                $customerExist = DB::table('customers')->where('telephone', $mobile)->where('status', 1)->count(); //->whereDate('created_at', '!=', date('Y-m-d'))
                 if($customerExist > 0)
                 {
                     $status_code = $success = '0';
