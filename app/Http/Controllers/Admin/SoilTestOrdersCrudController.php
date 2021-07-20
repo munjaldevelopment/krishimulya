@@ -296,6 +296,7 @@ class SoilTestOrdersCrudController extends CrudController
         curl_close($curl);
 
         $result = json_decode($response, 1);
+        dd($result);
 
         if(isset($result['data']))
         {
