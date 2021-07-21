@@ -12,7 +12,7 @@
         {
             extend: 'collection',
             text: '<i class="la la-download"></i> {{ trans('backpack::crud.export.export') }}',
-            dropup: true,
+            dropdown: true,
             buttons: [
                 {
                     name: 'copyHtml5',

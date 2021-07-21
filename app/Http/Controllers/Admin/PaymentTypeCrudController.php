@@ -27,7 +27,7 @@ class PaymentTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\PaymentType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/paymenttype');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/paymenttype');
         CRUD::setEntityNameStrings('Payment Type', 'Payment Type');
     }
 

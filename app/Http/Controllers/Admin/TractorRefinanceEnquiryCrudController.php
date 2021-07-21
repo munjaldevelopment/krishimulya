@@ -27,7 +27,7 @@ class TractorRefinanceEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\TractorRefinanceEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_refinance_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_refinance_enquiry');
         CRUD::setEntityNameStrings('Tractor Refinance Enquiry', 'Tractor Refinance Enquiry');
 
         $this->crud->enableExportButtons();
@@ -63,6 +63,8 @@ class TractorRefinanceEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+         $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
          $this->crud->addFilter([ // select2 filter
                 'name' => 'uses_type',
                 'type' => 'select2',

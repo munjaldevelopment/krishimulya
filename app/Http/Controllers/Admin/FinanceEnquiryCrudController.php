@@ -27,7 +27,7 @@ class FinanceEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\FinanceEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/finance_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/finance_enquiry');
         CRUD::setEntityNameStrings('Finance Enquiry', 'Finance Enquiries');
         $this->crud->enableExportButtons();
     }

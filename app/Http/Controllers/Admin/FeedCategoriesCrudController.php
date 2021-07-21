@@ -27,7 +27,7 @@ class FeedCategoriesCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\FeedCategories::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/feedcategories');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/feedcategories');
         CRUD::setEntityNameStrings('Feed Cateories', 'Feed Cateories');
     }
 

@@ -27,7 +27,7 @@ class HomeSliderCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\HomeSlider::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/homeslider');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/homeslider');
         CRUD::setEntityNameStrings('Home Slider', 'Home Slider');
     }
 

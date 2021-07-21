@@ -27,7 +27,7 @@ class Agri_typeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Agri_type::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_type');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/agri_type');
         CRUD::setEntityNameStrings('Agri Type', 'Agri Type');
     }
 

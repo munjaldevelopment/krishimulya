@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SoilTestTypeRequest;
+use App\Http\Requests\CropMaterialsRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class SoilTestTypeCrudController
+ * Class CropMaterialsCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class SoilTestTypeCrudController extends CrudController
+class CropMaterialsCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class SoilTestTypeCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\SoilTestType::class);
-        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltesttype');
-        CRUD::setEntityNameStrings('Soil Test Type', 'Soil Test Type');
+        CRUD::setModel(\App\Models\CropMaterials::class);
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/cropmaterials');
+        CRUD::setEntityNameStrings('Crop Material', 'Crop Materials');
     }
 
     /**
@@ -56,7 +56,7 @@ class SoilTestTypeCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(SoilTestTypeRequest::class);
+        CRUD::setValidation(CropMaterialsRequest::class);
 
         CRUD::setFromDb(); // fields
 

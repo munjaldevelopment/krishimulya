@@ -27,7 +27,7 @@ class InsuranceEnquiryPartnerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\InsuranceEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/insuranceenquiry_partner');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/insuranceenquiry_partner');
         CRUD::setEntityNameStrings('Insurance Enquiry', 'Insurance Enquiries');
 
         $this->crud->addClause("where", "user_type", "=", "partner");
@@ -69,6 +69,7 @@ class InsuranceEnquiryPartnerCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+         
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

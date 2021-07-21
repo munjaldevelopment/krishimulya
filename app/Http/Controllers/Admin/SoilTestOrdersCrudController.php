@@ -29,7 +29,7 @@ class SoilTestOrdersCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\SoilTestOrders::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders');
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
 
         $this->crud->addClause("where", "user_type", "=", "customer");
@@ -69,7 +69,8 @@ class SoilTestOrdersCrudController extends CrudController
             'type' => 'datetime',
         ]);
         $this->crud->addColumn('amount');
-
+        $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
         /*$this->crud->addColumn([
             'name' => 'kt_report_id',
             'label' => 'Krishitantra Report ID',
@@ -295,6 +296,7 @@ class SoilTestOrdersCrudController extends CrudController
         curl_close($curl);
 
         $result = json_decode($response, 1);
+        dd($result);
 
         if(isset($result['data']))
         {

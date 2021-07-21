@@ -27,7 +27,7 @@ class AppPopupCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\AppPopup::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/app_popup');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/app_popup');
         CRUD::setEntityNameStrings('App Popup', 'App Popups');
     }
 

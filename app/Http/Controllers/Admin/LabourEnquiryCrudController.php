@@ -27,7 +27,7 @@ class LabourEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\LabourEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/labour_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/labour_enquiry');
         CRUD::setEntityNameStrings('Labour Enquiry', 'Labour Enquiry');
         $this->crud->enableExportButtons();
 
@@ -61,13 +61,16 @@ class LabourEnquiryCrudController extends CrudController
          ]);  
          $this->crud->addColumn('location');
          $this->crud->addColumn('purpose');
+         $this->crud->addColumn('need');
          $this->crud->addColumn('labour_no');
          $this->crud->addColumn([
             'name' => 'created_at',
             'label' => 'Date',
             'type' => 'datetime',
         ]);
-         
+
+         $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
 
          $this->crud->addFilter([ // select2 filter
                 'name' => 'customer_id',

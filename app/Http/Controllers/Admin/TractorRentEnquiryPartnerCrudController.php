@@ -27,7 +27,7 @@ class TractorRentEnquiryPartnerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\TractorRentEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_rent_enquiry_partner');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_rent_enquiry_partner');
         CRUD::setEntityNameStrings('Tractor Rent Enquiry', 'Tractor Rent Enquiry');
         $this->crud->enableExportButtons();
 

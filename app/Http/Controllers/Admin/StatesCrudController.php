@@ -27,7 +27,7 @@ class StatesCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\States::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/states');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/states');
         CRUD::setEntityNameStrings('states', 'states');
     }
 

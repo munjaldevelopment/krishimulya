@@ -27,7 +27,7 @@ class FeedbackCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Feedback::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/feedback');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/feedback');
         CRUD::setEntityNameStrings('feedback', 'feedback');
 
         $this->crud->addClause("where", "user_type", "=", "customer");
@@ -54,6 +54,8 @@ class FeedbackCrudController extends CrudController
          ]);  
 
          $this->crud->addColumn('comment');
+        
+        
          $this->crud->addColumn([
             'name' => 'created_at',
             'label' => 'Date',

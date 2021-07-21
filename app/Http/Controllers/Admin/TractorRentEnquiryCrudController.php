@@ -27,7 +27,7 @@ class TractorRentEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\TractorRentEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_rent_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_rent_enquiry');
         CRUD::setEntityNameStrings('Tractor Rent Enquiry', 'Tractor Rent Enquiry');
         $this->crud->enableExportButtons();
 
@@ -59,6 +59,7 @@ class TractorRentEnquiryCrudController extends CrudController
             'model'     => "App\Models\Customer", //name of Models
 
          ]);  
+         
          $this->crud->addColumn('location');
          $this->crud->addColumn('available_date');
          $this->crud->addColumn('what_type');
@@ -67,6 +68,9 @@ class TractorRentEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+        $this->crud->addColumn('model');
+        $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
          
          $this->crud->addFilter([ // select2 filter
                 'name' => 'what_type',

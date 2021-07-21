@@ -39,6 +39,7 @@
           </div>
           <div class="col-sm-6">
             <div id="datatable_search_stack" class="mt-sm-0 mt-2 d-print-none"></div>
+            <div id="datatable_export_stack" class="col-md-6 d-none d-sm-block"></div>
           </div>
         </div>
 

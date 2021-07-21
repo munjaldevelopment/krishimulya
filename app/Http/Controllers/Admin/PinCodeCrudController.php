@@ -27,7 +27,7 @@ class PinCodeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\PinCode::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/pincode');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/pincode');
         CRUD::setEntityNameStrings('pincode', 'pin_codes');
     }
 

@@ -27,7 +27,7 @@ class TractorSellEnquiryCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\TractorSellEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_sell_enquiry');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor_sell_enquiry');
         CRUD::setEntityNameStrings('Tractor Sale Enquiry', 'Tractor Sale Enquiry');
 
         $this->crud->enableExportButtons();
@@ -61,6 +61,7 @@ class TractorSellEnquiryCrudController extends CrudController
 
          ]);
          $this->crud->addColumn('company_name');
+         $this->crud->addColumn('model');
          $this->crud->addColumn('hourse_power');
          $this->crud->addColumn('exp_price'); 
          $this->crud->addColumn('location');
@@ -71,6 +72,11 @@ class TractorSellEnquiryCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
+         $this->crud->addColumn('location');
+         $this->crud->addColumn('hrs');
+         $this->crud->addColumn('exp_price');
+         $this->crud->addColumn('contact_person_name');
+        $this->crud->addColumn('contact_person_phone');
          $this->crud->addFilter([ // select2 filter
                 'name' => 'sale_type',
                 'type' => 'select2',

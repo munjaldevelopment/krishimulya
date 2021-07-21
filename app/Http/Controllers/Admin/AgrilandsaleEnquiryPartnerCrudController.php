@@ -27,7 +27,7 @@ class AgrilandsaleEnquiryPartnerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\AgrilandsaleEnquiry::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandsaleenquiry_partner');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/agrilandsaleenquiry_partner');
         CRUD::setEntityNameStrings('Agri Land Sale Enquiry', 'Agri Land Sale Enquiry');
 
         $this->crud->addClause("where", "user_type", "=", "partner");
@@ -63,7 +63,7 @@ class AgrilandsaleEnquiryPartnerCrudController extends CrudController
             'label' => 'Date',
             'type' => 'datetime',
         ]);
-
+        
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');

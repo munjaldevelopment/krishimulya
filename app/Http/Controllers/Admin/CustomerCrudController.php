@@ -27,7 +27,7 @@ class CustomerCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Customer::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/customer');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/customer');
         CRUD::setEntityNameStrings('customer', 'customers');
 
         $this->crud->enableExportButtons();
@@ -56,12 +56,12 @@ class CustomerCrudController extends CrudController
             'hint' => '',
         ]);
 
-         $this->crud->addColumn([
+         /*$this->crud->addColumn([
             'name' => 'age',
             'label' => 'Birth of Date',
             'type' => 'date',
             'hint' => '',                                                                           
-        ]);
+        ]);*/
 
         $this->crud->addColumn([
             'name' => 'telephone',
@@ -78,8 +78,21 @@ class CustomerCrudController extends CrudController
         ]);*/
 
         $this->crud->addColumn([
+            'name' => 'created_at',
+            'label' => 'Date',
+            'type' => 'datetime',
+        ]);
+
+        $this->crud->addColumn([
             'name' => 'city',
             'label' => 'City',
+            'type' => 'text',
+            'hint' => '',                                                                           
+        ]);
+
+        $this->crud->addColumn([
+            'name' => 'pincode',
+            'label' => 'Pincode',
             'type' => 'text',
             'hint' => '',                                                                           
         ]);
@@ -94,11 +107,7 @@ class CustomerCrudController extends CrudController
 
                 ]);
 
-        $this->crud->addColumn([
-            'name' => 'created_at',
-            'label' => 'Date',
-            'type' => 'datetime',
-        ]);
+        
 
         $this->crud->addColumn([
             'name' => 'status',
@@ -212,6 +221,13 @@ class CustomerCrudController extends CrudController
          $this->crud->addField([
             'name' => 'city',
             'label' => 'City',
+            'type' => 'text',
+            'hint' => '',
+        ]);
+
+        $this->crud->addField([
+            'name' => 'pincode',
+            'label' => 'Pincode',
             'type' => 'text',
             'hint' => '',
         ]);

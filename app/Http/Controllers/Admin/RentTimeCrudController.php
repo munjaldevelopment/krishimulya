@@ -27,7 +27,7 @@ class RentTimeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\RentTime::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/renttime');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/renttime');
         CRUD::setEntityNameStrings('Rent Time', 'Rent Time');
     }
 

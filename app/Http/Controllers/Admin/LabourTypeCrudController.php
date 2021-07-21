@@ -27,7 +27,7 @@ class LabourTypeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\LabourType::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/labourtype');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/labourtype');
         CRUD::setEntityNameStrings('Labour Type', 'Labour Type');
     }
 

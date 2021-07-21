@@ -211,6 +211,8 @@ Route::get('lead-status-all', 'apiPartnerController@leadStatusAll');
 Route::get('partner-order-commission', 'apiPartnerController@partner_order_commision');
 Route::get('partner-trator-commission', 'apiPartnerController@partner_tractor_commision');
 Route::post('partner-tractor-sale-enquiry-images', 'apiPartnerController@all_tractor_sale_enquiry_images');
+Route::get('crop-material', 'apiPartnerController@cropMaterial');
+Route::post('crop-material-enquiry', 'apiPartnerController@cropmaterialEnquiry');
 
 
 /// soil testing
@@ -220,3 +222,6 @@ Route::get('soil-create-farmer', 'apiSoilController@soilCreateFarmer');
 Route::get('soil-get-farmer', 'apiSoilController@soilGetFarmer');
 Route::get('soil-create-test', 'apiSoilController@soilCreateTest');
 Route::get('soil-get-test', 'apiSoilController@soilGetTest');
+
+
+Route::post('update-enquiry-contact', 'apiController@update_contact_info_enquiry');

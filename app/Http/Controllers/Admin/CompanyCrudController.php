@@ -27,7 +27,7 @@ class CompanyCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\Company::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/company');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/company');
         CRUD::setEntityNameStrings('Company', 'Companies');
     }
 

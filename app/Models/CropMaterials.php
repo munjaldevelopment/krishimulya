@@ -1,11 +1,11 @@
 <?php
 
-    namespace App\Models;
+namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\app\Models\Traits\CrudTrait;
 
-class Customer extends Model
+class CropMaterials extends Model
 {
     use CrudTrait;
 
@@ -15,11 +15,11 @@ class Customer extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'customers';
+    protected $table = 'crop_materials';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    protected $fillable = ['name', 'age', 'email', 'telephone', 'address1', 'address2', 'city', 'pincode', 'state', 'image', 'status'];
+    // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -28,16 +28,13 @@ class Customer extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-     public function allStates()
-    {
-        return $this->belongsTo('App\Models\States', 'id');
-    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

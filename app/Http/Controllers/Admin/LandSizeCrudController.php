@@ -27,7 +27,7 @@ class LandSizeCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\LandSize::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/landsize');
+        $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/landsize');
         CRUD::setEntityNameStrings('Land Size', 'Land Size');
     }
 

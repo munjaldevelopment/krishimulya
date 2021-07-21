@@ -33,10 +33,10 @@ class apiController extends Controller
         return $head;
     }
 
-    public function sendNotification($customer_id, $lead_id, $title, $message, $image = '')
+    public function sendNotification($customer_id, $lead_id, $title, $message, $image = '', $mobile = '')
     {
         $date = date('Y-m-d H:i:s');
-        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
+        $saveNotification = DB::table('notifications')->insertGetId(['customer_id' => $customer_id, 'lead_id' => $lead_id, 'notification_title' => $title, 'notification_content' => $message, 'notification_type' => 'customer_notification', 'user_type' => 'customer', 'mobile' => $mobile, 'image' => $image, 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
         //echo $success.",".$fail.",".$total; exit;
     }
 
@@ -94,24 +94,28 @@ class apiController extends Controller
                 $userData = array();
                 
                 $date   = date('Y-m-d H:i:s');
-                $customer = DB::table('customers')->where('telephone', $mobile)->where('status', '1')->first();
+                $customer = DB::table('customers')->where('telephone', $mobile)->first();
                 if($customer) 
                 {
                     $customerid = $customer->id;
                     $deviceid = $customer->device_id;
+                    $customerstatus = $customer->status;
+                    if($customerstatus != '1'){
+                        $error = "Your account is not active, Please contact to support";
+                        $json = array('status_code' => '0', 'message' => $error);
+                    }else{
+                        DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
+                        if($refer_code != "")
+                        {
+                            $usertype = explode('refer',$refer_code);
+                            if($usertype[0]=='krvp'){
+                                $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+                            } else {
+                                $referCustomerid = str_replace('krvrefer', '', $refer_code); 
+                                $referal_customer_id = $referCustomerid;
+                            }
 
-                    DB::table('customers')->where('id', '=', $customerid)->update(['fcmToken' => $fcmToken, 'updated_at' => $date]);
-                    if($refer_code != "")
-                    {
-                        $usertype = explode('refer',$refer_code);
-                        if($usertype[0]=='krvp'){
-                            $referal_customer_id = str_replace('krvprefer', '', $refer_code);
-                        } else {
-                            $referCustomerid = str_replace('krvrefer', '', $refer_code); 
-                            $referal_customer_id = $referCustomerid;
-                        }
-
-                        if($referal_customer_id != "")
+                            if($referal_customer_id != "")
                         {
                             DB::table('customers')->where('id', '=', $customerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
                         }
@@ -123,6 +127,7 @@ class apiController extends Controller
                     $status_code = '1';
                     $message = 'Customer login successfully';
                     $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'temp_customer_id' => '', 'mobile' => $mobile, 'name' => $customer->name, 'pincode' => $customer->pincode, 'referurl' => $refer_url, "customer_type" => "already");
+                 }   
                 }else{
                 	/* If device id already register with another mobile */
                     $otp = rand(111111, 999999);
@@ -282,48 +287,57 @@ class apiController extends Controller
 
             $customer = DB::table('customers_temp')->where('id', $customer_id)->where('status', '1')->first();
             if($customer){
+                $mobile = $customer->telephone;
                 $otp = rand(111111, 999999);
-                
-                // Add entry in customer table
-                $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
-
-                $customerCodeData = $this->getPincodeInfo($pincode);
-
-                //$customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
-
-                $newCustomerID = "00001";
-                if($customerid > 9 && $customerid <= 99)
+                $customerExist = DB::table('customers')->where('telephone', $mobile)->where('status', 1)->count(); //->whereDate('created_at', '!=', date('Y-m-d'))
+                if($customerExist > 0)
                 {
-                    $newCustomerID = "000".$customerid;
-                }
-                else if($customerid > 99 && $customerid <= 999)
-                {
-                    $newCustomerID = "00".$customerid;
-                }
-                else if($customerid > 999 && $customerid <= 9999)
-                {
-                    $newCustomerID = "0".$customerid;
-                }
-                else
-                {
-                    $newCustomerID = $customerid;
-                }
+                    $status_code = $success = '0';
+                    $message = 'Customer mobile already exists. Please try again ';//.$customer_id;
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id, 'pincode' => $pincode);
+                }else{
+                    // Add entry in customer table
+                    $customerid = DB::table('customers')->insertGetId(['referal_partner_id' => $customer->referal_partner_id, 'temp_customer_id' => $customer_id, 'name' => $name, 'age' => $age, 'pincode' => $pincode, 'telephone' => $customer->telephone, 'otp' => $otp, 'device_id' => $customer->device_id, 'fcmToken' => $customer->fcmToken, 'created_at' => $date, 'status' => '1', 'updated_at' => $date]); 
 
-                if($customerCodeData)
-                {
-                    $crn = $customerCodeData['customer_code'].$newCustomerID;
-                    $customer_city = $customerCodeData['customer_city'];
-                    $customer_state = $customerCodeData['customer_state'];
+                    $customerCodeData = $this->getPincodeInfo($pincode);
 
-                    DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+                    //$customerCodeData = array('customer_code' => $customerCode, 'customer_city' => $customerCity, 'customer_state' => $customerState);
 
-                    DB::table('customers_temp')->where('id', '=', $customer_id)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
-                }
-                
-                $status_code = $success = '1';
-                $message = 'Customer info added successfully';
-                
-                $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'pincode' => $pincode);
+                    $newCustomerID = "00001";
+                    if($customerid > 9 && $customerid <= 99)
+                    {
+                        $newCustomerID = "000".$customerid;
+                    }
+                    else if($customerid > 99 && $customerid <= 999)
+                    {
+                        $newCustomerID = "00".$customerid;
+                    }
+                    else if($customerid > 999 && $customerid <= 9999)
+                    {
+                        $newCustomerID = "0".$customerid;
+                    }
+                    else
+                    {
+                        $newCustomerID = $customerid;
+                    }
+
+                    if($customerCodeData)
+                    {
+                        $crn = $customerCodeData['customer_code'].$newCustomerID;
+                        $customer_city = $customerCodeData['customer_city'];
+                        $customer_state = $customerCodeData['customer_state'];
+
+                        DB::table('customers')->where('id', '=', $customerid)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+
+                        DB::table('customers_temp')->where('id', '=', $customer_id)->update(['crn' => $crn, 'city' => $customer_city, 'state' => $customer_state]);
+                    }
+                    
+                    $status_code = $success = '1';
+                    $message = 'Customer info added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customerid, 'pincode' => $pincode);
+                  }  
             } else{
                 $status_code = $success = '0';
                 $message = 'Customer not exists or not verified';
@@ -701,22 +715,27 @@ class apiController extends Controller
                 $title = $sliderList->title;
                 $short_description = $sliderList->short_description;
                 $sliderimage  =  $baseUrl."/public/".$sliderList->image;
-            }
-
-            $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
-            $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
-
-            $live_version = $appInfo->getAppVersion();
-
-            $same_version = '';
-            if($live_version != $app_version)
-            {
-                $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
-            }
             
-            $status_code = '1';
-            $message = 'Popup list';
-            $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => $same_version, 'slider_url' => $baseUrl.'/app-popup');
+
+                $gplay = new \Nelexa\GPlay\GPlayApps($defaultLocale = 'en_US', $defaultCountry = 'us');
+                $appInfo = $gplay->getAppInfo('com.microprixs.krishimulya');
+
+                $live_version = $appInfo->getAppVersion();
+
+                $same_version = '';
+                if($live_version != $app_version)
+                {
+                    $same_version = 'https://play.google.com/store/apps/details?id=com.microprixs.krishimulya';
+                }
+                
+                $status_code = '1';
+                $message = 'Popup list';
+                $json = array('status_code' => $status_code,  'message' => $message, 'title' => $title, 'short_description' => $short_description, 'slider_image' => $sliderimage, 'app_url' => $same_version, 'slider_url' => $baseUrl.'/app-popup');
+            }else{
+                $status_code = '0';
+                $message = 'Pop up not found';
+                $json = array('status_code' => $status_code,  'message' => $message);
+            }
         }
         
         catch(\Exception $e) {
@@ -929,7 +948,7 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('agri_type_enquiry')->insert(['customer_id' => $customer_id, 'agri_type' => $agritype, 'city' => $city, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('agri_type_enquiry')->insert(['customer_id' => $customer_id, 'agri_type' => $agritype, 'city' => $city, 'comment' => $comment, 'contact_person_name' => $name, 'contact_person_phone' => $mobile, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Agri Type enquiry added successfully';
@@ -1057,7 +1076,7 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('agri_tool_enquiry')->insert(['customer_id' => $customer_id, 'agri_tool' => $agritool, 'city' => $city, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('agri_tool_enquiry')->insert(['customer_id' => $customer_id, 'agri_tool' => $agritool, 'city' => $city, 'comment' => $comment, 'contact_person_name' => $name, 'contact_person_phone' => $mobile, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Agri Tool enquiry added successfully';
@@ -1180,7 +1199,7 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    $tractor_sell_enquiry_id = DB::table('tractor_rent_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    $tractor_sell_enquiry_id = DB::table('tractor_rent_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'comment' => $comment, 'available_date' => $available_date, 'location' => $location, 'other_city' => $other_city, 'is_edit' => '1', 'what_type' => $what_need, 'isactive' => $isactive, 'contact_person_name' => $name, 'contact_person_phone' => $mobile, 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -1188,7 +1207,7 @@ class apiController extends Controller
                     {
                         $title = "Tractor Rent";
                         $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
-                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '',$mobile);
                     }
 
                     $status_code = $success = '1';
@@ -1479,6 +1498,12 @@ class apiController extends Controller
 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
+                    if($contact_person_name == ''){
+                        $contact_person_name = $name;
+                    }
+                    if($contact_person_phone == ''){
+                        $contact_person_phone = $mobile;
+                    }
                     $tractorimage = '';
                     $tractor_sell_enquiry_id = DB::table('tractor_sell_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'comment' => $comment, 'model' => $model, 'year_manufacturer' => $year_manufacturer, 'hourse_power' => $hourse_power, 'hrs' => $hrs, 'exp_price' => $exp_price, 'image' => $tractorimage, 'sale_type' => $sale_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'payment_type' => $payment_type, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
@@ -1489,7 +1514,7 @@ class apiController extends Controller
                     {
                         $title = "Tractor Sale";
                         $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
-                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '',$mobile);
                     }
 
                     $status_code = $success = '1';
@@ -1611,7 +1636,7 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    $tractor_sell_enquiry_id = DB::table('tractor_refinance_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+                    $tractor_sell_enquiry_id = DB::table('tractor_refinance_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'contact_person_name' => $name, 'contact_person_phone' => $mobile, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -1619,7 +1644,7 @@ class apiController extends Controller
                     {
                         $title = "Tractor Refinance";
                         $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '');
+                       // $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '', $mobile);
                     }
 
                     $status_code = $success = '1';
@@ -1688,7 +1713,7 @@ class apiController extends Controller
                 if($customer){ 
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    $tractor_sell_enquiry_id = DB::table('tractor_purchase_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
+                    $tractor_sell_enquiry_id = DB::table('tractor_purchase_enquiry')->insertGetId(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'uses_type' => $what_need, 'company_name' => $company_name, 'other_company' => $other_company, 'hourse_power' => $hourse_power, 'payment_type' => $payment_type, 'location' => $location, 'other_city' => $other_city, 'isactive' => $isactive, 'is_edit' => '1', 'contact_person_name' => $name, 'contact_person_phone' => $mobile, 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -1696,7 +1721,9 @@ class apiController extends Controller
                     {
                         $title = "Tractor purchase";
                         $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '');
+                        if($payment_type == 'Cash (नकद भुगतान)'){
+                            $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '', $mobile);
+                        }
                     }
 
                     $status_code = $success = '1';
@@ -2028,7 +2055,14 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    if($contact_person_name == ''){
+                        $contact_person_name = $name;
+                    }
+                    if($contact_person_phone == ''){
+                       $contact_person_phone = $mobile;
+                    }
                     DB::table('labour_enquiry')->insert(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'purpose' => $purpose, 'need' => $need, 'labour_no' => $labour_no, 'comments' => $comments,  'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
@@ -2205,7 +2239,7 @@ class apiController extends Controller
                 if($customer) {
                     $name = $customer->name;
                     $mobile = $customer->telephone;
-                    DB::table('insurance_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'insurance_type' => $insurance_type, 'other_insurance_type' => $other_insurance_type, 'comments' => $comments, 'user_type' => 'customer', 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+                    DB::table('insurance_enquiry')->insert(['customer_id' => $customer_id, 'name' => $name, 'mobile' => $mobile, 'insurance_type' => $insurance_type, 'other_insurance_type' => $other_insurance_type, 'comments' => $comments, 'user_type' => 'customer', 'isactive' => $isactive, 'contact_person_name' => $name, 'contact_person_phone' => $mobile, 'created_at' => $date, 'updated_at' => $date]);
 
                     $status_code = $success = '1';
                     $message = 'Insurance enquiry added successfully';
@@ -2449,8 +2483,10 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    
-                    $tractor_sell_enquiry_id = DB::table('agriland_rent_enquiry')->insertGetId(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+
+                    $tractor_sell_enquiry_id = DB::table('agriland_rent_enquiry')->insertGetId(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acore' => $size_in_acre, 'how_much_time' => $how_much_time, 'comment' => $comment, 'contact_person_name' => $name, 'contact_person_phone' => $mobile, 'isactive' => $isactive, 'created_at' => $date, 'is_edit' => '1', 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
 
@@ -2458,7 +2494,7 @@ class apiController extends Controller
                     {
                         $title = "Agriland Rent Enquiry";
                         $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
-                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '', $mobile);
                     }
 
                     $status_code = $success = '1';
@@ -2634,7 +2670,14 @@ class apiController extends Controller
             if($error == ""){
                 $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
                 if($customer){ 
-                    
+                    $name = $customer->name;
+                    $mobile = $customer->telephone;
+                    if($contact_person_name == ''){
+                        $contact_person_name = $name;
+                    }
+                    if($contact_person_phone == ''){
+                       $contact_person_phone = $mobile;
+                    }
                     $tractor_sell_enquiry_id = DB::table('agriland_sale_enquiry')->insertGetId(['customer_id' => $customer_id, 'location' => $location, 'other_city' => $other_city, 'land_type' => $land_type, 'size_in_acre' => $size_in_acre, 'exp_price' => $exp_price, 'comment' => $comment, 'isactive' => $isactive, 'is_contact' => $is_contact, 'contact_person_name' => $contact_person_name, 'contact_person_phone' => $contact_person_phone, 'contact_person_otp' => $contact_person_otp, 'is_edit' => '1', 'created_at' => $date, 'updated_at' => $date]);
 
                     $customers = DB::table('customers')->whereNotNull('fcmToken')->get();
@@ -2643,7 +2686,7 @@ class apiController extends Controller
                     {
                         $title = "Agriland Sale Enquiry";
                         $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
-                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_sell_enquiry_id, $title, $message1, '', $mobile);
                     }
 
                     $status_code = $success = '1';
@@ -3389,7 +3432,7 @@ class apiController extends Controller
                     $soilnotificationExists = DB::table('notifications')->where('customer_id', $customer_id)->where('user_type', 'customer')->whereNull('deleted_at')->orderBy('id', 'DESC')->count();
                     $notify_List = array();
                     if($soilnotificationExists >0){
-                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
+                        $soilNotifyList = DB::table('notifications')->select('id','notification_title','notification_content','notification_type','lead_id','mobile','image','created_at')->where('customer_id', $customer_id)->whereNull('deleted_at')->orderBy('id', 'DESC')->get();
 
                         
                         foreach($soilNotifyList as $notifylist)
@@ -3403,7 +3446,20 @@ class apiController extends Controller
                                 $notification_type = 'Agri Land';
                             }
 
-                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".html_entity_decode(htmlspecialchars_decode($notifylist->notification_content,ENT_QUOTES)), 'notification_type' => $notification_type, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
+                            if($notifylist->image){
+                                $imageURL  =  $notifylist->image;
+                            
+                            }else{
+                               $imageURL  =  "";
+                            }
+
+                            if($notifylist->mobile){
+                                $mobile = $notifylist->mobile;
+                            }else{
+                                $mobile = '';
+                            }
+
+                            $notify_List[] = array('id' => "".$notifylist->id, 'notification_title' => $notifylist->notification_title,'notification_content' => "".html_entity_decode(htmlspecialchars_decode($notifylist->notification_content,ENT_QUOTES)), 'notification_type' => $notification_type, 'mobile' => $mobile, 'image' => $imageURL, 'lead_id' => $notifylist->lead_id, 'date' => date('d-m-Y H:i:s', strtotime($notifylist->created_at))); 
                            
                         } 
 
@@ -4216,7 +4272,9 @@ class apiController extends Controller
                     {
                         $title = "Tractor purchase";
                         $message1 = "Type: ".$what_need.", Company:".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $tractor_purchase_id, $title, $message1, '');
+                        if($payment_type == 'Cash (नकद भुगतान)'){
+                            $this->sendNotification($cust->id, $tractor_purchase_id, $title, $message1, '',$mobile);
+                        }
                     }
 
                     $json = array('status_code' => $status_code, 'message' => $message);
@@ -4278,7 +4336,7 @@ class apiController extends Controller
                     {
                         $title = "Tractor Rent";
                         $message1 = "Type: ".$what_need.", Location:".$location.", Available Date:".$available_date.", Comment:".$comment;
-                        $this->sendNotification($cust->id, $tractor_rent_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_rent_id, $title, $message1, '', $mobile);
                     }
 
                     $status_code = '1';
@@ -4343,7 +4401,7 @@ class apiController extends Controller
                     {
                         $title = "Tractor Refinance";
                         $message1 = "Company: ".$company_name.", Location:".$location.", Horse Power:".$hourse_power.", Payment Type:".$payment_type;
-                        $this->sendNotification($cust->id, $tractor_refinance_id, $title, $message1, '');
+                        //$this->sendNotification($cust->id, $tractor_refinance_id, $title, $message1, '');
                     }
 
                     $status_code = '1';
@@ -4446,7 +4504,7 @@ class apiController extends Controller
                     {
                         $title = "Tractor Sale";
                         $message1 = "Name: ".$name.", Phone:".$mobile.", Company:".$company_name.", Comment:".$comment.", Model:".$model.", Manufacturer Year:".$year_manufacturer.", Horse Power:".$hourse_power.", Horse Power:".$hourse_power.", Hours:".$hrs.", Exp. Price:".$exp_price.", Location:".$location;
-                        $this->sendNotification($cust->id, $tractor_sale_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $tractor_sale_id, $title, $message1, '', $mobile);
                     }
 
                     $json = array('status_code' => $status_code, 'message' => $message);
@@ -4587,6 +4645,8 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
+                $name = $customer->name;
+                $mobile = $customer->telephone;
                 $tractorSellEnquiryExists = DB::table('labour_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $labour_enquiry_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists > 0)
                 {
@@ -4600,7 +4660,7 @@ class apiController extends Controller
                     {
                         $title = "Labor Enquiry";
                         $message1 = "Location: ".$location.", Purpose:".$purpose.", Need:".$need.", Labor No:".$labour_no.", Comments:".$comments;
-                        $this->sendNotification($cust->id, $labour_enquiry_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $labour_enquiry_id, $title, $message1, '', $mobile);
                     }
 
                     $status_code = '1';
@@ -4650,6 +4710,8 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
+                $name = $customer->name;
+                $mobile = $customer->telephone;
                 $tractorSellEnquiryExists = DB::table('agriland_rent_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_rent_enquiry_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists > 0)
                 {
@@ -4663,7 +4725,7 @@ class apiController extends Controller
                     {
                         $title = "Agriland Rent Enquiry";
                         $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Time:".$how_much_time.", Comments:".$comment;
-                        $this->sendNotification($cust->id, $agri_rent_enquiry_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $agri_rent_enquiry_id, $title, $message1, '', $mobile);
                     }
 
                     $status_code = '1';
@@ -4719,6 +4781,8 @@ class apiController extends Controller
 
             $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
             if($customer){ 
+                $name = $customer->name;
+                $mobile = $customer->telephone;
                 $tractorSellEnquiryExists = DB::table('agriland_sale_enquiry')->where('customer_id', '=', $customer_id)->where('id', '=', $agri_sale_enquiry_id)->where('isactive', '1')->count();
                 if($tractorSellEnquiryExists)
                 {
@@ -4732,7 +4796,7 @@ class apiController extends Controller
                     {
                         $title = "Agriland Sale Enquiry";
                         $message1 = "Location: ".$location.", Land Type:".$land_type.", Size (Acre):".$size_in_acre.", Exp. Price: ".$exp_price.", Comments:".$comment;
-                        $this->sendNotification($cust->id, $agri_sale_enquiry_id, $title, $message1, '');
+                        $this->sendNotification($cust->id, $agri_sale_enquiry_id, $title, $message1, '', $mobile);
                     }
 
                     $status_code = '1';
@@ -4760,6 +4824,62 @@ class apiController extends Controller
             $json = array('status_code' => $status_code, 'message' => $message);
         }
     
+        return response()->json($json, 200);
+    }
+
+    public function update_contact_info_enquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $customer_id = $request->customer_id;
+            $tblname = $request->tblname;
+            
+            $error = "";
+            if($customer_id == "" || $tblname == "All"){
+                $error = "Please enter valid data";
+                $json = array('status_code' => '0', 'message' => $error, 'customer_id' => $customer_id);
+            }
+
+            if($error == ""){
+
+                $customer = DB::table('customers')->where('id', $customer_id)->where('status', '=', '1')->first();
+                if($customer){ 
+                    $enquirydetail = DB::table($tblname)->get();
+                    foreach($enquirydetail as $enquirycust)
+                    {
+                        $customer1 = DB::table('customers')->where('id', $enquirycust->customer_id)->first();
+                        if($customer1){
+                            $name = $customer1->name;
+                            $mobile = $customer1->telephone;
+
+                            $update_enquiry_id = DB::table($tblname)->where('customer_id', '=', $enquirycust->customer_id)->where('user_type', '=', 'customer')->update(['contact_person_name' => $name, 'contact_person_phone' => $mobile, 'updated_at' => $date]);
+                        }
+                    }
+                    
+                    $status_code = $success = '1';
+                    $message = 'Customer contact info updated successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => $customer_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
         return response()->json($json, 200);
     }
 }
