@@ -63,10 +63,10 @@ class apiSoilController extends Controller
 
         	$user_type= $row->user_type;
         	$khasra_no= $row->khasra_no;
-        	$crop_type= $row->crop_type;
-        	$soil_type= $row->soil_type;
-        	$soil_density= $row->soil_density;
-        	$avg_yield= $row->avg_yield;
+        	$crop_type= ($row->crop_type == NULL ? "Paddy" : "");
+        	$soil_type= ($row->soil_type == NULL ? "Gray" : "");
+        	$soil_density= ($row->soil_density == NULL ? "1.234" : "");
+        	$avg_yield= ($row->avg_yield == NULL ? "32.5435453" : "");
 
 
         	$expiresAt = date('Y-m-t');
@@ -88,6 +88,8 @@ class apiSoilController extends Controller
 
 
 	        $curl = curl_init();
+
+	        //echo $expiresAt.",".$crop_type.",".$soil_type.",".$soil_density.",".$khasra_no.",".$sampleDate.",".$sampleDateTime.",".$farmer_id.",".$avg_yield; exit;
 
 	        curl_setopt_array($curl, array(
 	          CURLOPT_URL => SOILTEST_URL,
@@ -111,16 +113,18 @@ class apiSoilController extends Controller
 
 	        $result = json_decode($response, 1);
 
-	        print_r($result); exit;
+	        //echo '<pre>';print_r($response); exit;
 
 	        if(isset($result['data']['createExternalTest']['id']))
 	        {
 	        	///echo $result['data']['createFarmer']['id'];
-	        	\DB::table("soil_test_orders")->where('id', $row->id)->update(['krishitantra_order_id' => $result['data']['createExternalTest']['id'], 'krishitantra_order_status' => $result['data']['createExternalTest']['status']]);
+	        	\DB::table("soil_test_orders")->where('id', $row->id)->update(['krishitantra_farmer_id' => $farmer_id,'krishitantra_order_id' => $result['data']['createExternalTest']['id'], 'krishitantra_order_status' => $result['data']['createExternalTest']['status']]);
+	        	exit;
 	        }
 	        else
 	        {
 	        	echo $cust_name1.">".$result['errors'][0]['message'].'<br />';
+	        	exit;
 	        }
         }
     }
