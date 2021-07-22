@@ -150,7 +150,7 @@ class apiSoilController extends Controller
 	          CURLOPT_FOLLOWLOCATION => true,
 	          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 	          CURLOPT_CUSTOMREQUEST => 'POST',
-	          CURLOPT_POSTFIELDS => '{"query":"query Query($getUsersOrganization: ID!, $getUsersUsername: String) { getUsers(organization: $getUsersOrganization, username: $getUsersUsername)  {     id     latitude     longitude     name     address     phone     email     username     createdAt     updatedAt }}","variables":{"getUsersOrganization":"6038ba9130a8cd001200110d","getUsersUsername":"KRISHITEST-'.$cust_name1.'"}}',
+	          CURLOPT_POSTFIELDS => '{"query":"query Query($getUsersOrganization: ID!, $getUsersUsername: String) { getUsers(organization: $getUsersOrganization, username: $getUsersUsername)  {     id     latitude     longitude     name     address     phone     email     username     createdAt     updatedAt }}","variables":{"getUsersOrganization":"6038ba9130a8cd001200110d","getUsersUsername":"TEST-'.$cust_name1.'"}}',
 	          CURLOPT_HTTPHEADER => array(
 	            'Authorization: Bearer '.SOILTEST_TOKEN,
 	            'Content-Type: application/json'
