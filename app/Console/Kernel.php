@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('send:customer_notification')->everyMinute();
+        $schedule->command('create:soiltest_customer')->everyMinute();
         // $schedule->command('inspire')->hourly();
     }
 
