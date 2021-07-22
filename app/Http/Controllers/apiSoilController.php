@@ -161,7 +161,7 @@ class apiSoilController extends Controller
         Setting::AssignSetting();
 
         // Create existing customer as farmer
-        $customers = \DB::table("customers")->whereNull('krishitantra_id')->get();
+        $customers = \DB::table("customers")->whereNull('krishitantra_id')->skip(0)->take(10)->get();
 
         foreach ($customers as $key => $row) {
 
@@ -181,7 +181,7 @@ class apiSoilController extends Controller
 	          CURLOPT_FOLLOWLOCATION => true,
 	          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 	          CURLOPT_CUSTOMREQUEST => 'POST',
-	          CURLOPT_POSTFIELDS => '{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) { createFarmer(farmer: $createFarmerFarmer) { id latitude longitude name address phone username createdAt updatedAt }}","variables":{"createFarmerFarmer":{"name":"'.$cust_name.'","address":"'.$address1.'","phone":"+919999999999","latitude":12.566465,"longitude":34.453666,"username":"TEST-'.$cust_name1.'"}}}',
+	          CURLOPT_POSTFIELDS => '{"query":"mutation CreateFarmerMutation($createFarmerFarmer: FarmerInput!) { createFarmer(farmer: $createFarmerFarmer) { id latitude longitude name address phone username createdAt updatedAt }}","variables":{"createFarmerFarmer":{"name":"'.$cust_name.'","address":"'.$address1.'","phone":"+919999999999","latitude":12.566465,"longitude":34.453666,"username":"KRISHITEST-'.$cust_name1.'"}}}',
 	          CURLOPT_HTTPHEADER => array(
 	            'Authorization: Bearer '.SOILTEST_TOKEN,
 	            'Content-Type: application/json'
@@ -202,7 +202,7 @@ class apiSoilController extends Controller
 	        else
 	        {
 	        	echo $cust_name1.">".$result['errors'][0]['message'].'<br />';
-	        	exit;
+	        	
 	        }
 		}
 
