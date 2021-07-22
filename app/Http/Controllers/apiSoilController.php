@@ -165,11 +165,9 @@ class apiSoilController extends Controller
 	        {
 	        	foreach($result['data']['getUsers'] as $userRow)
 	        	{
-	        		print_r($userRow); exit;
-	        		
-	        		echo $userRow['id'].",".$userRow['username']; exit;
+	        		//echo $userRow['id'].",".$userRow['username']; exit;
 	        		///echo $result['data']['createFarmer']['id'];
-	        		//\DB::table("customers")->where('id', $row->id)->update(['krishitantra_id' => $result['data']['createFarmer']['id'], 'krishitantra_username' => 'KRISHITEST-'.$cust_name1]);
+	        		\DB::table("customers")->where('id', $row->id)->update(['krishitantra_id' => $userRow['id'], 'krishitantra_username' => $userRow['username']]);
 	        	}
 	        }
 
