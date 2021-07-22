@@ -161,6 +161,15 @@ class apiSoilController extends Controller
 
 	        $result = json_decode($response, 1);
 
+	        if(isset($result['data']['getUsers']))
+	        {
+	        	foreach($result['data']['getUsers'] as $userRow)
+	        	{
+	        		echo $userRow->id.",".$userRow->username; exit;
+	        		///echo $result['data']['createFarmer']['id'];
+	        		\DB::table("customers")->where('id', $row->id)->update(['krishitantra_id' => $result['data']['createFarmer']['id'], 'krishitantra_username' => 'KRISHITEST-'.$cust_name1]);
+	        	}
+
 	        echo '<pre>'; print_r($result); exit;
 	    }
     }
