@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Setting;
 
-class createSoiltestCustomer extends Command
+class createSoiltestOrder extends Command
 {
     /**
      * The name and signature of the console command.
@@ -39,6 +39,7 @@ class createSoiltestCustomer extends Command
     public function handle()
     {
         Setting::AssignSetting();
+        exit;
 
         // Create existing customer as farmer
         $customers = \DB::table("customers")->whereNull('krishitantra_id')->skip(0)->take(40)->get();
