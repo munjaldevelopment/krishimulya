@@ -111,7 +111,7 @@ class apiSoilController extends Controller
 
 	        $result = json_decode($response, 1);
 
-	        ////print_r($result); exit;
+	        print_r($result); exit;
 
 	        if(isset($result['data']['createExternalTest']['id']))
 	        {
