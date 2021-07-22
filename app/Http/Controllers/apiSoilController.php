@@ -137,6 +137,8 @@ class apiSoilController extends Controller
         	$cust_name = $row->name;
         	$cust_name1 = str_replace(" ", "-", strtolower($row->name));
 
+        	echo $cust_name1; exit;
+
 	        $curl = curl_init();
 
 	        curl_setopt_array($curl, array(
