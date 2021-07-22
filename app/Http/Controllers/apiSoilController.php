@@ -202,6 +202,7 @@ class apiSoilController extends Controller
 	        else
 	        {
 	        	echo $cust_name1.">".$result['errors'][0]['message'].'<br />';
+	        	exit;
 	        	
 	        }
 		}
