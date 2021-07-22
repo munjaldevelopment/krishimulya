@@ -41,7 +41,7 @@ class createSoiltestCustomer extends Command
         Setting::AssignSetting();
 
         // Create existing customer as farmer
-        $customers = \DB::table("customers")->whereNull('krishitantra_id')->skip(0)->take(20)->get();
+        $customers = \DB::table("customers")->whereNull('krishitantra_id')->skip(0)->take(40)->get();
 
         foreach ($customers as $key => $row) {
 
@@ -87,7 +87,7 @@ class createSoiltestCustomer extends Command
         }
 
         // vendors
-        $customers = \DB::table("vendors")->whereNull('krishitantra_id')->skip(0)->take(20)->get();
+        $customers = \DB::table("vendors")->whereNull('krishitantra_id')->skip(0)->take(40)->get();
 
         foreach ($customers as $key => $row) {
 
@@ -132,7 +132,7 @@ class createSoiltestCustomer extends Command
         }
 
         // Save existing Krishi Tantra ID
-        $customers = \DB::table("customers")->whereNull('krishitantra_id')->skip(0)->take(20)->get();
+        $customers = \DB::table("customers")->whereNull('krishitantra_id')->skip(0)->take(40)->get();
 
         foreach ($customers as $key => $row) {
 
