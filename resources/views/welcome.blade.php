@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Welcome At Krishivalue</title>
+        <title>Welcome At Krishimulya</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -68,7 +68,7 @@
            
             <div class="content">
                 <div class="title m-b-md">
-                    Welcome At Krishivalue
+                    Welcome At Krishimulya
                 </div>
 
             </div>
