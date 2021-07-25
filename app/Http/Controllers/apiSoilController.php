@@ -29,7 +29,7 @@ class apiSoilController extends Controller
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{"query":"query Query($getExternalTestsByFarmerFarmer: ID!) {getExternalTestsByFarmer(farmer: $getExternalTestsByFarmerFarmer) {        id        test {            html            results        }        createdAt        updatedAt        status        expiresAt        latitude        area        cropType        soilType        soilDensity        surveyNo        sampleDate        longitude    }}","variables":{"getExternalTestsByFarmerFarmer":"607eacd24c0c1c001ae74693"}}',
+          CURLOPT_POSTFIELDS =>'{"query":"query Query($getExternalTestsByFarmerFarmer: ID!) {getExternalTestsByFarmer(farmer: $getExternalTestsByFarmerFarmer) {        id        test {            html            results        }        createdAt        updatedAt        status        expiresAt        latitude        area        cropType        soilType        soilDensity        surveyNo        sampleDate        longitude    }}","variables":{"getExternalTestsByFarmerFarmer":"60f919e55c435c0016e4449b"}}',
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.SOILTEST_TOKEN,
             'Content-Type: application/json'
@@ -37,6 +37,8 @@ class apiSoilController extends Controller
         ));
 
         $response = curl_exec($curl);
+
+        echo '<pre>'; print_r($response); exit;
 
         curl_close($curl);
 
