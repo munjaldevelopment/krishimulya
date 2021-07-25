@@ -17,6 +17,9 @@ Route::group([
 
     //Route::get('dashboard', 'AdminController@dashboard')->name('backpack.dashboard');
 
+    Route::get('charts/users', 'Charts\LatestUsersChartController@response');
+    Route::get('charts/new-entries', 'Charts\NewEntriesChartController@response');
+
     Route::crud('customer', 'CustomerCrudController');
     Route::crud('feeds', 'FeedsCrudController');
     Route::crud('states', 'StatesCrudController');
