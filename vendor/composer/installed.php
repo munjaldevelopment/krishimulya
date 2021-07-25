@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '2c0459f063f1ff942536ca223532d5e12d8ede13',
+    'reference' => 'ad0489345ca59b98084281f88ef270edb9c98598',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -127,6 +127,15 @@
       array (
       ),
       'reference' => '164af798dbf5085864de29a84aeea59501f98b98',
+    ),
+    'balping/json-raw-encoder' => 
+    array (
+      'pretty_version' => 'v1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e2b0ab888342b0716f1f0628e2fa13b345c5f276',
     ),
     'barryvdh/elfinder-flysystem-driver' => 
     array (
@@ -825,7 +834,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '2c0459f063f1ff942536ca223532d5e12d8ede13',
+      'reference' => 'ad0489345ca59b98084281f88ef270edb9c98598',
     ),
     'laravel/tinker' => 
     array (
