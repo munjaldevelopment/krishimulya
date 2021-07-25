@@ -45,6 +45,7 @@ final class Versions
   'backpack/permissionmanager' => '6.0.6@87cf8511a91b57bd5d9ac4ffa0ba507f5cf4de35',
   'backpack/revise-operation' => '1.0.7@f05e69ffbce8c13de348862bdfdbef7ac0332e1d',
   'backpack/settings' => '3.0.10@164af798dbf5085864de29a84aeea59501f98b98',
+  'balping/json-raw-encoder' => 'v1.0.1@e2b0ab888342b0716f1f0628e2fa13b345c5f276',
   'barryvdh/elfinder-flysystem-driver' => 'v0.3.0@5a6c893dfb97e9848d7b1e5e990e943af7bc3550',
   'barryvdh/laravel-debugbar' => 'v3.5.5@6420113d90bb746423fa70b9940e9e7c26ebc121',
   'barryvdh/laravel-dompdf' => 'v0.8.7@30310e0a675462bf2aa9d448c8dcbf57fbcc517d',
@@ -215,7 +216,7 @@ final class Versions
   'sebastian/version' => '2.0.1@99732be0ddb3361e16ad77b68ba41efc8e979019',
   'theseer/tokenizer' => '1.2.0@75a63c33a8577608444246075ea0af0d052e452a',
   'webmozart/assert' => '1.10.0@6964c76c7804814a842473e0c8fd15bab0f18e25',
-  'laravel/laravel' => 'dev-main@2c0459f063f1ff942536ca223532d5e12d8ede13',
+  'laravel/laravel' => 'dev-main@ad0489345ca59b98084281f88ef270edb9c98598',
 );
 
     private function __construct()

@@ -148,6 +148,7 @@ return array(
     'Barryvdh\\Elfinder\\' => array($vendorDir . '/barryvdh/laravel-elfinder/src'),
     'Barryvdh\\DomPDF\\' => array($vendorDir . '/barryvdh/laravel-dompdf/src'),
     'Barryvdh\\Debugbar\\' => array($vendorDir . '/barryvdh/laravel-debugbar/src'),
+    'Balping\\JsonRaw\\' => array($vendorDir . '/balping/json-raw-encoder/src'),
     'Backpack\\Settings\\' => array($vendorDir . '/backpack/settings/src'),
     'Backpack\\ReviseOperation\\' => array($vendorDir . '/backpack/revise-operation/src'),
     'Backpack\\PermissionManager\\' => array($vendorDir . '/backpack/permissionmanager/src'),
