@@ -39,8 +39,9 @@
             ->progressClass('progress-bar')
             ->value($userCount)
             ->description('Registered users.')
-            ->progress(100*(int)$userCount/1000)
-            ->hint(1000-$userCount.' more until next milestone.'),
+            ->progress(90)
+            ->hint('Great! Don\'t stop.')
+            
         // alternatively, to use widgets as content, we can use the same add() method,
         // but we need to use onlyHere() or remove() at the end
         Widget::add()
@@ -49,8 +50,8 @@
             ->progressClass('progress-bar')
             ->value($articleCount)
             ->description('Articles.')
-            ->progress(80)
-            ->hint('Great! Don\'t stop.')
+            ->progress(100*(int)$userCount/5000)
+            ->hint(5000-$userCount.' more until next milestone.'),
             ->onlyHere(), 
         // alternatively, you can just push the widget to a "hidden" group
         Widget::make()
@@ -69,9 +70,9 @@
             'class'=> 'card border-0 text-white bg-dark',
             'progressClass' => 'progress-bar',
             'value' => $productCount,
-            'description' => 'Products.',
+            'description' => 'Soil Test Orders',
             'progress' => (int)$productCount/75*100,
-            'hint' => $productCount>75?'Try to stay under 75 products.':'Good. Good.',
+            'hint' => $productCount<100?'Try to read 100 soil test orders.':'Good. Good.',
         ]),
     ]);
 
