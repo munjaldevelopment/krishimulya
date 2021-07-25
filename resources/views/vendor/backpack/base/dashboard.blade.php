@@ -111,7 +111,7 @@
     ];*/
 
 
-    /*$widgets['before_content'][] = [
+    $widgets['before_content'][] = [
       'type' => 'div',
       'class' => 'row',
       'content' => [ // widgets 
@@ -139,7 +139,7 @@
         ]
     ];
 
-    $widgets['after_content'][] = [
+    /*$widgets['after_content'][] = [
       'type' => 'div',
       'class' => 'row',
       'content' => [ // widgets 
