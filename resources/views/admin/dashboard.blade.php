@@ -26,8 +26,8 @@
 	// But you do whatever you think it's best. Who am I, your mom?
 	$productCount = App\Models\SoilTestOrders::count();
 	$userCount = App\User::count();
-	$articleCount = \Backpack\NewsCRUD\app\Models\Customer::count();
-	$lastArticle = \Backpack\NewsCRUD\app\Models\Customer::orderBy('created_at', 'DESC')->first();
+	$articleCount = App\Models\Customer::count();
+	$lastArticle = App\Models\Customer::orderBy('created_at', 'DESC')->first();
 	$lastArticleDaysAgo = \Carbon\Carbon::parse($lastArticle->created_at)->diffInDays(\Carbon\Carbon::today());
  
  	// notice we use Widget::add() to add widgets to a certain group
