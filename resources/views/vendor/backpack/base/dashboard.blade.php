@@ -27,7 +27,7 @@
     $productCount = App\Models\SoilTestOrders::count();
     $userCount = App\User::count();
     $articleCount = App\Models\Customer::count();
-    $lastArticle = App\Models\Customer::orderBy('created_at', 'DESC')->first();
+    $lastArticle = App\Models\SoilTestOrders::orderBy('created_at', 'DESC')->first();
     $lastArticleDaysAgo = \Carbon\Carbon::parse($lastArticle->created_at)->diffInDays(\Carbon\Carbon::today());
  
     // notice we use Widget::add() to add widgets to a certain group
@@ -39,7 +39,7 @@
             ->progressClass('progress-bar')
             ->value($userCount)
             ->description('Registered users.')
-            ->progress(90)
+            ->progress(100*(int)$articleCount/100)
             ->hint('Great! Don\'t stop.'),
             
         // alternatively, to use widgets as content, we can use the same add() method,
@@ -60,9 +60,9 @@
             ->class('card border-0 text-white bg-warning')
             ->value($lastArticleDaysAgo.' days')
             ->progressClass('progress-bar')
-            ->description('Since last article.')
-            ->progress(30)
-            ->hint('Post an article every 3-4 days.'),
+            ->description('Since last soil test.')
+            ->progress(100*(int)$articleCount/100)
+            ->hint('Post 5-7 soil test every days.'),
         // both Widget::make() and Widget::add() accept an array as a parameter
         // if you prefer defining your widgets as arrays
         Widget::make([
