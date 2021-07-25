@@ -43,11 +43,11 @@ class NewEntriesChartController extends ChartController
             // Could also be an array_push if using an array rather than a collection.
             $users[] = User::whereDate('created_at', today()->subDays($days_backwards))
                             ->count();
-            $articles[] = Article::whereDate('created_at', today()->subDays($days_backwards))
+            $articles[] = SoilTestOrders::whereDate('created_at', today()->subDays($days_backwards))
                             ->count();
-            $categories[] = Category::whereDate('created_at', today()->subDays($days_backwards))
+            $categories[] = Feeds::whereDate('created_at', today()->subDays($days_backwards))
                             ->count();
-            $tags[] = Tag::whereDate('created_at', today()->subDays($days_backwards))
+            $tags[] = TractorRentEnquiry::whereDate('created_at', today()->subDays($days_backwards))
                             ->count();
         }
 
@@ -55,15 +55,15 @@ class NewEntriesChartController extends ChartController
             ->color('rgb(66, 186, 150)')
             ->backgroundColor('rgba(66, 186, 150, 0.4)');
 
-        $this->chart->dataset('Articles', 'line', $articles)
+        $this->chart->dataset('Soil Test Orders', 'line', $articles)
             ->color('rgb(96, 92, 168)')
             ->backgroundColor('rgba(96, 92, 168, 0.4)');
 
-        $this->chart->dataset('Categories', 'line', $categories)
+        $this->chart->dataset('Feeds', 'line', $categories)
             ->color('rgb(255, 193, 7)')
             ->backgroundColor('rgba(255, 193, 7, 0.4)');
 
-        $this->chart->dataset('Tags', 'line', $tags)
+        $this->chart->dataset('Rent Enquiry', 'line', $tags)
             ->color('rgba(70, 127, 208, 1)')
             ->backgroundColor('rgba(70, 127, 208, 0.4)');
     }
