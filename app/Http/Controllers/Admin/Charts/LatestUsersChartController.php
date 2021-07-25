@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Charts;
 
-use App\User;
+use App\Models\Customer;
 use Backpack\CRUD\app\Http\Controllers\ChartController;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
-class LatestUsersChartController extends ChartController
+class LatestCustomersChartController extends ChartController
 {
     public function setup()
     {
@@ -30,15 +30,15 @@ class LatestUsersChartController extends ChartController
      */
     public function data()
     {
-        $today_users = User::whereDate('created_at', today())->count();
-        $yesterday_users = User::whereDate('created_at', today()->subDays(1))->count();
-        $users_2_days_ago = User::whereDate('created_at', today()->subDays(2))->count();
-        $users_3_days_ago = User::whereDate('created_at', today()->subDays(3))->count();
-        $users_4_days_ago = User::whereDate('created_at', today()->subDays(4))->count();
-        $users_5_days_ago = User::whereDate('created_at', today()->subDays(5))->count();
-        $users_6_days_ago = User::whereDate('created_at', today()->subDays(6))->count();
+        $today_users = Customer::whereDate('created_at', today())->count();
+        $yesterday_users = Customer::whereDate('created_at', today()->subDays(1))->count();
+        $users_2_days_ago = Customer::whereDate('created_at', today()->subDays(2))->count();
+        $users_3_days_ago = Customer::whereDate('created_at', today()->subDays(3))->count();
+        $users_4_days_ago = Customer::whereDate('created_at', today()->subDays(4))->count();
+        $users_5_days_ago = Customer::whereDate('created_at', today()->subDays(5))->count();
+        $users_6_days_ago = Customer::whereDate('created_at', today()->subDays(6))->count();
 
-        $this->chart->dataset('Users Created', 'bar', [
+        $this->chart->dataset('Customers Created', 'bar', [
             $users_6_days_ago,
             $users_5_days_ago,
             $users_4_days_ago,

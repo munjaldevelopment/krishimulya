@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\Charts;
 
 use App\User;
 use Backpack\CRUD\app\Http\Controllers\ChartController;
-use Backpack\NewsCRUD\app\Models\Article;
-use Backpack\NewsCRUD\app\Models\Category;
-use Backpack\NewsCRUD\app\Models\Tag;
+use App\Models\SoilTestOrders;
+use App\Models\Feeds;
+use App\Models\TractorRentEnquiry;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
 class NewEntriesChartController extends ChartController

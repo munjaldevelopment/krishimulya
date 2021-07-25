@@ -127,7 +127,7 @@
                 // 'class' => 'col-md-6',
                 'controller' => \App\Http\Controllers\Admin\Charts\LatestUsersChartController::class,
                 'content' => [
-                    'header' => 'New Users Past 7 Days', // optional
+                    'header' => 'New Customers Past 7 Days', // optional
                     // 'body' => 'This chart should make it obvious how many new users have signed up in the past 7 days.<br><br>', // optional
                     
                 ]
