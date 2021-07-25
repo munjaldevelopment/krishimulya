@@ -6,7 +6,7 @@ use App\Models\Customer;
 use Backpack\CRUD\app\Http\Controllers\ChartController;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 
-class LatestCustomersChartController extends ChartController
+class LatestUsersChartController extends ChartController
 {
     public function setup()
     {
