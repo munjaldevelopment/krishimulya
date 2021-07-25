@@ -40,7 +40,7 @@
             ->value($userCount)
             ->description('Registered users.')
             ->progress(90)
-            ->hint('Great! Don\'t stop.')
+            ->hint('Great! Don\'t stop.'),
             
         // alternatively, to use widgets as content, we can use the same add() method,
         // but we need to use onlyHere() or remove() at the end
@@ -51,7 +51,7 @@
             ->value($articleCount)
             ->description('Articles.')
             ->progress(100*(int)$userCount/5000)
-            ->hint(5000-$userCount.' more until next milestone.'),
+            ->hint(5000-$userCount.' more until next milestone.')
             ->onlyHere(), 
         // alternatively, you can just push the widget to a "hidden" group
         Widget::make()
