@@ -20,6 +20,7 @@
         "backpack/permissionmanager": "^6.0",
         "backpack/revise-operation": "^1.0",
         "backpack/settings": "^3.0",
+        "balping/json-raw-encoder": "^1.0",
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-dompdf": "0.8.7",
         "barryvdh/laravel-elfinder": "^0.4.6",
