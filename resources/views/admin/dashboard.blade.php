@@ -24,7 +24,7 @@
 	// need them to show information from the DB.
 	// 
 	// But you do whatever you think it's best. Who am I, your mom?
-	$productCount = App\Models\Product::count();
+	$productCount = \Backpack\NewsCRUD\app\Models\Product::count();
 	$userCount = App\User::count();
 	$articleCount = \Backpack\NewsCRUD\app\Models\Article::count();
 	$lastArticle = \Backpack\NewsCRUD\app\Models\Article::orderBy('date', 'DESC')->first();
