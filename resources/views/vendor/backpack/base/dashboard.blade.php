@@ -49,9 +49,9 @@
             ->class('card border-0 text-white bg-success')
             ->progressClass('progress-bar')
             ->value($articleCount)
-            ->description('Articles.')
-            ->progress(100*(int)$userCount/5000)
-            ->hint(5000-$userCount.' more until next milestone.')
+            ->description('Customers.')
+            ->progress(100*(int)$articleCount/5000)
+            ->hint(5000-$articleCount.' more until next milestone.')
             ->onlyHere(), 
         // alternatively, you can just push the widget to a "hidden" group
         Widget::make()
