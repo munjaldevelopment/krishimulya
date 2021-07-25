@@ -39,7 +39,7 @@
             ->progressClass('progress-bar')
             ->value($userCount)
             ->description('Registered users.')
-            ->progress(100*(int)$articleCount/100)
+            ->progress(100*(int)$userCount/100)
             ->hint('Great! Don\'t stop.'),
             
         // alternatively, to use widgets as content, we can use the same add() method,
@@ -61,7 +61,7 @@
             ->value($lastArticleDaysAgo.' days')
             ->progressClass('progress-bar')
             ->description('Since last soil test.')
-            ->progress(100*(int)$articleCount/100)
+            ->progress(0)
             ->hint('Post 5-7 soil test every days.'),
         // both Widget::make() and Widget::add() accept an array as a parameter
         // if you prefer defining your widgets as arrays
