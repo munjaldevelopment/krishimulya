@@ -58,7 +58,7 @@ class SendCustomerNotification extends Command
                     $optionBuilder = new OptionsBuilder();
                     $optionBuilder->setTimeToLive(60*20);
 
-                    $image = "http://krishi.microcrm.in/uploads/logo/512-png-short.png";
+                    $image = "https://krishimulya.com/uploads/logo/512-png-short.png";
                             
                     $notificationBuilder = new PayloadNotificationBuilder($title);
                     $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
