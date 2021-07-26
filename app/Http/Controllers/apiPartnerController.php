@@ -1070,15 +1070,18 @@ class apiPartnerController extends Controller
                     $checkData = DB::table('users_checkin_outs')->where('user_id', $user_id)->orderBy('id', 'DESC')->first();
                     if($checkData->checkout_time == NULL)
                     {
-                        $is_checkin = 1;    
+                        $is_checkin = 1;
+
+                        $assignService[] = array('service_code' => 'check-out', 'service_color' => '#572758', 'image' => $baseUrl."/check-out.png", 'name' => 'Check Out', 'stats' => "0");
+
+                        $assignService[] = array('service_code' => 'questionairre-activity', 'service_color' => '#572758', 'image' => $baseUrl."/check-out.png", 'name' => 'Questionairre Activity', 'stats' => "0");
+
+                        $assignService[] = array('service_code' => 'questionairre-record', 'service_color' => '#572758', 'image' => $baseUrl."/check-out.png", 'name' => 'Questionairre Record', 'stats' => "0");
+
+                        $assignService[] = array('service_code' => 'questionairre-soil-test', 'service_color' => '#572758', 'image' => $baseUrl."/check-out.png", 'name' => 'Questionairre Soil test', 'stats' => "0");
                     }
                 }
-
-
-                //Questionairre for activity
-                // Records
-                // Soil test
-
+                
 
                 //$assignService[] = array('service_code' => 'all-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image,'name' => 'All Leads', 'stats' => "".$stats_total);
 
@@ -1106,7 +1109,6 @@ class apiPartnerController extends Controller
                 $status_code = $success = '1';
                 $message = 'Partner Dashboards';
 
-                
                 
                 $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'pincode' => $pincode, 'wheatherType' => $wheatherType, 'wheathericon' => $iconurl, 'todaytemp' => "".$todaytemp."°C" , 'todayhumidity' => "".$todayhumidity, 'locationName' => "".$locationName, 'is_checkin' => "".$is_checkin, 'assignService' => $assignService);
 
