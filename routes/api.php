@@ -230,3 +230,5 @@ Route::post('missed-call', 'apiController@missedCall');
 
 // Punch-in / out
 Route::get('call-type', 'apiPartnerController@callType');
+Route::get('partner-checkin', 'apiPartnerController@partnerCheckin');
+Route::get('partner-checkout', 'apiPartnerController@partnerCheckout');

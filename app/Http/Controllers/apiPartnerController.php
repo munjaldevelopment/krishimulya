@@ -1081,7 +1081,7 @@ class apiPartnerController extends Controller
                         $assignService[] = array('service_code' => 'questionairre-soil-test', 'service_color' => '#572758', 'image' => $baseUrl."/check-out.png", 'name' => 'Questionairre Soil test', 'stats' => "0");
                     }
                 }
-                
+
 
                 //$assignService[] = array('service_code' => 'all-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image,'name' => 'All Leads', 'stats' => "".$stats_total);
 
@@ -2939,8 +2939,102 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function partnerCheckout(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $isactive = 0;
+            $error = "";
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $user_id = $customer->user_id;
+
+                    $isExists = DB::table('users_checkin_outs')->where('user_id', $user_id)->whereNull('checkout_time')->count();
+
+                    if($isExists)
+                    {
+                        $checkOutData = DB::table('users_checkin_outs')->where('user_id', $user_id)->whereNull('checkout_time')->first();
+
+                        $crop_material_enquiry_id = DB::table('users_checkin_outs')->where('id', $checkOutData->id)->update(['checkout_time' => $date, 'updated_at' => $date]);
+
+                        $status_code = $success = '1';
+                        $message = 'Partner Checked-out successfully';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
+                    else
+                    {
+                        $status_code = $success = '0';
+                        $message = 'Partner not Checked-in. Please try again.';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
+    public function partnerCheckin(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $isactive = 0;
+            $error = "";
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $user_id = $customer->user_id;
+
+                    $crop_material_enquiry_id = DB::table('users_checkin_outs')->insertGetId(['user_id' => $user_id, 'checkin_time' => $date, 'created_at' => $date]);
+
+
+                    $status_code = $success = '1';
+                    $message = 'Partner Checked-in successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     // Punch-in / out
-    //START show popup 
     public function callType(Request $request)
     {
         try 
