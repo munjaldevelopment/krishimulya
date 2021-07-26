@@ -51,19 +51,19 @@ class NewEntriesChartController extends ChartController
                             ->count();
         }
 
-        $this->chart->dataset('Users', 'line', $users)
+        $this->chart->dataset('Users', 'bar', $users)
             ->color('rgb(66, 186, 150)')
             ->backgroundColor('rgba(66, 186, 150, 0.4)');
 
-        $this->chart->dataset('Soil Test Orders', 'line', $articles)
+        $this->chart->dataset('Soil Test Orders', 'bar', $articles)
             ->color('rgb(96, 92, 168)')
             ->backgroundColor('rgba(96, 92, 168, 0.4)');
 
-        $this->chart->dataset('Feeds', 'line', $categories)
+        $this->chart->dataset('Feeds', 'bar', $categories)
             ->color('rgb(255, 193, 7)')
             ->backgroundColor('rgba(255, 193, 7, 0.4)');
 
-        $this->chart->dataset('Rent Enquiry', 'line', $tags)
+        $this->chart->dataset('Rent Enquiry', 'bar', $tags)
             ->color('rgba(70, 127, 208, 1)')
             ->backgroundColor('rgba(70, 127, 208, 0.4)');
     }
