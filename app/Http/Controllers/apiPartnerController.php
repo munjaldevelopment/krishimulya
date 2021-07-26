@@ -3180,7 +3180,7 @@ class apiPartnerController extends Controller
                     {
                         $checkInData = DB::table('users_checkin_outs')->where('user_id', $user_id)->whereNull('checkout_time')->first();
 
-                        $crop_material_enquiry_id = DB::table('users_checkin_forms')->insert(['user_id' => $user_id, 'users_checkin_out_id' => $checkInData->id, 'customer_name' => $customer_name, 'mobile_number' => $mobile_number, 'call_type_id' => $call_type_id, 'created_at' => $datetime]);
+                        $crop_material_enquiry_id = DB::table('users_checkin_forms')->insert(['user_id' => $user_id, 'users_checkin_out_id' => $checkInData->id, 'customer_name' => $customer_name, 'mobile_number' => $mobile_number, 'checkin_date' => $checkin_date, 'call_type_id' => $call_type_id, 'created_at' => $datetime]);
 
                         $status_code = $success = '1';
                         $message = 'Partner questionairre activity data successfully.';
