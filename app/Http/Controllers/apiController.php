@@ -4897,7 +4897,7 @@ class apiController extends Controller
             $recording_url = $request->recording_url;
             $call_type = $request->call_type;
             $call_status = $request->call_status;
-            $datetime = $request->datetime;
+            $datetime = date('Y-m-d H:i:s', strtotime($request->datetime));
 
             $error = "";
             
