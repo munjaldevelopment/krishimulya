@@ -16,7 +16,9 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('croptype') }}'><i class='nav-icon la la-building'></i> Crop Type</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltype') }}'><i class='nav-icon la la-building'></i> Soil Type</a></li>
 
-		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('calltype') }}'><i class='nav-icon la la-building'></i> Call Types</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('calltype') }}'><i class='nav-icon la la-building'></i> Call Type</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('survey') }}'><i class='nav-icon la la-building'></i> Survey</a></li>
 	</ul>
 </li>
 
@@ -25,6 +27,9 @@
 	<ul class="nav-dropdown-items">
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinout') }}'><i class='nav-icon la la-building'></i> User Check inOut</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinform') }}'><i class='nav-icon la la-building'></i> User Checkin Forms</a></li>
+
+		
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('checkinlatlong') }}'><i class='nav-icon la la-building'></i> Checkin LatLong</a></li>
 	</ul>
 </li>
 

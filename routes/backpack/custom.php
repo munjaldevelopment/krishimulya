@@ -109,4 +109,6 @@ Route::group([
     Route::crud('calltype', 'CallTypeCrudController');
     Route::crud('usercheckinout', 'UserCheckinOutCrudController');
     Route::crud('usercheckinform', 'UserCheckinFormCrudController');
+    Route::crud('survey', 'SurveyCrudController');
+    Route::crud('checkinlatlong', 'CheckinLatLongCrudController');
 });
