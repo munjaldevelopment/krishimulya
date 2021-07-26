@@ -1059,6 +1059,27 @@ class apiPartnerController extends Controller
                     $assignService[] = array('service_code' => $value->service_code, 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => $categoryName->$language, 'stats' => "".$stats);
                 }
 
+                // Check-in / out, three forms
+                $assignService[] = array('service_code' => 'check-in', 'service_color' => '#572758', 'image' => $baseUrl."/check-in.png", 'name' => 'Check In', 'stats' => "0");
+
+                $user_id = $partner->user_id;
+                $checkExists = DB::table('users_checkin_outs')->where('user_id', $user_id)->count();
+                $is_checkin = 0;
+                if($checkExists > 0)
+                {
+                    $checkData = DB::table('users_checkin_outs')->where('user_id', $user_id)->orderBy('id', 'DESC')->first();
+                    if($checkData->checkout_time == NULL)
+                    {
+                        $is_checkin = 1;    
+                    }
+                }
+
+
+                //Questionairre for activity
+                // Records
+                // Soil test
+
+
                 //$assignService[] = array('service_code' => 'all-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image,'name' => 'All Leads', 'stats' => "".$stats_total);
 
                 //$assignService[] = array('service_code' => 'pending-leads', 'service_color' => $value->service_color, 'image' => $baseUrl."/".$value->image, 'name' => 'Pending Leads', 'stats' => "".$stats_pending_total);
@@ -1084,8 +1105,10 @@ class apiPartnerController extends Controller
                 
                 $status_code = $success = '1';
                 $message = 'Partner Dashboards';
+
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'pincode' => $pincode, 'wheatherType' => $wheatherType, 'wheathericon' => $iconurl, 'todaytemp' => "".$todaytemp."°C" , 'todayhumidity' => "".$todayhumidity, 'locationName' => "".$locationName, 'assignService' => $assignService);
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id, 'pincode' => $pincode, 'wheatherType' => $wheatherType, 'wheathericon' => $iconurl, 'todaytemp' => "".$todaytemp."°C" , 'todayhumidity' => "".$todayhumidity, 'locationName' => "".$locationName, 'is_checkin' => "".$is_checkin, 'assignService' => $assignService);
 
 
             } else{
