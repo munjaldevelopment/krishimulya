@@ -3121,7 +3121,7 @@ class apiPartnerController extends Controller
 
                     if($isExists)
                     {
-                        $crop_material_enquiry_id = DB::table('users_checkin_lat_long')->insert(['user_id' => $user_id, 'user_lat' => $user_lat, 'user_long' => $user_long, 'checkin_date' => $checkin_date, 'created_at' => $date]);
+                        $crop_material_enquiry_id = DB::table('users_checkin_lat_long')->insert(['user_id' => $user_id, 'user_lat' => $user_lat, 'user_long' => $user_long, 'checkin_date' => $checkin_date, 'created_at' => $datetime]);
 
                         $status_code = $success = '1';
                         $message = 'Partner lat long added successfully.';
