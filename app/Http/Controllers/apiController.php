@@ -4906,14 +4906,14 @@ class apiController extends Controller
 
                 $status_code = '1';
                 $message = 'Missed call entries created successfully';
-                $json = array('status_code' => $status_code, 'message' => $message, 'id' => (int)$missed_call_id);
+                $json = array('status_code' => $status_code, 'message' => $message, 'id' => "".$missed_call_id);
             }
             else 
             {
                 $status_code = $success = '0';
                 $message = 'Sorry! Something went wrong!';
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'id' => 0);
+                $json = array('status_code' => $status_code, 'message' => $message, 'id' => '0');
             }
         }
         catch(\Exception $e) {
