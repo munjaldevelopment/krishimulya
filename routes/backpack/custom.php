@@ -105,4 +105,5 @@ Route::group([
 
     Route::crud('cropmaterials', 'CropMaterialsCrudController');
     Route::crud('cropmaterialsenquiry', 'CropMaterialsEnquiryCrudController');
+    Route::crud('missedcall', 'MissedCallCrudController');
 });
