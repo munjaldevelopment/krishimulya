@@ -4882,4 +4882,47 @@ class apiController extends Controller
         
         return response()->json($json, 200);
     }
+
+    //MISSED CALL
+    public function missedCall(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $unique_id = $request->unique_id;
+            $caller_id = $request->caller_id;
+            $received_id = $request->received_id;
+            $duration = $request->duration;
+            $recording_url = $request->recording_url;
+            $call_type = $request->call_type;
+            $call_status = $request->call_status;
+            $datetime = $request->datetime;
+
+            $error = "";
+            
+            if($error == ""){
+                $missed_call_id = DB::table('missed_calls')->insertGetId(['unique_id' => $unique_id, 'caller_id' => $caller_id, 'received_id' => $received_id, 'duration' => $duration, 'recording_url' => $recording_url, 'call_type' => $call_type, 'call_status' => $call_status, 'datetime' => $datetime]);
+
+                $status_code = '1';
+                $message = 'Missed call entries created successfully';
+                $json = array('status_code' => $status_code, 'message' => $message, 'id' => (int)$missed_call_id);
+            }
+            else 
+            {
+                $status_code = $success = '0';
+                $message = 'Sorry! Something went wrong!';
+                
+                $json = array('status_code' => $status_code, 'message' => $message, 'id' => 0);
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'customer_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
 }

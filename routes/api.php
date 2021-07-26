@@ -225,3 +225,5 @@ Route::get('soil-get-test', 'apiSoilController@soilGetTest');
 
 
 Route::post('update-enquiry-contact', 'apiController@update_contact_info_enquiry');
+
+Route::post('missed-call', 'apiController@missedCall');
