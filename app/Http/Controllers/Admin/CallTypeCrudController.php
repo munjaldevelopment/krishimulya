@@ -28,7 +28,7 @@ class CallTypeCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\CallType::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/calltype');
-        CRUD::setEntityNameStrings('calltype', 'call_types');
+        CRUD::setEntityNameStrings('call type', 'call types');
     }
 
     /**

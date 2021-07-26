@@ -16,7 +16,7 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('croptype') }}'><i class='nav-icon la la-building'></i> Crop Type</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltype') }}'><i class='nav-icon la la-building'></i> Soil Type</a></li>
 
-		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('calltype') }}'><i class='nav-icon la la-building'></i> CallTypes</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('calltype') }}'><i class='nav-icon la la-building'></i> Call Types</a></li>
 	</ul>
 </li>
 

@@ -28,7 +28,7 @@ class UserCheckinFormCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\UserCheckinForm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/usercheckinform');
-        CRUD::setEntityNameStrings('usercheckinform', 'user_checkin_forms');
+        CRUD::setEntityNameStrings('user checkin form', 'user checkin forms');
     }
 
     /**
