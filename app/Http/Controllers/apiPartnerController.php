@@ -2938,7 +2938,7 @@ class apiPartnerController extends Controller
                     {
                         foreach($callTypes as $row)
                         {
-                            $callTypeData[$row->id] = $row->type_name;
+                            $callTypeData[] = array('name' => $row->type_name); //$row->id
                         }
                     }
 
