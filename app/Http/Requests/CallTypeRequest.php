@@ -26,6 +26,7 @@ class CallTypeRequest extends FormRequest
     public function rules()
     {
         return [
+            'type_name' => 'required|unique:call_types,type_name,'.\Request::get('id'),
             // 'name' => 'required|min:5|max:255'
         ];
     }

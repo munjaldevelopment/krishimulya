@@ -16,7 +16,7 @@ class CallTypeCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
@@ -39,7 +39,9 @@ class CallTypeCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
+
+        CRUD::addColumn('type_name');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -58,7 +60,17 @@ class CallTypeCrudController extends CrudController
     {
         CRUD::setValidation(CallTypeRequest::class);
 
-        CRUD::setFromDb(); // fields
+        //CRUD::setFromDb(); // fields
+
+        CRUD::addField([
+            'name' => 'type_name',
+            'label' => 'Name',
+        ]);
+        CRUD::addField([
+            'name' => 'description',
+            'label' => 'Description',
+            'type' => 'textarea',
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
