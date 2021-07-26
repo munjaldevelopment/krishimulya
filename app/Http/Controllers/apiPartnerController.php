@@ -3153,5 +3153,64 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function partnerQuestionairreActivity(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $datetime   = date('Y-m-d H:i:s');
+            $checkin_date   = date('Y-m-d');
+            $partner_id = $request->partner_id;
+            $customer_name = $request->customer_name;
+            $mobile_number = $request->mobile_number;
+            $call_type_id = $request->call_type_id;
+
+            $isactive = 0;
+            $error = "";
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $user_id = $customer->user_id;
+
+                    $isExists = DB::table('users_checkin_outs')->where('user_id', $user_id)->whereNull('checkout_time')->count();
+
+                    if($isExists)
+                    {
+                        $checkInData = DB::table('users_checkin_outs')->where('user_id', $user_id)->whereNull('checkout_time')->first();
+
+                        $crop_material_enquiry_id = DB::table('users_checkin_forms')->insert(['user_id' => $user_id, 'users_checkin_out_id' => $checkInData->id, 'customer_name' => $customer_name, 'mobile_number' => $mobile_number, 'call_type_id' => $call_type_id, 'created_at' => $datetime]);
+
+                        $status_code = $success = '1';
+                        $message = 'Partner questionairre activity data successfully.';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
+                    else
+                    {
+                        $status_code = $success = '0';
+                        $message = 'Partner not Checked-in. Please try again.';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     
 }
