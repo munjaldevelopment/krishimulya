@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\DailyQuote::class,
+        //Commands\DailyQuote::class,
     ];
 
     /**
@@ -26,9 +26,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('send:customer_notification')->everyMinute();
         $schedule->command('create:soiltest_customer')->everyMinute();
-        //$schedule->command('create:soiltest_order')->everyMinute();
-        
-        // $schedule->command('inspire')->hourly();
     }
 
     /**
