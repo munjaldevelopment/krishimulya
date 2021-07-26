@@ -42,10 +42,8 @@ class DailyQuote extends Command
      * @return int
      */
      public function handle()
-{
-     
-    
-   $soilodr = DB::table('soil_test_orders')->join('customers', 'customers.id', '=', 'soil_test_orders.customer_id')->where('soil_test_orders.kt_report_id', "!=", '')->where('soil_test_orders.order_status', 'pending')->select('soil_test_orders.*', 'customers.fcmToken')->get();
+    {
+        /*$soilodr = DB::table('soil_test_orders')->join('customers', 'customers.id', '=', 'soil_test_orders.customer_id')->where('soil_test_orders.kt_report_id', "!=", '')->where('soil_test_orders.order_status', 'pending')->select('soil_test_orders.*', 'customers.fcmToken')->get();
         if($soilodr){
             foreach ($soilodr as $order) {
                 $kt_report_id = $order->kt_report_id; 
@@ -78,8 +76,7 @@ class DailyQuote extends Command
                     curl_close($curl);
                     
                     $res =  json_decode($response);
-                   /* echo '<pre>';
-                    print_r($res);*/
+                   
                     $replace = '<img src="http://krishimulya.com/uploads/logo/512-png-short.png" width="50" height="50">';
                     $reporthtml =  str_replace('krishimulya', $replace, $res->data->getTest->html);
                    if($reporthtml != ''){ 
@@ -89,12 +86,10 @@ class DailyQuote extends Command
                        $filename = $order_no.'_report.pdf';
                        $pdf->save(public_path().'/order_report/'.$filename);
 
-                       /*Update Soil order */ 
                         $date   = date('Y-m-d H:i:s');
                         $order_status = 'done';
                         DB::table('soil_test_orders')->where('id', '=', $order_id)->update(['report_file' => $filename, 'order_status' => $order_status, 'report_date' => $date]);
-                       /* End */
-                      /* FCM Notification */
+                       
                        $customerToken = $order->fcmToken; 
                        
                        //$customerToken = 'e2k1jCT_Ty2qOLk4gSX_Hz:APA91bHXhqvz5KlPW6EW9vDNeldzJR-yQcIarygjgn8fo2b08ihcEIFiu-NzHI-1A3L7MJMYyI4ehSWzBwimX5T0ExRbooa6-UxGrfckSdD-F49FzJxwWcU4M58qRu8yeRduTk62eBMW';
@@ -106,14 +101,12 @@ class DailyQuote extends Command
                     
                        $customerNotify = $this->push_notification($notif_data,$customerToken);
                        $saveNotification = DB::table('tbl_notification')->insertGetId(['customer_id' => $customer_id,'notification_title' => $notification_title, 'notification_content' => $notification_body, 'notification_type' => $notification_type, 'user_type' => 'customer', 'isactive' => '1', 'created_at' => $date, 'updated_at' => $date]);
-
-                       /* End */
                     }
                 }
             }
              
             $this->info('Successfully sent soil report to customers.');
-        }
+        }*/
     }
 
     public function push_notification($data, $device_tokens)
