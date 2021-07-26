@@ -2925,12 +2925,11 @@ class apiPartnerController extends Controller
             $baseUrl = URL::to("/");
             $json = $userData = array();
             $date   = date('Y-m-d H:i:s');
-            $partner_id = $request->partner_id;
             $error = "";
             
             if($error == ""){
-                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
-                if($customer){ 
+                $callTypeExists = DB::table('call_types')->count();
+                if($callTypeExists > 0){ 
                     $callTypes = DB::table('call_types')->get();
 
                     $callTypeData = array();
@@ -2949,7 +2948,7 @@ class apiPartnerController extends Controller
                     $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
                 } else{
                     $status_code = $success = '0';
-                    $message = 'Customer not valid';
+                    $message = 'No call types exists';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
                 }
