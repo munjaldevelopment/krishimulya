@@ -2913,4 +2913,57 @@ class apiPartnerController extends Controller
         
         return response()->json($json, 200);
     }
+
+    // Punch-in / out
+    //START show popup 
+    public function callType(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            $error = "";
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $callTypes = DB::table('call_types')->get();
+
+                    $callTypeData = array();
+
+                    if($callTypes)
+                    {
+                        foreach($callTypes as $row)
+                        {
+                            $callTypeData[$row->id] = $row->type_name;
+                        }
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Call Type List';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                }
+            }
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    //END 
 }
