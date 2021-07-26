@@ -232,3 +232,4 @@ Route::post('missed-call', 'apiController@missedCall');
 Route::get('call-type', 'apiPartnerController@callType');
 Route::get('partner-checkin', 'apiPartnerController@partnerCheckin');
 Route::get('partner-checkout', 'apiPartnerController@partnerCheckout');
+Route::get('partner-checkin-latlong', 'apiPartnerController@partnerCheckinLatLong');

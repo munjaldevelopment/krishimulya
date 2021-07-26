@@ -2939,6 +2939,58 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+
+    // Punch-in / out
+    public function callType(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $error = "";
+            
+            if($error == ""){
+                $callTypeExists = DB::table('call_types')->count();
+                if($callTypeExists > 0){ 
+                    $callTypes = DB::table('call_types')->get();
+
+                    $callTypeData = array();
+
+                    if($callTypes)
+                    {
+                        foreach($callTypes as $row)
+                        {
+                            $callTypeData[] = array('id' => $row->id, 'name' => $row->type_name);
+                        }
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Call Type List';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'No call types exists';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                }
+            }
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    //END 
+
     public function partnerCheckout(Request $request)
     {
         try 
@@ -3046,54 +3098,60 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
-    // Punch-in / out
-    public function callType(Request $request)
+    public function partnerCheckinLatLong(Request $request)
     {
         try 
         {
             $baseUrl = URL::to("/");
-            $json       =   array();
-            $baseUrl = URL::to("/");
             $json = $userData = array();
-            $date   = date('Y-m-d H:i:s');
+            $datetime   = date('Y-m-d H:i:s');
+            $checkin_date   = date('Y-m-d');
+            $partner_id = $request->partner_id;
+            $user_lat = $request->user_lat;
+            $user_long = $request->user_long;
+            $isactive = 0;
             $error = "";
             
             if($error == ""){
-                $callTypeExists = DB::table('call_types')->count();
-                if($callTypeExists > 0){ 
-                    $callTypes = DB::table('call_types')->get();
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $user_id = $customer->user_id;
 
-                    $callTypeData = array();
+                    $isExists = DB::table('users_checkin_outs')->where('user_id', $user_id)->whereNull('checkout_time')->count();
 
-                    if($callTypes)
+                    if($isExists)
                     {
-                        foreach($callTypes as $row)
-                        {
-                            $callTypeData[] = array('id' => $row->id, 'name' => $row->type_name);
-                        }
-                    }
+                        $crop_material_enquiry_id = DB::table('users_checkin_lat_long')insert(['user_id' => $user_id, 'user_lat' => $user_lat, 'user_long' => $user_long, 'checkin_date' => $checkin_date, 'created_at' => $date]);
 
-                    $status_code = $success = '1';
-                    $message = 'Call Type List';
-                    
-                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                        $status_code = $success = '1';
+                        $message = 'Partner lat long added successfully.';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
+                    else
+                    {
+                        $status_code = $success = '0';
+                        $message = 'Partner not Checked-in. Please try again.';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
                 } else{
                     $status_code = $success = '0';
-                    $message = 'No call types exists';
+                    $message = 'Customer not valid';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
                 }
             }
         }
-        
         catch(\Exception $e) {
             $status_code = '0';
             $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
-            $json = array('status_code' => $status_code, 'message' => $message);
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
         }
-    
+        
         return response()->json($json, 200);
     }
-    //END 
+
+    
 }
