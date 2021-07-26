@@ -15,10 +15,11 @@ class UserCheckinOut extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'user_checkin_outs';
+    protected $table = 'users_checkin_outs';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+    protected $fillable = ['user_id', 'checkin_time', 'checkout_time'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -28,6 +29,10 @@ class UserCheckinOut extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function users()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

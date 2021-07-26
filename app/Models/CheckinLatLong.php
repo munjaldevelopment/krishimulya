@@ -15,11 +15,11 @@ class CheckinLatLong extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'checkin_lat_longs';
+    protected $table = 'users_checkin_lat_long';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = ['user_id', 'checkin_date', 'user_lat', 'user_long'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -28,6 +28,10 @@ class CheckinLatLong extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function users()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

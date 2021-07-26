@@ -28,7 +28,7 @@ class CheckinLatLongCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\CheckinLatLong::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/checkinlatlong');
-        CRUD::setEntityNameStrings('checkinlatlong', 'checkin_lat_longs');
+        CRUD::setEntityNameStrings('checkin latlong', 'checkin lat longs');
     }
 
     /**
