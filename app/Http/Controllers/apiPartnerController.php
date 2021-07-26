@@ -3009,13 +3009,25 @@ class apiPartnerController extends Controller
                 if($customer){ 
                     $user_id = $customer->user_id;
 
-                    $crop_material_enquiry_id = DB::table('users_checkin_outs')->insertGetId(['user_id' => $user_id, 'checkin_time' => $date, 'created_at' => $date]);
+                    $isExists = DB::table('users_checkin_outs')->where('user_id', $user_id)->whereNull('checkout_time')->count();
+
+                    if($isExists)
+                    {
+                        $status_code = $success = '0';
+                        $message = 'Partner not checked-out yet. Please try agaib.';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
+                    else
+                    {
+                        $crop_material_enquiry_id = DB::table('users_checkin_outs')->insertGetId(['user_id' => $user_id, 'checkin_time' => $date, 'created_at' => $date]);
 
 
-                    $status_code = $success = '1';
-                    $message = 'Partner Checked-in successfully';
-                    
-                    $json = array('status_code' => $status_code, 'message' => $message);
+                        $status_code = $success = '1';
+                        $message = 'Partner Checked-in successfully';
+                        
+                        $json = array('status_code' => $status_code, 'message' => $message);
+                    }
                 } else{
                     $status_code = $success = '0';
                     $message = 'Customer not valid';
