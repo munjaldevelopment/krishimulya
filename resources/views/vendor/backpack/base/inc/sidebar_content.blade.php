@@ -25,7 +25,7 @@
 <li class="nav-item nav-dropdown">
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Check-in</a>
 	<ul class="nav-dropdown-items">
-		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinout') }}'><i class='nav-icon la la-building'></i> User Check inOut</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinout') }}'><i class='nav-icon la la-building'></i> User Check in-Out</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinform') }}'><i class='nav-icon la la-building'></i> User Checkin Forms</a></li>
 
 		
