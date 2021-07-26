@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAppPopupTable extends Migration
+class CreateCallTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -11,9 +11,9 @@ class CreateAppPopupTable extends Migration
      */
     public function up()
     {
-        Schema::create('app_popups', function ($table) {
+        Schema::create('call_types', function ($table) {
             $table->increments('id');
-            $table->string('image');
+            $table->string('type_name');
             $table->text('description');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateAppPopupTable extends Migration
      */
     public function down()
     {
-        Schema::drop('app_popups');
+        Schema::drop('call_types');
     }
 }
