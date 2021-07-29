@@ -109,10 +109,11 @@ class apiController extends Controller
                         {
                             $usertype = explode('refer',$refer_code);
                             if($usertype[0]=='krvp'){
-                                $referal_customer_id = str_replace('krvprefer', '', $refer_code);
+                                $referal_customerid = str_replace('krvprefer', '', $refer_code);
+                                $referal_customer_id = (int)$referal_customerid;
                             } else {
                                 $referCustomerid = str_replace('krvrefer', '', $refer_code); 
-                                $referal_customer_id = $referCustomerid;
+                                $referal_customer_id = (int)$referCustomerid;
                             }
 
                             if($referal_customer_id != "")
@@ -149,7 +150,7 @@ class apiController extends Controller
 
                         if($referal_customer_id != "")
                         {
-                            DB::table('customers_temp')->where('id', '=', $customerid)->update(['referal_partner_id' => $referal_customer_id, 'updated_at' => $date]);
+                            DB::table('customers_temp')->where('id', '=', $customerid)->update(['referal_partner_id' => (int)$referal_customer_id, 'updated_at' => $date]);
                         }
                     }
 
