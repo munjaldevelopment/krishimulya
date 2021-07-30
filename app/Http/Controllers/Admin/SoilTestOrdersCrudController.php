@@ -377,7 +377,14 @@ class SoilTestOrdersCrudController extends CrudController
         $soil_test_id = $request->soil_test_id;
         $html_table_data = $request->html_table_data;
         $tableData = explode("::", $html_table_data);
-        dd($tableData);
+        if($tableData)
+        {
+            foreach($tableData as $row)
+            {
+                $tableRow = explode("|", $html_table_data);
+                echo $tableRow[0].",".$tableRow[1].",".$tableRow[2].",".$tableRow[3].",".$tableRow[4].",".$tableRow[5].",".$tableRow[6].",".
+            }
+        }
     }    
 
 
