@@ -103,7 +103,7 @@ Route::group([
     Route::get('download_soil_test', 'SoilTestOrdersCrudController@downloadSoilTest');
     Route::get('download_soil_test_partner', 'SoilTestOrdersCrudController@downloadSoilTestPartner');
 
-    Route::get('saveSoilTest', 'SoilTestOrdersCrudController@saveSoilTest');
+    Route::post('saveSoilTest', 'SoilTestOrdersCrudController@saveSoilTest');
 
     Route::crud('cropmaterials', 'CropMaterialsCrudController');
     Route::crud('cropmaterialsenquiry', 'CropMaterialsEnquiryCrudController');
