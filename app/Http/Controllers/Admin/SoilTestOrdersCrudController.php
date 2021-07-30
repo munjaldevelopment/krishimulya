@@ -319,7 +319,7 @@ class SoilTestOrdersCrudController extends CrudController
                         // Create Directory
                         $root_path = public_path('/');
 
-                        $this::add_directory("uploads/soiltest/".$soil_test_id, $root_path);
+                        $this::add_directory("uploads/soil-test-orders/".$soil_test_id, $root_path);
 
                         //\DB::table('soil_test_orders')->where('id', $soil_test_id)->update(['soil_test_html' => $soil_result['test']['html']]);
                     }
