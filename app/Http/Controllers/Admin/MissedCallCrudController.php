@@ -27,7 +27,7 @@ class MissedCallCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\MissedCall::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/missedcall');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/missed-call');
         CRUD::setEntityNameStrings('missed call', 'missed calls');
     }
 
