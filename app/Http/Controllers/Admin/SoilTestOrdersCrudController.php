@@ -341,6 +341,23 @@ class SoilTestOrdersCrudController extends CrudController
 
             $ajaxcode = '
             <script>
+            var html_table_data = "";  
+            var bRowStarted = true;  
+            $(".Table1 tbody>tr").each(function () {  
+                $("td", this).each(function () {  
+                    if (html_table_data.length == 0 || bRowStarted == true) {  
+                        html_table_data += $(this).text();  
+                        bRowStarted = false;  
+                    }  
+                    else  
+                        html_table_data += " | " + $(this).text();  
+                });  
+                html_table_data += "\n";  
+                bRowStarted = true;  
+            });  
+
+            alert(html_table_data);
+
             $.ajax({
                 url: "saveSoilTest",
                 type: "post",
