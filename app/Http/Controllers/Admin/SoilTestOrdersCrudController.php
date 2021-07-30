@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Setting;
 
 use File;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class SoilTestOrdersCrudController
@@ -321,7 +322,9 @@ class SoilTestOrdersCrudController extends CrudController
 
                         $this::add_directory("uploads/soil-test-orders/".$soil_test_id, $root_path);
 
-                        //\DB::table('soil_test_orders')->where('id', $soil_test_id)->update(['soil_test_html' => $soil_result['test']['html']]);
+                        $disk = Storage::disk('uploads')->put('soil-test-orders/'.$soil_test_id.'/soil-test.html', $soil_result['test']['html']);
+
+                        \DB::table('soil_test_orders')->where('id', $soil_test_id)->update(['soil_test_html' => 'uploads/soil-test-orders/'.$soil_test_id.'/soil-test.html']);
                     }
                 }
             }
