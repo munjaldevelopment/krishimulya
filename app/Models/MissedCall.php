@@ -19,7 +19,7 @@ class MissedCall extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = ['unique_id', 'caller_id', 'received_id', 'duration', 'call_type', 'call_status', 'datetime'];
     // protected $hidden = [];
     // protected $dates = [];
 
