@@ -352,7 +352,7 @@ class SoilTestOrdersCrudController extends CrudController
                     else  
                         html_table_data += " | " + $(this).text();  
                 });  
-                html_table_data += "\n";  
+                html_table_data += "::";  
                 bRowStarted = true;  
             });  
 
