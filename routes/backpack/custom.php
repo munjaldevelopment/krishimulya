@@ -105,7 +105,6 @@ Route::group([
 
     Route::crud('cropmaterials', 'CropMaterialsCrudController');
     Route::crud('cropmaterialsenquiry', 'CropMaterialsEnquiryCrudController');
-    Route::crud('missedcall', 'MissedCallCrudController');
     Route::crud('calltype', 'CallTypeCrudController');
     Route::crud('usercheckinout', 'UserCheckinOutCrudController');
     Route::crud('usercheckinform', 'UserCheckinFormCrudController');
