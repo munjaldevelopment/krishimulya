@@ -363,6 +363,13 @@ class SoilTestOrdersCrudController extends CrudController
         }
     }
 
+    public function saveSoilTest(Request $request)
+    {
+        echo strip_tags(trim($request->famer_name));
+        dd($request->all());
+    }    
+
+
     public function downloadSoilTestPartner(Request $request)
     {
         $soil_test_id = $request->soil_test_id;
