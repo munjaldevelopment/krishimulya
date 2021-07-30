@@ -374,8 +374,10 @@ class SoilTestOrdersCrudController extends CrudController
 
     public function saveSoilTest(Request $request)
     {
-        echo strip_tags(trim($request->famer_name));
-        dd($request->all());
+        $soil_test_id = $request->soil_test_id;
+        $html_table_data = $request->html_table_data;
+        $tableData = explode("::", $html_table_data);
+        dd($tableData);
     }    
 
 
