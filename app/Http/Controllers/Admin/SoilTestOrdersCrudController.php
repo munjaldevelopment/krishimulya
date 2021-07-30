@@ -343,7 +343,7 @@ class SoilTestOrdersCrudController extends CrudController
             <script>
             $.ajaxSetup({
                 headers: {
-                    "X-CSRF-TOKEN": $("meta[name="csrf-token"]").attr("content")
+                    "X-CSRF-TOKEN": $("meta[name=\"csrf-token\"]").attr("content")
                 }
             });
 
