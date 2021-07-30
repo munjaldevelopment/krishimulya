@@ -305,10 +305,16 @@ class SoilTestOrdersCrudController extends CrudController
             {
                 if($soil_result['status'] == "Completed")
                 {
-                    echo $soil_result['test']['html']; exit;
+                    if($soil_result['test']['html'] != "")
+                    {
+                        \DB::table('soil_test_orders')->where('id', $soil_test_id)->update('soil_test_html' => $soil_result['test']['html']);
+                    }
                 }
             }
         }
+
+        $soilTest = \DB::table('soil_test_orders')->find($soil_test_id);
+        echo $soilTest->soil_test_html; exit;
     }
 
     public function downloadSoilTestPartner(Request $request)
