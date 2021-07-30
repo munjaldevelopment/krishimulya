@@ -267,7 +267,7 @@ class SoilTestOrdersCrudController extends CrudController
         $soil_test_id = $request->soil_test_id;
         $soilTest = \DB::table('soil_test_orders')->find($soil_test_id);
 
-        $krishitantra_order_id = $soilTest->krishitantra_order_id;
+        $krishitantra_order_id = $soilTest->krishitantra_farmer_id;
 
         //dd($krishitantra_order_id);
 
