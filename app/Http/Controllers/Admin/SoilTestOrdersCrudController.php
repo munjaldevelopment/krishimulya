@@ -307,7 +307,7 @@ class SoilTestOrdersCrudController extends CrudController
                 {
                     if($soil_result['test']['html'] != "")
                     {
-                        \DB::table('soil_test_orders')->where('id', $soil_test_id)->update('soil_test_html' => $soil_result['test']['html']);
+                        \DB::table('soil_test_orders')->where('id', $soil_test_id)->update(['soil_test_html' => $soil_result['test']['html']]);
                     }
                 }
             }
