@@ -331,7 +331,12 @@ class SoilTestOrdersCrudController extends CrudController
         }
 
         $soilTest = \DB::table('soil_test_orders')->find($soil_test_id);
-        echo $soilTest->soil_test_html; exit;
+        $filename = $soilTest->soil_test_html;
+
+        if (Storage::disk('uploads')->exists($filename)) {
+            $html = Storage::disk('uploads')->get($filename);
+            echo $html; exit;
+        }
     }
 
     public function downloadSoilTestPartner(Request $request)
