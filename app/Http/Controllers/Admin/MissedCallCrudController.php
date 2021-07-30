@@ -36,6 +36,8 @@ class MissedCallCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->disableResponsiveTable();
+        
         CRUD::setFromDb(); // columns
 
         /**
