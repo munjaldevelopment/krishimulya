@@ -19,6 +19,8 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('calltype') }}'><i class='nav-icon la la-building'></i> Call Type</a></li>
 
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('survey') }}'><i class='nav-icon la la-building'></i> Survey</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('missed-call') }}'><i class='nav-icon la la-building'></i> Missed-calls</a></li>
 	</ul>
 </li>
 
