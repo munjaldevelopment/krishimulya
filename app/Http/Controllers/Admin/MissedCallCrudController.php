@@ -14,7 +14,6 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 class MissedCallCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -37,7 +36,7 @@ class MissedCallCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->disableResponsiveTable();
-        
+
         CRUD::setFromDb(); // columns
 
         /**
