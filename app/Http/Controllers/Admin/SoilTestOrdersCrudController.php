@@ -344,7 +344,7 @@ class SoilTestOrdersCrudController extends CrudController
             $.ajax({
                 url: "saveSoilTest",
                 type: "post",
-                data: {soil_test_id : '.$soil_test_id.', famer_name : $("tr:nth-child(2) td.Table1_B2:nth-child(2)").html(), famer_code : $("tr:nth-child(2) td.Table1_B2:nth-child(4)").html(), crop_grown : $("tr:nth-child(2) td.Table1_B2:nth-child(6)").html(), sample_number : $("tr:nth-child(2) td.Table1_B2:nth-child(8)").html()},
+                data: {soil_test_id : '.$soil_test_id.', famer_name : $("tr:nth-child(2) td.Table1_B2:nth-child(2)").html(), famer_code : $("tr:nth-child(2) td.Table1_B2:nth-child(4)").html(), crop_grown : $("tr:nth-child(2) td.Table1_B2:nth-child(6)").html(), sample_number : $("tr:nth-child(2) td.Table1_B2:nth-child(8)").html(), field_size : $("tr:nth-child(3) td.Table1_B2:nth-child(2)").html(), sampling_date : $("tr:nth-child(3) td.Table1_B2:nth-child(4)").html(), sample_testing_date : $("tr:nth-child(3) td.Table1_B2:nth-child(6)").html(), region : $("tr:nth-child(3) td.Table1_B2:nth-child(8)").html()},
                 success:function(response) {
                 console.log(response);
                 }
