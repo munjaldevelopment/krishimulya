@@ -361,7 +361,7 @@ class SoilTestOrdersCrudController extends CrudController
             $.ajax({
                 url: "saveSoilTest",
                 type: "post",
-                data: {soil_test_id : '.$soil_test_id.', famer_name : $("tr:nth-child(2) td:nth-child(2)").html(), famer_code : $("tr:nth-child(2) td:nth-child(4)").html(), crop_grown : $("tr:nth-child(2) td:nth-child(6)").html(), sample_number : $("tr:nth-child(2) td:nth-child(8)").html(), field_size : $("tr:nth-child(3) td:nth-child(2)").html(), sampling_date : $("tr:nth-child(3) td:nth-child(4)").html(), sample_testing_date : $("tr:nth-child(3) td:nth-child(6)").html(), region : $("tr:nth-child(3) td:nth-child(8)").html(), previous_season : $("tr:nth-child(4) td:nth-child(2)").html(), sample_collected_by : $("tr:nth-child(4) td:nth-child(4)").html(), yield_goal : $("tr:nth-child(4) td:nth-child(6)").html(), previous_crop : $("tr:nth-child(4) td:nth-child(8)").html()},
+                data: {soil_test_id : '.$soil_test_id.', html_table_data : html_table_data},
                 success:function(response) {
                     console.log(response);
                 }
