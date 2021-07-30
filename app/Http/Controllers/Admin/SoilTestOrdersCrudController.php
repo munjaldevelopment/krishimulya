@@ -8,6 +8,8 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 
+use File;
+
 /**
  * Class SoilTestOrdersCrudController
  * @package App\Http\Controllers\Admin
@@ -26,6 +28,13 @@ class SoilTestOrdersCrudController extends CrudController
      * 
      * @return void
      */
+    public static function add_directory( $directory, $cache_path ) {
+
+        if (!File::exists( $cache_path.'/'.$directory)) {
+            File::makeDirectory($cache_path . '/' . $directory, 0775, true, true);
+        }
+    }
+
     public function setup()
     {
         CRUD::setModel(\App\Models\SoilTestOrders::class);
@@ -307,7 +316,12 @@ class SoilTestOrdersCrudController extends CrudController
                 {
                     if($soil_result['test']['html'] != "")
                     {
-                        \DB::table('soil_test_orders')->where('id', $soil_test_id)->update(['soil_test_html' => $soil_result['test']['html']]);
+                        // Create Directory
+                        $root_path = public_path('/');
+
+                        $this::add_directory("soiltest/".$soil_test_id, $root_path);
+
+                        //\DB::table('soil_test_orders')->where('id', $soil_test_id)->update(['soil_test_html' => $soil_result['test']['html']]);
                     }
                 }
             }
