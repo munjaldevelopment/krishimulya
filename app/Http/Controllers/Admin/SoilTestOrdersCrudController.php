@@ -283,7 +283,7 @@ class SoilTestOrdersCrudController extends CrudController
 
         Setting::AssignSetting();
 
-        $curl = curl_init();
+        /*$curl = curl_init();
 
         curl_setopt_array($curl, array(
           CURLOPT_URL => SOILTEST_URL,
@@ -328,9 +328,8 @@ class SoilTestOrdersCrudController extends CrudController
                     }
                 }
             }
-        }
+        }*/
 
-        $soilTest = \DB::table('soil_test_orders')->find($soil_test_id);
         $filename = $soilTest->soil_test_html;
 
         if (Storage::disk('public')->exists($filename)) {
