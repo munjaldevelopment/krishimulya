@@ -341,12 +341,6 @@ class SoilTestOrdersCrudController extends CrudController
 
             $ajaxcode = '
             <script>
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $("meta[name=\"csrf-token\"]").attr("content")
-                }
-            });
-
             $.ajax({
                 url: "saveSoilTest",
                 type: "post",
