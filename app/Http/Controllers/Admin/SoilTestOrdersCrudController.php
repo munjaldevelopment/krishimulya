@@ -346,11 +346,11 @@ class SoilTestOrdersCrudController extends CrudController
             $(".Table1 tbody>tr").each(function () {  
                 $("td", this).each(function () {  
                     if (html_table_data.length == 0 || bRowStarted == true) {  
-                        html_table_data += $(this).text();  
+                        html_table_data += $(this).html();  
                         bRowStarted = false;  
                     }  
                     else  
-                        html_table_data += " | " + $(this).text();  
+                        html_table_data += " | " + $(this).html();  
                 });  
                 html_table_data += "::";  
                 bRowStarted = true;  
@@ -361,7 +361,7 @@ class SoilTestOrdersCrudController extends CrudController
                 type: "post",
                 data: {soil_test_id : '.$soil_test_id.', html_table_data : html_table_data},
                 success:function(response) {
-                    console.log(response);
+                    //console.log(response);
                 }
             }); 
 
