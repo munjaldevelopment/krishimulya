@@ -345,7 +345,8 @@ class SoilTestOrdersCrudController extends CrudController
                 $html_data = str_replace('<style type="text/css">', '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <style type="text/css">
                         body {
-                            margin: 30px auto 0 auto !important;
+                            margin: 0 auto !important;
+                            padding-top: 50px;
                         }', $html_data);
 
                 $ajaxcode = '
