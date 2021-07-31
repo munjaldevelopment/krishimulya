@@ -45,7 +45,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
             'type'      => 'select_html',
             'name'      => 'soil_test_crop',
             'entity'    => 'soilTestOrder', //function name
-            'attribute' => 'crop_type', //name of fields in models table like districts
+            'attribute' => 'crop_type_row', //name of fields in models table like districts
             'model'     => "App\Models\SoilTestOrder", //name of Models
          ]);
 
@@ -54,7 +54,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
             'type'      => 'select_html',
             'name'      => 'soil_test_soil',
             'entity'    => 'soilTestOrder', //function name
-            'attribute' => 'soil_type', //name of fields in models table like districts
+            'attribute' => 'soil_type_row', //name of fields in models table like districts
             'model'     => "App\Models\SoilTestOrder", //name of Models
          ]);
         

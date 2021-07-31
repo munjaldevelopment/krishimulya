@@ -62,8 +62,18 @@ class SoilTestOrder extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-    public function getSoilTestRowAttribute() {
-            $fullName = $this->name ." " . " (".$this->mobile.") <br />".$this->order_no ." ".$this->land_size ." ";
+    public function getCropTypeRowAttribute() {
+        $fullName = $this->crop_type;
+        return $fullName;
+    }
+
+    public function getSoilTypeRowAttribute() {
+        $fullName = $this->soil_type;
+        return $fullName;
+    }
+
+    public function getSoilTestCropRowAttribute() {
+        $fullName = $this->crop_grown ." " . " (".$this->sample_number.") <br />".$this->field_size ." ".$this->sampling_date ." ".$this->sample_testing_date ." ".$this->region ." ".$this->previous_season ." ".$this->sample_collected_by ." ".$this->yield_goal ." ".$this->previous_crop;
         return $fullName;
     }
 }
