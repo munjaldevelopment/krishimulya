@@ -62,4 +62,8 @@ class SoilTestOrder extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    public function getSoilTestRowAttribute() {
+            $fullName = $this->name ." " . " (".$this->mobile.") <br />".$this->order_no ." ".$this->land_size ." ";
+        return $fullName;
+    }
 }
