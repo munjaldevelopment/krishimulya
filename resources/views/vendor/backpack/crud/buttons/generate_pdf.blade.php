@@ -1,6 +1,6 @@
 @if ($crud->hasAccess('create'))
 	@php
-		$soil_test_order_id = request()->soil_test_id;
+		$soil_test_order_id = $entry->getKey();
 		$isExists = DB::table('soil_test_order_data')->where('soil_test_order_id', $soil_test_order_id)->count();
 		if($isExists == 0):
 	@endphp
