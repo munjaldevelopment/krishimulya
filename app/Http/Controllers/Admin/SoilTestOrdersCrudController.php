@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SoilTestOrdersRequest;
+use App\Http\Requests\SoilTestOrderRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
@@ -13,11 +13,11 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class SoilTestOrdersCrudController
+ * Class SoilTestOrderCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class SoilTestOrdersCrudController extends CrudController
+class SoilTestOrderCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -39,7 +39,7 @@ class SoilTestOrdersCrudController extends CrudController
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\SoilTestOrders::class);
+        CRUD::setModel(\App\Models\SoilTestOrder::class);
         $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders');
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
 
@@ -111,7 +111,7 @@ class SoilTestOrdersCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(SoilTestOrdersRequest::class);
+        CRUD::setValidation(SoilTestOrderRequest::class);
 
         //CRUD::setFromDb(); // fields
 

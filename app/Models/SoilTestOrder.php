@@ -6,7 +6,7 @@ use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SoilTestOrders extends Model
+class SoilTestOrder extends Model
 {
     use CrudTrait;
     use SoftDeletes;
