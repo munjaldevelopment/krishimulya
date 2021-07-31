@@ -60,6 +60,8 @@ class SoilTestOrdersCrudController extends CrudController
     {
         //CRUD::setFromDb(); // columns
 
+        $this->crud->disableResponsiveTable();
+
         $this->crud->addColumn([
             'label'     => 'Customer Name',
             'type'      => 'select',
