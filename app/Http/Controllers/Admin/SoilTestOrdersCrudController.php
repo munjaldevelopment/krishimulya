@@ -386,7 +386,9 @@ class SoilTestOrdersCrudController extends CrudController
         $html_table_data = $request->html_table_data;
         $tableData = explode("::", $html_table_data);
 
-        if($tableData)
+        $isExists = DB::table('soil_test_order_data')->where('soil_test_order_id', $soil_test_order_id)->count();
+
+        if(($tableData) && ($isExists == 0))
         {
             $soil_test_order_data_id = 0;
 
