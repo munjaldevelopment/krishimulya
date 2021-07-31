@@ -22,8 +22,8 @@ class SoilTestOrdersCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -46,6 +46,7 @@ class SoilTestOrdersCrudController extends CrudController
         $this->crud->addClause("where", "user_type", "=", "customer");
         $this->crud->orderBy("id", "ASC");
 
+        $this->crud->addButtonFromView('line', 'generate_pdf', 'generate_pdf', 'end');
         $this->crud->addButtonFromView('line', 'download_pdf', 'download_pdf', 'end');
     }
 
@@ -308,7 +309,6 @@ class SoilTestOrdersCrudController extends CrudController
         curl_close($curl);
 
         $result = json_decode($response, 1);
-        
 
         if(isset($result['data']))
         {
