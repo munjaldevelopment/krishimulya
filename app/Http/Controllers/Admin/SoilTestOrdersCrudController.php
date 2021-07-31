@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\SoilTestOrderRequest;
+use App\Http\Requests\SoilTestOrdersRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
@@ -13,11 +13,11 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class SoilTestOrderCrudController
+ * Class SoilTestOrdersCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class SoilTestOrderCrudController extends CrudController
+class SoilTestOrdersCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -111,7 +111,7 @@ class SoilTestOrderCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(SoilTestOrderRequest::class);
+        CRUD::setValidation(SoilTestOrdersRequest::class);
 
         //CRUD::setFromDb(); // fields
 
