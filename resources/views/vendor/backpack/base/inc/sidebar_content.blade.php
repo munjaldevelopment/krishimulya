@@ -70,10 +70,15 @@
 <li class="nav-item nav-dropdown">
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Soil Test</a>
 	<ul class="nav-dropdown-items">
-	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltesttype') }}'><i class='nav-icon la la-building'></i> Soil Test Types</a></li>
-	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders') }}'><i class='nav-icon la la-building'></i> Soil Test Orders</a></li>
-	  <li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders_partner') }}'><i class='nav-icon la la-building'></i> Soil Test Orders Partner</a></li>
-	 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('sevakendra')  }}'><i class='nav-icon la la-building'></i> Seva Kendra</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltesttype') }}'><i class='nav-icon la la-building'></i> Soil Test Types</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders') }}'><i class='nav-icon la la-building'></i> Soil Test Orders</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorders_partner') }}'><i class='nav-icon la la-building'></i> Soil Test Orders Partner</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('sevakendra')  }}'><i class='nav-icon la la-building'></i> Seva Kendra</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltest-orderdata') }}'><i class='nav-icon la la-building'></i> SoilTest Order Data</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltest-order-cropdata') }}'><i class='nav-icon la la-building'></i> SoilTest Order CropData</a></li>
+
+
 	</ul>
 </li>
 
@@ -172,5 +177,3 @@
 	  <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>--}}
 	</ul>
 </li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestorderdata') }}'><i class='nav-icon la la-question'></i> SoilTestOrderDatas</a></li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('soiltestordercropdata') }}'><i class='nav-icon la la-question'></i> SoilTestOrderCropDatas</a></li>

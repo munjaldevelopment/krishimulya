@@ -19,7 +19,8 @@ class SoilTestOrderData extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    
+    protected $fillable = ['soil_test_order_id', 'farmer_name', 'farmer_code', 'crop_grown', 'sample_number', 'field_size', 'sampling_date', 'sample_testing_date', 'region', 'previous_season', 'sample_collected_by', 'yield_goal', 'previous_crop', 'recommendation', 'comments'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -28,6 +29,10 @@ class SoilTestOrderData extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function soilTestOrder()
+    {
+        return $this->belongsTo('App\Models\SoilTestOrders', 'soil_test_order_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

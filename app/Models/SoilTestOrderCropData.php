@@ -19,7 +19,7 @@ class SoilTestOrderCropData extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
-    // protected $fillable = [];
+    protected $fillable = ['soil_test_order_id', 'soil_test_order_data_id', 'texture_parameter', 'texture_value', 'texture_unit', 'sand_ideal_range', 'fertility_rating', 'nutrient', 'slit_parameter', 'clay_value', 'clay_unit', 'clay_ideal_range', 'soiltype_fertility', 'soiltype_nutrient'];
     // protected $hidden = [];
     // protected $dates = [];
 
@@ -28,6 +28,15 @@ class SoilTestOrderCropData extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function soilTestOrder()
+    {
+        return $this->belongsTo('App\Models\SoilTestOrders', 'soil_test_order_id');
+    }
+
+    public function soilTestOrder()
+    {
+        return $this->belongsTo('App\Models\SoilTestOrderData', 'soil_test_order_data_id');
+    }
 
     /*
     |--------------------------------------------------------------------------
