@@ -25,6 +25,8 @@ class SoilTestOrderCropDataCrudController extends CrudController
         CRUD::setModel(\App\Models\SoilTestOrderCropData::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltest-order-cropdata');
         CRUD::setEntityNameStrings('soil test order crop data', 'soil test order crop datas');
+
+        $this->crud->enableExportButtons();
     }
 
     /**
@@ -35,10 +37,6 @@ class SoilTestOrderCropDataCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
-
-        $this->crud->disableResponsiveTable();
-
         $this->crud->addColumn([
             'label'     => 'Soil Test Order',
             'type'      => 'select',
@@ -60,6 +58,10 @@ class SoilTestOrderCropDataCrudController extends CrudController
 
          ]);
         CRUD::removeColumn('soil_test_order_data_id');
+
+        CRUD::setFromDb(); // columns
+
+        $this->crud->disableResponsiveTable();
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
