@@ -56,7 +56,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
             'type'      => 'select_html',
             'name'      => 'soil_test_order_data_id',
             'entity'    => 'soilTestOrderData', //function name
-            'attribute' => 'farmer_name', //name of fields in models table like districts
+            'attribute' => 'soil_test_crop_row', //name of fields in models table like districts
             'model'     => "App\Models\soilTestOrderData", //name of Models
 
          ]);
