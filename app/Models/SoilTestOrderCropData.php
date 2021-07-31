@@ -33,7 +33,7 @@ class SoilTestOrderCropData extends Model
         return $this->belongsTo('App\Models\SoilTestOrders', 'soil_test_order_id');
     }
 
-    public function soilTestOrder()
+    public function soilTestOrderData()
     {
         return $this->belongsTo('App\Models\SoilTestOrderData', 'soil_test_order_data_id');
     }
