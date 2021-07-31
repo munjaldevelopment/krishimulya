@@ -382,7 +382,13 @@ class SoilTestOrdersCrudController extends CrudController
             foreach($tableData as $row)
             {
                 $tableRow = explode("|", $html_table_data);
-                echo strip_tags(trim($tableRow[0]).",".strip_tags(trim($tableRow[1])).",".strip_tags(trim($tableRow[2])).",".strip_tags(trim($tableRow[3])).",".strip_tags(trim($tableRow[4])).",".strip_tags(trim($tableRow[5])).",".strip_tags(trim($tableRow[6]))."<br />";
+                echo strip_tags(trim($tableRow[0])).",";
+                echo strip_tags(trim($tableRow[1])).",";
+                echo strip_tags(trim($tableRow[2])).",";
+                echo strip_tags(trim($tableRow[3])).",";
+                echo strip_tags(trim($tableRow[4])).",";
+                echo strip_tags(trim($tableRow[5])).",";
+                echo strip_tags(trim($tableRow[6]))."<br />";
             }
         }
     }    
