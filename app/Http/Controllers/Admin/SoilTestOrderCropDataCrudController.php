@@ -43,6 +43,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
         $this->crud->addColumn([
             'label'     => 'Soil Test Order',
             'type'      => 'select',
+            'escaped'   => 'false',
             'name'      => 'soil_test_order_id',
             'entity'    => 'soilTestOrder', //function name
             'attribute' => 'soil_test_row', //name of fields in models table like districts
@@ -54,6 +55,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
         $this->crud->addColumn([
             'label'     => 'Soil Test Order Data',
             'type'      => 'select',
+            'escaped'   => 'false',
             'name'      => 'soil_test_order_data_id',
             'entity'    => 'soilTestOrderData', //function name
             'attribute' => 'farmer_name', //name of fields in models table like districts
