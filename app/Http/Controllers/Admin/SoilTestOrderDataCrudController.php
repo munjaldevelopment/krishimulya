@@ -40,7 +40,7 @@ class SoilTestOrderDataCrudController extends CrudController
         $this->crud->addColumn([
             'label'     => 'Soil Test Order',
             'type'      => 'select',
-            'name'      => 'soil_test_order',
+            'name'      => 'soil_test_order_id',
             'entity'    => 'soilTestOrder', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\Models\SoilTestOrder", //name of Models
