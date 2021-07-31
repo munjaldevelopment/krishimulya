@@ -35,7 +35,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        //CRUD::setFromDb(); // columns
+        CRUD::setFromDb(); // columns
 
         $this->crud->disableResponsiveTable();
 
