@@ -350,9 +350,9 @@ class SoilTestOrdersCrudController extends CrudController
                         }', $html_data);
 
                 $ajaxcode = '
-                <br /><br /><div style="text-align:center">
+                <br /><div style="text-align:center">
                     <input type="button" class="generate-report" value="Generate Report" />
-                </div><br /><br />
+                </div><br />
 
                 <script>
                 $(".generate-report").bind("click", function() {
