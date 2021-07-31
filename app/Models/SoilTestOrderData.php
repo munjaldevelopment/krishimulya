@@ -20,7 +20,7 @@ class SoilTestOrderData extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
     
-    protected $fillable = ['soil_test_order_id', 'farmer_name', 'farmer_code', 'crop_grown', 'sample_number', 'field_size', 'sampling_date', 'sample_testing_date', 'region', 'previous_season', 'sample_collected_by', 'yield_goal', 'previous_crop', 'recommendation', 'comments'];
+    protected $fillable = ['farmer_name', 'farmer_code', 'crop_grown', 'sample_number', 'field_size', 'sampling_date', 'sample_testing_date', 'region', 'previous_season', 'sample_collected_by', 'yield_goal', 'previous_crop', 'recommendation', 'comments'];
     // protected $hidden = [];
     // protected $dates = [];
 

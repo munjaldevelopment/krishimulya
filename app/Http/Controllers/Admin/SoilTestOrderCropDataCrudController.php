@@ -37,6 +37,9 @@ class SoilTestOrderCropDataCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        //CRUD::removeColumn('soil_test_order_id');
+        //CRUD::removeColumn('soil_test_order_data_id');
+
         $this->crud->addColumn([
             'label'     => 'Soil Test Order',
             'type'      => 'select',
@@ -46,7 +49,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
             'model'     => "App\Models\SoilTestOrder", //name of Models
 
          ]);
-        CRUD::removeColumn('soil_test_order_id');
+        
 
         $this->crud->addColumn([
             'label'     => 'Soil Test Order Data',
@@ -57,7 +60,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
             'model'     => "App\Models\soilTestOrderData", //name of Models
 
          ]);
-        CRUD::removeColumn('soil_test_order_data_id');
+        
 
         CRUD::setFromDb(); // columns
 
