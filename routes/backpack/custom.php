@@ -113,4 +113,6 @@ Route::group([
     Route::crud('survey', 'SurveyCrudController');
     Route::crud('checkinlatlong', 'CheckinLatLongCrudController');
     Route::crud('missed-call', 'MissedCallCrudController');
+    Route::crud('soiltestorderdata', 'SoilTestOrderDataCrudController');
+    Route::crud('soiltestordercropdata', 'SoilTestOrderCropDataCrudController');
 });
