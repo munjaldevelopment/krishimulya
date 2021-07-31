@@ -57,14 +57,58 @@ class SoilTestOrderCropDataCrudController extends CrudController
             'attribute' => 'mobile', //name of fields in models table like districts
             'model'     => "App\Models\SoilTestOrder", //name of Models
          ]);
-        
 
         $this->crud->addColumn([
-            'label'     => 'Soil Test Order Data',
+            'label'     => 'Soil Test Order',
+            'type'      => 'select_html',
+            'name'      => 'soil_test_order',
+            'entity'    => 'soilTestOrder', //function name
+            'attribute' => 'order_no', //name of fields in models table like districts
+            'model'     => "App\Models\SoilTestOrder", //name of Models
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Soil Test Land size',
+            'type'      => 'select_html',
+            'name'      => 'soil_test_land_size',
+            'entity'    => 'soilTestOrder', //function name
+            'attribute' => 'land_size', //name of fields in models table like districts
+            'model'     => "App\Models\SoilTestOrder", //name of Models
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Soil Test Location',
+            'type'      => 'select_html',
+            'name'      => 'soil_test_location',
+            'entity'    => 'soilTestOrder', //function name
+            'attribute' => 'location', //name of fields in models table like districts
+            'model'     => "App\Models\SoilTestOrder", //name of Models
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Soil Test Khasra Number',
+            'type'      => 'select_html',
+            'name'      => 'soil_test_khasra_no',
+            'entity'    => 'soilTestOrder', //function name
+            'attribute' => 'khasra_no', //name of fields in models table like districts
+            'model'     => "App\Models\SoilTestOrder", //name of Models
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Soil Test Test Type',
+            'type'      => 'select_html',
+            'name'      => 'soil_test_test_type',
+            'entity'    => 'soilTestOrder', //function name
+            'attribute' => 'test_type', //name of fields in models table like districts
+            'model'     => "App\Models\SoilTestOrder", //name of Models
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Soil Test Sample Date',
             'type'      => 'select_html',
             'name'      => 'soil_test_order_data_id',
             'entity'    => 'soilTestOrderData', //function name
-            'attribute' => 'soil_test_crop_row', //name of fields in models table like districts
+            'attribute' => 'sample_testing_date', //name of fields in models table like districts
             'model'     => "App\Models\soilTestOrderData", //name of Models
 
          ]);
