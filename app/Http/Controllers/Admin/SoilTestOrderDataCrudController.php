@@ -40,8 +40,7 @@ class SoilTestOrderDataCrudController extends CrudController
         //CRUD::removeColumn('soil_test_order_id');
         $this->crud->addColumn([
             'label'     => 'Soil Test Order',
-            'type'      => 'select',
-            'escaped'   => 'false',
+            'type'      => 'select_html',
             'name'      => 'soil_test_order_id',
             'entity'    => 'soilTestOrder', //function name
             'attribute' => 'soil_test_row', //name of fields in models table like districts
