@@ -476,6 +476,7 @@ class SoilTestOrdersCrudController extends CrudController
             }
         }
 
+        \Alert::add('success', '<strong>Great</strong><br>Report generated successfully');
         echo backpack_url('soiltestorders');
     }    
 
