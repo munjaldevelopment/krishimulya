@@ -26,7 +26,7 @@ class SoilTestOrdersPartnerCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\SoilTestOrders::class);
+        CRUD::setModel(\App\Models\SoilTestOrder::class);
         $this->crud->enableExportButtons(); CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltestorders_partner');
         CRUD::setEntityNameStrings('Soil Test Orders', 'Soil Test Orders');
 

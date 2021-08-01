@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Charts;
 
 use App\User;
 use Backpack\CRUD\app\Http\Controllers\ChartController;
-use App\Models\SoilTestOrders;
+use App\Models\SoilTestOrder;
 use App\Models\Feeds;
 use App\Models\TractorRentEnquiry;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
@@ -43,7 +43,7 @@ class NewEntriesChartController extends ChartController
             // Could also be an array_push if using an array rather than a collection.
             $users[] = User::whereDate('created_at', today()->subDays($days_backwards))
                             ->count();
-            $articles[] = SoilTestOrders::whereDate('created_at', today()->subDays($days_backwards))
+            $articles[] = SoilTestOrder::whereDate('created_at', today()->subDays($days_backwards))
                             ->count();
             $categories[] = Feeds::whereDate('created_at', today()->subDays($days_backwards))
                             ->count();
