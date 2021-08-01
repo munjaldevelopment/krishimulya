@@ -24,10 +24,10 @@
     // need them to show information from the DB.
     // 
     // But you do whatever you think it's best. Who am I, your mom?
-    $productCount = App\Models\SoilTestOrders::count();
+    $productCount = App\Models\SoilTestOrder::count();
     $userCount = App\User::count();
     $articleCount = App\Models\Customer::count();
-    $lastArticle = App\Models\SoilTestOrders::orderBy('created_at', 'DESC')->first();
+    $lastArticle = App\Models\SoilTestOrder::orderBy('created_at', 'DESC')->first();
     $lastArticleDaysAgo = \Carbon\Carbon::parse($lastArticle->created_at)->diffInDays(\Carbon\Carbon::today());
  
     // notice we use Widget::add() to add widgets to a certain group

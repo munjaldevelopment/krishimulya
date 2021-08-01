@@ -24,7 +24,7 @@
 	// need them to show information from the DB.
 	// 
 	// But you do whatever you think it's best. Who am I, your mom?
-	$productCount = App\Models\SoilTestOrders::count();
+	$productCount = App\Models\SoilTestOrder::count();
 	$userCount = App\User::count();
 	$articleCount = App\Models\Customer::count();
 	$lastArticle = App\Models\Customer::orderBy('created_at', 'DESC')->first();
