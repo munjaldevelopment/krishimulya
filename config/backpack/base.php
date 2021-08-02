@@ -13,7 +13,7 @@ return [
 
     // Date & Datetime Format Syntax: https://carbon.nesbot.com/docs/#api-localization
     'default_date_format'     => 'D MMM YYYY',
-    'default_datetime_format' => 'D-M-YYYY hh:mm:ss',
+    'default_datetime_format' => 'D-M-YYYY HH:mm:ss',
 
     // Direction, according to language
     // (left-to-right vs right-to-left)
