@@ -115,4 +115,7 @@ Route::group([
     Route::crud('missed-call', 'MissedCallCrudController');
     Route::crud('soiltest-orderdata', 'SoilTestOrderDataCrudController');
     Route::crud('soiltest-order-cropdata', 'SoilTestOrderCropDataCrudController');
+    Route::crud('proposedcrop', 'ProposedCropCrudController');
+    Route::crud('tractormake', 'TractorMakeCrudController');
+    Route::crud('tractormodel', 'TractorModelCrudController');
 });

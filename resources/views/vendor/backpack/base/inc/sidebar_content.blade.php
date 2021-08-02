@@ -21,6 +21,10 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('survey') }}'><i class='nav-icon la la-building'></i> Survey</a></li>
 
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('missed-call') }}'><i class='nav-icon la la-building'></i> Missed-calls</a></li>
+
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('proposed-crop') }}'><i class='nav-icon la la-building'></i> ProposedCrops</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor-make') }}'><i class='nav-icon la la-building'></i> TractorMakes</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor-model') }}'><i class='nav-icon la la-building'></i> TractorModels</a></li>
 	</ul>
 </li>
 
