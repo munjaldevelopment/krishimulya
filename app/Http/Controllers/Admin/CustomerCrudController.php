@@ -156,6 +156,18 @@ class CustomerCrudController extends CrudController
                 return $all_states1;
             }, function ($value) { // if the filter is active
                 $this->crud->addClause('where', 'state', $value);
+        });
+
+       $this->crud->addFilter([ // select2 filter
+                'name' => 'created_at',
+                'type' => 'date_range',
+                'label'=> 'Date',
+            ], 
+            false
+            , function ($value) { // if the filter is active
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'created_at', '>=', $dates->from);
+                $this->crud->addClause('where', 'created_at', '<=', $dates->to . ' 23:59:59');
             });
     }
 
