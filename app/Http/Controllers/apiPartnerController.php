@@ -2940,7 +2940,7 @@ class apiPartnerController extends Controller
     }
 
 
-    // Punch-in / out
+    // Call Types
     public function callType(Request $request)
     {
         try 
@@ -2990,6 +2990,159 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
     //END 
+
+    // tractor make
+    public function tractorMake(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $error = "";
+            
+            if($error == ""){
+                $callTypeExists = DB::table('tractor_makes')->count();
+                if($callTypeExists > 0){ 
+                    $callTypes = DB::table('tractor_makes')->get();
+
+                    $callTypeData = array();
+
+                    if($callTypes)
+                    {
+                        foreach($callTypes as $row)
+                        {
+                            $callTypeData[] = array('id' => $row->id, 'name' => $row->tractor_make);
+                        }
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor Make List';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'No call types exists';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                }
+            }
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    //END
+
+    // Call Types
+    public function proposedCrop(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $error = "";
+            
+            if($error == ""){
+                $callTypeExists = DB::table('proposed_crops')->count();
+                if($callTypeExists > 0){ 
+                    $callTypes = DB::table('proposed_crops')->get();
+
+                    $callTypeData = array();
+
+                    if($callTypes)
+                    {
+                        foreach($callTypes as $row)
+                        {
+                            $callTypeData[] = array('id' => $row->id, 'name' => $row->crop_name);
+                        }
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Tractor Model List';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'No call types exists';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                }
+            }
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    //END
+
+    // Call Types
+    public function callType(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $date   = date('Y-m-d H:i:s');
+            $error = "";
+            
+            if($error == ""){
+                $callTypeExists = DB::table('call_types')->count();
+                if($callTypeExists > 0){ 
+                    $callTypes = DB::table('call_types')->get();
+
+                    $callTypeData = array();
+
+                    if($callTypes)
+                    {
+                        foreach($callTypes as $row)
+                        {
+                            $callTypeData[] = array('id' => $row->id, 'name' => $row->type_name);
+                        }
+                    }
+
+                    $status_code = $success = '1';
+                    $message = 'Call Type List';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'No call types exists';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                }
+            }
+        }
+        
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+    //END
 
     public function partnerCheckout(Request $request)
     {
