@@ -3128,7 +3128,7 @@ class apiPartnerController extends Controller
                     $status_code = $success = '0';
                     $message = 'No Proposed Crop exists';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                    $json = array('status_code' => $status_code, 'message' => $message, 'proposedCropData' => "");
                 }
             }
         }
