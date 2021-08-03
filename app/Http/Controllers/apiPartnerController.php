@@ -3094,7 +3094,7 @@ class apiPartnerController extends Controller
     //END
 
     // Call Types
-    public function callType(Request $request)
+    public function proposedCrop(Request $request)
     {
         try 
         {
@@ -3106,9 +3106,9 @@ class apiPartnerController extends Controller
             $error = "";
             
             if($error == ""){
-                $callTypeExists = DB::table('call_types')->count();
+                $callTypeExists = DB::table('proposed_crops')->count();
                 if($callTypeExists > 0){ 
-                    $callTypes = DB::table('call_types')->get();
+                    $callTypes = DB::table('proposed_crops')->get();
 
                     $callTypeData = array();
 
@@ -3116,17 +3116,17 @@ class apiPartnerController extends Controller
                     {
                         foreach($callTypes as $row)
                         {
-                            $callTypeData[] = array('id' => $row->id, 'name' => $row->type_name);
+                            $callTypeData[] = array('id' => $row->id, 'name' => $row->crop_name);
                         }
                     }
 
                     $status_code = $success = '1';
-                    $message = 'Call Type List';
+                    $message = 'Proposed Crop List';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
                 } else{
                     $status_code = $success = '0';
-                    $message = 'No call types exists';
+                    $message = 'No Proposed Crop exists';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
                 }
