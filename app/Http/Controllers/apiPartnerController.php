@@ -3021,12 +3021,12 @@ class apiPartnerController extends Controller
                     $status_code = $success = '1';
                     $message = 'Tractor Make List';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorMakeData' => $callTypeData);
                 } else{
                     $status_code = $success = '0';
                     $message = 'No call types exists';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorMakeData' => "");
                 }
             }
         }
@@ -3040,10 +3040,8 @@ class apiPartnerController extends Controller
     
         return response()->json($json, 200);
     }
-    //END
 
-    // Call Types
-    public function proposedCrop(Request $request)
+    public function tractorModel(Request $request)
     {
         try 
         {
@@ -3055,9 +3053,9 @@ class apiPartnerController extends Controller
             $error = "";
             
             if($error == ""){
-                $callTypeExists = DB::table('proposed_crops')->count();
+                $callTypeExists = DB::table('tractor_models')->count();
                 if($callTypeExists > 0){ 
-                    $callTypes = DB::table('proposed_crops')->get();
+                    $callTypes = DB::table('tractor_models')->get();
 
                     $callTypeData = array();
 
@@ -3065,19 +3063,19 @@ class apiPartnerController extends Controller
                     {
                         foreach($callTypes as $row)
                         {
-                            $callTypeData[] = array('id' => $row->id, 'name' => $row->crop_name);
+                            $callTypeData[] = array('id' => $row->id, 'name' => $row->tractor_model);
                         }
                     }
 
                     $status_code = $success = '1';
-                    $message = 'Tractor Model List';
+                    $message = 'Tractor Make List';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => $callTypeData);
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorModelData' => $callTypeData);
                 } else{
                     $status_code = $success = '0';
                     $message = 'No call types exists';
                     
-                    $json = array('status_code' => $status_code, 'message' => $message, 'callTypeData' => "");
+                    $json = array('status_code' => $status_code, 'message' => $message, 'tractorModelData' => "");
                 }
             }
         }
@@ -3093,7 +3091,8 @@ class apiPartnerController extends Controller
     }
     //END
 
-    // Call Types
+
+    // Proposed Crop
     public function proposedCrop(Request $request)
     {
         try 
