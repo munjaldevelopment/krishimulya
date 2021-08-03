@@ -3364,5 +3364,64 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+
+    public function partnerQuestionairreRecord(Request $request)
+    {
+        try 
+        {
+            $baseUrl = URL::to("/");
+            $json = $userData = array();
+            $datetime   = date('Y-m-d H:i:s');
+            $checkin_date   = date('Y-m-d');
+            $partner_id = $request->partner_id;
+            $customer_name = $request->customer_name;
+            $mobile_number = $request->mobile_number;
+            $land_size = $request->land_size;
+            $crop_type = $request->land_size;
+            $last_production = $request->last_production;
+            $earning_sale = $request->earning_sale;
+            $proposed_crop = $request->proposed_crop;
+            $tractor = $request->tractor; // yes / no
+            $tractor_make = $request->tractor_make;
+            $tractor_model = $request->tractor_model;
+            $finance = $request->finance;
+            $cultivation = $request->cultivation;
+            $rental_price = $request->rental_price;
+            $rent_taken_from = $request->rent_taken_from;
+            $contact_number = $request->contact_number;
+            $contact_details = $request->contact_details;
+
+            $isactive = 0;
+            $error = "";
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    $user_id = $customer->user_id;
+
+                    $crop_material_enquiry_id = DB::table('user_records_form')->insert(['user_id' => $user_id, 'survey_date' => date('Y-m-d'), 'customer_name' => $customer_name, 'mobile_number' => $mobile_number, 'land_size' => $land_size, 'crop_type' => $crop_type, 'last_production' => $last_production, 'earning_sale' => $earning_sale, 'proposed_crop' => $proposed_crop, 'tractor' => $tractor, 'tractor_make' => $tractor_make, 'tractor_model' => $tractor_model, 'tractor_finance_free' => $finance, 'tractor_cultivation' => $cultivation, 'rental_price' => $rental_price, 'rent_taken_from' => $rent_taken_from, 'contact_number' => $contact_number, 'contact_details' => $contact_details, 'created_at' => $datetime]);
+
+                    $status_code = $success = '1';
+                    $message = 'Partner questionairre record data successfully.';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message);
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Customer not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
     
 }
