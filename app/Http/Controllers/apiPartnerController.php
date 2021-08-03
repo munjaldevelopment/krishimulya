@@ -3377,7 +3377,7 @@ class apiPartnerController extends Controller
             $customer_name = $request->customer_name;
             $mobile_number = $request->mobile_number;
             $land_size = $request->land_size;
-            $crop_type = $request->land_size;
+            $crop_type = $request->crop_type;
             $last_production = $request->last_production;
             $earning_sale = $request->earning_sale;
             $proposed_crop = $request->proposed_crop;
