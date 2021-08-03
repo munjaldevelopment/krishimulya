@@ -3024,7 +3024,7 @@ class apiPartnerController extends Controller
                     $json = array('status_code' => $status_code, 'message' => $message, 'tractorMakeData' => $callTypeData);
                 } else{
                     $status_code = $success = '0';
-                    $message = 'No call types exists';
+                    $message = 'No Tractor Make exists';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'tractorMakeData' => "");
                 }
@@ -3068,12 +3068,12 @@ class apiPartnerController extends Controller
                     }
 
                     $status_code = $success = '1';
-                    $message = 'Tractor Make List';
+                    $message = 'Tractor Model List';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'tractorModelData' => $callTypeData);
                 } else{
                     $status_code = $success = '0';
-                    $message = 'No call types exists';
+                    $message = 'No tractor Model exists';
                     
                     $json = array('status_code' => $status_code, 'message' => $message, 'tractorModelData' => "");
                 }
