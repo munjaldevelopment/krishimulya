@@ -463,6 +463,8 @@ class SoilTestOrdersCrudController extends CrudController
                     {
                         $date = date('Y-m-d H:i:s');
 
+                        echo $first_col; exit;
+
                         $second_col = strip_tags(trim($tableRow[1]));
                         $third_col = strip_tags(trim($tableRow[2]));
                         $fourth_col = strip_tags(trim($tableRow[3]));
