@@ -42,6 +42,12 @@ Route::get('/app-popup', function () {
     return view('app-popup', compact('sliderList'));
 });
 
+Route::get('/update-notification', function () {
+	$sliderList = DB::table('notifications')->where('id', '228899')->update(['is_sent' => '0']);
+	$sliderList = DB::table('notifications')->where('id', '231358')->update(['is_sent' => '0']);
+	$sliderList = DB::table('notifications')->where('id', '233879')->update(['is_sent' => '0']);
+});
+
 Route::get('/update-age', function () {
 	/*$file = fopen("/home/krishi55/public_html/public/customers_email.csv","r");
 
