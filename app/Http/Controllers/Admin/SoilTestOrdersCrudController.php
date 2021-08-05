@@ -523,11 +523,13 @@ class SoilTestOrdersCrudController extends CrudController
                         else if($seventh_col == "Av. Boron (B)")
                         {
                             DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['boron_value' => $eigth_col, 'boron_unit' => $ninth_col, 'boron_idea_range' => $tenth_col, 'boron_rating' => $eleven_col, 'nutrient_12' => $twelve_col, 'updated_at' => $date]);
-                        }*/
+                        }
                     }
                 }
             }
         }
+
+        sleep(1);
 
         \Alert::add('success', '<strong>Great</strong><br>Report generated successfully');
         echo backpack_url('soiltestorders');
