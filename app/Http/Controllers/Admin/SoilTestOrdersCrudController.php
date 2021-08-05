@@ -380,8 +380,8 @@ class SoilTestOrdersCrudController extends CrudController
                         type: "post",
                         data: {soil_test_id : '.$soil_test_id.', html_table_data : html_table_data},
                         success:function(response) {
-                            //location = response;
-                            console.log(response);
+                            location = response;
+                            //console.log(response);
                         }
                     }); 
                 });
