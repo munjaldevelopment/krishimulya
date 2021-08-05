@@ -463,8 +463,6 @@ class SoilTestOrdersCrudController extends CrudController
                     {
                         $date = date('Y-m-d H:i:s');
 
-                        dd($tableRow);
-
                         $second_col = strip_tags(trim($tableRow[1]));
                         $third_col = strip_tags(trim($tableRow[2]));
                         $fourth_col = strip_tags(trim($tableRow[3]));
@@ -476,56 +474,54 @@ class SoilTestOrdersCrudController extends CrudController
                         $tenth_col = strip_tags(trim($tableRow[9]));
                         $eleven_col = strip_tags(trim($tableRow[10]));
                         $twelve_col = strip_tags(trim($tableRow[11]));
-                        $thirteen_col = strip_tags(trim($tableRow[12]));
-                        //echo $first_col.",".$twelve_col."<br />";
 
-                        if($second_col == "pH")
+                        if($first_col == "pH")
                         {
-                            $soil_test_order_crop_data_id = DB::table('soil_test_order_crop_data')->insertGetId(['soil_test_order_id' => $soil_test_order_id, 'soil_test_order_data_id' => $soil_test_order_data_id, 'ph_value' => $third_col, 'ph_unit' => $fourth_col, 'ph_ideal_range' => $fifth_col, 'ph_rating' => $sixth_col, 'nutrient_1' => $seventh_col, 'created_at' => $date, 'updated_at' => $date]);
+                $soil_test_order_crop_data_id = DB::table('soil_test_order_crop_data')->insertGetId(['soil_test_order_id' => $soil_test_order_id, 'soil_test_order_data_id' => $soil_test_order_data_id, 'ph_value' => $second_col, 'ph_unit' => $third_col, 'ph_ideal_range' => $fourth_col, 'ph_rating' => $fifth_col, 'nutrient_1' => $sixth_col, 'created_at' => $date, 'updated_at' => $date]);
                         }
-                        else if($eigth_col == "Soil Salinity (EC)")
+                        else if($seventh_col == "Soil Salinity (EC)")
                         {
-                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['salinity_value' => $ninth_col, 'salinity_unit' => $tenth_col, 'salinity_idea_range' => $eleven_col, 'salinity_rating' => $twelve_col, 'nutrient_7' => $thirteen_col, 'updated_at' => $date]);
+                DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['salinity_value' => $eigth_col, 'salinity_unit' => $ninth_col, 'salinity_idea_range' => $tenth_col, 'salinity_rating' => $eleven_col, 'nutrient_7' => $twelve_col, 'updated_at' => $date]);
                         }
-                        else if($second_col == "Organic carbon (OC)")
+                        else if($first_col == "Organic carbon (OC)")
                         {
-                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['oc_value' => $third_col, 'oc_unit' => $fourth_col, 'oc_ideal_range' => $fifth_col, 'oc_rating' => $sixth_col, 'nutrient_2' => $seventh_col,  'updated_at' => $date]);
+                DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['oc_value' => $second_col, 'oc_unit' => $third_col, 'oc_ideal_range' => $fourth_col, 'oc_rating' => $fifth_col, 'nutrient_2' => $sixth_col,  'updated_at' => $date]);
                         }
-                        else if($eigth_col == "Organic Matter")
+                        else if($seventh_col == "Organic Matter")
                         {
-                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['organic_value' => $ninth_col, 'organic_unit' => $tenth_col, 'organic_idea_range' => $eleven_col, 'organic_rating' => $twelve_col, 'nutrient_8' => $thirteen_col, 'updated_at' => $date]);
+                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['organic_value' => $eigth_col, 'organic_unit' => $ninth_col, 'organic_idea_range' => $tenth_col, 'organic_rating' => $eleven_col, 'nutrient_8' => $twelve_col, 'updated_at' => $date]);
                         }
-                        else if($second_col == "Av. Nitrogen (N)")
+                        else if($first_col == "Av. Nitrogen (N)")
                         {
-                        DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['nitrogen_value' => $third_col, 'nitrogen_unit' => $fourth_col, 'nitrogen_ideal_range' => $fifth_col, 'nitrogen_rating' => $sixth_col, 'nutrient_3' => $seventh_col, 'updated_at' => $date]);
+                        DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['nitrogen_value' => $second_col, 'nitrogen_unit' => $third_col, 'nitrogen_ideal_range' => $fourth_col, 'nitrogen_rating' => $fifth_col, 'nutrient_3' => $sixth_col, 'updated_at' => $date]);
                         }
-                        else if($eigth_col == "Av. Phosphorus (P₂O₅)")
+                        else if($seventh_col == "Av. Phosphorus (P₂O₅)")
                         {
-                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['phosphorus_value' => $ninth_col, 'phosphorus_unit' => $tenth_col, 'phosphorus_idea_range' => $eleven_col, 'phosphorus_rating' => $twelve_col, 'nutrient_9' => $thirteen_col, 'updated_at' => $date]);
+                DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['phosphorus_value' => $eigth_col, 'phosphorus_unit' => $ninth_col, 'phosphorus_idea_range' => $tenth_col, 'phosphorus_rating' => $eleven_col, 'nutrient_9' => $twelve_col, 'updated_at' => $date]);
                         }
-                        else if($second_col == "Av. Potassium (K₂O)")
+                        else if($first_col == "Av. Potassium (K₂O)")
                         {
-                        DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['potassium_value' => $third_col, 'potassium_unit' => $fourth_col, 'potassium_ideal_range' => $fifth_col, 'potassium_rating' => $sixth_col, 'nutrient_4' => $seventh_col, 'updated_at' => $date]);
+                        DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['potassium_value' => $second_col, 'potassium_unit' => $third_col, 'potassium_ideal_range' => $fourth_col, 'potassium_rating' => $fifth_col, 'nutrient_4' => $sixth_col, 'updated_at' => $date]);
                         }
-                        else if($eigth_col == "Av. Sulphur (S)")
+                        else if($seventh_col == "Av. Sulphur (S)")
                         {
-                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['sulphur_value' => $ninth_col, 'sulphur_unit' => $tenth_col, 'sulphur_idea_range' => $eleven_col, 'sulphur_rating' => $twelve_col, 'nutrient_10' => $thirteen_col, 'updated_at' => $date]);
+                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['sulphur_value' => $eigth_col, 'sulphur_unit' => $ninth_col, 'sulphur_idea_range' => $tenth_col, 'sulphur_rating' => $eleven_col, 'nutrient_10' => $twelve_col, 'updated_at' => $date]);
                         }
-                        else if($second_col == "Av. Copper (Cu)")
+                        else if($first_col == "Av. Copper (Cu)")
                         {
-                        DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['copper_value' => $third_col, 'copper_unit' => $fourth_col, 'copper_ideal_range' => $fifth_col, 'copper_rating' => $sixth_col, 'nutrient_5' => $seventh_col, 'updated_at' => $date]);
+                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['copper_value' => $second_col, 'copper_unit' => $third_col, 'copper_ideal_range' => $fourth_col, 'copper_rating' => $fifth_col, 'nutrient_5' => $sixth_col, 'updated_at' => $date]);
                         }
-                        else if($eigth_col == "Av. Iron (Fe)")
+                        else if($seventh_col == "Av. Iron (Fe)")
                         {
-                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['iron_value' => $ninth_col, 'iron_unit' => $tenth_col, 'iron_idea_range' => $eleven_col, 'iron_rating' => $twelve_col, 'nutrient_11' => $thirteen_col, 'updated_at' => $date]);
+                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['iron_value' => $eigth_col, 'iron_unit' => $ninth_col, 'iron_idea_range' => $tenth_col, 'iron_rating' => $eleven_col, 'nutrient_11' => $twelve_col, 'updated_at' => $date]);
                         }
-                        else if($second_col == "Av. Zinc (Zn)")
+                        else if($first_col == "Av. Zinc (Zn)")
                         {
-                        DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['zinc_value' => $third_col, 'zinc_unit' => $fourth_col, 'zinc_ideal_range' => $fifth_col, 'zinc_rating' => $sixth_col, 'nutrient_6' => $seventh_col, 'updated_at' => $date]);
+                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['zinc_value' => $second_col, 'zinc_unit' => $third_col, 'zinc_ideal_range' => $fourth_col, 'zinc_rating' => $fifth_col, 'nutrient_6' => $sixth_col, 'updated_at' => $date]);
                         }
-                        else if($eigth_col == "Av. Boron (B)")
+                        else if($seventh_col == "Av. Boron (B)")
                         {
-                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['boron_value' => $ninth_col, 'boron_unit' => $tenth_col, 'boron_idea_range' => $eleven_col, 'boron_rating' => $twelve_col, 'nutrient_12' => $thirteen_col, 'updated_at' => $date]);
+                            DB::table('soil_test_order_crop_data')->where('id', $soil_test_order_crop_data_id)->update(['boron_value' => $eigth_col, 'boron_unit' => $ninth_col, 'boron_idea_range' => $tenth_col, 'boron_rating' => $eleven_col, 'nutrient_12' => $twelve_col, 'updated_at' => $date]);
                         }
                     }
                 }
