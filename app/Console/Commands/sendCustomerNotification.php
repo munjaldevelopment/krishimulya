@@ -64,7 +64,7 @@ class SendCustomerNotification extends Command
                     $notificationBuilder->setBody($message)->setIcon("xxxhdpi")->setImage($image)->setSound('default');
                     
                     $dataBuilder = new PayloadDataBuilder();
-                    $dataBuilder->addData(['title' => "".$title, 'body' => "".$message, 'lead_id' => $lead_id, 'mobile' => "".$mobile]);
+                    $dataBuilder->addData(['data' => ['title' => "".$title, 'body' => "".$message, 'lead_id' => $lead_id, 'mobile' => "".$mobile]]);
                     
                     $option = $optionBuilder->build();
 
