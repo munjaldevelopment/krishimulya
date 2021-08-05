@@ -476,9 +476,7 @@ class SoilTestOrdersCrudController extends CrudController
                         $twelve_col = strip_tags(trim($tableRow[11]));
 
 
-                        echo $first_col.",".$seventh_col.'<br />';
-
-                        /*if($first_col == "pH")
+                        if($first_col == "pH")
                         {
                 $soil_test_order_crop_data_id = DB::table('soil_test_order_crop_data')->insertGetId(['soil_test_order_id' => $soil_test_order_id, 'soil_test_order_data_id' => $soil_test_order_data_id, 'ph_value' => $second_col, 'ph_unit' => $third_col, 'ph_ideal_range' => $fourth_col, 'ph_rating' => $fifth_col, 'nutrient_1' => $sixth_col, 'created_at' => $date, 'updated_at' => $date]);
                         }
