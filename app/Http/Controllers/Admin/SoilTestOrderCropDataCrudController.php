@@ -24,7 +24,7 @@ class SoilTestOrderCropDataCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\SoilTestOrderCropData::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/soiltest-order-cropdata');
-        CRUD::setEntityNameStrings('soil test order crop data', 'soil test order crop datas');
+        CRUD::setEntityNameStrings('soil test order crop data', 'soil test order crop data');
 
         $this->crud->enableExportButtons();
     }
