@@ -28,6 +28,7 @@ class VendorRequest extends FormRequest
         return [
             //'user_id' => 'required',
             'name' => 'required',
+            'contact_person' => 'required',
             'email' => 'required|unique:users,email,'.$this->id,
             'phone' => 'required|unique:users,phone,'.$this->id,
             'password' => 'required'
