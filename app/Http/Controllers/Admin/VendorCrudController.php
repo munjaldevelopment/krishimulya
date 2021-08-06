@@ -53,6 +53,12 @@ class VendorCrudController extends CrudController
                                 'type' => 'text',
                             ]);
 
+         $this->crud->addColumn([
+                                'name' => 'contact_person',
+                                'label' => 'Contact Person',
+                                'type' => 'text',
+                            ]);
+
         $this->crud->addColumn([
                                 'name' => 'email',
                                 'label' => 'Email',
@@ -64,6 +70,49 @@ class VendorCrudController extends CrudController
                                 'label' => 'Phone',
                                 'type' => 'tel',
                             ]);
+        $this->crud->addColumn([
+                                'name' => 'pcode',
+                                'label' => 'Pcode',
+                                'type' => 'text',
+                            ]);
+
+        $this->crud->addColumn([
+                                'name' => 'age',
+                                'label' => 'Age',
+                                'type' => 'text',
+                            ]);
+
+        $this->crud->addColumn([
+                                'name' => 'pincode',
+                                'label' => 'Pincode',
+                                'type' => 'text',
+                            ]);
+        $this->crud->addColumn([
+                                'name' => 'address',
+                                'label' => 'Address',
+                                'type' => 'text',
+                            ]);
+        $this->crud->addColumn([
+                                'name' => 'city',
+                                'label' => 'City',
+                                'type' => 'text',
+                            ]);
+        $this->crud->addColumn([
+                                'name' => 'state',
+                                'label' => 'State',
+                                'type' => 'text',
+                            ]);
+        $this->crud->addColumn([
+                                'name' => 'is_onboard',
+                                'label' => 'Is Onboard',
+                                'type' => 'text',
+                            ]);
+        $this->crud->addColumn([
+                                'name' => 'created_at',
+                                'label' => 'Created at',
+                                'type' => 'text',
+                            ]);
+
                     
         // fields
         //$this->crud->enableAjaxTable();
@@ -120,6 +169,13 @@ class VendorCrudController extends CrudController
         $this->crud->addField([
                                 'name' => 'name',
                                 'label' => 'Name',
+                                'type' => 'text',
+                                'tab' => 'User'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'contact_person',
+                                'label' => 'Contact Person',
                                 'type' => 'text',
                                 'tab' => 'User'
                             ]);
@@ -296,6 +352,13 @@ class VendorCrudController extends CrudController
         $this->crud->addField([
                                 'name' => 'name',
                                 'label' => 'Name',
+                                'type' => 'text',
+                                'tab' => 'User'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'contact_person',
+                                'label' => 'Contact Person',
                                 'type' => 'text',
                                 'tab' => 'User'
                             ]);
