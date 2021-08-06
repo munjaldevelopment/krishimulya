@@ -65,6 +65,8 @@ class SendCustomerNotification extends Command
                     
                     $dataBuilder = new PayloadDataBuilder();
                     $dataBuilder->addData(['data' => ['title' => "".$title, 'body' => "".$message, 'sound' => 'default', 'lead_id' => $lead_id, 'mobile' => "".$mobile]]);
+
+                    
                     
                     $option = $optionBuilder->build();
 
