@@ -25,6 +25,9 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('proposed-crop') }}'><i class='nav-icon la la-building'></i> Proposed Crops</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor-make') }}'><i class='nav-icon la la-building'></i> Tractor Makes</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor-model') }}'><i class='nav-icon la la-building'></i> Tractor Models</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('CultivationNos') }}'><i class='nav-icon la la-building'></i> Cultivation Nos</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('irrigationfrequency') }}'><i class='nav-icon la la-building'></i> Irrigation Frequencies</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('irrigationsource') }}'><i class='nav-icon la la-building'></i> Irrigation Sources</a></li>
 	</ul>
 </li>
 
@@ -181,3 +184,4 @@
 	  <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>--}}
 	</ul>
 </li>
+

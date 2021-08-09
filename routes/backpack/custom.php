@@ -118,4 +118,7 @@ Route::group([
     Route::crud('proposedcrop', 'ProposedCropCrudController');
     Route::crud('tractormake', 'TractorMakeCrudController');
     Route::crud('tractormodel', 'TractorModelCrudController');
+    Route::crud('CultivationNos', 'CultivationNosCrudController');
+    Route::crud('irrigationfrequency', 'IrrigationFrequencyCrudController');
+    Route::crud('irrigationsource', 'IrrigationSourceCrudController');
 });
