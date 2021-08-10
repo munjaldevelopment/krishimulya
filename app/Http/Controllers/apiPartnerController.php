@@ -3423,5 +3423,242 @@ class apiPartnerController extends Controller
         return response()->json($json, 200);
     }
 
+    public function cultivation_no(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $cultivation_noList1 = DB::table('cultivation_no')->select('title')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $cultivationNoList = array();
+
+            if($cultivation_noList1)
+            {
+                foreach ($cultivation_noList1 as $key => $value) {
+                    # code...
+                    $cultivationNoList[] = array('title' => $value->title);
+                }
+            }
+
+           
+            $status_code = '1';
+            $message = 'Cultivation No list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'cultivationNoList' => $cultivationNoList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
     
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function irrigation_source(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $irrigation_sourceList1 = DB::table('irrigation_source')->select('title')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $irrigation_sourceList = array();
+
+            if($irrigation_sourceList1)
+            {
+                foreach ($irrigation_sourceList1 as $key => $value) {
+                    # code...
+                    $irrigation_sourceList[] = array('title' => $value->title);
+                }
+            }
+
+           
+            $status_code = '1';
+            $message = 'Irrigation Source list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'irrigation_sourceList' => $irrigation_sourceList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+     public function irrigation_frequncy(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $irrigation_frequncyList1 = DB::table('irrigation_frequency')->select('title')->where('isactive', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $irrigation_frequncyList = array();
+
+            if($irrigation_frequncyList1)
+            {
+                foreach ($irrigation_frequncyList1 as $key => $value) {
+                    # code...
+                    $irrigation_frequncyList[] = array('title' => $value->title);
+                }
+            }
+
+           
+            $status_code = '1';
+            $message = 'Irrigation Frequncy list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'irrigation_frequncyList' => $irrigation_frequncyList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    //START show feed list 
+    public function crop_type(Request $request)
+    {
+        try 
+        {   
+            $baseUrl = URL::to("/");
+            $json       =   array();
+            $language = $request->language;
+            
+            $landTypeList1 = DB::table('crop_types')->select('name')->where('status', '=', 1)->orderBy('id', 'ASC')->get();
+
+            $landTypeList = array();
+
+            if($landTypeList1)
+            {
+                foreach ($landTypeList1 as $key => $value) {
+                    # code...
+                    $landTypeList[] = array('name' => $value->name);
+                }
+            }
+
+           $landTypeList[] = array('name' => 'Other');
+
+            $status_code = '1';
+            $message = 'Crop Type list';
+            $json = array('status_code' => $status_code,  'message' => $message, 'cropTypeList' => $landTypeList);
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message);
+        }
+    
+        return response()->json($json, 200);
+    }
+
+    public function questionerEnquiry(Request $request)
+    {
+        try 
+        {
+            $json = $userData = array();
+            
+            $date   = date('Y-m-d H:i:s');
+            $partner_id = $request->partner_id;
+            
+            $customer_name = $request->customer_name;
+            $mobile = $request->mobile;
+            $land_type = $request->land_type; //apiController@land_type
+            $land_size = $request->land_size; // input box
+            $soil_type = $request->soil_type; // apiController@soilType
+            $cultivation_no = $request->cultivation_no; //apiPartnerController@cultivation_no
+            //apiPartnerController@irrigation_source 
+            $irrigation_source = $request->irrigation_source; 
+            ////apiPartnerController@irrigation_frequncy 
+            $irrigation_frequency = $request->irrigation_frequency;
+
+            /* CROP 1 */
+            $crop1 = $request->crop1; // input
+            $land_size1 = $request->land_size1;
+            $crop_name1 = $request->crop_name1; //apiPartnerController@crop_type
+            $crop_name1_other = $request->crop_name1_other;
+            $fertilizer_consumed1 = $request->fertilizer_consumed1;
+            $brand1 = $request->brand1; 
+            $total_yield1 = $request->total_yield1;
+            $sale_amt1 = $request->sale_amt1;
+
+            /* CROP 2 */
+            $crop2 = $request->crop2;
+            $land_size2 = $request->land_size2;
+            $crop_name2 = $request->crop_name2; //apiPartnerController@crop_type
+            $crop_name2_other = $request->crop_name2_other;
+            $fertilizer_consumed2 = $request->fertilizer_consumed2;
+            $brand2 = $request->brand2;
+            $total_yield2 = $request->total_yield2;
+            $sale_amt2 = $request->sale_amt2;
+
+            /* CROP 3 */
+            $crop3 = $request->crop3;
+            $land_size3 = $request->land_size3;
+            $crop_name3 = $request->crop_name3; //apiPartnerController@crop_type
+            $crop_name3_other = $request->crop_name3_other;
+            $fertilizer_consumed3 = $request->fertilizer_consumed3;
+            $brand3 = $request->brand3;
+            $total_yield3 = $request->total_yield3;
+            $sale_amt3 = $request->sale_amt3;
+
+            
+            $isactive = 1;
+            $error = "";
+            if($mobile == ""){
+                $error = "Please enter mobile";
+                $json = array('status_code' => '0', 'message' => $error, 'partner_id' => $partner_id);
+            }
+            
+            if($error == ""){
+                $customer = DB::table('vendors')->where('id', $partner_id)->where('is_onboard', '=', '1')->first();
+                if($customer){ 
+                    /*$name = $customer->name;
+                    $mobile = $customer->phone;
+                    if($contact_person_name == ''){
+                        $contact_person_name = $name;
+                    }
+                    if($contact_person_phone == ''){
+                       $contact_person_phone = $mobile;
+                    }*/
+                    $date = date("Y-m-d H:i:s");
+                    DB::table('partner_questioner')->insert(['customer_name' => $customer_name, 'mobile' => $mobile, 'land_type' => $land_type, 'land_size' => $land_size, 'soil_type' => $soil_type, 'cultivation_no' => $cultivation_no, 'irrigation_source' => $irrigation_source, 'irrigation_frequency' => $irrigation_frequency, 'crop1' => $crop1, 'land_size1' => $land_size1, 'crop_name1' => $crop_name1, 'crop_name1_other' => $crop_name1_other, 'fertilizer_consumed1' => $fertilizer_consumed1, 'brand1' => $brand1, 'total_yield1' => $total_yield1, 'sale_amt1' => $sale_amt1, 'crop2' => $crop2, 'land_size2' => $land_size2, 'crop_name2' => $crop_name2, 'crop_name2_other' => $crop_name2_other, 'fertilizer_consumed2' => $fertilizer_consumed2, 'brand2' => $brand2, 'total_yield2' => $total_yield2, 'sale_amt2' => $sale_amt2, 'crop3' => $crop3, 'land_size3' => $land_size3, 'crop_name3' => $crop_name3, 'crop_name3_other' => $crop_name3_other, 'fertilizer_consumed3' => $fertilizer_consumed3, 'brand3' => $brand3, 'total_yield3' => $total_yield3, 'sale_amt3' => $sale_amt3, 'isactive' => $isactive, 'created_at' => $date, 'updated_at' => $date]);
+
+                    $status_code = $success = '1';
+                    $message = 'Questioner enquiry added successfully';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+
+
+                } else{
+                    $status_code = $success = '0';
+                    $message = 'Partner not valid';
+                    
+                    $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id);
+                }
+            }
+        }
+        catch(\Exception $e) {
+            $status_code = '0';
+            $message = $e->getMessage();//$e->getTraceAsString(); getMessage //
+    
+            $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => '');
+        }
+        
+        return response()->json($json, 200);
+    }
+
 }

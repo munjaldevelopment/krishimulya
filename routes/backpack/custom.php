@@ -121,4 +121,5 @@ Route::group([
     Route::crud('CultivationNos', 'CultivationNosCrudController');
     Route::crud('irrigationfrequency', 'IrrigationFrequencyCrudController');
     Route::crud('irrigationsource', 'IrrigationSourceCrudController');
+    Route::crud('questioner_enquiry', 'Questioner_enquiryCrudController');
 });

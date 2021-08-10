@@ -241,3 +241,10 @@ Route::get('partner-checkin-latlong', 'apiPartnerController@partnerCheckinLatLon
 Route::post('partner-questionairre-activity', 'apiPartnerController@partnerQuestionairreActivity');
 Route::post('partner-questionairre-record', 'apiPartnerController@partnerQuestionairreRecord');
 Route::post('partner-questionairre-soiltest', 'apiPartnerController@partnerQuestionairreSoilTest');
+
+Route::get('cultivation-no', 'apiPartnerController@cultivation_no');
+Route::get('irrigation-source', 'apiPartnerController@irrigation_source');
+Route::get('irrigation-frequency', 'apiPartnerController@irrigation_frequncy');
+Route::get('crop-type-list', 'apiPartnerController@crop_type');
+
+Route::post('questioner-enquiry', 'apiPartnerController@questionerEnquiry');
