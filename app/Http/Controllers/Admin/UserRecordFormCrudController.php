@@ -41,7 +41,7 @@ class UserRecordFormCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn([
             'label'     => 'User',
@@ -50,6 +50,42 @@ class UserRecordFormCrudController extends CrudController
             'entity'    => 'users', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\User", //name of Models
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Date',
+            'type'      => 'date',
+            'name'      => 'survey_date',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Name',
+            'type'      => 'text',
+            'name'      => 'customer_name',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Mobile',
+            'type'      => 'text',
+            'name'      => 'mobile_number',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Land Size',
+            'type'      => 'text',
+            'name'      => 'land_size',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Crop Type',
+            'type'      => 'text',
+            'name'      => 'crop_type',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Last Production',
+            'type'      => 'text',
+            'name'      => 'last_production',
          ]);
 
         /**
@@ -69,7 +105,7 @@ class UserRecordFormCrudController extends CrudController
     {
         CRUD::setValidation(UserRecordFormRequest::class);
 
-        CRUD::setFromDb(); // fields
+        //CRUD::setFromDb(); // fields
 
         $this->crud->addField([
             'label'     => 'User',
@@ -78,6 +114,108 @@ class UserRecordFormCrudController extends CrudController
             'entity'    => 'users', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\User", //name of Models
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Date',
+            'type'      => 'date',
+            'name'      => 'survey_date',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Name',
+            'type'      => 'text',
+            'name'      => 'customer_name',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Mobile',
+            'type'      => 'tel',
+            'name'      => 'mobile_number',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Land Size',
+            'type'      => 'text',
+            'name'      => 'land_size',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Crop Type',
+            'type'      => 'text',
+            'name'      => 'crop_type',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Last Production',
+            'type'      => 'text',
+            'name'      => 'last_production',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Earning Sale',
+            'type'      => 'text',
+            'name'      => 'earning_sale',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Proposed Crop',
+            'type'      => 'text',
+            'name'      => 'proposed_crop',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Tractor Yes/ No',
+            'type'      => 'checkbox',
+            'name'      => 'tractor',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Tractor Make',
+            'type'      => 'text',
+            'name'      => 'tractor_make',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Tractor Model',
+            'type'      => 'text',
+            'name'      => 'tractor_model',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Tractor Finance or Free',
+            'type'      => 'text',
+            'name'      => 'tractor_finance_free',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Tractor Cultivation',
+            'type'      => 'text',
+            'name'      => 'tractor_cultivation',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Tractor Rental Price',
+            'type'      => 'text',
+            'name'      => 'rental_price',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Tractor Taken From',
+            'type'      => 'text',
+            'name'      => 'rent_taken_from',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Contact Number',
+            'type'      => 'text',
+            'name'      => 'contact_number',
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Contact Details',
+            'type'      => 'text',
+            'name'      => 'contact_details',
          ]);
 
         /**
