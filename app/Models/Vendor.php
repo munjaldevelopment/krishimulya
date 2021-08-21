@@ -21,7 +21,7 @@ class Vendor extends Model
     // public $timestamps = false;
     protected $guarded = ['id'];
 
-    protected $fillable = ['user_id', 'name', 'contact_person', 'pcode', 'age', 'image', 'pincode', 'email', 'phone', 'password', 'address', 'city', 'state', 'device_id', 'fcmToken', 'otp', 'app_version', 'is_onboard','created_at']; //
+    protected $fillable = ['user_id', 'name', 'contact_person', 'pcode', 'age', 'image', 'pincode', 'email', 'phone', 'password', 'address', 'city', 'state', 'device_id', 'fcmToken', 'otp', 'app_version', 'is_onboard', 'is_checkin']; //
 
     // protected $fillable = [];
     // protected $hidden = [];

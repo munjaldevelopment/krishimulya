@@ -1060,7 +1060,10 @@ class apiPartnerController extends Controller
                 }
 
                 // Check-in / out, three forms
-                $assignService[] = array('service_code' => 'check-in', 'service_color' => '#572758', 'image' => $baseUrl."/check-in.png", 'name' => 'Check In', 'stats' => "0");
+                if($partner->is_checkin == 1)
+                {
+                    $assignService[] = array('service_code' => 'check-in', 'service_color' => '#572758', 'image' => $baseUrl."/check-in.png", 'name' => 'Check In', 'stats' => "0");
+                }
 
                 $user_id = $partner->user_id;
                 $checkExists = DB::table('users_checkin_outs')->where('user_id', $user_id)->count();

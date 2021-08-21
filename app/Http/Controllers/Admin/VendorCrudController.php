@@ -110,9 +110,9 @@ class VendorCrudController extends CrudController
                                 'type' => 'text',
                             ]);
         $this->crud->addColumn([
-                                'name' => 'created_at',
-                                'label' => 'Created at',
-                                'type' => 'text',
+                                'name' => 'is_checkin',
+                                'label' => 'check-in',
+                                'type' => 'check',
                             ]);
 
                     
@@ -229,6 +229,14 @@ class VendorCrudController extends CrudController
                                 'label' => 'User On-board',
                                 'type' => 'select2_from_array',
                                 'options' => ['0' => 'Inactive', '1' => 'Active'],
+                                'tab' => 'User'
+                            ]);
+
+
+        $this->crud->addField([
+                                'name' => 'is_checkin',
+                                'label' => 'check-in',
+                                'type' => 'check',
                                 'tab' => 'User'
                             ]);
 
@@ -391,6 +399,13 @@ class VendorCrudController extends CrudController
                                 'label' => 'User On-board',
                                 'type' => 'select2_from_array',
                                 'options' => ['0' => 'Inactive', '1' => 'Active'],
+                                'tab' => 'User'
+                            ]);
+
+        $this->crud->addField([
+                                'name' => 'is_checkin',
+                                'label' => 'check-in',
+                                'type' => 'check',
                                 'tab' => 'User'
                             ]);
 
