@@ -28,6 +28,8 @@ class UserCheckinFormCrudController extends CrudController
         CRUD::setModel(\App\Models\UserCheckinForm::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/usercheckinform');
         CRUD::setEntityNameStrings('user checkin form', 'user checkin forms');
+
+        $this->crud->enableExportButtons();
     }
 
     /**
