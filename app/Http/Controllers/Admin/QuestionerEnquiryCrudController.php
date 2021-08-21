@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Questioner_enquiryRequest;
+use App\Http\Requests\QuestionerEnquiryRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -25,7 +25,7 @@ class QuestionerEnquiryCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Questioner_enquiry::class);
+        CRUD::setModel(\App\Models\QuestionerEnquiry::class);
         $this->crud->enableExportButtons();
         CRUD::setRoute(config('backpack.base.route_prefix') . '/questioner-enquiry');
         CRUD::setEntityNameStrings('Questioner Enquiry', 'Questioner Enquiries');
@@ -41,6 +41,8 @@ class QuestionerEnquiryCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        $this->crud->disableResponsiveTable();
+
         CRUD::setFromDb(); // columns
 
         /**
@@ -58,7 +60,7 @@ class QuestionerEnquiryCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(Questioner_enquiryRequest::class);
+        CRUD::setValidation(QuestionerEnquiryRequest::class);
 
         CRUD::setFromDb(); // fields
 

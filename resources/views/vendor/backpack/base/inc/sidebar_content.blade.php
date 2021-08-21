@@ -38,6 +38,7 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinform') }}'><i class='nav-icon la la-building'></i> User Checkin Form</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('checkinlatlong') }}'><i class='nav-icon la la-building'></i> Checkin LatLong</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('userrecord-form') }}'><i class='nav-icon la la-building'></i> User Record Form</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('questioner-enquiry') }}'><i class='nav-icon la la-support'></i> Questioner Enquiries</a></li>
 	</ul>
 </li>
 
@@ -150,7 +151,6 @@
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('tractor_refinance_enquiry_partner') }}'><i class='nav-icon la la-headset'></i> Refinance Enquiries Partner</a></li>
 	</ul>
 </li>
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('questioner-enquiry') }}'><i class='nav-icon la la-support'></i> Questioner Enquiries</a></li>
 <li class="nav-item nav-dropdown">
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-tractor"></i> Feedback</a>
 	<ul class="nav-dropdown-items">

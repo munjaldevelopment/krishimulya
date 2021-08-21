@@ -455,7 +455,7 @@ class apiPartnerController extends Controller
                 $status_code = $success = '1';
                 $message = 'Partner Dashboard Info';
                 
-                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id , 'name' => $name, 'mobile' => $mobile, 'partner_code' => $pcode, 'partner_image' => $partner_image, 'wallet_data' => $walletArr, 'order_commission' => $odrCommissionArr, 'tractor_commission' => $ttrodrCommissionArr );
+                $json = array('status_code' => $status_code, 'message' => $message, 'partner_id' => $partner_id , 'name' => $name, 'mobile' => $mobile, 'partner_code' => $pcode, 'partner_image' => $partner_image, 'wallet_data' => $walletArr, 'order_commission' => $odrCommissionArr, 'tractor_commission' => $ttrodrCommissionArr);
 
 
             } else{
