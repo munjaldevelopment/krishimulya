@@ -48,6 +48,8 @@ class SoilTestOrdersCrudController extends CrudController
 
         $this->crud->addButtonFromView('line', 'generate_pdf', 'generate_pdf', 'end');
         $this->crud->addButtonFromView('line', 'download_pdf', 'download_pdf', 'end');
+
+        $this->crud->enableExportButtons();
     }
 
     /**

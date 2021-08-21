@@ -29,6 +29,8 @@ class IrrigationSourceCrudController extends CrudController
         CRUD::setModel(\App\Models\IrrigationSource::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/irrigation-source');
         CRUD::setEntityNameStrings('Irrigation Source', 'Irrigation Sources');
+
+        $this->crud->enableExportButtons();
     }
 
     /**

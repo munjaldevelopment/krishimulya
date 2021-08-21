@@ -29,6 +29,8 @@ class TractorMakeCrudController extends CrudController
         CRUD::setModel(\App\Models\TractorMake::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/tractor-make');
         CRUD::setEntityNameStrings('tractor make', 'tractor makes');
+
+        $this->crud->enableExportButtons();
     }
 
     /**

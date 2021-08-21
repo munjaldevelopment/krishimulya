@@ -30,6 +30,8 @@ class QuestionerEnquiryCrudController extends CrudController
         $this->crud->enableExportButtons();
         CRUD::setRoute(config('backpack.base.route_prefix') . '/questioner-enquiry');
         CRUD::setEntityNameStrings('Questioner Enquiry', 'Questioner Enquiries');
+
+        $this->crud->enableExportButtons();
     }
 
     /**

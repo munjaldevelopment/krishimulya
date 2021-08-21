@@ -29,6 +29,8 @@ class ProposedCropCrudController extends CrudController
         CRUD::setModel(\App\Models\ProposedCrop::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/proposed-crop');
         CRUD::setEntityNameStrings('proposed crop', 'proposed crops');
+
+        $this->crud->enableExportButtons();
     }
 
     /**

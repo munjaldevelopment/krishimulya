@@ -29,6 +29,8 @@ class CultivationNosCrudController extends CrudController
         CRUD::setModel(\App\Models\CultivationNos::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/cultivation-no');
         CRUD::setEntityNameStrings('Cultivation No', 'Cultivation Nos');
+
+        $this->crud->enableExportButtons();
     }
 
     /**

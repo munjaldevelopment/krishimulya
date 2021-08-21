@@ -29,6 +29,8 @@ class IrrigationFrequencyCrudController extends CrudController
         CRUD::setModel(\App\Models\IrrigationFrequency::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/irrigation-frequency');
         CRUD::setEntityNameStrings('Irrigation Frequency', 'Irrigation Frequencies');
+
+        $this->crud->enableExportButtons();
     }
 
     /**
