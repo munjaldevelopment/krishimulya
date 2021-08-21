@@ -88,6 +88,73 @@ class UserRecordFormCrudController extends CrudController
             'name'      => 'last_production',
          ]);
 
+        $this->crud->addColumn([
+            'label'     => 'Earning Sale',
+            'type'      => 'text',
+            'name'      => 'earning_sale',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Proposed Crop',
+            'type'      => 'text',
+            'name'      => 'proposed_crop',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tractor Yes/ No',
+            'type'      => 'select2_from_array',
+            'options'   => ['Yes' => 'Yes', 'No' => 'No'],
+            'name'      => 'tractor',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tractor Make',
+            'type'      => 'text',
+            'name'      => 'tractor_make',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tractor Model',
+            'type'      => 'text',
+            'name'      => 'tractor_model',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tractor Finance or Free',
+            'type'      => 'text',
+            'name'      => 'tractor_finance_free',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tractor Cultivation',
+            'type'      => 'text',
+            'name'      => 'tractor_cultivation',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tractor Rental Price',
+            'type'      => 'text',
+            'name'      => 'rental_price',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Tractor Taken From',
+            'type'      => 'text',
+            'name'      => 'rent_taken_from',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Contact Number',
+            'type'      => 'text',
+            'name'      => 'contact_number',
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Contact Details',
+            'type'      => 'text',
+            'name'      => 'contact_details',
+         ]);
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
