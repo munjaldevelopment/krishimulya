@@ -45,7 +45,7 @@
 {{--<li class='nav-item'><a class='nav-link' href='{{ backpack_url('walletpayment') }}'><i class='nav-icon la la-wallet'></i> Wallet Payments</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('partners') }}'><i class='nav-icon la la-users'></i>Partners</a></li>--}}
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('missed-call') }}'><i class='nav-icon la la-building'></i> Missed-calls</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('missed-call') }}'><i class='nav-icon la la-building'></i> Missed call</a></li>
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('notification') }}'><i class='nav-icon la la-mobile-alt'></i>Notifications</a></li>
 
