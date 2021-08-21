@@ -39,7 +39,7 @@ class UserCheckinFormCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn([
             'label'     => 'User',
@@ -48,6 +48,35 @@ class UserCheckinFormCrudController extends CrudController
             'entity'    => 'users', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\User", //name of Models
+         ]);
+
+        $this->crud->addField([
+            'label'     => 'Checkin-out',
+            'type'      => 'select',
+            'name'      => 'users_checkin_out_id',
+            'entity'    => 'checkinOut', //function name
+            'attribute' => 'checkin_time', //name of fields in models table like districts
+            'model'     => "App\Models\UserCheckinOut", //name of Models
+         ]);
+        $this->crud->addField([
+            'label'     => 'Name',
+            'type'      => 'text',
+            'name'      => 'customer_name',
+
+         ]);
+        $this->crud->addField([
+            'label'     => 'Mobile',
+            'type'      => 'text',
+            'name'      => 'mobile_number',
+
+         ]);
+        $this->crud->addField([
+            'label'     => 'Call Type',
+            'type'      => 'select',
+            'name'      => 'call_type_id',
+            'entity'    => 'callType', //function name
+            'attribute' => 'type_name', //name of fields in models table like districts
+            'model'     => "App\Models\CallType", //name of Models
          ]);
 
         /**
@@ -67,7 +96,7 @@ class UserCheckinFormCrudController extends CrudController
     {
         CRUD::setValidation(UserCheckinFormRequest::class);
 
-        CRUD::setFromDb(); // fields
+        //CRUD::setFromDb(); // fields
 
         $this->crud->addField([
             'label'     => 'User',
@@ -76,6 +105,36 @@ class UserCheckinFormCrudController extends CrudController
             'entity'    => 'users', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\User", //name of Models
+         ]);
+
+        //', 'customer_name', 'mobile_number', 'call_type_id
+        $this->crud->addField([
+            'label'     => 'Checkin-out',
+            'type'      => 'select2',
+            'name'      => 'users_checkin_out_id',
+            'entity'    => 'checkinOut', //function name
+            'attribute' => 'checkin_time', //name of fields in models table like districts
+            'model'     => "App\Models\UserCheckinOut", //name of Models
+         ]);
+        $this->crud->addField([
+            'label'     => 'Name',
+            'type'      => 'text',
+            'name'      => 'customer_name',
+
+         ]);
+        $this->crud->addField([
+            'label'     => 'Mobile',
+            'type'      => 'tel',
+            'name'      => 'mobile_number',
+
+         ]);
+        $this->crud->addField([
+            'label'     => 'Call Type',
+            'type'      => 'select2',
+            'name'      => 'call_type_id',
+            'entity'    => 'callType', //function name
+            'attribute' => 'type_name', //name of fields in models table like districts
+            'model'     => "App\Models\CallType", //name of Models
          ]);
 
         /**

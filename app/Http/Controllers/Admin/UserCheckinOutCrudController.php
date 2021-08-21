@@ -28,7 +28,7 @@ class UserCheckinOutCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\UserCheckinOut::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/usercheckinout');
-        CRUD::setEntityNameStrings('user checkinout', 'user checkin outs');
+        CRUD::setEntityNameStrings('user checkin-out', 'user checkin-out');
     }
 
     /**

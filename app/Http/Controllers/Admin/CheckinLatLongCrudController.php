@@ -39,7 +39,7 @@ class CheckinLatLongCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn([
             'label'     => 'User',
@@ -48,6 +48,23 @@ class CheckinLatLongCrudController extends CrudController
             'entity'    => 'users', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\User", //name of Models
+         ]);
+        $this->crud->addColumn([
+            'label'     => 'Checkin',
+            'type'      => 'datetime',
+            'name'      => 'checkin_date',
+         ]);
+        $this->crud->addColumn([
+            'label'     => 'Lat',
+            'type'      => 'text',
+            'name'      => 'user_lat',
+
+         ]);
+        $this->crud->addColumn([
+            'label'     => 'Long',
+            'type'      => 'text',
+            'name'      => 'user_long',
+
          ]);
 
         /**
@@ -67,7 +84,7 @@ class CheckinLatLongCrudController extends CrudController
     {
         CRUD::setValidation(CheckinLatLongRequest::class);
 
-        CRUD::setFromDb(); // fields
+        //CRUD::setFromDb(); // fields
 
         $this->crud->addField([
             'label'     => 'User',
@@ -78,6 +95,23 @@ class CheckinLatLongCrudController extends CrudController
             'model'     => "App\User", //name of Models
          ]);
 
+        $this->crud->addField([
+            'label'     => 'Checkin',
+            'type'      => 'datetime',
+            'name'      => 'checkin_date',
+         ]);
+        $this->crud->addField([
+            'label'     => 'Lat',
+            'type'      => 'text',
+            'name'      => 'user_lat',
+
+         ]);
+        $this->crud->addField([
+            'label'     => 'Long',
+            'type'      => 'text',
+            'name'      => 'user_long',
+
+         ]);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

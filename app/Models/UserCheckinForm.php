@@ -39,6 +39,11 @@ class UserCheckinForm extends Model
         return $this->belongsTo('App\Models\UserCheckinOut', 'users_checkin_out_id');
     }
 
+    public function callType()
+    {
+        return $this->belongsTo('App\Models\CallType', 'call_type_id');
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
