@@ -166,7 +166,8 @@ class UserRecordFormCrudController extends CrudController
 
         $this->crud->addField([
             'label'     => 'Tractor Yes/ No',
-            'type'      => 'checkbox',
+            'type'      => 'select2_from_array',
+            'options'   => ['Yes' => 'Yes', 'No' => 'No'],
             'name'      => 'tractor',
          ]);
 
