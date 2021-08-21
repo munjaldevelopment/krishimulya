@@ -49,8 +49,6 @@
 
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('notification') }}'><i class='nav-icon la la-mobile-alt'></i>Notifications</a></li>
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('missedcall') }}'><i class='nav-icon la la-terminal'></i> Missed Calls</a></li>
-
 <li class="nav-item nav-dropdown">
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Feed</a>
 	<ul class="nav-dropdown-items">
