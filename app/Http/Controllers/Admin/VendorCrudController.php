@@ -238,7 +238,7 @@ class VendorCrudController extends CrudController
         $this->crud->addField([
                                 'name' => 'is_checkin',
                                 'label' => 'check-in',
-                                'type' => 'check',
+                                'type' => 'checkbox',
                                 'tab' => 'User'
                             ]);
 
@@ -407,7 +407,7 @@ class VendorCrudController extends CrudController
         $this->crud->addField([
                                 'name' => 'is_checkin',
                                 'label' => 'check-in',
-                                'type' => 'check',
+                                'type' => 'checkbox',
                                 'tab' => 'User'
                             ]);
 
