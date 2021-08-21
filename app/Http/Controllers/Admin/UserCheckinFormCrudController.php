@@ -50,7 +50,7 @@ class UserCheckinFormCrudController extends CrudController
             'model'     => "App\User", //name of Models
          ]);
 
-        $this->crud->addField([
+        $this->crud->addColumn([
             'label'     => 'Checkin-out',
             'type'      => 'select',
             'name'      => 'users_checkin_out_id',
@@ -58,19 +58,19 @@ class UserCheckinFormCrudController extends CrudController
             'attribute' => 'checkin_time', //name of fields in models table like districts
             'model'     => "App\Models\UserCheckinOut", //name of Models
          ]);
-        $this->crud->addField([
+        $this->crud->addColumn([
             'label'     => 'Name',
             'type'      => 'text',
             'name'      => 'customer_name',
 
          ]);
-        $this->crud->addField([
+        $this->crud->addColumn([
             'label'     => 'Mobile',
             'type'      => 'text',
             'name'      => 'mobile_number',
 
          ]);
-        $this->crud->addField([
+        $this->crud->addColumn([
             'label'     => 'Call Type',
             'type'      => 'select',
             'name'      => 'call_type_id',
