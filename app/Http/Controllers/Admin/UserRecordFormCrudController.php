@@ -43,6 +43,15 @@ class UserRecordFormCrudController extends CrudController
     {
         CRUD::setFromDb(); // columns
 
+        $this->crud->addColumn([
+            'label'     => 'User',
+            'type'      => 'select',
+            'name'      => 'user_id',
+            'entity'    => 'users', //function name
+            'attribute' => 'name', //name of fields in models table like districts
+            'model'     => "App\User", //name of Models
+         ]);
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
@@ -61,6 +70,15 @@ class UserRecordFormCrudController extends CrudController
         CRUD::setValidation(UserRecordFormRequest::class);
 
         CRUD::setFromDb(); // fields
+
+        $this->crud->addField([
+            'label'     => 'User',
+            'type'      => 'select2',
+            'name'      => 'user_id',
+            'entity'    => 'users', //function name
+            'attribute' => 'name', //name of fields in models table like districts
+            'model'     => "App\User", //name of Models
+         ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
