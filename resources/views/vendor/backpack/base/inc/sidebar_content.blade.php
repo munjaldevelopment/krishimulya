@@ -35,10 +35,9 @@
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Check-in</a>
 	<ul class="nav-dropdown-items">
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinout') }}'><i class='nav-icon la la-building'></i> User Check in-Out</a></li>
-		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinform') }}'><i class='nav-icon la la-building'></i> User Checkin Forms</a></li>
-
-		
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('usercheckinform') }}'><i class='nav-icon la la-building'></i> User Checkin Form</a></li>
 		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('checkinlatlong') }}'><i class='nav-icon la la-building'></i> Checkin LatLong</a></li>
+		<li class='nav-item'><a class='nav-link' href='{{ backpack_url('userrecord-form') }}'><i class='nav-icon la la-building'></i> User Record Form</a></li>
 	</ul>
 </li>
 
@@ -72,7 +71,7 @@
 	</ul>
 </li>
 
-{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('finance_enquiry') }}'><i class='nav-icon la la-question'></i> Finance Enquiries</a></li> --}}
+{{-- <li class='nav-item'><a class='nav-link' href='{{ backpack_url('finance_enquiry') }}'><i class='nav-icon la la-building'></i> Finance Enquiries</a></li> --}}
 
 <li class="nav-item nav-dropdown">
 	<a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-award"></i> Soil Test</a>
@@ -184,5 +183,3 @@
 	  <li class="nav-item"><a class="nav-link" href="{{ backpack_url('permission') }}"><i class="nav-icon la la-key"></i> <span>Permissions</span></a></li>--}}
 	</ul>
 </li>
-
-
