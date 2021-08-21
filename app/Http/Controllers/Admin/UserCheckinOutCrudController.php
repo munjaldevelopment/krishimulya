@@ -39,7 +39,7 @@ class UserCheckinOutCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::setFromDb(); // columns
+        //CRUD::setFromDb(); // columns
 
         $this->crud->addColumn([
             'label'     => 'User',
@@ -48,6 +48,18 @@ class UserCheckinOutCrudController extends CrudController
             'entity'    => 'users', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\User", //name of Models
+         ]);
+
+        $this->crud->addColumn([
+            'label'     => 'Checkin',
+            'type'      => 'datetime',
+            'name'      => 'checkin_time',
+         ]);
+        $this->crud->addColumn([
+            'label'     => 'Checkout',
+            'type'      => 'datetime',
+            'name'      => 'checkout_time',
+
          ]);
 
         /**
@@ -67,7 +79,7 @@ class UserCheckinOutCrudController extends CrudController
     {
         CRUD::setValidation(UserCheckinOutRequest::class);
 
-        CRUD::setFromDb(); // fields
+        //CRUD::setFromDb(); // fields
 
         $this->crud->addField([
             'label'     => 'User',
@@ -76,6 +88,17 @@ class UserCheckinOutCrudController extends CrudController
             'entity'    => 'users', //function name
             'attribute' => 'name', //name of fields in models table like districts
             'model'     => "App\User", //name of Models
+         ]);
+        $this->crud->addField([
+            'label'     => 'Checkin',
+            'type'      => 'datetime',
+            'name'      => 'checkin_time',
+         ]);
+        $this->crud->addField([
+            'label'     => 'Checkout',
+            'type'      => 'datetime',
+            'name'      => 'checkout_time',
+
          ]);
 
         /**
