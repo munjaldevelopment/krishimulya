@@ -11,7 +11,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class Questioner_enquiryCrudController extends CrudController
+class QuestionerEnquiryCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -28,7 +28,7 @@ class Questioner_enquiryCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Questioner_enquiry::class);
         $this->crud->enableExportButtons();
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/questioner_enquiry');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/questioner-enquiry');
         CRUD::setEntityNameStrings('Questioner Enquiry', 'Questioner Enquiries');
     }
 

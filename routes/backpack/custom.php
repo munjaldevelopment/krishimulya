@@ -115,11 +115,11 @@ Route::group([
     Route::crud('missed-call', 'MissedCallCrudController');
     Route::crud('soiltest-orderdata', 'SoilTestOrderDataCrudController');
     Route::crud('soiltest-order-cropdata', 'SoilTestOrderCropDataCrudController');
-    Route::crud('proposedcrop', 'ProposedCropCrudController');
-    Route::crud('tractormake', 'TractorMakeCrudController');
-    Route::crud('tractormodel', 'TractorModelCrudController');
-    Route::crud('CultivationNos', 'CultivationNosCrudController');
-    Route::crud('irrigationfrequency', 'IrrigationFrequencyCrudController');
-    Route::crud('irrigationsource', 'IrrigationSourceCrudController');
-    Route::crud('questioner_enquiry', 'Questioner_enquiryCrudController');
+    Route::crud('proposed-crop', 'ProposedCropCrudController');
+    Route::crud('tractor-make', 'TractorMakeCrudController');
+    Route::crud('tractor-model', 'TractorModelCrudController');
+    Route::crud('cultivation-no', 'CultivationNosCrudController');
+    Route::crud('irrigation-frequency', 'IrrigationFrequencyCrudController');
+    Route::crud('irrigation-source', 'IrrigationSourceCrudController');
+    Route::crud('questioner-enquiry', 'QuestionerEnquiryCrudController');
 });

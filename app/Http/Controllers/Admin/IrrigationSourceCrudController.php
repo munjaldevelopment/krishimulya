@@ -27,7 +27,7 @@ class IrrigationSourceCrudController extends CrudController
     public function setup()
     {
         CRUD::setModel(\App\Models\IrrigationSource::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/irrigationsource');
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/irrigation-source');
         CRUD::setEntityNameStrings('Irrigation Source', 'Irrigation Sources');
     }
 
