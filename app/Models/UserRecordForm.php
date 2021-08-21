@@ -15,7 +15,7 @@ class UserRecordForm extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'user_record_forms';
+    protected $table = 'user_records_form';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
